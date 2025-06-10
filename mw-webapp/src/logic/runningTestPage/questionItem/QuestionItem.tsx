@@ -1,15 +1,16 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Input, InputType} from "src/component/input/Input";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
 import {QuestionResultDAL} from "src/dataAccessLogic/QuestionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
-// Import styles from "src/logic/runningTestPage/questionItem/QuestionItem.module.scss";
+import styles from "src/logic/runningTestPage/questionItem/QuestionItem.module.scss";
 
 /**
  * Update Question params
@@ -64,11 +65,27 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
   const {language} = languageStore;
   const [inputValue, setInputValue] = useState<string>("");
 
+  useEffect(() => {
+    setInputValue("");
+  }, [props.question]);
+
   return (
-    <>
+    <VerticalContainer className={styles.questionItem}>
       <Title
         level={HeadingLevel.h3}
+        text={props.question.name}
+        placeholder=""
+      />
+
+      <Title
+        level={HeadingLevel.h4}
         text={props.question.questionText}
+        placeholder=""
+      />
+
+      <Title
+        level={HeadingLevel.h4}
+        text={`${LanguageService.test.testInfo.timeToTest[language]} ${props.question.timeToAnswer}`}
         placeholder=""
       />
 
@@ -83,6 +100,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
       <Button
         value={LanguageService.test.buttons.saveAnswer[language]}
         onClick={async () => {
+          props.question.updateAnswer(inputValue);
           await QuestionResultDAL.createQuestionResult({
             isOk: props.question.answer === inputValue,
             questionUuid: props.question.uuid,
@@ -94,6 +112,6 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         }}
         buttonType={ButtonType.PRIMARY}
       />
-    </>
+    </VerticalContainer>
   );
 });

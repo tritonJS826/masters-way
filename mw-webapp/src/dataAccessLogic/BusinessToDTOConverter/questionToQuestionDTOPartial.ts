@@ -15,7 +15,7 @@ export const questionToQuestionDTOPartial = (
     order: question.order,
     questionText: question.questionText,
     timeToAnswer: question.timeToAnswer,
-    // Name: question.
+    name: question.name,
   };
 
   const preparedQuestionPartialDTO = deleteUndefinedFields(questionPartialDTO);

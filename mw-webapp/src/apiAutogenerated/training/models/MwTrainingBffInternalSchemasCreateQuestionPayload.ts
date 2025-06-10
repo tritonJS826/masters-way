@@ -90,9 +90,9 @@ export function MwTrainingBffInternalSchemasCreateQuestionPayloadFromJSONTyped(
         'answer': json['answer'],
         'name': json['name'],
         'practiceType': json['practice_type'],
-        'questionText': json['question_text'],
+        'questionText': json['questionText'],
         'testUuid': json['test_uuid'],
-        'timeToAnswer': json['time_to_answer'],
+        'timeToAnswer': json['timeToAnswer'],
     };
 }
 
@@ -109,9 +109,9 @@ export function MwTrainingBffInternalSchemasCreateQuestionPayloadToJSON(value?: 
         'answer': value.answer,
         'name': value.name,
         'practice_type': value.practiceType,
-        'question_text': value.questionText,
+        'questionText': value.questionText,
         'test_uuid': value.testUuid,
-        'time_to_answer': value.timeToAnswer,
+        'timeToAnswer': value.timeToAnswer,
     };
 }
 

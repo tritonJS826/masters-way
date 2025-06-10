@@ -87,12 +87,12 @@ export function MwTrainingBffInternalSchemasCreateQuestionResultRequestFromJSONT
     }
     return {
         
-        'isOk': json['is_ok'],
-        'questionUuid': json['question_uuid'],
-        'resultDescription': json['result_description'],
-        'testSessionUuid': json['test_session_uuid'],
-        'testUuid': json['test_uuid'],
-        'userUuid': json['user_uuid'],
+        'isOk': json['isOk'],
+        'questionUuid': json['questionUuid'],
+        'resultDescription': json['resultDescription'],
+        'testSessionUuid': json['testSessionUuid'],
+        'testUuid': json['testUuid'],
+        'userUuid': json['userUuid'],
     };
 }
 
@@ -106,12 +106,12 @@ export function MwTrainingBffInternalSchemasCreateQuestionResultRequestToJSON(va
     }
     return {
         
-        'is_ok': value.isOk,
-        'question_uuid': value.questionUuid,
-        'result_description': value.resultDescription,
-        'test_session_uuid': value.testSessionUuid,
-        'test_uuid': value.testUuid,
-        'user_uuid': value.userUuid,
+        'isOk': value.isOk,
+        'questionUuid': value.questionUuid,
+        'resultDescription': value.resultDescription,
+        'testSessionUuid': value.testSessionUuid,
+        'testUuid': value.testUuid,
+        'userUuid': value.userUuid,
     };
 }
 

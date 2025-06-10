@@ -52,7 +52,7 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultRequestFromJSONT
     }
     return {
         
-        'sessionUuid': json['session_uuid'],
+        'sessionUuid': json['sessionUuid'],
     };
 }
 
@@ -66,7 +66,7 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultRequestToJSON(va
     }
     return {
         
-        'session_uuid': value.sessionUuid,
+        'sessionUuid': value.sessionUuid,
     };
 }
 

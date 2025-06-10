@@ -30,64 +30,64 @@ definitions:
         type: string
       practice_type:
         type: string
-      question_text:
+      questionText:
         type: string
       test_uuid:
         type: string
-      time_to_answer:
+      timeToAnswer:
         type: integer
     required:
     - answer
     - name
     - practice_type
-    - question_text
+    - questionText
     - test_uuid
-    - time_to_answer
+    - timeToAnswer
     type: object
   mw-training-bff_internal_schemas.CreateQuestionResultRequest:
     properties:
-      is_ok:
+      isOk:
         type: boolean
-      question_uuid:
+      questionUuid:
         type: string
-      result_description:
+      resultDescription:
         type: string
-      test_session_uuid:
+      testSessionUuid:
         type: string
-      test_uuid:
+      testUuid:
         type: string
-      user_uuid:
+      userUuid:
         type: string
     required:
-    - is_ok
-    - question_uuid
-    - result_description
-    - test_session_uuid
-    - test_uuid
-    - user_uuid
+    - isOk
+    - questionUuid
+    - resultDescription
+    - testSessionUuid
+    - testUuid
+    - userUuid
     type: object
   mw-training-bff_internal_schemas.CreateSessionRequest:
     properties:
-      user_uuid:
+      userUuid:
         type: string
     required:
-    - user_uuid
+    - userUuid
     type: object
   mw-training-bff_internal_schemas.CreateTestRequest:
     properties:
       description:
         type: string
-      is_private:
+      isPrivate:
         type: boolean
       name:
         type: string
-      owner_uuid:
+      ownerUuid:
         type: string
     required:
     - description
-    - is_private
+    - isPrivate
     - name
-    - owner_uuid
+    - ownerUuid
     type: object
   mw-training-bff_internal_schemas.CreateTheoryMaterialPayload:
     properties:
@@ -122,13 +122,13 @@ definitions:
     type: object
   mw-training-bff_internal_schemas.CreateTrainingTestRequest:
     properties:
-      test_uuid:
+      testUuid:
         type: string
-      training_uuid:
+      trainingUuid:
         type: string
     required:
-    - test_uuid
-    - training_uuid
+    - testUuid
+    - trainingUuid
     type: object
   mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload:
     properties:
@@ -139,26 +139,26 @@ definitions:
     type: object
   mw-training-bff_internal_schemas.GetTestSessionResultRequest:
     properties:
-      session_uuid:
+      sessionUuid:
         type: string
     required:
-    - session_uuid
+    - sessionUuid
     type: object
   mw-training-bff_internal_schemas.GetTestSessionResultResponse:
     properties:
-      created_at:
+      createdAt:
         type: string
-      result_description:
+      resultDescription:
         type: string
-      session_uuid:
+      sessionUuid:
         type: string
-      test_uuid:
+      testUuid:
         type: string
     required:
-    - created_at
-    - result_description
-    - session_uuid
-    - test_uuid
+    - createdAt
+    - resultDescription
+    - sessionUuid
+    - testUuid
     type: object
   mw-training-bff_internal_schemas.PracticeMaterial:
     properties:
@@ -210,7 +210,7 @@ definitions:
     properties:
       answer:
         type: string
-      created_at:
+      createdAt:
         type: string
       is_active:
         type: boolean
@@ -218,125 +218,125 @@ definitions:
         type: string
       order:
         type: integer
-      question_text:
+      questionText:
         type: string
       test_uuid:
         type: string
       time_to_answer:
         type: integer
-      updated_at:
+      updatedAt:
         type: string
       uuid:
         type: string
     required:
     - answer
-    - created_at
+    - createdAt
     - is_active
     - order
-    - question_text
+    - questionText
     - test_uuid
     - time_to_answer
-    - updated_at
+    - updatedAt
     - uuid
     type: object
   mw-training-bff_internal_schemas.QuestionResult:
     properties:
-      created_at:
+      createdAt:
         type: string
-      is_ok:
+      isOk:
         type: boolean
-      question_uuid:
+      questionUuid:
         type: string
-      result_description:
+      resultDescription:
         type: string
-      test_session_uuid:
+      testSessionUuid:
         type: string
-      test_uuid:
+      testUuid:
         type: string
-      user_uuid:
+      userUuid:
         type: string
       uuid:
         type: string
     required:
-    - created_at
-    - is_ok
-    - question_uuid
-    - result_description
-    - test_session_uuid
-    - test_uuid
-    - user_uuid
+    - createdAt
+    - isOk
+    - questionUuid
+    - resultDescription
+    - testSessionUuid
+    - testUuid
+    - userUuid
     - uuid
     type: object
   mw-training-bff_internal_schemas.Test:
     properties:
-      created_at:
+      createdAt:
         type: string
       description:
         type: string
-      is_private:
+      isPrivate:
         type: boolean
       name:
         type: string
-      owner_uuid:
+      ownerUuid:
         type: string
       questions:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.Question'
         type: array
-      updated_at:
+      updatedAt:
         type: string
       uuid:
         type: string
     required:
-    - created_at
+    - createdAt
     - description
-    - is_private
+    - isPrivate
     - name
-    - owner_uuid
+    - ownerUuid
     - questions
-    - updated_at
+    - updatedAt
     - uuid
     type: object
   mw-training-bff_internal_schemas.TestPreview:
     properties:
-      created_at:
+      createdAt:
         type: string
       description:
         type: string
       name:
         type: string
-      owner_uuid:
+      ownerUuid:
         type: string
-      updated_at:
+      updatedAt:
         type: string
       uuid:
         type: string
     required:
-    - created_at
+    - createdAt
     - description
     - name
-    - owner_uuid
-    - updated_at
+    - ownerUuid
+    - updatedAt
     - uuid
     type: object
   mw-training-bff_internal_schemas.TestPreviewList:
     properties:
       size:
         type: integer
-      tests_list:
+      testsList:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.TestPreview'
         type: array
     required:
     - size
-    - tests_list
+    - testsList
     type: object
   mw-training-bff_internal_schemas.TestSession:
     properties:
-      session_uuid:
+      sessionUuid:
         type: string
     required:
-    - session_uuid
+    - sessionUuid
     type: object
   mw-training-bff_internal_schemas.TestsAmount:
     properties:
@@ -616,19 +616,22 @@ definitions:
         type: integer
       practice_type:
         type: string
-      question_text:
+      questionText:
         type: string
-      time_to_answer:
+      timeToAnswer:
         type: integer
     type: object
   mw-training-bff_internal_schemas.UpdateTestRequest:
     properties:
       description:
         type: string
-      is_private:
+        x-nullable: true
+      isPrivate:
         type: boolean
+        x-nullable: true
       name:
         type: string
+        x-nullable: true
     type: object
   mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload:
     properties:

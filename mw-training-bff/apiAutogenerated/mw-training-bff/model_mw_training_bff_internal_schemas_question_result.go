@@ -260,13 +260,13 @@ func (o MwTrainingBffInternalSchemasQuestionResult) MarshalJSON() ([]byte, error
 
 func (o MwTrainingBffInternalSchemasQuestionResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["is_ok"] = o.IsOk
-	toSerialize["question_uuid"] = o.QuestionUuid
-	toSerialize["result_description"] = o.ResultDescription
-	toSerialize["test_session_uuid"] = o.TestSessionUuid
-	toSerialize["test_uuid"] = o.TestUuid
-	toSerialize["user_uuid"] = o.UserUuid
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["isOk"] = o.IsOk
+	toSerialize["questionUuid"] = o.QuestionUuid
+	toSerialize["resultDescription"] = o.ResultDescription
+	toSerialize["testSessionUuid"] = o.TestSessionUuid
+	toSerialize["testUuid"] = o.TestUuid
+	toSerialize["userUuid"] = o.UserUuid
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
@@ -276,13 +276,13 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) UnmarshalJSON(data []byte) 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
-		"is_ok",
-		"question_uuid",
-		"result_description",
-		"test_session_uuid",
-		"test_uuid",
-		"user_uuid",
+		"createdAt",
+		"isOk",
+		"questionUuid",
+		"resultDescription",
+		"testSessionUuid",
+		"testUuid",
+		"userUuid",
 		"uuid",
 	}
 

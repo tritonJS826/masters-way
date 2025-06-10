@@ -105,7 +105,7 @@ func (o MwTrainingBffInternalSchemasTestPreviewList) MarshalJSON() ([]byte, erro
 func (o MwTrainingBffInternalSchemasTestPreviewList) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["size"] = o.Size
-	toSerialize["tests_list"] = o.TestsList
+	toSerialize["testsList"] = o.TestsList
 	return toSerialize, nil
 }
 
@@ -115,7 +115,7 @@ func (o *MwTrainingBffInternalSchemasTestPreviewList) UnmarshalJSON(data []byte)
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"size",
-		"tests_list",
+		"testsList",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -211,9 +211,9 @@ func (o MwTrainingBffInternalSchemasCreateQuestionPayload) ToMap() (map[string]i
 	toSerialize["answer"] = o.Answer
 	toSerialize["name"] = o.Name
 	toSerialize["practice_type"] = o.PracticeType
-	toSerialize["question_text"] = o.QuestionText
+	toSerialize["questionText"] = o.QuestionText
 	toSerialize["test_uuid"] = o.TestUuid
-	toSerialize["time_to_answer"] = o.TimeToAnswer
+	toSerialize["timeToAnswer"] = o.TimeToAnswer
 	return toSerialize, nil
 }
 
@@ -225,9 +225,9 @@ func (o *MwTrainingBffInternalSchemasCreateQuestionPayload) UnmarshalJSON(data [
 		"answer",
 		"name",
 		"practice_type",
-		"question_text",
+		"questionText",
 		"test_uuid",
-		"time_to_answer",
+		"timeToAnswer",
 	}
 
 	allProperties := make(map[string]interface{})

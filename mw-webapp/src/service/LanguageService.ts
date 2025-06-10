@@ -18,6 +18,7 @@ import notificationBlockContent from "src/dictionary/NotificationBLockContent.js
 import partnershipPageContent from "src/dictionary/PartnershipPageContent.json";
 import pricing from "src/dictionary/PricingContent.json";
 import project from "src/dictionary/ProjectPageContent.json";
+import resultTestPageContent from "src/dictionary/ResultTestPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import survey from "src/dictionary/SurveyModalsContent.json";
@@ -114,6 +115,13 @@ export class LanguageService {
    */
   public static get test() {
     return testPageContent;
+  }
+
+  /**
+   * Results test page content
+   */
+  public static get resultTest() {
+    return resultTestPageContent;
   }
 
   /**

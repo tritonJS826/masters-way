@@ -208,11 +208,11 @@ func (o MwTrainingBffInternalSchemasTestPreview) MarshalJSON() ([]byte, error) {
 
 func (o MwTrainingBffInternalSchemasTestPreview) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["description"] = o.Description
 	toSerialize["name"] = o.Name
-	toSerialize["owner_uuid"] = o.OwnerUuid
-	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["ownerUuid"] = o.OwnerUuid
+	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
@@ -222,11 +222,11 @@ func (o *MwTrainingBffInternalSchemasTestPreview) UnmarshalJSON(data []byte) (er
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
+		"createdAt",
 		"description",
 		"name",
-		"owner_uuid",
-		"updated_at",
+		"ownerUuid",
+		"updatedAt",
 		"uuid",
 	}
 

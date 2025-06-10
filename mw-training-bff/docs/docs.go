@@ -1494,9 +1494,9 @@ const docTemplate = `{
                 "answer",
                 "name",
                 "practice_type",
-                "question_text",
+                "questionText",
                 "test_uuid",
-                "time_to_answer"
+                "timeToAnswer"
             ],
             "properties": {
                 "answer": {
@@ -1508,13 +1508,13 @@ const docTemplate = `{
                 "practice_type": {
                     "type": "string"
                 },
-                "question_text": {
+                "questionText": {
                     "type": "string"
                 },
                 "test_uuid": {
                     "type": "string"
                 },
-                "time_to_answer": {
+                "timeToAnswer": {
                     "type": "integer"
                 }
             }
@@ -1522,30 +1522,30 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.CreateQuestionResultRequest": {
             "type": "object",
             "required": [
-                "is_ok",
-                "question_uuid",
-                "result_description",
-                "test_session_uuid",
-                "test_uuid",
-                "user_uuid"
+                "isOk",
+                "questionUuid",
+                "resultDescription",
+                "testSessionUuid",
+                "testUuid",
+                "userUuid"
             ],
             "properties": {
-                "is_ok": {
+                "isOk": {
                     "type": "boolean"
                 },
-                "question_uuid": {
+                "questionUuid": {
                     "type": "string"
                 },
-                "result_description": {
+                "resultDescription": {
                     "type": "string"
                 },
-                "test_session_uuid": {
+                "testSessionUuid": {
                     "type": "string"
                 },
-                "test_uuid": {
+                "testUuid": {
                     "type": "string"
                 },
-                "user_uuid": {
+                "userUuid": {
                     "type": "string"
                 }
             }
@@ -1553,10 +1553,10 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.CreateSessionRequest": {
             "type": "object",
             "required": [
-                "user_uuid"
+                "userUuid"
             ],
             "properties": {
-                "user_uuid": {
+                "userUuid": {
                     "type": "string"
                 }
             }
@@ -1565,21 +1565,21 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "description",
-                "is_private",
+                "isPrivate",
                 "name",
-                "owner_uuid"
+                "ownerUuid"
             ],
             "properties": {
                 "description": {
                     "type": "string"
                 },
-                "is_private": {
+                "isPrivate": {
                     "type": "boolean"
                 },
                 "name": {
                     "type": "string"
                 },
-                "owner_uuid": {
+                "ownerUuid": {
                     "type": "string"
                 }
             }
@@ -1633,14 +1633,14 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.CreateTrainingTestRequest": {
             "type": "object",
             "required": [
-                "test_uuid",
-                "training_uuid"
+                "testUuid",
+                "trainingUuid"
             ],
             "properties": {
-                "test_uuid": {
+                "testUuid": {
                     "type": "string"
                 },
-                "training_uuid": {
+                "trainingUuid": {
                     "type": "string"
                 }
             }
@@ -1659,10 +1659,10 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.GetTestSessionResultRequest": {
             "type": "object",
             "required": [
-                "session_uuid"
+                "sessionUuid"
             ],
             "properties": {
-                "session_uuid": {
+                "sessionUuid": {
                     "type": "string"
                 }
             }
@@ -1670,22 +1670,22 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.GetTestSessionResultResponse": {
             "type": "object",
             "required": [
-                "created_at",
-                "result_description",
-                "session_uuid",
-                "test_uuid"
+                "createdAt",
+                "resultDescription",
+                "sessionUuid",
+                "testUuid"
             ],
             "properties": {
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
-                "result_description": {
+                "resultDescription": {
                     "type": "string"
                 },
-                "session_uuid": {
+                "sessionUuid": {
                     "type": "string"
                 },
-                "test_uuid": {
+                "testUuid": {
                     "type": "string"
                 }
             }
@@ -1759,20 +1759,20 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "answer",
-                "created_at",
+                "createdAt",
                 "is_active",
                 "order",
-                "question_text",
+                "questionText",
                 "test_uuid",
                 "time_to_answer",
-                "updated_at",
+                "updatedAt",
                 "uuid"
             ],
             "properties": {
                 "answer": {
                     "type": "string"
                 },
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
                 "is_active": {
@@ -1784,7 +1784,7 @@ const docTemplate = `{
                 "order": {
                     "type": "integer"
                 },
-                "question_text": {
+                "questionText": {
                     "type": "string"
                 },
                 "test_uuid": {
@@ -1793,7 +1793,7 @@ const docTemplate = `{
                 "time_to_answer": {
                     "type": "integer"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
                 "uuid": {
@@ -1804,35 +1804,35 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.QuestionResult": {
             "type": "object",
             "required": [
-                "created_at",
-                "is_ok",
-                "question_uuid",
-                "result_description",
-                "test_session_uuid",
-                "test_uuid",
-                "user_uuid",
+                "createdAt",
+                "isOk",
+                "questionUuid",
+                "resultDescription",
+                "testSessionUuid",
+                "testUuid",
+                "userUuid",
                 "uuid"
             ],
             "properties": {
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
-                "is_ok": {
+                "isOk": {
                     "type": "boolean"
                 },
-                "question_uuid": {
+                "questionUuid": {
                     "type": "string"
                 },
-                "result_description": {
+                "resultDescription": {
                     "type": "string"
                 },
-                "test_session_uuid": {
+                "testSessionUuid": {
                     "type": "string"
                 },
-                "test_uuid": {
+                "testUuid": {
                     "type": "string"
                 },
-                "user_uuid": {
+                "userUuid": {
                     "type": "string"
                 },
                 "uuid": {
@@ -1843,29 +1843,29 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.Test": {
             "type": "object",
             "required": [
-                "created_at",
+                "createdAt",
                 "description",
-                "is_private",
+                "isPrivate",
                 "name",
-                "owner_uuid",
+                "ownerUuid",
                 "questions",
-                "updated_at",
+                "updatedAt",
                 "uuid"
             ],
             "properties": {
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
-                "is_private": {
+                "isPrivate": {
                     "type": "boolean"
                 },
                 "name": {
                     "type": "string"
                 },
-                "owner_uuid": {
+                "ownerUuid": {
                     "type": "string"
                 },
                 "questions": {
@@ -1874,7 +1874,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.Question"
                     }
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
                 "uuid": {
@@ -1885,15 +1885,15 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.TestPreview": {
             "type": "object",
             "required": [
-                "created_at",
+                "createdAt",
                 "description",
                 "name",
-                "owner_uuid",
-                "updated_at",
+                "ownerUuid",
+                "updatedAt",
                 "uuid"
             ],
             "properties": {
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
                 "description": {
@@ -1902,10 +1902,10 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "owner_uuid": {
+                "ownerUuid": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
                 "uuid": {
@@ -1917,13 +1917,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "size",
-                "tests_list"
+                "testsList"
             ],
             "properties": {
                 "size": {
                     "type": "integer"
                 },
-                "tests_list": {
+                "testsList": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreview"
@@ -1934,10 +1934,10 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.TestSession": {
             "type": "object",
             "required": [
-                "session_uuid"
+                "sessionUuid"
             ],
             "properties": {
-                "session_uuid": {
+                "sessionUuid": {
                     "type": "string"
                 }
             }
@@ -2339,10 +2339,10 @@ const docTemplate = `{
                 "practice_type": {
                     "type": "string"
                 },
-                "question_text": {
+                "questionText": {
                     "type": "string"
                 },
-                "time_to_answer": {
+                "timeToAnswer": {
                     "type": "integer"
                 }
             }
@@ -2351,13 +2351,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
-                "is_private": {
-                    "type": "boolean"
+                "isPrivate": {
+                    "type": "boolean",
+                    "x-nullable": true
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

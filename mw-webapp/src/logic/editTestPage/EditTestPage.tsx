@@ -351,7 +351,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 <AnchorLink path={question.questionText}>
                   {question.questionText.trim() === ""
                     ? LanguageService.common.emptyMarkdown[language]
-                    : <Text text={question.questionText} />
+                    : <Text text={question.name} />
                   }
                 </AnchorLink>
 

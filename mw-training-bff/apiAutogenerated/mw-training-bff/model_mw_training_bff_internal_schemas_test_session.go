@@ -78,7 +78,7 @@ func (o MwTrainingBffInternalSchemasTestSession) MarshalJSON() ([]byte, error) {
 
 func (o MwTrainingBffInternalSchemasTestSession) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["session_uuid"] = o.SessionUuid
+	toSerialize["sessionUuid"] = o.SessionUuid
 	return toSerialize, nil
 }
 
@@ -87,7 +87,7 @@ func (o *MwTrainingBffInternalSchemasTestSession) UnmarshalJSON(data []byte) (er
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"session_uuid",
+		"sessionUuid",
 	}
 
 	allProperties := make(map[string]interface{})

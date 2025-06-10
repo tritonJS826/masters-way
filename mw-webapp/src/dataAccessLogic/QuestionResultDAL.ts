@@ -81,7 +81,7 @@ export class QuestionResultDAL {
    */
   public static async getQuestionResultsBySessionUuid(params: GetQuestionResultsBySessionUuidParams): Promise<QuestionResult[]> {
     const questionResultsDTO = await questionResultService.getQuestionResultsBySessionUuid({sessionId: params.sessionId});
-
+    console.log("FTO", questionResultsDTO);
     const questionResults = questionResultsDTO.map(questionResultDTOToQuestionResult);
 
     return questionResults;

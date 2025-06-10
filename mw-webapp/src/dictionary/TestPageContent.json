@@ -58,6 +58,11 @@
             "ru": "Количество вопросов:",
             "en": "Number of questions:",
             "ua": "Кількість питань:"
+        },
+        "timeToTest": {
+            "ru": "Время для прохождения:",
+            "en": "Time to complete:",
+            "ua": "Час для проходження:"
         }
     },
     "peopleBlock": {

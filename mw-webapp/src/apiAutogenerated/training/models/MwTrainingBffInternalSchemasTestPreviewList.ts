@@ -67,7 +67,7 @@ export function MwTrainingBffInternalSchemasTestPreviewListFromJSONTyped(
     return {
         
         'size': json['size'],
-        'testsList': ((json['tests_list'] as Array<any>).map(MwTrainingBffInternalSchemasTestPreviewFromJSON)),
+        'testsList': ((json['testsList'] as Array<any>).map(MwTrainingBffInternalSchemasTestPreviewFromJSON)),
     };
 }
 
@@ -82,7 +82,7 @@ export function MwTrainingBffInternalSchemasTestPreviewListToJSON(value?: MwTrai
     return {
         
         'size': value.size,
-        'tests_list': ((value.testsList as Array<any>).map(MwTrainingBffInternalSchemasTestPreviewToJSON)),
+        'testsList': ((value.testsList as Array<any>).map(MwTrainingBffInternalSchemasTestPreviewToJSON)),
     };
 }
 

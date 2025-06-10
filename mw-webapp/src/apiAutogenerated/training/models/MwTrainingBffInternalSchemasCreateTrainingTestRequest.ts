@@ -59,8 +59,8 @@ export function MwTrainingBffInternalSchemasCreateTrainingTestRequestFromJSONTyp
     }
     return {
         
-        'testUuid': json['test_uuid'],
-        'trainingUuid': json['training_uuid'],
+        'testUuid': json['testUuid'],
+        'trainingUuid': json['trainingUuid'],
     };
 }
 
@@ -74,8 +74,8 @@ export function MwTrainingBffInternalSchemasCreateTrainingTestRequestToJSON(valu
     }
     return {
         
-        'test_uuid': value.testUuid,
-        'training_uuid': value.trainingUuid,
+        'testUuid': value.testUuid,
+        'trainingUuid': value.trainingUuid,
     };
 }
 

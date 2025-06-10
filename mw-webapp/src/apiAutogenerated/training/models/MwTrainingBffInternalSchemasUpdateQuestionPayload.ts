@@ -85,8 +85,8 @@ export function MwTrainingBffInternalSchemasUpdateQuestionPayloadFromJSONTyped(
         'name': !exists(json, 'name') ? undefined : json['name'],
         'order': !exists(json, 'order') ? undefined : json['order'],
         'practiceType': !exists(json, 'practice_type') ? undefined : json['practice_type'],
-        'questionText': !exists(json, 'question_text') ? undefined : json['question_text'],
-        'timeToAnswer': !exists(json, 'time_to_answer') ? undefined : json['time_to_answer'],
+        'questionText': !exists(json, 'questionText') ? undefined : json['questionText'],
+        'timeToAnswer': !exists(json, 'timeToAnswer') ? undefined : json['timeToAnswer'],
     };
 }
 
@@ -104,8 +104,8 @@ export function MwTrainingBffInternalSchemasUpdateQuestionPayloadToJSON(value?: 
         'name': value.name,
         'order': value.order,
         'practice_type': value.practiceType,
-        'question_text': value.questionText,
-        'time_to_answer': value.timeToAnswer,
+        'questionText': value.questionText,
+        'timeToAnswer': value.timeToAnswer,
     };
 }
 

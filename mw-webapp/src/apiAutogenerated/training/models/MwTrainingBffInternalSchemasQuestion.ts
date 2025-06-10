@@ -115,14 +115,14 @@ export function MwTrainingBffInternalSchemasQuestionFromJSONTyped(
     return {
         
         'answer': json['answer'],
-        'createdAt': json['created_at'],
+        'createdAt': json['createdAt'],
         'isActive': json['is_active'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'order': json['order'],
-        'questionText': json['question_text'],
+        'questionText': json['questionText'],
         'testUuid': json['test_uuid'],
         'timeToAnswer': json['time_to_answer'],
-        'updatedAt': json['updated_at'],
+        'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
 }
@@ -138,14 +138,14 @@ export function MwTrainingBffInternalSchemasQuestionToJSON(value?: MwTrainingBff
     return {
         
         'answer': value.answer,
-        'created_at': value.createdAt,
+        'createdAt': value.createdAt,
         'is_active': value.isActive,
         'name': value.name,
         'order': value.order,
-        'question_text': value.questionText,
+        'questionText': value.questionText,
         'test_uuid': value.testUuid,
         'time_to_answer': value.timeToAnswer,
-        'updated_at': value.updatedAt,
+        'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };
 }

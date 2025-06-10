@@ -128,6 +128,7 @@ export const getWaysColumns = (language: Language) => [
           <ProgressBar
             value={row.original.metricsDone}
             max={row.original.metricsTotal}
+            textToLabel={LanguageService.common.metrics[language]}
           />
         </VerticalContainer>
       );

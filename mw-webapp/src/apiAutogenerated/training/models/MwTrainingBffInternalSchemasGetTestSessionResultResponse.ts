@@ -73,10 +73,10 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON
     }
     return {
         
-        'createdAt': json['created_at'],
-        'resultDescription': json['result_description'],
-        'sessionUuid': json['session_uuid'],
-        'testUuid': json['test_uuid'],
+        'createdAt': json['createdAt'],
+        'resultDescription': json['resultDescription'],
+        'sessionUuid': json['sessionUuid'],
+        'testUuid': json['testUuid'],
     };
 }
 
@@ -90,10 +90,10 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultResponseToJSON(v
     }
     return {
         
-        'created_at': value.createdAt,
-        'result_description': value.resultDescription,
-        'session_uuid': value.sessionUuid,
-        'test_uuid': value.testUuid,
+        'createdAt': value.createdAt,
+        'resultDescription': value.resultDescription,
+        'sessionUuid': value.sessionUuid,
+        'testUuid': value.testUuid,
     };
 }
 

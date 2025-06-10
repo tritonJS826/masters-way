@@ -91,7 +91,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         <HorizontalContainer className={styles.questionTitleAndActionsBlock}>
           <Title
             level={HeadingLevel.h2}
-            text={props.question.questionText}
+            text={props.question.name}
             isEditable={props.isEditable}
             placeholder={props.isEditable
               ? LanguageService.common.emptyMarkdownAction[language]
@@ -172,7 +172,6 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
             setQuestion: () => props.question.updateDescription(questionText),
           });
         }}
-        rows={10}
         isEditable={props.isEditable}
         className={styles.description}
         placeholder={props.isEditable

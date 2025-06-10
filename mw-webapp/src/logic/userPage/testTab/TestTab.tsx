@@ -112,7 +112,7 @@ export const TestTab = observer((props: TestTabProps) => {
 
           <CollectionCard
             isActive={props.activeTestCollection === DefaultTestCollection.COMPLETED}
-            collectionTitle={LanguageService.user.tests.passed[language]}
+            collectionTitle={LanguageService.user.tests.completed[language]}
             collectionsAmount={testTabStore.testCollectionsAmount.completed}
             collectionAmountTitle={LanguageService.user.tabs.tests[language]}
             onClick={() => {
@@ -127,20 +127,14 @@ export const TestTab = observer((props: TestTabProps) => {
         </HorizontalGridContainer>
 
       </VerticalContainer>
-      {/* {user && */}
       <Tests
-        // This check need to translate default trainings collection and don't translate custom collections
-        title={LanguageService.user.tests[
-            props.activeTestCollection.toLowerCase() as keyof typeof LanguageService.user.tests
-        ][language]
-        }
+        title={LanguageService.user.tests[props.activeTestCollection][language]}
         tests={testTabStore.testsPreview}
         view={props.view}
         setView={(view: View) => props.setView(view)}
         isPageOwner={props.isPageOwner}
         ownerUuid={user?.uuid}
       />
-      {/* } */}
     </HorizontalContainer>
   );
 });

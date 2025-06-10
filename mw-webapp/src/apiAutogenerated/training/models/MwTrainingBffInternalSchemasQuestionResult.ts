@@ -101,13 +101,13 @@ export function MwTrainingBffInternalSchemasQuestionResultFromJSONTyped(
     }
     return {
         
-        'createdAt': json['created_at'],
-        'isOk': json['is_ok'],
-        'questionUuid': json['question_uuid'],
-        'resultDescription': json['result_description'],
-        'testSessionUuid': json['test_session_uuid'],
-        'testUuid': json['test_uuid'],
-        'userUuid': json['user_uuid'],
+        'createdAt': json['createdAt'],
+        'isOk': json['isOk'],
+        'questionUuid': json['questionUuid'],
+        'resultDescription': json['resultDescription'],
+        'testSessionUuid': json['testSessionUuid'],
+        'testUuid': json['testUuid'],
+        'userUuid': json['userUuid'],
         'uuid': json['uuid'],
     };
 }
@@ -122,13 +122,13 @@ export function MwTrainingBffInternalSchemasQuestionResultToJSON(value?: MwTrain
     }
     return {
         
-        'created_at': value.createdAt,
-        'is_ok': value.isOk,
-        'question_uuid': value.questionUuid,
-        'result_description': value.resultDescription,
-        'test_session_uuid': value.testSessionUuid,
-        'test_uuid': value.testUuid,
-        'user_uuid': value.userUuid,
+        'createdAt': value.createdAt,
+        'isOk': value.isOk,
+        'questionUuid': value.questionUuid,
+        'resultDescription': value.resultDescription,
+        'testSessionUuid': value.testSessionUuid,
+        'testUuid': value.testUuid,
+        'userUuid': value.userUuid,
         'uuid': value.uuid,
     };
 }

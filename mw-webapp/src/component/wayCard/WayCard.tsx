@@ -232,6 +232,7 @@ export const WayCard = observer((props: WayCardProps) => {
           <ProgressBar
             value={props.wayPreview.metricsDone}
             max={props.wayPreview.metricsTotal}
+            textToLabel={LanguageService.common.metrics[language]}
           />
         </VerticalContainer>
       </VerticalContainer>

@@ -21,7 +21,12 @@ interface ResultTestPageProps {
   /**
    * Test's Uuid
    */
-  uuid: string;
+  testUuid: string;
+
+  /**
+   * Session's Uuid
+   */
+  sessionUuid: string;
 
 }
 
@@ -41,8 +46,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   new (sessionId: string) => ResultTestPageStore,
   [string], ResultTestPageStore>({
       storeForInitialize: ResultTestPageStore,
-      dataForInitialization: [props.uuid],
-      dependency: [props.uuid],
+      dataForInitialization: [props.sessionUuid],
+      dependency: [props.sessionUuid],
     });
 
   if (!resultTestPageStore.isInitialized) {
@@ -59,7 +64,7 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
-          text={LanguageService.test.resultTable.title[language]}
+          text={LanguageService.resultTest.resultTable.title[language]}
           placeholder=""
           classNameHeading={styles.headingLevelH2}
         />

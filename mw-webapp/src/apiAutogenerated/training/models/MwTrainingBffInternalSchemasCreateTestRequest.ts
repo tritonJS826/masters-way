@@ -74,9 +74,9 @@ export function MwTrainingBffInternalSchemasCreateTestRequestFromJSONTyped(
     return {
         
         'description': json['description'],
-        'isPrivate': json['is_private'],
+        'isPrivate': json['isPrivate'],
         'name': json['name'],
-        'ownerUuid': json['owner_uuid'],
+        'ownerUuid': json['ownerUuid'],
     };
 }
 
@@ -91,9 +91,9 @@ export function MwTrainingBffInternalSchemasCreateTestRequestToJSON(value?: MwTr
     return {
         
         'description': value.description,
-        'is_private': value.isPrivate,
+        'isPrivate': value.isPrivate,
         'name': value.name,
-        'owner_uuid': value.ownerUuid,
+        'ownerUuid': value.ownerUuid,
     };
 }
 

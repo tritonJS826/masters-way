@@ -259,10 +259,10 @@ func (o MwTrainingBffInternalSchemasUpdateQuestionPayload) ToMap() (map[string]i
 		toSerialize["practice_type"] = o.PracticeType
 	}
 	if !IsNil(o.QuestionText) {
-		toSerialize["question_text"] = o.QuestionText
+		toSerialize["questionText"] = o.QuestionText
 	}
 	if !IsNil(o.TimeToAnswer) {
-		toSerialize["time_to_answer"] = o.TimeToAnswer
+		toSerialize["timeToAnswer"] = o.TimeToAnswer
 	}
 	return toSerialize, nil
 }

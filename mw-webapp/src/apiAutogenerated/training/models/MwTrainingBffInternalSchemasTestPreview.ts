@@ -87,11 +87,11 @@ export function MwTrainingBffInternalSchemasTestPreviewFromJSONTyped(
     }
     return {
         
-        'createdAt': json['created_at'],
+        'createdAt': json['createdAt'],
         'description': json['description'],
         'name': json['name'],
-        'ownerUuid': json['owner_uuid'],
-        'updatedAt': json['updated_at'],
+        'ownerUuid': json['ownerUuid'],
+        'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
 }
@@ -106,11 +106,11 @@ export function MwTrainingBffInternalSchemasTestPreviewToJSON(value?: MwTraining
     }
     return {
         
-        'created_at': value.createdAt,
+        'createdAt': value.createdAt,
         'description': value.description,
         'name': value.name,
-        'owner_uuid': value.ownerUuid,
-        'updated_at': value.updatedAt,
+        'ownerUuid': value.ownerUuid,
+        'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };
 }

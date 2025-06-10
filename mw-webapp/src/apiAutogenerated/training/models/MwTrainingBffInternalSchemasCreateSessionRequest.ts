@@ -52,7 +52,7 @@ export function MwTrainingBffInternalSchemasCreateSessionRequestFromJSONTyped(
     }
     return {
         
-        'userUuid': json['user_uuid'],
+        'userUuid': json['userUuid'],
     };
 }
 
@@ -66,7 +66,7 @@ export function MwTrainingBffInternalSchemasCreateSessionRequestToJSON(value?: M
     }
     return {
         
-        'user_uuid': value.userUuid,
+        'userUuid': value.userUuid,
     };
 }
 

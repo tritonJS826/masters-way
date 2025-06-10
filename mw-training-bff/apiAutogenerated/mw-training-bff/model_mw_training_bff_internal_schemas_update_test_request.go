@@ -19,9 +19,9 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUpdateTestRequest{}
 
 // MwTrainingBffInternalSchemasUpdateTestRequest struct for MwTrainingBffInternalSchemasUpdateTestRequest
 type MwTrainingBffInternalSchemasUpdateTestRequest struct {
-	Description *string
-	IsPrivate *bool
-	Name *string
+	Description NullableString
+	IsPrivate NullableBool
+	Name NullableString
 }
 
 // NewMwTrainingBffInternalSchemasUpdateTestRequest instantiates a new MwTrainingBffInternalSchemasUpdateTestRequest object
@@ -41,100 +41,130 @@ func NewMwTrainingBffInternalSchemasUpdateTestRequestWithDefaults() *MwTrainingB
 	return &this
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetDescriptionNil() {
+	o.Description.Set(nil)
 }
 
-// GetIsPrivate returns the IsPrivate field value if set, zero value otherwise.
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) UnsetDescription() {
+	o.Description.Unset()
+}
+
+// GetIsPrivate returns the IsPrivate field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetIsPrivate() bool {
-	if o == nil || IsNil(o.IsPrivate) {
+	if o == nil || IsNil(o.IsPrivate.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.IsPrivate
+	return *o.IsPrivate.Get()
 }
 
 // GetIsPrivateOk returns a tuple with the IsPrivate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetIsPrivateOk() (*bool, bool) {
-	if o == nil || IsNil(o.IsPrivate) {
+	if o == nil {
 		return nil, false
 	}
-	return o.IsPrivate, true
+	return o.IsPrivate.Get(), o.IsPrivate.IsSet()
 }
 
 // HasIsPrivate returns a boolean if a field has been set.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) HasIsPrivate() bool {
-	if o != nil && !IsNil(o.IsPrivate) {
+	if o != nil && o.IsPrivate.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetIsPrivate gets a reference to the given bool and assigns it to the IsPrivate field.
+// SetIsPrivate gets a reference to the given NullableBool and assigns it to the IsPrivate field.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetIsPrivate(v bool) {
-	o.IsPrivate = &v
+	o.IsPrivate.Set(&v)
+}
+// SetIsPrivateNil sets the value for IsPrivate to be an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetIsPrivateNil() {
+	o.IsPrivate.Set(nil)
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// UnsetIsPrivate ensures that no value is present for IsPrivate, not even an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) UnsetIsPrivate() {
+	o.IsPrivate.Unset()
+}
+
+// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil || IsNil(o.Name.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return *o.Name.Get()
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return o.Name.Get(), o.Name.IsSet()
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
+	if o != nil && o.Name.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName gets a reference to the given NullableString and assigns it to the Name field.
 func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetName(v string) {
-	o.Name = &v
+	o.Name.Set(&v)
+}
+// SetNameNil sets the value for Name to be an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) SetNameNil() {
+	o.Name.Set(nil)
+}
+
+// UnsetName ensures that no value is present for Name, not even an explicit nil
+func (o *MwTrainingBffInternalSchemasUpdateTestRequest) UnsetName() {
+	o.Name.Unset()
 }
 
 func (o MwTrainingBffInternalSchemasUpdateTestRequest) MarshalJSON() ([]byte, error) {
@@ -147,14 +177,14 @@ func (o MwTrainingBffInternalSchemasUpdateTestRequest) MarshalJSON() ([]byte, er
 
 func (o MwTrainingBffInternalSchemasUpdateTestRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
-	if !IsNil(o.IsPrivate) {
-		toSerialize["is_private"] = o.IsPrivate
+	if o.IsPrivate.IsSet() {
+		toSerialize["isPrivate"] = o.IsPrivate.Get()
 	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
+	if o.Name.IsSet() {
+		toSerialize["name"] = o.Name.Get()
 	}
 	return toSerialize, nil
 }

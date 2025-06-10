@@ -15,6 +15,8 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/lobbyTestPage/LobbyTestPage.module.scss";
 
+const DEFAULT_SUMMARY_TIME = 0;
+
 /**
  * LobbyTestPage props
  */
@@ -83,6 +85,13 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
             <Title
               level={HeadingLevel.h3}
               text={`${LanguageService.test.testInfo.questionsAmount[language]} ${lobbyTestPageStore.test.questions.length}`}
+              placeholder=""
+            />
+
+            <Title
+              level={HeadingLevel.h3}
+              text={`${LanguageService.test.testInfo.timeToTest[language]} ${lobbyTestPageStore.test.questions
+                .reduce((summaryTime, question) => question.timeToAnswer + summaryTime, DEFAULT_SUMMARY_TIME)}`}
               placeholder=""
             />
 

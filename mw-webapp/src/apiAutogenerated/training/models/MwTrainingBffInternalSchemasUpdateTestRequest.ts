@@ -24,19 +24,19 @@ export interface MwTrainingBffInternalSchemasUpdateTestRequest {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasUpdateTestRequest
      */
-    description?: string;
+    description?: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof MwTrainingBffInternalSchemasUpdateTestRequest
      */
-    isPrivate?: boolean;
+    isPrivate?: boolean | null;
     /**
      * 
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasUpdateTestRequest
      */
-    name?: string;
+    name?: string | null;
 }
 
 /**
@@ -64,7 +64,7 @@ export function MwTrainingBffInternalSchemasUpdateTestRequestFromJSONTyped(
     return {
         
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'isPrivate': !exists(json, 'is_private') ? undefined : json['is_private'],
+        'isPrivate': !exists(json, 'isPrivate') ? undefined : json['isPrivate'],
         'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
@@ -80,7 +80,7 @@ export function MwTrainingBffInternalSchemasUpdateTestRequestToJSON(value?: MwTr
     return {
         
         'description': value.description,
-        'is_private': value.isPrivate,
+        'isPrivate': value.isPrivate,
         'name': value.name,
     };
 }

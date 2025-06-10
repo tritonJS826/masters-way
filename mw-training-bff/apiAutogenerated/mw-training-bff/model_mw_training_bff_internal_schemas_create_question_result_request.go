@@ -208,12 +208,12 @@ func (o MwTrainingBffInternalSchemasCreateQuestionResultRequest) MarshalJSON() (
 
 func (o MwTrainingBffInternalSchemasCreateQuestionResultRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["is_ok"] = o.IsOk
-	toSerialize["question_uuid"] = o.QuestionUuid
-	toSerialize["result_description"] = o.ResultDescription
-	toSerialize["test_session_uuid"] = o.TestSessionUuid
-	toSerialize["test_uuid"] = o.TestUuid
-	toSerialize["user_uuid"] = o.UserUuid
+	toSerialize["isOk"] = o.IsOk
+	toSerialize["questionUuid"] = o.QuestionUuid
+	toSerialize["resultDescription"] = o.ResultDescription
+	toSerialize["testSessionUuid"] = o.TestSessionUuid
+	toSerialize["testUuid"] = o.TestUuid
+	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
 
@@ -222,12 +222,12 @@ func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) UnmarshalJSON(
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"is_ok",
-		"question_uuid",
-		"result_description",
-		"test_session_uuid",
-		"test_uuid",
-		"user_uuid",
+		"isOk",
+		"questionUuid",
+		"resultDescription",
+		"testSessionUuid",
+		"testUuid",
+		"userUuid",
 	}
 
 	allProperties := make(map[string]interface{})

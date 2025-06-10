@@ -11,69 +11,17 @@ import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
-import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {QuestionItem} from "src/logic/runningTestPage/questionItem/QuestionItem";
 import {RunningTestPageStore} from "src/logic/runningTestPage/RunningTestPageStore";
-import {Question, Test} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/runningTestPage/RunningTestPage.module.scss";
 
 const DEFAULT_QUESTION_VALUE = 1;
-
-/**
- * Update Question params
- */
-interface UpdateQuestionParams {
-
-  /**
-   * Question to update
-   */
-  questionToUpdate: PartialWithUuid<Question>;
-
-  /**
-   * Callback to update question
-   */
-  setQuestion: (question: PartialWithUuid<Question>) => void;
-}
-
-/**
- * Update Question
- */
-export const updateQuestion = async (params: UpdateQuestionParams) => {
-  params.setQuestion(params.questionToUpdate);
-  await QuestionDAL.updateQuestion(params.questionToUpdate);
-};
-
-/**
- * Update Test params
- */
-interface UpdateTestParams {
-
-  /**
-   * Test to update
-   */
-  testToUpdate: PartialWithUuid<Test>;
-
-  /**
-   * Callback to update Test
-   */
-  setTest: (test: PartialWithUuid<Test>) => void;
-}
-
-/**
- * Update Test
- */
-export const updateTest = async (params: UpdateTestParams) => {
-  params.setTest(params.testToUpdate);
-  await TestDAL.updateTest(params.testToUpdate);
-};
 
 /**
  * RunningTestPage props
@@ -175,7 +123,7 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
               >
                 {question.questionText.trim() === ""
                   ? LanguageService.common.emptyMarkdown[language]
-                  : <Text text={question.questionText} />
+                  : <Text text={question.name} />
                 }
 
               </HorizontalContainer>
@@ -190,12 +138,13 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
           <ProgressBar
             value={runningTestPageStore.activeOrder + DEFAULT_QUESTION_VALUE}
             max={runningTestPageStore.test.questions.length}
+            textToLabel={LanguageService.test.questionsBlock.questions[language]}
           />
           <VerticalContainer className={styles.theoryMaterials}>
             <QuestionItem
               question={runningTestPageStore.activeQuestion}
               testSessionUuid={runningTestPageStore.testSessionUuid}
-              userUuid={user?.uuid ?? "000"}
+              userUuid={user.uuid}
             />
           </VerticalContainer>
 
@@ -216,7 +165,10 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
             />
             <Button
               value={LanguageService.test.buttons.seeResults[language]}
-              onClick={() => navigate(pages.resultTest.getPath({uuid: runningTestPageStore.test.uuid}))}
+              onClick={() => navigate(pages.resultTest.getPath({
+                testUuid: runningTestPageStore.test.uuid,
+                sessionUuid: runningTestPageStore.testSessionUuid,
+              }))}
               buttonType={ButtonType.PRIMARY}
             />
           </HorizontalContainer>

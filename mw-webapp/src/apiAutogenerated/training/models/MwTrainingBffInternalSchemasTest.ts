@@ -108,13 +108,13 @@ export function MwTrainingBffInternalSchemasTestFromJSONTyped(
     }
     return {
         
-        'createdAt': json['created_at'],
+        'createdAt': json['createdAt'],
         'description': json['description'],
-        'isPrivate': json['is_private'],
+        'isPrivate': json['isPrivate'],
         'name': json['name'],
-        'ownerUuid': json['owner_uuid'],
+        'ownerUuid': json['ownerUuid'],
         'questions': ((json['questions'] as Array<any>).map(MwTrainingBffInternalSchemasQuestionFromJSON)),
-        'updatedAt': json['updated_at'],
+        'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
 }
@@ -129,13 +129,13 @@ export function MwTrainingBffInternalSchemasTestToJSON(value?: MwTrainingBffInte
     }
     return {
         
-        'created_at': value.createdAt,
+        'createdAt': value.createdAt,
         'description': value.description,
-        'is_private': value.isPrivate,
+        'isPrivate': value.isPrivate,
         'name': value.name,
-        'owner_uuid': value.ownerUuid,
+        'ownerUuid': value.ownerUuid,
         'questions': ((value.questions as Array<any>).map(MwTrainingBffInternalSchemasQuestionToJSON)),
-        'updated_at': value.updatedAt,
+        'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };
 }

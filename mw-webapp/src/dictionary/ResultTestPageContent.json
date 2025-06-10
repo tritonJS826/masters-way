@@ -1,0 +1,36 @@
+{
+    "resultTable": {
+        "title": {
+            "ru": "Результаты",
+            "en": "Results",
+            "ua": "Результати"
+        },
+        "column": {
+            "question": {
+                "ru": "Вопрос",
+                "en": "Question",
+                "ua": "Питання"
+            },
+            "description": {
+                "ru": "Описание вопроса",
+                "en": "Question description",
+                "ua": "Опис питання"
+            },
+            "userAnswer": {
+                "ru": "Ответ пользователя",
+                "en": "User response",
+                "ua": "Відповідь користувача"
+            },
+            "rightAnswer": {
+                "ru": "Правильный ответ",
+                "en": "Correct answer",
+                "ua": "Правильна відповідь"
+            },
+            "isOk": {
+                "ru": "Правильный ответ?",
+                "en": "Is right answer?",
+                "ua": "Правильна відповідь?"
+            }
+        }
+    }
+}

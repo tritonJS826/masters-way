@@ -320,16 +320,16 @@ func (o MwTrainingBffInternalSchemasQuestion) MarshalJSON() ([]byte, error) {
 func (o MwTrainingBffInternalSchemasQuestion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["answer"] = o.Answer
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["is_active"] = o.IsActive
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["order"] = o.Order
-	toSerialize["question_text"] = o.QuestionText
+	toSerialize["questionText"] = o.QuestionText
 	toSerialize["test_uuid"] = o.TestUuid
 	toSerialize["time_to_answer"] = o.TimeToAnswer
-	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
@@ -340,13 +340,13 @@ func (o *MwTrainingBffInternalSchemasQuestion) UnmarshalJSON(data []byte) (err e
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"answer",
-		"created_at",
+		"createdAt",
 		"is_active",
 		"order",
-		"question_text",
+		"questionText",
 		"test_uuid",
 		"time_to_answer",
-		"updated_at",
+		"updatedAt",
 		"uuid",
 	}
 

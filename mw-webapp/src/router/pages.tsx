@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
-import {TopicPage} from "src/logic/topicPage/TopicPage";
+// Import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -68,7 +68,8 @@ const getPathForRunningTestPage = (params: {uuid: string}): string => `/runningT
 /**
  * Create url with appropriate params for @ResultTestPage
  */
-const getPathForResultTestPage = (params: {uuid: string}): string => `/resultTest/${params.uuid}`;
+const getPathForResultTestPage = (params: { testUuid: string; sessionUuid: string }): string =>
+  `/resultTest/${params.testUuid}/session/${params.sessionUuid}`;
 
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
@@ -128,6 +129,12 @@ const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
 </>);
 
+const TopicPageLazy = React.lazy(() => import("src/logic/topicPage/TopicPage")
+  .then((module) => ({default: module.TopicPage})));
+const TopicPage = (params: {trainingUuid: string; topicUuid: string}) => (<>
+  <TopicPageLazy {...params} />
+</>);
+
 const LobbyTestPageLazy = React.lazy(() => import("src/logic/lobbyTestPage/LobbyTestPage")
   .then((module) => ({default: module.LobbyTestPage})));
 const LobbyTestPage = (params: {uuid: string}) => (<>
@@ -148,7 +155,7 @@ const RunningTestPage = (params: {uuid: string}) => (<>
 
 const ResultTestPageLazy = React.lazy(() => import("src/logic/resultTestPage/ResultTestPage")
   .then((module) => ({default: module.ResultTestPage})));
-const ResultTestPage = (params: {uuid: string}) => (<>
+const ResultTestPage = (params: {testUuid: string; sessionUuid: string}) => (<>
   <ResultTestPageLazy {...params} />
 </>);
 
@@ -317,10 +324,10 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   resultTest: {
-    getPath: (params): string => getPathForResultTestPage({uuid: params.uuid}),
+    getPath: (params): string => getPathForResultTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
     getPageComponent: (params) => suspended(<ResultTestPage {...params} />),
-    urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{uuid: string}>,
+    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{testUuid: string; sessionUuid: string}>,
   allUsers: {
     getPath: () => "/users",
     getPageComponent: () => suspended(<AllUsersPage />),

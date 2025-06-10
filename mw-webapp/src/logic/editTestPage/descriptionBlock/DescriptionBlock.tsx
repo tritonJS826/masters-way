@@ -54,7 +54,6 @@ export const DescriptionBlock = observer((props: DescriptionBlockProps) => {
         onChangeFinish={async (description) => {
           await props.updateTest(description);
         }}
-        rows={10}
         isEditable={props.isEditable}
         className={styles.description}
         placeholder={props.isEditable

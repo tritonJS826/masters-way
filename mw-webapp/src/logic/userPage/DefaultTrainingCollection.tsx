@@ -16,7 +16,7 @@ export enum DefaultTrainingCollection {
 export enum DefaultTestCollection {
   OWN = "own",
   COMPLETED = "completed",
-  FAVORITE = "favorite"
+  // FAVORITE = "favorite"
 }
 
 /**

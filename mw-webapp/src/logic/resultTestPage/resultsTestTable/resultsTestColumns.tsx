@@ -3,6 +3,7 @@ import clsx from "clsx";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/resultTestPage/resultsTestTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<QuestionResult>();
@@ -19,20 +20,20 @@ export const getResultsTestColumns = (language: Language) => [
      * Header
      */
     header: () => (<>
-      {"Question name"}
-      {/* {LanguageService.allWays.waysTable.columns.lastUpdate[language]} */}
+      {LanguageService.resultTest.resultTable.column.question[language]}
     </>),
 
     /**
-     * Cell with date of last updated way
+     * Cell with question name
      */
     cell: ({row}) => (
-      <span className={clsx(
+      <VerticalContainer className={clsx(
         styles.cellWrapper,
+        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
       )}
       >
         {row.original.questionUuid}
-      </span>
+      </VerticalContainer>
     ),
   }),
   columnHelper.accessor("questionUuid", {
@@ -41,18 +42,18 @@ export const getResultsTestColumns = (language: Language) => [
      * Header
      */
     header: () => (<>
-      {"question answer"}
+      {LanguageService.resultTest.resultTable.column.description[language]}
     </>
-      // {LanguageService.allWays.waysTable.columns.status[language]}
     ),
 
     /**
-     * Cell with status value
+     * Cell with question description
      */
     cell: ({row}) => {
       return (
         <VerticalContainer className={clsx(
           styles.cellWrapper,
+          row.original.isOk ? styles.compositeWay : styles.abandonedWay,
         )}
         >
           {row.original.questionUuid}
@@ -65,15 +66,13 @@ export const getResultsTestColumns = (language: Language) => [
     /**
      * Header
      */
-    header: () => (
-      <>
-        {"Is ok"}
-      </>
-      // {LanguageService.allWays.waysTable.columns.way[language]}
+    header: () => (<>
+      {LanguageService.resultTest.resultTable.column.rightAnswer[language]}
+    </>
     ),
 
     /**
-     * Cell with clickable way name that leads to way page
+     * Cell with right answer
      */
     cell: ({row}) => (
       <VerticalContainer className={clsx(
@@ -92,20 +91,22 @@ export const getResultsTestColumns = (language: Language) => [
      * Header
      */
     header: () => (<>
-      {"Result description"}
-      {/* {LanguageService.allWays.waysTable.columns.owner[language]} */}
+      {LanguageService.resultTest.resultTable.column.userAnswer[language]}
     </>
     ),
 
     /**
-     * Cell with way's owner
+     * Cell with user's answer
      */
-    cell: ({row}) => {
-      return (
-        <>
-          {row.original.resultDescription}
-        </>
-      );
-    },
+    cell: ({row}) => (
+      <VerticalContainer className={clsx(
+        styles.cellWrapper,
+        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
+      )}
+      >
+
+        {row.original.isOk}
+      </VerticalContainer>
+    ),
   }),
 ];
