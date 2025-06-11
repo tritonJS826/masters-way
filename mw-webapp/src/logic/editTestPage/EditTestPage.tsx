@@ -413,6 +413,11 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 onClick={() => addQuestion()}
                 className={styles.addMaterial}
               />
+              <Button
+                value={LanguageService.test.questionsBlock.returnToLobby[language]}
+                onClick={() => navigate(pages.lobbyTest.getPath({uuid: editTestPageStore.test.uuid}))}
+                className={styles.addMaterial}
+              />
               {/* <Button
                 value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
                 onClick={() => {

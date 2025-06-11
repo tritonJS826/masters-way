@@ -56,6 +56,16 @@ interface QuestionBlockProps {
    */
   userUuid: string;
 
+  /**
+   * If true then button to save answer will be hidden
+   */
+  isSavedAnswer: boolean;
+
+  /**
+   * User's answer or empty string if user not answered the question
+   */
+  answer: string;
+
 }
 
 /**
@@ -63,10 +73,10 @@ interface QuestionBlockProps {
  */
 export const QuestionItem = observer((props: QuestionBlockProps) => {
   const {language} = languageStore;
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>(props.answer);
 
   useEffect(() => {
-    setInputValue("");
+    setInputValue(props.answer);
   }, [props.question]);
 
   return (
@@ -95,8 +105,10 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         onChange={setInputValue}
         autoFocus={true}
         typeInput={InputType.Line}
+        disabled={props.isSavedAnswer}
       />
 
+      {!props.isSavedAnswer &&
       <Button
         value={LanguageService.test.buttons.saveAnswer[language]}
         onClick={async () => {
@@ -112,6 +124,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         }}
         buttonType={ButtonType.PRIMARY}
       />
+      }
     </VerticalContainer>
   );
 });

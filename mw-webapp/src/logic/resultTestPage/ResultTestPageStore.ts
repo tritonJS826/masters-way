@@ -1,7 +1,26 @@
 import {makeAutoObservable} from "mobx";
 import {QuestionResultDAL} from "src/dataAccessLogic/QuestionResultDAL";
+import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
 import {load} from "src/hooks/useLoad";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
+import {TestSessionResult} from "src/model/businessModel/TestSessionResult";
+
+/**
+ * Test's results
+ */
+interface ResultsParams {
+
+  /**
+   * Session result generated AI or mentor
+   */
+  sessionResult: TestSessionResult;
+
+  /**
+   * Question results
+   */
+  questionResults: QuestionResult[];
+
+}
 
 /**
  * ResultTestPageStore related methods
@@ -13,6 +32,12 @@ export class ResultTestPageStore {
    * Should be initialized!
    */
   public questionResults!: QuestionResult[];
+
+  /**
+   * Session result value
+   * Should be initialized!
+   */
+  public sessionResult!: TestSessionResult;
 
   /**
    * If it is false - store is not initialized and can't be used safely
@@ -27,15 +52,16 @@ export class ResultTestPageStore {
   /**
    * Set test
    */
-  private setLoadedData = (loadedData: QuestionResult[]) => {
-    this.questionResults = loadedData;
+  private setLoadedData = (loadedData: ResultsParams) => {
+    this.questionResults = loadedData.questionResults;
+    this.sessionResult = loadedData.sessionResult;
   };
 
   /**
    * Initialize
    */
   private async initialize(sessionId: string) {
-    await load<QuestionResult[]>({
+    await load<ResultsParams>({
 
       /**
        * Load data
@@ -52,16 +78,20 @@ export class ResultTestPageStore {
   /**
    * Load data
    */
-  private loadData = async (sessionId: string): Promise<QuestionResult[]> => {
+  private loadData = async (sessionId: string): Promise<ResultsParams> => {
     const questionResults = await QuestionResultDAL.getQuestionResultsBySessionUuid({sessionId});
+    const sessionResult = await TestSessionResultDAL.getTestSessionResult({sessionUuid: sessionId});
 
-    return questionResults;
+    return {
+      questionResults,
+      sessionResult,
+    };
   };
 
   /**
    * Validate data
    */
-  private validateData = (data: QuestionResult[]) => {
+  private validateData = (data: ResultsParams) => {
     return !!data;
   };
 

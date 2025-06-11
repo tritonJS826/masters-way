@@ -2,7 +2,24 @@ import {makeAutoObservable} from "mobx";
 import {SessionDAL} from "src/dataAccessLogic/SessionDAL";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {load} from "src/hooks/useLoad";
+import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question, Test} from "src/model/businessModel/Test";
+
+/**
+ * Test data for initialization
+ */
+interface TestDataParams {
+
+  /**
+   * Loaded test
+   */
+  test: Test;
+
+  /**
+   * Test session Uuid
+   */
+  testSession: string;
+}
 
 /**
  * RunningTestPageStore related methods
@@ -31,6 +48,11 @@ export class RunningTestPageStore {
   public testSessionUuid!: string;
 
   /**
+   * QuestionResults for manage running questions and answers
+   */
+  public questionResults!: Map<string, QuestionResult>;
+
+  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
@@ -57,24 +79,32 @@ export class RunningTestPageStore {
   };
 
   /**
+   * Save question result after user save answer
+   */
+  public saveQuestionResult = (questionResult: QuestionResult) => {
+    this.questionResults.set(questionResult.uuid, questionResult);
+  };
+
+  /**
    * Set test
    */
-  private setLoadedData = (loadedData: Test) => {
-    this.test = loadedData;
+  private setLoadedData = (loadedData: TestDataParams) => {
+    this.test = loadedData.test;
+    this.testSessionUuid = loadedData.testSession;
+    this.activeQuestion = this.test.questions[0];
+    this.questionResults = new Map<string, QuestionResult>;
   };
 
   /**
    * Initialize
    */
   private async initialize(testUuid: string, userUuid: string) {
-    const testSession = await this.createTestSession(userUuid);
-    this.testSessionUuid = testSession;
-    await load<Test>({
+    await load<TestDataParams>({
 
       /**
        * Load data
        */
-      loadData: () => this.loadData(testUuid),
+      loadData: () => this.loadData(testUuid, userUuid),
       validateData: this.validateData,
       onError: this.onError,
       onSuccess: this.setLoadedData,
@@ -86,45 +116,14 @@ export class RunningTestPageStore {
   /**
    * Load data
    */
-  private loadData = async (testUuid: string): Promise<Test> => {
+  private loadData = async (testUuid: string, userUuid: string): Promise<TestDataParams> => {
     const test = await TestDAL.getTest(testUuid);
+    const testSession = await this.createTestSession(userUuid);
 
-    // Const question = new Question({
-    //   answer: "asda",
-    //   createdAt: new Date(),
-    //   isActive: true,
-    //   order: 1,
-    //   questionText: "aaaaaa",
-    //   testUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
-    //   timeToAnswer: 60,
-    //   updatedAt: new Date(),
-    //   uuid: "7cdb041b-4574-4f7b-a502-c53e74c72e88",
-    // });
-    // const question2 = new Question({
-    //   answer: "asda",
-    //   createdAt: new Date(),
-    //   isActive: false,
-    //   order: 2,
-    //   questionText: "sdfsfewfewfwe",
-    //   testUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
-    //   timeToAnswer: 60,
-    //   updatedAt: new Date(),
-    //   uuid: "7cdb041b-4574-4f7b-a500-c53e74c72e88",
-    // });
-
-    // const test1 = new Test({
-    //   createdAt: new Date(),
-    //   description: "lololo",
-    //   name: "lalala",
-    //   ownerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
-    //   questions: [question, question2],
-    //   updatedAt: new Date(),
-    //   uuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
-    // });
-
-    this.activeQuestion = test.questions[0];
-
-    return test;
+    return {
+      test,
+      testSession,
+    };
   };
 
   /**
@@ -139,7 +138,7 @@ export class RunningTestPageStore {
   /**
    * Validate data
    */
-  private validateData = (data: Test) => {
+  private validateData = (data: TestDataParams) => {
     return !!data;
   };
 

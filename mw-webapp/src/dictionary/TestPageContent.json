@@ -44,15 +44,15 @@
         }
     },
     "testInfo": {
-        "description": {
-            "ru": "Описание",
-            "en": "Description",
-            "ua": "Опис"
-        },
         "testActionsTooltip": {
             "ru": "Доступные действия",
             "en": "Test actions",
             "ua": "Доступні дії"
+        },
+        "description": {
+            "ru": "Описание",
+            "en": "Description",
+            "ua": "Опис"
         },
         "questionsAmount": {
             "ru": "Количество вопросов:",
@@ -157,6 +157,11 @@
             "en": "Add question",
             "ua": "Додати питання"
         },
+        "returnToLobby": {
+            "ru": "Вернуться в лобби теста",
+            "en": "Return to the test lobby",
+            "ua": "Повернутися до лобі тесту"
+        },
         "deleteQuestionQuestion": {
             "ru": "Вы уверены, что хотите удалить вопрос",
             "en": "Are you sure you want to delete the question",
@@ -168,9 +173,9 @@
             "ua": "Видалити питання"
         },
         "timeToAnswerTitle": {
-            "ru": "Рекомендуемое время для ответа:",
-            "en": "Recommended time to answer:",
-            "ua": "Рекомендований час для відповіді:"
+            "ru": "Рекомендуемое время для ответа (минуты):",
+            "en": "Recommended time to answer (minutes):",
+            "ua": "Рекомендований час для відповіді (хвилини):"
         },
         "description": {
             "ru": "Описание вопроса:",

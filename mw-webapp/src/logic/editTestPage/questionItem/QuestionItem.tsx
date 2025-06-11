@@ -12,6 +12,7 @@ import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
@@ -192,7 +193,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
           updateQuestion({
             questionToUpdate: {
               uuid: props.question.uuid,
-              timeToAnswer,
+              timeToAnswer: DateUtils.getSecondsFromMinutes(timeToAnswer),
             },
 
             /**

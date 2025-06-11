@@ -1,4 +1,14 @@
 {
+    "sessionTitle": {
+        "ru": "Результаты сессии",
+        "en": "Session results",
+        "ua": "Результати сесії"
+    },
+    "percentageResult": {
+        "ru": "У вас $rightAnswers правильных ответов",
+        "en": "You got $rightAnswers right answers",
+        "ua": "У вас є $rightAnswers правильних відповідей"
+    },
     "resultTable": {
         "title": {
             "ru": "Результаты",
@@ -36,6 +46,18 @@
                 "en": "Is right answer?",
                 "ua": "Правильна відповідь?"
             }
+        }
+    },
+    "buttons": {
+        "returnToLobby": {
+            "ru": "Вернуться в лобби теста",
+            "en": "Return to the test lobby",
+            "ua": "Повернутися до лобі тесту"
+        },
+        "generateTrainingWithAIButton": {
+            "ru": "Сгенерировать тренинг с AI на основе результатов теста",
+            "en": "Generate training using AI based on test results",
+            "ua": "Сгенерувати тренінг з AI на основі результатів тесту"
         }
     }
 }

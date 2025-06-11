@@ -13,6 +13,7 @@ import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import trainingWithAiLanding from "src/dictionary/landing/TrainingWithAILandingContent.json";
+import lobbyTestPageContent from "src/dictionary/LobbyTestPageContent.json";
 import modals from "src/dictionary/Modals.json";
 import notificationBlockContent from "src/dictionary/NotificationBLockContent.json";
 import partnershipPageContent from "src/dictionary/PartnershipPageContent.json";
@@ -115,6 +116,13 @@ export class LanguageService {
    */
   public static get test() {
     return testPageContent;
+  }
+
+  /**
+   * Lobby Test page content
+   */
+  public static get lobbyTest() {
+    return lobbyTestPageContent;
   }
 
   /**

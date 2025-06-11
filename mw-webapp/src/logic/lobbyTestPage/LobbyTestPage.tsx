@@ -13,6 +13,7 @@ import {useStore} from "src/hooks/useStore";
 import {LobbyTestPageStore} from "src/logic/lobbyTestPage/LobbyTestPageStore";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/lobbyTestPage/LobbyTestPage.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
@@ -54,6 +55,9 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
     );
   }
 
+  const timeToTest = DateUtils.getMinutesFromSeconds(lobbyTestPageStore.test.questions
+    .reduce((summaryTime, question) => question.timeToAnswer + summaryTime, DEFAULT_SUMMARY_TIME));
+
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.lobbyDashboard}>
@@ -73,7 +77,7 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
             <VerticalContainer className={styles.descriptionSection}>
               <Title
                 level={HeadingLevel.h3}
-                text={LanguageService.test.testInfo.description[language]}
+                text={LanguageService.lobbyTest.testInfo.description[language]}
                 placeholder={LanguageService.common.emptyMarkdownAction[language]}
               />
               <Text
@@ -84,14 +88,14 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
 
             <Title
               level={HeadingLevel.h3}
-              text={`${LanguageService.test.testInfo.questionsAmount[language]} ${lobbyTestPageStore.test.questions.length}`}
+              text={`${LanguageService.lobbyTest.testInfo.questionsAmount[language]} ${lobbyTestPageStore.test.questions.length}`}
               placeholder=""
             />
 
             <Title
               level={HeadingLevel.h3}
-              text={`${LanguageService.test.testInfo.timeToTest[language]} ${lobbyTestPageStore.test.questions
-                .reduce((summaryTime, question) => question.timeToAnswer + summaryTime, DEFAULT_SUMMARY_TIME)}`}
+              text={`${LanguageService.lobbyTest.testInfo.timeToTest[language]} 
+                ${timeToTest} ${LanguageService.lobbyTest.testInfo.measurement[language]}`}
               placeholder=""
             />
 
@@ -101,11 +105,11 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
 
         <HorizontalContainer className={styles.lobbyTestButtons}>
           <Button
-            value={LanguageService.test.buttons.editTest[language]}
+            value={LanguageService.lobbyTest.buttons.editTest[language]}
             onClick={() => navigate(pages.editTest.getPath({uuid: lobbyTestPageStore.test.uuid}))}
           />
           <Button
-            value={LanguageService.test.buttons.startTest[language]}
+            value={LanguageService.lobbyTest.buttons.startTest[language]}
             buttonType={ButtonType.PRIMARY}
             onClick={() => navigate(pages.runningTest.getPath({uuid: lobbyTestPageStore.test.uuid}))}
           />

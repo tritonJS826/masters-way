@@ -136,15 +136,17 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
 
         <VerticalContainer className={styles.questions}>
           <ProgressBar
-            value={runningTestPageStore.activeOrder + DEFAULT_QUESTION_VALUE}
+            value={runningTestPageStore.questionResults.size}
             max={runningTestPageStore.test.questions.length}
             textToLabel={LanguageService.test.questionsBlock.questions[language]}
           />
           <VerticalContainer className={styles.theoryMaterials}>
             <QuestionItem
               question={runningTestPageStore.activeQuestion}
+              answer={runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)?.userAnswer ?? ""}
               testSessionUuid={runningTestPageStore.testSessionUuid}
               userUuid={user.uuid}
+              isSavedAnswer={!!runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)}
             />
           </VerticalContainer>
 
