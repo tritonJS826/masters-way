@@ -76,7 +76,7 @@ type Querier interface {
 	GetTestLeaderboard(ctx context.Context, arg GetTestLeaderboardParams) ([]GetTestLeaderboardRow, error)
 	GetTestQuestionStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestQuestionStatsRow, error)
 	GetTestQuestionsByTestUuid(ctx context.Context, testUuid pgtype.UUID) ([]TestsQuestion, error)
-	GetTestResultBySessionId(ctx context.Context, sessionResultUuid pgtype.UUID) (GetTestResultBySessionIdRow, error)
+	GetTestResultBySessionId(ctx context.Context, sessionUuid pgtype.UUID) (GetTestResultBySessionIdRow, error)
 	GetTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsByTestRow, error)
 	GetTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) ([]GetTestResultsByUserRow, error)
 	GetTestResultsWithStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsWithStatsRow, error)

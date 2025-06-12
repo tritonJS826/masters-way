@@ -219,7 +219,7 @@ SELECT
 FROM
     test_session_results
 WHERE
-    test_session_results.uuid = $1
+    test_session_results.session_uuid = $1
 `
 
 type GetTestResultBySessionIdRow struct {
@@ -230,8 +230,8 @@ type GetTestResultBySessionIdRow struct {
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
 }
 
-func (q *Queries) GetTestResultBySessionId(ctx context.Context, sessionResultUuid pgtype.UUID) (GetTestResultBySessionIdRow, error) {
-	row := q.db.QueryRow(ctx, getTestResultBySessionId, sessionResultUuid)
+func (q *Queries) GetTestResultBySessionId(ctx context.Context, sessionUuid pgtype.UUID) (GetTestResultBySessionIdRow, error) {
+	row := q.db.QueryRow(ctx, getTestResultBySessionId, sessionUuid)
 	var i GetTestResultBySessionIdRow
 	err := row.Scan(
 		&i.Uuid,

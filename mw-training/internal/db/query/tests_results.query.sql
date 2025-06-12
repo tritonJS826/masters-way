@@ -28,7 +28,7 @@ SELECT
 FROM
     test_session_results
 WHERE
-    test_session_results.uuid = @session_result_uuid;
+    test_session_results.session_uuid = @session_uuid;
 
 -- name: GetTestResultsByUser :many
 SELECT
