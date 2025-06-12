@@ -1,0 +1,35 @@
+@import "src/styles/variables";
+
+.resultsContainer {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  margin: 0 auto;
+  margin-top: $headerHeight;
+  gap: $gapSmall;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.titleContainer {
+  justify-content: space-between;
+}
+
+.headingLevelH2 {
+  font-size: $fontSizeTitleSmall;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleExtraSmall;
+  }
+}
+
+.resultsContent {
+  display: grid;
+  @include regularContainer;
+}
+
+.buttons {
+  align-items: center;
+  justify-content: center;
+}

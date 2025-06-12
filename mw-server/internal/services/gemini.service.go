@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
+	"github.com/samber/lo"
 )
 
 type GeminiService struct {
@@ -308,6 +309,72 @@ func (gs *GeminiService) EstimateIssue(ctx context.Context, payload *schemas.AIE
 	return &schemas.AIEstimateIssueResponse{Estimation: responseText}, nil
 }
 
+type questionResults struct {
+	ru []string
+	en []string
+	ua []string
+}
+
+func (gs *GeminiService) GenerateTrainingDescriptionByTestResults(ctx context.Context, payload *schemas.AIGenerateTrainingDescriptionByTestResultsPayload) (*schemas.AIGenerateTrainingDescriptionByTestResultsResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		trainingDescription := &schemas.AIGenerateTrainingDescriptionByTestResultsResponse{
+			TrainingName:        "Stub training name",
+			TrainingDescription: "Stub training description",
+		}
+		return trainingDescription, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var questionResultStr questionResults
+	lo.ForEach(payload.TestQuestionResults, func(questionResult schemas.QuestionResult, _ int) {
+		questionResultStr.en = append(questionResultStr.en, "Question name: "+questionResult.QuestionName+"| question: "+questionResult.QuestionDescription+"| my answer: "+questionResult.UserAnswer+"| expected correct answer: "+questionResult.QuestionAnswer+"| was marked correct: "+strconv.FormatBool(questionResult.IsOk)+"| and added to description: "+questionResult.ResultDescription)
+		questionResultStr.ru = append(questionResultStr.ru, "Название для вопроса: "+questionResult.QuestionName+"| вопрос: "+questionResult.QuestionDescription+"| мой ответ на вопрос: "+questionResult.UserAnswer+"| предполагаемы правильный ответ: "+questionResult.QuestionAnswer+"| при проверке в графе правильно меня оценили:"+strconv.FormatBool(questionResult.IsOk)+"| и добавлено в описание "+questionResult.ResultDescription)
+		questionResultStr.ua = append(questionResultStr.ua, "Назва питання: "+questionResult.QuestionName+"| питання: "+questionResult.QuestionDescription+"| моя відповідь: "+questionResult.UserAnswer+"| очікувана правильна відповідь: "+questionResult.QuestionAnswer+"| оцінено як правильно: "+strconv.FormatBool(questionResult.IsOk)+"| і додано до опису: "+questionResult.ResultDescription)
+
+	})
+
+	var payloadMessage string
+	switch payload.Language {
+	case "en":
+		payloadMessage = "I have completed the test " + payload.TestName + ". Test description: " + payload.TestDescription + ". Here are my results: " + strings.Join(questionResultStr.en, ", ") + ". Based on this, generate a personalized course name and description to help me master this topic. Max 40 characters for the course name, max 4096 for the description. Provide the answer in JSON format. For example: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	case "ru":
+		payloadMessage = "Я прошел тест " + payload.TestName + ". Описание теста:" + payload.TestDescription + "\n" + ". Вот мой результат: " + strings.Join(questionResultStr.ru, ", ") + "Сгенерируйте мне список на основе этого название и описание персонализированного курса, чтобы я мог хорошо разобраться с этой темой." + "Макс 40 символов для имени курса, максимум 4096 для описания. Предоставьте мне ответ в формате json. Например: {name: \"Some course name\", description: \"Some long and interesting course description\"}"
+	case "ua":
+		payloadMessage = "Я пройшов тест " + payload.TestName + ". Опис тесту: " + payload.TestDescription + ". Ось мій результат: " + strings.Join(questionResultStr.ua, ", ") + ". Згенеруй для мене на основі цього назву та опис персоналізованого курсу, щоб я міг добре розібратися з цією темою. Макс 40 символів для назви курсу, максимум 4096 для опису. Надішли мені відповідь у форматі json. Наприклад: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	default:
+		payloadMessage = "I have completed the test " + payload.TestName + ". Test description: " + payload.TestDescription + ". Here are my results: " + strings.Join(questionResultStr.en, ", ") + ". Based on this, generate a personalized course name and description to help me master this topic. Max 40 characters for the course name, max 4096 for the description. Provide the answer in JSON format. For example: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	}
+
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var training schemas.AIGenerateTrainingDescriptionByTestResultsResponse
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &training)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &training, nil
+
+}
+
 func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
 	if gs.config.EnvType != "prod" {
@@ -491,4 +558,65 @@ func (gs *GeminiService) GeneratePracticeMaterialForTopic(ctx context.Context, p
 	}
 
 	return &schemas.AIGeneratePracticeMaterialsForTopicResponse{PracticeMaterials: practiceMaterials}, nil
+}
+
+func (gs *GeminiService) GenerateQuestionsForTest(ctx context.Context, payload *schemas.AIGenerateQuestionsForTestPayload) (*schemas.AIGenerateQuestionsForTestResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		questions := []schemas.GeneratedQuestion{
+			{
+				Name:         "Hi! It's a 1 stub Name message from AI GeneratePracticeMaterialForTraining for developing",
+				QuestionText: "Hi! It's a 1 stub QuestionText message from AI GeneratePracticeMaterialForTraining for developing",
+				Answer:       "Hi! It's a 1 stub Answer message from AI GeneratePracticeMaterialForTraining for developing",
+				TimeToAnswer: 10,
+			},
+			{
+				Name:         "Hi! It's a 2 stub Name message from AI GeneratePracticeMaterialForTraining for developing",
+				QuestionText: "Hi! It's a 2 stub QuestionText message from AI GeneratePracticeMaterialForTraining for developing",
+				Answer:       "Hi! It's a 2 stub Answer message from AI GeneratePracticeMaterialForTraining for developing",
+				TimeToAnswer: 20,
+			},
+		}
+		return &schemas.AIGenerateQuestionsForTestResponse{Questions: questions}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage string
+	switch payload.Language {
+	case "en":
+		payloadMessage = "I have a test " + payload.TestName + ". The description is: " + payload.TestDescription + ". I have already created these questions: (" + strings.Join(payload.Questions, ", ") + ").\nGenerate " + strconv.Itoa(payload.GenerateAmount) + " more questions. Each question should include a list of answers (2-10) in markdown format to make it easier to compare the user's correct answer. Give me an answer with a maximum of 100 characters for the question name, 1200 characters for the question text including the list of answers, 100 characters for the answer, and the time to answer in seconds. Provide the answer in a JSON array with fields 'name', 'questionText', 'answer', 'timeToAnswer' (for example [{\"name\": \"some name\", \"questionText\": \"some question description with list of potential answers\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
+	case "ru":
+		payloadMessage = "У меня есть тест " + payload.TestName + ". Описание:" + payload.TestDescription + ". Я уже создал эти вопросы: (" + strings.Join(payload.Questions, ", ") + ")" + " \n Сгенерируй еще " + strconv.Itoa(payload.GenerateAmount) + "вопросов. В самом вопросе пусть находится список ответов (2-10) в markdown формате чтобы было легче сравнить правильный ответ пользователя  Дайте мне ответ с макс 100 символов для названия вопроса, 1200 символов для описания самого вопроса с учетом списка ответов, 100 символов для ответа и время на ответ в секундах. Предоставьте мне ответ в json с полями 'name', 'questionText', 'answer', 'time to answer' (например [{\"name\": \"some name\", questionText: \"some question description with list of potential answers\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
+	case "ua":
+		payloadMessage = "У мене є тест " + payload.TestName + ". Опис:" + payload.TestDescription + ". Я вже створив ці питання: (" + strings.Join(payload.Questions, ", ") + ")" + " \n Згенеруй ще " + strconv.Itoa(payload.GenerateAmount) + " питань. У самому питанні має бути список відповідей (2-10) у markdown форматі, щоб було легше порівняти правильну відповідь користувача. Дай мені відповідь з макс 100 символів для назви питання, 1200 символів для опису самого питання з урахуванням списку відповідей, 100 символів для відповіді та час на відповідь у секундах. Надішли мені відповідь у json з полями 'name', 'questionText', 'answer', 'time to answer' (наприклад [{\"name\": \"some name\", questionText: \"some question description with list of potential answers\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
+	default:
+
+	}
+
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "[")
+	jsonEnd := strings.LastIndex(responseText, "]") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var questions []schemas.GeneratedQuestion
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &questions)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGenerateQuestionsForTestResponse{Questions: questions}, nil
 }

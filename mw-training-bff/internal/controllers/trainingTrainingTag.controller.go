@@ -10,7 +10,7 @@ import (
 )
 
 // This line required to import schemas for swagger
-var stubModel schemas.CreateTrainingTrainingTagPayload
+var _ schemas.CreateTrainingTrainingTagPayload
 
 type TrainingTrainingTagController struct {
 	generalService             *services.GeneralService

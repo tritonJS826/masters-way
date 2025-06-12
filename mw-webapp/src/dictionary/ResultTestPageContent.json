@@ -1,0 +1,63 @@
+{
+    "sessionTitle": {
+        "ru": "Результаты сессии",
+        "en": "Session results",
+        "ua": "Результати сесії"
+    },
+    "percentageResult": {
+        "ru": "У вас $rightAnswers % правильных ответов",
+        "en": "You got $rightAnswers % right answers",
+        "ua": "У вас є $rightAnswers % правильних відповідей"
+    },
+    "resultTable": {
+        "title": {
+            "ru": "Результаты",
+            "en": "Results",
+            "ua": "Результати"
+        },
+        "column": {
+            "question": {
+                "ru": "Вопрос",
+                "en": "Question",
+                "ua": "Питання"
+            },
+            "description": {
+                "ru": "Описание вопроса",
+                "en": "Question description",
+                "ua": "Опис питання"
+            },
+            "userAnswer": {
+                "ru": "Ответ пользователя",
+                "en": "User response",
+                "ua": "Відповідь користувача"
+            },
+            "rightAnswer": {
+                "ru": "Правильный ответ",
+                "en": "Correct answer",
+                "ua": "Правильна відповідь"
+            },
+            "aiComment": {
+                "ru": "Скоро будет комментарий AI!",
+                "en": "AI comment coming soon!",
+                "ua": "Коментар AI буде скоро!"
+            },
+            "isOk": {
+                "ru": "Правильный ответ?",
+                "en": "Is right answer?",
+                "ua": "Правильна відповідь?"
+            }
+        }
+    },
+    "buttons": {
+        "returnToLobby": {
+            "ru": "Вернуться в лобби теста",
+            "en": "Return to the test lobby",
+            "ua": "Повернутися до лобі тесту"
+        },
+        "generateTrainingWithAIButton": {
+            "ru": "Сгенерировать тренинг с AI на основе результатов теста",
+            "en": "Generate training using AI based on test results",
+            "ua": "Сгенерувати тренінг з AI на основі результатів тесту"
+        }
+    }
+}

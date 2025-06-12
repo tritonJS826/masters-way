@@ -71,3 +71,21 @@ func HandleHeaders() gin.HandlerFunc {
 		ctx.Next()
 	}
 }
+
+func HandleOptionalHeaders() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
+		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+			ctx.Next()
+			return
+		}
+
+		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+		claims, err := ValidateJWT(tokenString)
+		if err == nil {
+			ctx.Set(ContextKeyUserID, claims.UserID)
+			ctx.Set(ContextKeyAuthorization, authHeader)
+		}
+		ctx.Next()
+	}
+}

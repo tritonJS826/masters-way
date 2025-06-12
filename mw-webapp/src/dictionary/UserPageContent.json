@@ -230,6 +230,11 @@
       "ru": "Тренинги",
       "en": "Trainings",
       "ua": "Тренінги"
+    },
+    "tests": {
+      "ru": "Тесты",
+      "en": "Tests",
+      "ua": "Тести"
     }
   },
   "collections": {
@@ -378,6 +383,40 @@
       "ua": "Додайте тренінг"
     }
   },
+  "tests": {
+    "defaultTestCollections": {
+      "ru": "Базовые тесты",
+      "en": "Basic tests",
+      "ua": "Базові тести"
+    },
+    "own": {
+      "ru": "Собственные",
+      "en": "Own",
+      "ua": "Власні"
+    },
+    "completed": {
+      "ru": "Пройденные",
+      "en": "Passed",
+      "ua": "Пройдені"
+    },
+    "addTest": {
+      "ru": "Добавить тест",
+      "en": "Add test",
+      "ua": "Додайте тест"
+    },
+    "testCard": {
+      "createdAt": {
+        "ru": "Создан",
+        "en": "Created at",
+        "ua": "Створено"
+      },
+      "updatedAt": {
+        "ru": "Обновлено",
+        "en": "Updated at",
+        "ua": "Оновлено"
+      }
+    }
+  },
   "filterBlock": {
     "type": {
       "ru": "Статус",
@@ -447,9 +486,12 @@
       "ru": "Существует 4 коллекции тренингов. В собственной коллекции будут храниться твои тренинги. Наставнические включают тренинги, для которых ты являешься ментором. Студенческие содержат тренинги, где ты являешься студентом. А в коллекцию Любимые помещаются все тренинги, которые ты лайкнул.",
       "en": "There are 4 collections of trainings. Your trainings will be stored in your own collection. Mentoring includes trainings for which you are a mentor. Student ones contain trainings where you are a student. And the Favorites collection contains all the trainings that you liked.",
       "ua": "Існує 4 колекції тренінгів. У власній колекції зберігатимуться твої тренінги. Наставницькі включають тренінги, для яких ти є ментором. Студенти містять тренінги, де ти є студентом. А в колекцію Улюблені поміщаються всі тренінги, які ти лайкнув."
+    },
+    "basicTestCollections": {
+      "ru": "Существует 2 коллекции тестов. В собственной коллекции будут храниться твои тесты. Пройденные включают тесты, которые ты прошел.",
+      "en": "There are 2 test collections. Your own collection will store your tests. Passed includes tests you have passed.",
+      "ua": "Існує 2 колекції тестів. У власній колекції будуть зберігатися ваші тести. Пройдені включають тести, які ти пройшов."
     }
-  }, 
-  "contactsBlock": {
-    
-  }
+  },
+  "contactsBlock": {}
 }

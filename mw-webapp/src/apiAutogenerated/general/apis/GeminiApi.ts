@@ -27,10 +27,14 @@ import type {
   MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse,
   MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload,
   MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload,
+  MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse,
   MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload,
   MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse,
   MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload,
   MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload,
+  MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse,
   MwGeneralBffInternalSchemasGenerateMetricsPayload,
   MwGeneralBffInternalSchemasGenerateMetricsResponse,
 } from '../models/index';
@@ -59,6 +63,10 @@ import {
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayloadToJSON,
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseFromJSON,
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseToJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseToJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadFromJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadToJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponseFromJSON,
@@ -67,6 +75,10 @@ import {
     MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadToJSON,
     MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponseFromJSON,
     MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponseToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponseToJSON,
     MwGeneralBffInternalSchemasGenerateMetricsPayloadFromJSON,
     MwGeneralBffInternalSchemasGenerateMetricsPayloadToJSON,
     MwGeneralBffInternalSchemasGenerateMetricsResponseFromJSON,
@@ -97,12 +109,21 @@ export interface AiPracticeMaterialForTopicRequest {
     request: MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload;
 }
 
+export interface AiQuestionTestRequest {
+    request: MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload;
+}
+
 export interface AiTheoryMaterialForTopicRequest {
     request: MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload;
 }
 
 export interface AiTopicForTrainingRequest {
     request: MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload;
+}
+
+export interface AiTrainingByTestSessionRequest {
+    sessionResultId: string;
+    request: MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload;
 }
 
 export interface GenerateMetricsRequest {
@@ -325,6 +346,41 @@ export class GeminiApi extends runtime.BaseAPI {
     }
 
     /**
+     * Generate questions for test
+     * Generate questions for test
+     */
+    async aiQuestionTestRaw(requestParameters: AiQuestionTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiQuestionTest.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/test/questions`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate questions for test
+     * Generate questions for test
+     */
+    async aiQuestionTest(requestParameters: AiQuestionTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse> {
+        const response = await this.aiQuestionTestRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Generate theory material for training
      * Generate theory material for training
      */
@@ -389,6 +445,45 @@ export class GeminiApi extends runtime.BaseAPI {
      */
     async aiTopicForTraining(requestParameters: AiTopicForTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse> {
         const response = await this.aiTopicForTrainingRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate training by test sessionId
+     * Generate training by test test sessionId
+     */
+    async aiTrainingByTestSessionRaw(requestParameters: AiTrainingByTestSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse>> {
+        if (requestParameters.sessionResultId === null || requestParameters.sessionResultId === undefined) {
+            throw new runtime.RequiredError('sessionResultId','Required parameter requestParameters.sessionResultId was null or undefined when calling aiTrainingByTestSession.');
+        }
+
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiTrainingByTestSession.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/training/topics/{sessionResultId}`.replace(`{${"sessionResultId"}}`, encodeURIComponent(String(requestParameters.sessionResultId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate training by test sessionId
+     * Generate training by test test sessionId
+     */
+    async aiTrainingByTestSession(requestParameters: AiTrainingByTestSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse> {
+        const response = await this.aiTrainingByTestSessionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

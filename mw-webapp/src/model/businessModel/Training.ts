@@ -181,6 +181,13 @@ export class Training {
     this.createdAt = trainingData.createdAt;
     this.updatedAt = trainingData.updatedAt;
     this.topics = trainingData.topics;
+    // This.students = trainingData.students.map(student => new UserPreview(student));
+    // this.mentors = new Map<string, UserPreview>(trainingData.mentors);
+    // this.trainingTags = trainingData.trainingTags.map(trainingTag => new TrainingTag(trainingTag));
+    // this.owner = new UserPreview(trainingData.owner);
+    // this.createdAt = trainingData.createdAt;
+    // this.updatedAt = trainingData.updatedAt;
+    // this.topics = trainingData.topics.map(topic => new TopicPreview(topic));
     this.favoriteForUserUuids = trainingData.favoriteForUserUuids;
   }
 

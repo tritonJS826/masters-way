@@ -3,6 +3,7 @@ const END_OF_ISO_SUBSTRING_RANGE = 10;
 export const DAY_MILLISECONDS = 86400000;
 export const ONE_DAY = 1;
 export const MINUTES_IN_HOUR = 60;
+export const SECONDS_IN_MINUTE = 60;
 
 /**
  * Used to calculate date properly without libs
@@ -102,6 +103,20 @@ export class DateUtils {
     const PRECISION = 1;
 
     return Number((minutes / MINUTES_IN_HOUR).toFixed(PRECISION));
+  }
+
+  /**
+   * Convert seconds to minutes with ceil rounding
+   */
+  public static getMinutesFromSeconds(seconds: number): number {
+    return Math.ceil(seconds / SECONDS_IN_MINUTE);
+  }
+
+  /**
+   * Convert minutes to seconds
+   */
+  public static getSecondsFromMinutes(minutes: number): number {
+    return minutes * SECONDS_IN_MINUTE;
   }
 
 }

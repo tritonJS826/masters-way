@@ -1,0 +1,186 @@
+{
+    "infotip": {
+        "testName": {
+            "ru": "Изменить название тренинга можно по двойному клику. Рекомендуем формулировать название кратко, но информативно. Это важно, чтобы другие пользователи могли понять, к чему относится тренинг.",
+            "en": "You can change the name of the training by double clicking. We recommend that you keep the title brief but informative. This is important so that other users can understand what the training covers.",
+            "ua": "Змінити назву тренінгу можна за подвійним кліком. Рекомендуємо формулювати назву коротко, але інформативно. Це важливо, щоб інші користувачі могли зрозуміти, до чого належить тренінг."
+        },
+        "testOwner": {
+            "ru": "Ссылка на пользователя, который создал данный тренинг.",
+            "en": "Link to the user who created this training.",
+            "ua": "Посилання на користувача, який створив цей шлях."
+        },
+        "description": {
+            "ru": "Опиши тренинг максимально подробно, чтобы пользователи могли понять, чему они смогут научиться во время его прохождения.",
+            "en": "Describe the training in as much detail as possible so that users can understand what they can learn while completing it.",
+            "ua": "Опишіть тренінг якомога детальніше, щоб користувачі могли зрозуміти, чого вони можуть навчитися під час його проходження."
+        }
+    },
+    "notifications": {
+        "quesrionRemovedFromTest": {
+            "ru": "Вопрос удален из теста",
+            "en": "Question removed from test",
+            "ua": "Питання видалено з тесту"
+        },
+        "urlCopied": {
+            "ru": "Url скопирован",
+            "en": "Url copied",
+            "ua": "URL скопійовано"
+        },
+        "testNameMaxLength": {
+            "ru": "Имя не должно превышать 50 символов",
+            "en": "Name should not exceed 50 characters",
+            "ua": "Ім'я не повинно перевищувати 50 символів"
+        },
+        "testNameMinLength": {
+            "ru": "Имя должно содержать хотя бы один символ",
+            "en": "Name should include at least one character",
+            "ua": "Ім'я повинно містити принаймні один символ"
+        }
+    },
+    "testInfo": {
+        "testActionsTooltip": {
+            "ru": "Доступные действия",
+            "en": "Test actions",
+            "ua": "Доступні дії"
+        },
+        "description": {
+            "ru": "Описание",
+            "en": "Description ",
+            "ua": "Опис"
+        },
+        "questionsAmount": {
+            "ru": "Количество вопросов:",
+            "en": "Number of questions:",
+            "ua": "Кількість питань:"
+        },
+        "timeToTest": {
+            "ru": "Время для прохождения:",
+            "en": "Time to complete:",
+            "ua": "Час для проходження:"
+        }
+    },
+    "testActions": {
+        "copyUrlToClipboard": {
+            "ru": "Скопировать url",
+            "en": "Copy url to clipboard",
+            "ua": "Копіювати url"
+        },
+        "deleteTest": {
+            "ru": "Удалить тест",
+            "en": "Delete the test",
+            "ua": "Видалити тест"
+        },
+        "deleteTestQuestion": {
+            "ru": "Вы уверены, что хотите удалить тест",
+            "en": "Are you sure you want to delete the test",
+            "ua": "Ви впевнені, що хочете видалити тест"
+        }
+    },
+    "questionsBlock": {
+        "questions": {
+            "ru": "Вопросы",
+            "en": "Questions",
+            "ua": "Запитання"
+        },
+        "answersAccepted": {
+            "ru": "ответов принято",
+            "en": "answers accepted",
+            "ua": "відповідей прийнято"
+        },
+        "questionNumber": {
+            "ru": "Вопрос №",
+            "en": "Question №",
+            "ua": "Питання №"
+        },
+        "createdAt": {
+            "ru": "Создан",
+            "en": "Created at",
+            "ua": "Створено"
+        },
+        "addNewQuestionButton": {
+            "ru": "Добавить вопрос",
+            "en": "Add question",
+            "ua": "Додати питання"
+        },
+        "returnToLobby": {
+            "ru": "Вернуться в лобби теста",
+            "en": "Return to the test lobby",
+            "ua": "Повернутися до лобі тесту"
+        },
+        "deleteQuestionQuestion": {
+            "ru": "Вы уверены, что хотите удалить вопрос",
+            "en": "Are you sure you want to delete the question",
+            "ua": "Ви впевнені, що хочете видалити питання"
+        },
+        "deleteQuestionTooltip": {
+            "ru": "Удалить вопрос",
+            "en": "Delete question",
+            "ua": "Видалити питання"
+        },
+        "timeToAnswerTitle": {
+            "ru": "Рекомендуемое время для ответа (минуты):",
+            "en": "Recommended time to answer (minutes):",
+            "ua": "Рекомендований час для відповіді (хвилини):"
+        },
+        "description": {
+            "ru": "Описание вопроса:",
+            "en": "Description of the question:",
+            "ua": "Опис питання:"
+        },
+        "answerTitle": {
+            "ru": "Правильный ответ:",
+            "en": "Correct answer:",
+            "ua": "Правильна відповідь:"
+        },
+        "timeToAnswerPlaceholder": {
+            "ru": "***Напишите время ответа на практический материал, дважды щелкнув мышью***",
+            "en": "***Write the time to answer to the practical material by double clicking the mouse***",
+            "ua": "***Подвійним клацанням мишки напишіть час відповіді на практичний матеріал***"
+        }
+    },
+    "buttons": {
+        "saveAnswer": {
+            "ru": "Сохранить ответ",
+            "en": "Save answer",
+            "ua": "Зберегти відповідь"
+        },
+        "editTest": {
+            "ru": "Редактировать тест",
+            "en": "Edit test",
+            "ua": "Редагувати тест"
+        },
+        "startTest": {
+            "ru": "Начать тест",
+            "en": "Start test",
+            "ua": "Почати тест"
+        },
+        "prevQuestion": {
+            "ru": "Предыдущий вопрос",
+            "en": "Previous question",
+            "ua": "Попереднє запитання"
+        },
+        "nextQuestion": {
+            "ru": "Следующий вопрос",
+            "en": "Next question",
+            "ua": "Наступне питання"
+        },
+        "seeResults": {
+            "ru": "Посмотреть результаты",
+            "en": "See results",
+            "ua": "Перегляньте результати"
+        }
+    },
+    "aiButtons": {
+        "generateQuestionsWithAIButton": {
+            "ru": "Сгенерировать вопросы с AI",
+            "en": "Generate questions using AI",
+            "ua": "Згенерувати запитання за допомогою AI"
+        },
+        "chooseQuestionsAmountToGenerate": {
+            "ru": "Выберите, сколько вопросов хотите создать с помощью AI",
+            "en": "Select how many questions you want to generate using AI",
+            "ua": "Виберіть, скільки запитань ви хочете створити за допомогою ШІ AI"
+        }
+    }
+}

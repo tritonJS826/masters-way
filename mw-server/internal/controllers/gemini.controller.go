@@ -155,6 +155,27 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// @Description Generate training description by test result
+// @Tags gemini
+// @ID ai-description-for-training-by-test-results
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.AIGenerateTrainingDescriptionByTestResultsPayload true "Request payload"
+// @Success 200 {object} schemas.AIGenerateTrainingDescriptionByTestResultsResponse
+// @Router /gemini/trainings/description [post]
+func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Context) {
+	var payload *schemas.AIGenerateTrainingDescriptionByTestResultsPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	response, err := cc.geminiService.GenerateTrainingDescriptionByTestResults(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 // Generate topics for training
 // @Description Generate topics for training
 // @Tags gemini
@@ -218,6 +239,29 @@ func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 	}
 
 	response, err := cc.geminiService.GeneratePracticeMaterialForTopic(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// Generate questions test
+// @Summary Generate questions test
+// @Description Generate questions test
+// @Tags gemini
+// @ID ai-questions-for-test
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.AIGenerateQuestionsForTestPayload true "Request payload"
+// @Success 200 {object} schemas.AIGenerateQuestionsForTestResponse
+// @Router /gemini/test/questions [post]
+func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
+	var payload *schemas.AIGenerateQuestionsForTestPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	response, err := cc.geminiService.GenerateQuestionsForTest(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

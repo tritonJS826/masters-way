@@ -161,3 +161,4 @@ storybook-static/
 
 # logs file
 migration-logs/
+.aider*

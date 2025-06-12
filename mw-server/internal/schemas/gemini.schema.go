@@ -60,6 +60,28 @@ type AIEstimateIssueResponse struct {
 	Estimation string `json:"estimation" validate:"required"`
 }
 
+type QuestionResult struct {
+	IsOk                bool   `json:"isOk" validate:"required"`
+	QuestionName        string `json:"questionName" validate:"required"`
+	QuestionDescription string `json:"questionDescription" validate:"required"`
+	UserAnswer          string `json:"userAnswer" validate:"required"`
+	QuestionAnswer      string `json:"questionAnswer" validate:"required"`
+	ResultDescription   string `json:"resultDescription" validate:"required"`
+}
+
+type AIGenerateTrainingDescriptionByTestResultsPayload struct {
+	TestName            string           `json:"testName" validate:"required"`
+	TestDescription     string           `json:"testDescription" validate:"required"`
+	TestQuestionResults []QuestionResult `json:"testQuestionResults" validate:"required"`
+	TestSessionResult   string           `json:"testSessionResult" validate:"required"`
+	Language            string           `json:"language" validate:"required" example:"ru|en|ua"`
+}
+
+type AIGenerateTrainingDescriptionByTestResultsResponse struct {
+	TrainingName        string `json:"trainingName" validate:"required"`
+	TrainingDescription string `json:"trainingDescription" validate:"required"`
+}
+
 type AIGenerateTopicsForTrainingPayload struct {
 	TopicsAmount               int     `json:"topicsAmount" validate:"required"`
 	TrainingName               string  `json:"trainingName" validate:"required"`
@@ -105,4 +127,23 @@ type GeneratedPracticeMaterial struct {
 
 type AIGeneratePracticeMaterialsForTopicResponse struct {
 	PracticeMaterials []GeneratedPracticeMaterial `json:"practiceMaterials" validate:"required"`
+}
+
+type AIGenerateQuestionsForTestPayload struct {
+	TestDescription string   `json:"testDescription" validate:"required"`
+	TestName        string   `json:"testName" validate:"required"`
+	GenerateAmount  int      `json:"generateAmount" validate:"required"`
+	Language        string   `json:"language" validate:"required" example:"ru|en|ua"`
+	Questions       []string `json:"questions" validate:"required"`
+}
+
+type GeneratedQuestion struct {
+	QuestionText string `json:"questionText" validate:"required"`
+	TimeToAnswer int    `json:"timeToAnswer" validate:"required" description:"13, 120 etc.: in seconds"`
+	Answer       string `json:"answer" validate:"required"`
+	Name         string `json:"name" validate:"required"`
+}
+
+type AIGenerateQuestionsForTestResponse struct {
+	Questions []GeneratedQuestion `json:"questions" validate:"required"`
 }

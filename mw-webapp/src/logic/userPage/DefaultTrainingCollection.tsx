@@ -11,6 +11,15 @@ export enum DefaultTrainingCollection {
 }
 
 /**
+ * Default tests collections
+ */
+export enum DefaultTestCollection {
+  OWN = "own",
+  COMPLETED = "completed",
+  // FAVORITE = "favorite"
+}
+
+/**
  * Get all collections
  */
 export const getAllCollections = (

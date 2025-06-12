@@ -22,8 +22,12 @@ func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
 	router.POST("/comment-issue", gr.geminiController.CommentIssue)
 	router.POST("/decompose-issue", gr.geminiController.DecomposeIssue)
 	router.POST("/estimate-issue", gr.geminiController.EstimateIssue)
+
+	router.POST("/trainings/description", gr.geminiController.GenerateTrainingDescriptionByTestResults)
 	router.POST("/trainings/topics", gr.geminiController.GenerateTopicsForTraining)
 	router.POST("/trainings/theoryMaterial", gr.geminiController.GenerateTheoryMaterialForTopic)
 	router.POST("/trainings/practiceMaterial", gr.geminiController.GeneratePracticeMaterialForTopic)
+
+	router.POST("/test/questions", gr.geminiController.GenerateQuestionsForTest)
 
 }

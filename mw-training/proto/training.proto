@@ -66,6 +66,40 @@ service TrainingMessageToAIService {
   rpc HandleResponseFromAiForItem(MessageFromAI) returns(google.protobuf.Empty);
 }
 
+service TestService {
+  rpc GetTestList(GetTestListRequest) returns (TestPreviewList);
+  rpc GetTestsByUserId(GetTestsByUserIdRequest) returns (TestPreviewList);
+  rpc GetTestAmountByUserId(GetTestsAmountByUserIdRequest) returns (GetTestAmountByUserIdResponse);
+  rpc CreateTest(CreateTestRequest) returns (Test);
+  rpc GetTestById(GetTestByIdRequest) returns (Test);
+  rpc UpdateTest(UpdateTestRequest) returns (Test);
+  rpc DeleteTest(DeleteTestRequest) returns (google.protobuf.Empty);
+}
+
+service TrainingTestsService {
+  rpc CreateTrainingTest(CreateTrainingTestRequest) returns (google.protobuf.Empty);
+}
+
+service SessionService {
+  rpc CreateSession(CreateSessionRequest) returns (CreateSessionResult);
+}
+
+service QuestionService {
+  rpc CreateQuestion(CreateQuestionRequest) returns (Question);
+  rpc UpdateQuestion(UpdateQuestionRequest) returns (Question);
+  rpc DeleteQuestion(DeleteQuestionRequest) returns (google.protobuf.Empty);
+}
+
+service QuestionResultsService {
+  rpc CreateQuestionResult(CreateQuestionResultRequest) returns (QuestionResult);
+  rpc GetQuestionResultsBySessionUuid(GetQuestionResultsBySessionUuidRequest) returns (GetQuestionResultsBySessionUuidResponse);
+}
+
+service TestSessionResultsService {
+  rpc GetTestSessionResult(GetTestSessionResultRequest) returns (GetTestSessionResultResponse);
+  rpc CreateTestSessionResult(CreateTestSessionResultRequest) returns (GetTestSessionResultResponse);
+}
+
 message CreateTrainingTagRequest {
   string training_uuid = 1;
   string tag_name = 2;
@@ -312,6 +346,180 @@ message UpdateTopicRequest {
 
 message DeleteTopicRequest {
   string topic_uuid = 1;
+}
+
+message GetTestListRequest {
+  string name = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message TestPreview {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  string owner_uuid = 4;
+  string updated_at = 5;
+  string created_at = 6;
+}
+
+message TestPreviewList {
+  int32 size = 1;
+  repeated TestPreview tests_list = 2;
+}
+
+message GetTestsAmountByUserIdRequest {
+  string user_uuid = 1;
+}
+
+message GetTestAmountByUserIdResponse {
+  int32 own = 1;
+  int32 completed = 2;
+}
+
+message CreateTestRequest {
+  string name = 1;
+  string description = 2;
+  bool is_private = 3;
+  string owner_uuid = 4;
+}
+
+message UpdateTestRequest {
+  string test_uuid = 1;
+  string user_uuid = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional bool is_private = 5;
+}
+
+message Test {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  string owner_uuid = 4;
+  bool is_private = 5;
+  string updated_at = 6;
+  string created_at = 7;
+  repeated Question questions = 8;
+}
+
+message Question {
+  string uuid = 1;
+  string name = 2;
+  string test_uuid = 3;
+  string question_text = 4;
+  int32 order = 5;
+  int32 time_to_answer = 6;
+  string answer = 7;
+  bool is_active = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message GetTestByIdRequest {
+  string uuid = 1;
+  string owner_uuid = 2;
+}
+
+message DeleteTestRequest {
+  string test_uuid = 1;
+  string owner_uuid = 2;
+}
+
+message GetTestsByUserIdRequest {
+  string owner_uuid = 1;
+  optional string user_uuid = 2;
+}
+
+message CreateTrainingTestRequest {
+  string training_uuid = 1;
+  string test_uuid = 2;
+  string test_owner_uuid = 3; 
+}
+
+message CreateQuestionRequest {
+  string test_uuid = 1;
+  string user_uuid = 2;
+  string name = 3;
+  optional string question_text = 4;
+  optional int32 time_to_answer = 5;
+  optional string answer = 6;
+  string practice_type = 7;
+  // string topic_uuid = 8; good to provide a link to appropriate answer
+}
+
+message UpdateQuestionRequest {
+  string question_uuid = 1;
+  string user_uuid = 2;
+  optional string name = 3;
+  optional string question_text = 4;
+  optional int32 time_to_answer = 5;
+  optional string answer = 6;
+  optional string practice_type = 7;
+  optional int32 order = 8;
+}
+
+message DeleteQuestionRequest {
+  string user_uuid = 1;
+  string question_uuid = 2;
+}
+
+message QuestionResult {
+  string uuid = 1;
+  string user_uuid = 2;
+  bool is_ok = 3;
+  string question_uuid = 4;
+  string question_name = 5;
+  string question_description = 6;
+  string question_answer = 7;
+  string result_description = 8;
+  string user_answer = 9;
+}
+
+message CreateQuestionResultRequest {
+  string question_uuid = 1;
+  string user_uuid = 2;
+  string test_uuid = 3;
+  string test_session_uuid = 4;
+  bool is_ok = 5;
+  string result_description = 6;
+  string user_answer = 7;
+}
+
+message GetQuestionResultsBySessionUuidRequest {
+  string session_uuid = 1;
+  string user_uuid = 2; 
+}
+
+message GetQuestionResultsBySessionUuidResponse {
+  repeated QuestionResult results = 1;
+}
+
+message CreateSessionRequest {
+  string user_uuid = 1;
+}
+
+message CreateSessionResult {
+  string session_uuid = 1;
+}
+
+message GetTestSessionResultRequest {
+  string session_uuid = 1;
+  string user_uuid = 2; 
+}
+
+message CreateTestSessionResultRequest {
+  string session_uuid = 1;
+  string user_uuid = 2;
+  string test_uuid = 3;
+  string result_description = 4;
+}
+
+message GetTestSessionResultResponse {
+  string session_uuid = 1;
+  string test_uuid = 2;
+  string result_description = 3;
+  string created_at = 4;
 }
 
 message MessageToAI {

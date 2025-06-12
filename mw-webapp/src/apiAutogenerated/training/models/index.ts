@@ -1,12 +1,26 @@
 // @ts-nocheck
 /* eslint-disable */
 export * from './MwTrainingBffInternalSchemasCreatePracticeMaterialPayload';
+export * from './MwTrainingBffInternalSchemasCreateQuestionPayload';
+export * from './MwTrainingBffInternalSchemasCreateQuestionResultRequest';
+export * from './MwTrainingBffInternalSchemasCreateSessionRequest';
+export * from './MwTrainingBffInternalSchemasCreateSessionResultRequest';
+export * from './MwTrainingBffInternalSchemasCreateTestRequest';
 export * from './MwTrainingBffInternalSchemasCreateTheoryMaterialPayload';
 export * from './MwTrainingBffInternalSchemasCreateTopicPayload';
 export * from './MwTrainingBffInternalSchemasCreateTrainingPayload';
+export * from './MwTrainingBffInternalSchemasCreateTrainingTestRequest';
 export * from './MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload';
+export * from './MwTrainingBffInternalSchemasGetTestSessionResultResponse';
 export * from './MwTrainingBffInternalSchemasPracticeMaterial';
 export * from './MwTrainingBffInternalSchemasPracticeMaterials';
+export * from './MwTrainingBffInternalSchemasQuestion';
+export * from './MwTrainingBffInternalSchemasQuestionResult';
+export * from './MwTrainingBffInternalSchemasTest';
+export * from './MwTrainingBffInternalSchemasTestPreview';
+export * from './MwTrainingBffInternalSchemasTestPreviewList';
+export * from './MwTrainingBffInternalSchemasTestSession';
+export * from './MwTrainingBffInternalSchemasTestsAmount';
 export * from './MwTrainingBffInternalSchemasTheoryMaterial';
 export * from './MwTrainingBffInternalSchemasTheoryMaterials';
 export * from './MwTrainingBffInternalSchemasTopic';
@@ -18,6 +32,8 @@ export * from './MwTrainingBffInternalSchemasTrainingPreview';
 export * from './MwTrainingBffInternalSchemasTrainingTag';
 export * from './MwTrainingBffInternalSchemasTrainingsAmount';
 export * from './MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload';
+export * from './MwTrainingBffInternalSchemasUpdateQuestionPayload';
+export * from './MwTrainingBffInternalSchemasUpdateTestRequest';
 export * from './MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload';
 export * from './MwTrainingBffInternalSchemasUpdateTopicPayload';
 export * from './MwTrainingBffInternalSchemasUpdateTrainingPayload';

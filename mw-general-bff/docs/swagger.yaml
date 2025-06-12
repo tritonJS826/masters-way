@@ -151,6 +151,29 @@ definitions:
     required:
     - practiceMaterials
     type: object
+  mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload:
+    properties:
+      generateAmount:
+        type: integer
+      language:
+        example: ru|en|ua
+        type: string
+      testId:
+        type: string
+    required:
+    - generateAmount
+    - language
+    - testId
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse:
+    properties:
+      questions:
+        items:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.GeneratedQuestion'
+        type: array
+    required:
+    - questions
+    type: object
   mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
     properties:
       language:
@@ -214,6 +237,31 @@ definitions:
         type: array
     required:
     - topics
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload:
+    properties:
+      generateTopicsAmount:
+        type: integer
+      language:
+        example: ru|en|ua
+        type: string
+      practiceMaterialInEachTopic:
+        type: integer
+      testSessionId:
+        type: string
+    required:
+    - generateTopicsAmount
+    - language
+    - practiceMaterialInEachTopic
+    - testSessionId
+    - testSessionId
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse:
+    properties:
+      trainingId:
+        type: string
+    required:
+    - trainingId
     type: object
   mw-general-bff_internal_schemas.AddWayToCompositeWayPayload:
     properties:
@@ -702,6 +750,39 @@ definitions:
     - taskDescription
     - timeToAnswer
     - topicUuid
+    - updatedAt
+    - uuid
+    type: object
+  mw-general-bff_internal_schemas.GeneratedQuestion:
+    properties:
+      answer:
+        type: string
+      createdAt:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      order:
+        type: integer
+      questionText:
+        type: string
+      test_uuid:
+        type: string
+      time_to_answer:
+        type: integer
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - answer
+    - createdAt
+    - is_active
+    - order
+    - questionText
+    - test_uuid
+    - time_to_answer
     - updatedAt
     - uuid
     type: object
@@ -2163,6 +2244,57 @@ paths:
           schema:
             $ref: '#/definitions/mw-general-bff_internal_schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
+      tags:
+      - gemini
+  /gemini/test/questions:
+    post:
+      consumes:
+      - application/json
+      description: Generate questions for test
+      operationId: ai-question-test
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse'
+      summary: Generate questions for test
+      tags:
+      - gemini
+  /gemini/training/topics/{sessionResultId}:
+    post:
+      consumes:
+      - application/json
+      description: Generate training by test sessionId
+      operationId: ai-training-by-test-session
+      parameters:
+      - description: test session ID
+        in: path
+        name: sessionResultId
+        required: true
+        type: string
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse'
+      summary: Generate training by test test sessionId
       tags:
       - gemini
   /gemini/trainings/practiceMaterial:

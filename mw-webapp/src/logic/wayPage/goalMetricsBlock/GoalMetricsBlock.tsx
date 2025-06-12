@@ -153,6 +153,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
       </HorizontalContainer>
       <VerticalContainer className={styles.goalMetricsBlock}>
         <ProgressBar
+          textToLabel={LanguageService.common.metrics[language]}
           value={doneMetricsCount}
           max={totalMetricsCount}
           cy={{

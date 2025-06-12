@@ -1,7 +1,7 @@
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {MentoringStatusType} from "src/logic/allUsersPage/AllUsersPage";
-import {DefaultTrainingCollection} from "src/logic/userPage/DefaultTrainingCollection";
+import {DefaultTestCollection, DefaultTrainingCollection} from "src/logic/userPage/DefaultTrainingCollection";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 
@@ -140,6 +140,11 @@ export type LocalStorageData = {
   allTrainingsPage: AllTrainingsPageSettings;
 
   /**
+   * All tests page data
+   */
+  allTestsPage: AllTestsPageSettings;
+
+  /**
    * Is OS notification enabled
    */
   isOSNotificationEnabled: boolean;
@@ -160,7 +165,8 @@ export enum View {
 export enum TabType {
   Ways = "Ways",
   Projects = "Projects",
-  Trainings = "Trainings"
+  Trainings = "Trainings",
+  Tests = "Tests"
 }
 
 export type Token = {
@@ -235,6 +241,11 @@ export type UserPageSettings = {
    */
   trainingCollection: DefaultTrainingCollection;
 
+ /**
+  * Id of opened test collection
+  */
+  testCollection: DefaultTestCollection;
+
 }
 
 export type ProjectPageSettings = {
@@ -284,6 +295,19 @@ export type AllTrainingsPageSettings = {
    * Part of training name
    */
   trainingName: string;
+}
+
+export type AllTestsPageSettings = {
+
+  /**
+   * Settled view
+   */
+  view: View;
+
+  /**
+   * Part of test name
+   */
+  testName: string;
 }
 
 export type AllUsersPageSettings = {

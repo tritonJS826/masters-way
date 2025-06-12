@@ -1,0 +1,148 @@
+import {useEffect, useState} from "react";
+import {observer} from "mobx-react-lite";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Input, InputType} from "src/component/input/Input";
+import {Text} from "src/component/text/Text";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
+import {QuestionResultDAL} from "src/dataAccessLogic/QuestionResultDAL";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {QuestionResult} from "src/model/businessModel/QuestionResult";
+import {Question} from "src/model/businessModel/Test";
+import {LanguageService} from "src/service/LanguageService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
+import styles from "src/logic/runningTestPage/questionItem/QuestionItem.module.scss";
+
+/**
+ * Update Question params
+ */
+interface UpdateQuestionParams {
+
+  /**
+   * Question to update
+   */
+  questionToUpdate: PartialWithUuid<Question>;
+
+  /**
+   * Callback to update question
+   */
+  setQuestion: (question: PartialWithUuid<Question>) => void;
+}
+
+/**
+ * Update Question
+ */
+export const updateQuestion = async (params: UpdateQuestionParams) => {
+  params.setQuestion(params.questionToUpdate);
+  await QuestionDAL.updateQuestion(params.questionToUpdate);
+};
+
+/**
+ * Question block props
+ */
+interface QuestionBlockProps {
+
+  /**
+   * Test's questions
+   */
+  question: Question;
+
+  /**
+   * Test session uuid
+   */
+  testSessionUuid: string;
+
+  /**
+   * User's uuid
+   */
+  userUuid: string;
+
+  /**
+   * If true then button to save answer will be hidden
+   */
+  isSavedAnswer: boolean;
+
+  /**
+   * User's answer or empty string if user not answered the question
+   */
+  answer: string;
+
+  /**
+   * Question's result
+   */
+  result?: QuestionResult;
+
+  /**
+   * Callback triggered on save answer button
+   */
+  saveUserAnswer: (questionResult: QuestionResult) => void;
+
+}
+
+/**
+ * Question item
+ */
+export const QuestionItem = observer((props: QuestionBlockProps) => {
+  const {language} = languageStore;
+  const [inputValue, setInputValue] = useState<string>(props.result?.userAnswer ?? "");
+
+  useEffect(() => {
+    setInputValue(props.answer);
+  }, [props.question]);
+
+  return (
+    <VerticalContainer className={styles.questionItem}>
+      <HorizontalContainer className={styles.questionTitleAndOrder}>
+        <Title
+          level={HeadingLevel.h3}
+          text={props.question.name}
+          placeholder=""
+        />
+        <Text text={`${LanguageService.test.questionsBlock.questionNumber[language]} ${props.question.order}`} />
+      </HorizontalContainer>
+
+      <Title
+        level={HeadingLevel.h4}
+        text={props.question.questionText}
+        placeholder=""
+      />
+
+      <Title
+        level={HeadingLevel.h4}
+        text={`${LanguageService.test.testInfo.timeToTest[language]} ${props.question.timeToAnswer}`}
+        placeholder=""
+      />
+
+      <Input
+        value={inputValue}
+        placeholder="Write answer"
+        onChange={setInputValue}
+        autoFocus={true}
+        typeInput={InputType.Line}
+        disabled={props.isSavedAnswer}
+        // ClassName={props.result?.isOk ? styles.isOk : styles.isWrong}
+      />
+
+      {!props.isSavedAnswer &&
+      <Button
+        value={LanguageService.test.buttons.saveAnswer[language]}
+        onClick={async () => {
+          const questionResult = await QuestionResultDAL.createQuestionResult({
+            isOk: props.question.answer === inputValue,
+            questionUuid: props.question.uuid,
+            userAnswer: inputValue,
+            resultDescription: "",
+            testSessionUuid: props.testSessionUuid,
+            testUuid: props.question.testUuid,
+            userUuid: props.userUuid,
+          });
+          props.saveUserAnswer(questionResult);
+        }}
+        buttonType={ButtonType.PRIMARY}
+      />
+      }
+    </VerticalContainer>
+  );
+});

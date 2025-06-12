@@ -1,10 +1,12 @@
 import {metricToMetricDTO} from "src/dataAccessLogic/BusinessToDTOConverter/metricToMetricDTO";
 import {practiceMaterialDTOToPracticeMaterial} from
   "src/dataAccessLogic/DTOToPreviewConverter/practiceMaterialDTOToPracticeMaterial";
+import {questionDTOToQuestion} from "src/dataAccessLogic/DTOToPreviewConverter/questionDTOToQuestion";
 import {theoryMaterialDTOToTheoryMaterial} from "src/dataAccessLogic/DTOToPreviewConverter/theoryMaterialDTOToTheoryMaterial";
 import {Language} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
+import {Question} from "src/model/businessModel/Test";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {AIService} from "src/service/AIService";
 
@@ -158,6 +160,28 @@ interface GenerateTheoryMaterialParams {
    * Topic ID
    */
   topicId: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
+
+}
+
+/**
+ * Generate test questions based on the description by AI params
+ */
+interface GenerateTestQuestionsParams {
+
+  /**
+   * Test ID
+   */
+  testId: string;
+
+  /**
+   * Amount of questions to generate
+   */
+  generateAmount: number;
 
   /**
    * The app language
@@ -341,6 +365,23 @@ export class AIDAL {
     const practiceMaterials = practiceMaterialsDTO.practiceMaterials.map(practiceMaterialDTOToPracticeMaterial);
 
     return practiceMaterials;
+  }
+
+  /**
+   * Generate questions for test based on the description by AI
+   */
+  public static async aiCreateTestQuestions(params: GenerateTestQuestionsParams): Promise<Question[]> {
+    const testQuestionsDTO = await AIService.aiCreateTestQuestions({
+      request: {
+        generateAmount: params.generateAmount,
+        testId: params.testId,
+        language: params.language,
+      },
+    });
+
+    const testQuestions = testQuestionsDTO.questions.map(questionDTOToQuestion);
+
+    return testQuestions;
   }
 
 }

@@ -130,7 +130,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 
 	switch params.TrainingsType {
 	case TrainingTypeStudent:
-		trainingsRaw, err := ts.trainingRepository.GetStudentTrainingList(ctx, *&params.UserUuid)
+		trainingsRaw, err := ts.trainingRepository.GetStudentTrainingList(ctx, params.UserUuid)
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
@@ -164,7 +164,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 			}
 		})
 	case TrainingTypeMentor:
-		trainingsRaw, err := ts.trainingRepository.GetMentoringTrainingList(ctx, *&params.UserUuid)
+		trainingsRaw, err := ts.trainingRepository.GetMentoringTrainingList(ctx, params.UserUuid)
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
@@ -197,7 +197,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 			}
 		})
 	case TrainingTypeOwner:
-		trainingsRaw, err := ts.trainingRepository.GetOwnTrainingList(ctx, *&params.UserUuid)
+		trainingsRaw, err := ts.trainingRepository.GetOwnTrainingList(ctx, params.UserUuid)
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
@@ -231,7 +231,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 			}
 		})
 	case TrainingTypeFavorite:
-		trainingsRaw, err := ts.trainingRepository.GetFavoriteTrainingList(ctx, *&params.UserUuid)
+		trainingsRaw, err := ts.trainingRepository.GetFavoriteTrainingList(ctx, params.UserUuid)
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
@@ -280,7 +280,7 @@ type GetGetTrainingsAmountByUserIdParams struct {
 }
 
 func (ts *TrainingService) GetTrainingsAmountByUserId(ctx context.Context, params *GetGetTrainingsAmountByUserIdParams) (*pb.TrainingsAmount, error) {
-	trainingsAmountRaw, err := ts.trainingRepository.GetTrainingsAmountByUserId(ctx, *&params.UserUuid)
+	trainingsAmountRaw, err := ts.trainingRepository.GetTrainingsAmountByUserId(ctx, params.UserUuid)
 	if err != nil {
 		return &pb.TrainingsAmount{}, err
 	}

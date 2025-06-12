@@ -12,10 +12,8 @@
 
 .userDashboard {
   gap: $gapSmall;
-  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
-      $mediumWidthBlock,
-      3fr
-    );
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax($mediumWidthBlock,
+      3fr);
 
   @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
@@ -31,10 +29,8 @@
 .userMainInfoBlock {
   gap: $gapBig;
 
-  grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
-      $minWidthBlock,
-      1.5fr
-    );
+  grid-template-columns: minmax($minWidthBlock, 1fr) minmax($minWidthBlock,
+      1.5fr);
 
   @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
@@ -71,6 +67,7 @@
 
 .ownerName {
   flex: 1;
+
   input {
     height: $heightH2;
   }
@@ -135,6 +132,7 @@
 .collectionGroup {
   width: calc(50% - $gapBig/2);
   gap: $gapBig;
+
   @media (max-width: $mediaWidthMobileBig) {
     width: 100%;
   }
@@ -194,4 +192,5 @@
 .externalLink {
   color: grey;
   font-size: $fontSizeSmall;
+  margin-top: auto;
 }

@@ -9,6 +9,10 @@ import (
 
 type TrainingService struct {
 	trainingGRPC            pb.TrainingServiceClient
+	testGRPC                pb.TestServiceClient
+	questionGRPC            pb.QuestionServiceClient
+	questionResultsGRPC     pb.QuestionResultsServiceClient
+	testSessionResultGRPC   pb.TestSessionResultsServiceClient
 	topicGRPC               pb.TopicsServiceClient
 	theoryMaterialGRPC      pb.TheoryMaterialServiceClient
 	practiceMaterialGRPC    pb.PracticeMaterialServiceClient
@@ -17,16 +21,114 @@ type TrainingService struct {
 
 func newTrainingService(
 	trainingGRPC pb.TrainingServiceClient,
+	testGRPC pb.TestServiceClient,
+	questionGRPC pb.QuestionServiceClient,
+	questionResultsGRPC pb.QuestionResultsServiceClient,
+	testSessionResultGRPC pb.TestSessionResultsServiceClient,
 	topicGRPC pb.TopicsServiceClient,
 	theoryMaterialGRPC pb.TheoryMaterialServiceClient,
 	practiceMaterialGRPC pb.PracticeMaterialServiceClient,
 	trainingMessageToAiGRPC pb.TrainingMessageToAIServiceClient,
 ) *TrainingService {
-	return &TrainingService{trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
+	return &TrainingService{trainingGRPC, testGRPC, questionGRPC, questionResultsGRPC, testSessionResultGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
+}
+
+type GetTestParams struct {
+	TestId string
+	UserId string
+}
+
+func (ts *TrainingService) GetTestById(ctx context.Context, params *GetTestParams) (*pb.Test, error) {
+	test, err := ts.testGRPC.GetTestById(ctx, &pb.GetTestByIdRequest{
+		Uuid:      params.TestId,
+		OwnerUuid: params.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return test, nil
+}
+
+type GetTestSessionResultParams struct {
+	SessionUuid string
+	UserUuid    string
+}
+
+func (ts *TrainingService) GetTestSessionResult(ctx context.Context, params *GetTestSessionResultParams) (*pb.GetTestSessionResultResponse, error) {
+	testSessionResult, err := ts.testSessionResultGRPC.GetTestSessionResult(ctx, &pb.GetTestSessionResultRequest{
+		SessionUuid: params.SessionUuid,
+		UserUuid:    params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return testSessionResult, nil
+}
+
+type GetQuestionResultsBySessionUuidParams struct {
+	SessionUuid string
+	UserUuid    string
+}
+
+func (ts *TrainingService) GetQuestionResultsBySessionUuid(ctx context.Context, params *GetQuestionResultsBySessionUuidParams) (*pb.GetQuestionResultsBySessionUuidResponse, error) {
+	questionResult, err := ts.questionResultsGRPC.GetQuestionResultsBySessionUuid(ctx, &pb.GetQuestionResultsBySessionUuidRequest{
+		SessionUuid: params.SessionUuid,
+		UserUuid:    params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return questionResult, nil
+}
+
+type CreateTestQuestionParams struct {
+	TestUuid     string
+	UserUuid     string
+	Name         string
+	QuestionText *string
+	TimeToAnswer *int32
+	Answer       *string
+	PracticeType string
+}
+
+func (ts *TrainingService) CreateTestQuestion(ctx context.Context, params CreateTestQuestionParams) (*pb.Question, error) {
+	question, err := ts.questionGRPC.CreateQuestion(ctx, &pb.CreateQuestionRequest{
+		TestUuid:     params.TestUuid,
+		UserUuid:     params.UserUuid,
+		Name:         params.Name,
+		QuestionText: params.QuestionText,
+		TimeToAnswer: params.TimeToAnswer,
+		Answer:       params.Answer,
+		PracticeType: params.PracticeType,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return question, nil
 }
 
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingId string) (*pb.Training, error) {
 	training, err := ts.trainingGRPC.GetTrainingById(ctx, &pb.GetTrainingRequest{TrainingUuid: trainingId})
+	if err != nil {
+		return nil, err
+	}
+	return training, nil
+}
+
+type CreateNewTrainingParams struct {
+	Name        string
+	UserId      string
+	Description string
+	IsPrivate   bool
+}
+
+func (ts *TrainingService) CreateNewTraining(ctx context.Context, params *CreateNewTrainingParams) (*pb.Training, error) {
+	training, err := ts.trainingGRPC.CreateNewTraining(ctx, &pb.CreateTrainingRequest{
+		Name:        params.Name,
+		UserId:      params.UserId,
+		Description: params.Description,
+		IsPrivate:   params.IsPrivate,
+	})
 	if err != nil {
 		return nil, err
 	}

@@ -41,6 +41,11 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.allTests.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.allTests} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
           path={pages.user.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.user} />}
           errorElement={pages.errorPage.getPageComponent({})}
@@ -58,6 +63,26 @@ export const router = createBrowserRouter(
         <Route
           path={pages.training.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.training} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.lobbyTest.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.lobbyTest} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.runningTest.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.runningTest} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.editTest.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.editTest} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.resultTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid"})}
+          element={<WithValidatedParams paramsSchema={pages.resultTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route

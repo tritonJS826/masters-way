@@ -84,6 +84,21 @@ Class | Method | HTTP request | Description
 *PracticeMaterialAPI* | [**DeletePracticeMaterial**](docs/PracticeMaterialAPI.md#deletepracticematerial) | **Delete** /practiceMaterials/{practiceMaterialId} | Delete practice material
 *PracticeMaterialAPI* | [**GetPracticeMaterialsByTopicId**](docs/PracticeMaterialAPI.md#getpracticematerialsbytopicid) | **Get** /practiceMaterials/{topicId} | Get practice material by topic id
 *PracticeMaterialAPI* | [**UpdatePracticeMaterial**](docs/PracticeMaterialAPI.md#updatepracticematerial) | **Patch** /practiceMaterials/{practiceMaterialId} | Update practice material
+*QuestionAPI* | [**CreateQuestion**](docs/QuestionAPI.md#createquestion) | **Post** /question | Create question
+*QuestionAPI* | [**DeleteQuestion**](docs/QuestionAPI.md#deletequestion) | **Delete** /question/{questionId} | Delete question by Uuid
+*QuestionAPI* | [**UpdateQuestion**](docs/QuestionAPI.md#updatequestion) | **Patch** /question/{questionId} | Update question by uuid
+*QuestionResultAPI* | [**CreateQuestionResult**](docs/QuestionResultAPI.md#createquestionresult) | **Post** /questionResult | Create question result
+*QuestionResultAPI* | [**GetQuestionResultsBySessionUuid**](docs/QuestionResultAPI.md#getquestionresultsbysessionuuid) | **Get** /questionResult/session/{sessionId} | Get question results by session UUID
+*SessionsAPI* | [**CreateSession**](docs/SessionsAPI.md#createsession) | **Post** /session | Create session
+*TestAPI* | [**CreateTest**](docs/TestAPI.md#createtest) | **Post** /test | Create test
+*TestAPI* | [**DeleteTest**](docs/TestAPI.md#deletetest) | **Delete** /test/{testId} | Delete test by Uuid
+*TestAPI* | [**GetTestById**](docs/TestAPI.md#gettestbyid) | **Get** /test/{testId} | Get test by id
+*TestAPI* | [**GetTestList**](docs/TestAPI.md#gettestlist) | **Get** /test | Get test list
+*TestAPI* | [**GetTestsAmountByUserId**](docs/TestAPI.md#gettestsamountbyuserid) | **Get** /test/amount/user/{userId} | Get tests amount by user id
+*TestAPI* | [**GetTestsByUserId**](docs/TestAPI.md#gettestsbyuserid) | **Get** /test/user/{userId} | Get tests by user id
+*TestAPI* | [**UpdateTest**](docs/TestAPI.md#updatetest) | **Patch** /test/{testId} | Update test by uuid
+*TestSessionResultAPI* | [**CreateTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#createtestsessionresultbysessionuuid) | **Post** /testSessionResult | Create test session result by session uuid
+*TestSessionResultAPI* | [**GetTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#gettestsessionresultbysessionuuid) | **Get** /testSessionResult/{sessionId} | Get test session result by session uuid
 *TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials | Create theory material
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 *TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
@@ -103,6 +118,7 @@ Class | Method | HTTP request | Description
 *TrainingMentorAPI* | [**DeleteTrainingMentor**](docs/TrainingMentorAPI.md#deletetrainingmentor) | **Delete** /trainingMentors/{trainingId}/user/{userId} | Delete mentor by id
 *TrainingStudentAPI* | [**CreateTrainingStudent**](docs/TrainingStudentAPI.md#createtrainingstudent) | **Post** /trainingStudents/{trainingId}/user/{userId} | Create student
 *TrainingStudentAPI* | [**DeleteTrainingStudent**](docs/TrainingStudentAPI.md#deletetrainingstudent) | **Delete** /trainingStudents/{trainingId}/user/{userId} | Delete student
+*TrainingTestsAPI* | [**TrainingTestPost**](docs/TrainingTestsAPI.md#trainingtestpost) | **Post** /trainingTest | Create TrainingTest
 *TrainingTrainingTagAPI* | [**CreateTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#createtrainingtrainingtag) | **Post** /trainingTrainingTags/{trainingId} | Create training training tag
 *TrainingTrainingTagAPI* | [**DeleteTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#deletetrainingtrainingtag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName} | Delete training training tag
 
@@ -110,12 +126,26 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [MwTrainingBffInternalSchemasCreatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasCreatePracticeMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasCreateQuestionPayload](docs/MwTrainingBffInternalSchemasCreateQuestionPayload.md)
+ - [MwTrainingBffInternalSchemasCreateQuestionResultRequest](docs/MwTrainingBffInternalSchemasCreateQuestionResultRequest.md)
+ - [MwTrainingBffInternalSchemasCreateSessionRequest](docs/MwTrainingBffInternalSchemasCreateSessionRequest.md)
+ - [MwTrainingBffInternalSchemasCreateSessionResultRequest](docs/MwTrainingBffInternalSchemasCreateSessionResultRequest.md)
+ - [MwTrainingBffInternalSchemasCreateTestRequest](docs/MwTrainingBffInternalSchemasCreateTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasCreateTopicPayload](docs/MwTrainingBffInternalSchemasCreateTopicPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingPayload](docs/MwTrainingBffInternalSchemasCreateTrainingPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTrainingTestRequest](docs/MwTrainingBffInternalSchemasCreateTrainingTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload](docs/MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload.md)
+ - [MwTrainingBffInternalSchemasGetTestSessionResultResponse](docs/MwTrainingBffInternalSchemasGetTestSessionResultResponse.md)
  - [MwTrainingBffInternalSchemasPracticeMaterial](docs/MwTrainingBffInternalSchemasPracticeMaterial.md)
  - [MwTrainingBffInternalSchemasPracticeMaterials](docs/MwTrainingBffInternalSchemasPracticeMaterials.md)
+ - [MwTrainingBffInternalSchemasQuestion](docs/MwTrainingBffInternalSchemasQuestion.md)
+ - [MwTrainingBffInternalSchemasQuestionResult](docs/MwTrainingBffInternalSchemasQuestionResult.md)
+ - [MwTrainingBffInternalSchemasTest](docs/MwTrainingBffInternalSchemasTest.md)
+ - [MwTrainingBffInternalSchemasTestPreview](docs/MwTrainingBffInternalSchemasTestPreview.md)
+ - [MwTrainingBffInternalSchemasTestPreviewList](docs/MwTrainingBffInternalSchemasTestPreviewList.md)
+ - [MwTrainingBffInternalSchemasTestSession](docs/MwTrainingBffInternalSchemasTestSession.md)
+ - [MwTrainingBffInternalSchemasTestsAmount](docs/MwTrainingBffInternalSchemasTestsAmount.md)
  - [MwTrainingBffInternalSchemasTheoryMaterial](docs/MwTrainingBffInternalSchemasTheoryMaterial.md)
  - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)
  - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)
@@ -127,6 +157,8 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTrainingTag](docs/MwTrainingBffInternalSchemasTrainingTag.md)
  - [MwTrainingBffInternalSchemasTrainingsAmount](docs/MwTrainingBffInternalSchemasTrainingsAmount.md)
  - [MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasUpdateQuestionPayload](docs/MwTrainingBffInternalSchemasUpdateQuestionPayload.md)
+ - [MwTrainingBffInternalSchemasUpdateTestRequest](docs/MwTrainingBffInternalSchemasUpdateTestRequest.md)
  - [MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasUpdateTopicPayload](docs/MwTrainingBffInternalSchemasUpdateTopicPayload.md)
  - [MwTrainingBffInternalSchemasUpdateTrainingPayload](docs/MwTrainingBffInternalSchemasUpdateTrainingPayload.md)

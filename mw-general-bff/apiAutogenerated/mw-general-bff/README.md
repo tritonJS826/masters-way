@@ -106,8 +106,10 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+*GeminiAPI* | [**AiQuestionTest**](docs/GeminiAPI.md#aiquestiontest) | **Post** /gemini/test/questions | Generate questions for test
 *GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 *GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
+*GeminiAPI* | [**AiTrainingByTestSession**](docs/GeminiAPI.md#aitrainingbytestsession) | **Post** /gemini/training/topics/{sessionResultId} | Generate training by test test sessionId
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -180,10 +182,14 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse](docs/MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse.md)
  - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md)
  - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse.md)
+ - [MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload](docs/MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload.md)
+ - [MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse](docs/MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse.md)
  - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload.md)
  - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse.md)
  - [MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload.md)
  - [MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload](docs/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse](docs/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse.md)
  - [MwGeneralBffInternalSchemasAddWayToCompositeWayPayload](docs/MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.md)
  - [MwGeneralBffInternalSchemasCommentPopulatedResponse](docs/MwGeneralBffInternalSchemasCommentPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse](docs/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.md)
@@ -218,6 +224,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasGenerateMetricsPayload](docs/MwGeneralBffInternalSchemasGenerateMetricsPayload.md)
  - [MwGeneralBffInternalSchemasGenerateMetricsResponse](docs/MwGeneralBffInternalSchemasGenerateMetricsResponse.md)
  - [MwGeneralBffInternalSchemasGeneratedPracticeMaterial](docs/MwGeneralBffInternalSchemasGeneratedPracticeMaterial.md)
+ - [MwGeneralBffInternalSchemasGeneratedQuestion](docs/MwGeneralBffInternalSchemasGeneratedQuestion.md)
  - [MwGeneralBffInternalSchemasGeneratedTopicPreview](docs/MwGeneralBffInternalSchemasGeneratedTopicPreview.md)
  - [MwGeneralBffInternalSchemasGetAllUsersResponse](docs/MwGeneralBffInternalSchemasGetAllUsersResponse.md)
  - [MwGeneralBffInternalSchemasGetAllWaysResponse](docs/MwGeneralBffInternalSchemasGetAllWaysResponse.md)

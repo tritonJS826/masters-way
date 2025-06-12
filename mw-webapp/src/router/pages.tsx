@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
-import {TopicPage} from "src/logic/topicPage/TopicPage";
+// Import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -50,6 +50,28 @@ const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }
  */
 const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
 
+/**
+ * Create url with appropriate params for @LobbyTestPage
+ */
+const getPathForLobbyTestPage = (params: {uuid: string}): string => `/lobbyTest/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @EditTestPage
+ */
+const getPathForEditTestPage = (params: {uuid: string}): string => `/editTest/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @RunningTestPage
+ */
+const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
+  `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
+
+/**
+ * Create url with appropriate params for @ResultTestPage
+ */
+const getPathForResultTestPage = (params: { testUuid: string; sessionUuid: string }): string =>
+  `/resultTest/${params.testUuid}/session/${params.sessionUuid}`;
+
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
 </React.Suspense>);
@@ -78,6 +100,12 @@ const AllTrainingsPage = () => (<>
   <AllTrainingsPageLazy />
 </>);
 
+const AllTestsPageLazy = React.lazy(() => import("src/logic/allTestsPage/AllTestsPage")
+  .then((module) => ({default: module.AllTestsPage})));
+const AllTestsPage = () => (<>
+  <AllTestsPageLazy />
+</>);
+
 const UserPageLazy = React.lazy(() => import("src/logic/userPage/UserPage")
   .then((module) => ({default: module.UserPage})));
 const UserPage = (params: {uuid: string}) => (<>
@@ -100,6 +128,36 @@ const ProjectPageLazy = React.lazy(() => import("src/logic/projectPage/ProjectPa
   .then((module) => ({default: module.ProjectPage})));
 const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
+</>);
+
+const TopicPageLazy = React.lazy(() => import("src/logic/topicPage/TopicPage")
+  .then((module) => ({default: module.TopicPage})));
+const TopicPage = (params: {trainingUuid: string; topicUuid: string}) => (<>
+  <TopicPageLazy {...params} />
+</>);
+
+const LobbyTestPageLazy = React.lazy(() => import("src/logic/lobbyTestPage/LobbyTestPage")
+  .then((module) => ({default: module.LobbyTestPage})));
+const LobbyTestPage = (params: {uuid: string}) => (<>
+  <LobbyTestPageLazy {...params} />
+</>);
+
+const EditTestPageLazy = React.lazy(() => import("src/logic/editTestPage/EditTestPage")
+  .then((module) => ({default: module.EditTestPage})));
+const EditTestPage = (params: {uuid: string}) => (<>
+  <EditTestPageLazy {...params} />
+</>);
+
+const RunningTestPageLazy = React.lazy(() => import("src/logic/runningTestPage/RunningTestPage")
+  .then((module) => ({default: module.RunningTestPage})));
+const RunningTestPage = (params: {testUuid: string; sessionUuid: string}) => (<>
+  <RunningTestPageLazy {...params} />
+</>);
+
+const ResultTestPageLazy = React.lazy(() => import("src/logic/resultTestPage/ResultTestPage")
+  .then((module) => ({default: module.ResultTestPage})));
+const ResultTestPage = (params: {testUuid: string; sessionUuid: string}) => (<>
+  <ResultTestPageLazy {...params} />
 </>);
 
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
@@ -221,6 +279,11 @@ export const pages = {
     getPageComponent: () => suspended(<AllTrainingsPage />),
     urlParams: {},
   } as PageParams,
+  allTests: {
+    getPath: () => "/tests",
+    getPageComponent: () => suspended(<AllTestsPage />),
+    urlParams: {},
+  } as PageParams,
   user: {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<UserPage {...params} />),
@@ -246,6 +309,26 @@ export const pages = {
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
+  lobbyTest: {
+    getPath: (params): string => getPathForLobbyTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<LobbyTestPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
+  editTest: {
+    getPath: (params): string => getPathForEditTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<EditTestPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
+  runningTest: {
+    getPath: (params): string => getPathForRunningTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
+    getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
+    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{testUuid: string; sessionUuid: string}>,
+  resultTest: {
+    getPath: (params): string => getPathForResultTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
+    getPageComponent: (params) => suspended(<ResultTestPage {...params} />),
+    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{testUuid: string; sessionUuid: string}>,
   allUsers: {
     getPath: () => "/users",
     getPageComponent: () => suspended(<AllUsersPage />),

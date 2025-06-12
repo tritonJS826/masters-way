@@ -43,6 +43,7 @@ import {SunsetIcon} from "src/assets/icons/SunsetIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TargetIcon} from "src/assets/icons/TargetIcon";
 import {TelegramIcon} from "src/assets/icons/TelegramIcon";
+import {TestIcon} from "src/assets/icons/TestIcon";
 import {TrashIcon} from "src/assets/icons/TrashIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
@@ -317,6 +318,11 @@ export const IconDictionary = {
    * Emoji icon
    */
   EmojiIcon: (params: IconProps) => <EmojiIcon {...params} />,
+
+  /**
+   * Test icon
+   */
+  TestIcon: (params: IconProps) => <TestIcon {...params} />,
 };
 
 /**

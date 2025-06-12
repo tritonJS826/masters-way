@@ -2,6 +2,7 @@ package facades
 
 import (
 	"context"
+	"fmt"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"strings"
@@ -42,9 +43,64 @@ func (gs *GeminiFacade) EstimateIssue(ctx context.Context, payload *schemas.AIEs
 	return gs.generalService.EstimateIssue(ctx, payload)
 }
 
-type shortParentTopicForGeneration struct {
-	Name        string
-	Description string
+func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload, userId string) (*schemas.AIGenerateTrainingByTestTestSessionIdResponse, error) {
+	test, err := gs.trainingService.GetTestById(ctx, &services.GetTestParams{
+		TestId: payload.TestId,
+		UserId: userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	testSessionResult, err := gs.trainingService.GetTestSessionResult(ctx, &services.GetTestSessionResultParams{
+		SessionUuid: payload.TestSessionId,
+		UserUuid:    userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	questionResults, err := gs.trainingService.GetQuestionResultsBySessionUuid(ctx, &services.GetQuestionResultsBySessionUuidParams{
+		SessionUuid: payload.TestSessionId,
+		UserUuid:    userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	args := &services.GenerateTrainingDescriptionByTestResultsParams{
+		TestName:        test.Name,
+		TestDescription: test.Description,
+		Language:        payload.Language,
+		QuestionResults: questionResults.Results,
+		SessionResult:   testSessionResult.ResultDescription,
+	}
+
+	generatedTraining, err := gs.generalService.GenerateTrainingDescriptionByTestResults(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	training, err := gs.trainingService.CreateNewTraining(ctx, &services.CreateNewTrainingParams{
+		Name:        generatedTraining.Name,
+		Description: generatedTraining.Description,
+		UserId:      userId,
+		IsPrivate:   false,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO
+	// generate topics 1
+	// create topics (use existent method)
+	// ?? generate theory materials (bunch) maybe with practice material generation! in one request
+	// ?? generate practice material for each topic (use existent method) topics amount (max 30?)
+
+	response := &schemas.AIGenerateTrainingByTestTestSessionIdResponse{
+		TrainingId: training.Uuid,
+	}
+	return response, nil
 }
 
 func (gs *GeminiFacade) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {
@@ -209,6 +265,69 @@ func (gs *GeminiFacade) GeneratePracticeMaterialForTraining(ctx context.Context,
 			TimeToAnswer: practiceMaterial.TimeToAnswer,
 		})
 	})
+
+	return response, nil
+}
+
+func (gs *GeminiFacade) GenerateQuestionsForTest(ctx context.Context, payload *schemas.AIGenerateQuestionsForTestPayload, userId string) (*schemas.AIGenerateQuestionsForTestResponse, error) {
+	test, err := gs.trainingService.GetTestById(ctx, &services.GetTestParams{
+		TestId: payload.TestId,
+		UserId: userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	questionList := make([]string, 0)
+	for _, question := range test.GetQuestions() {
+		questionList = append(questionList, question.QuestionText)
+	}
+	params := &services.GenerateQuestionsForTestPayload{
+		TestDescription: test.Description,
+		TestName:        test.Name,
+		GenerateAmount:  payload.GenerateAmount,
+		Language:        payload.Language,
+		Questions:       questionList,
+	}
+
+	generatedQuestionsRaw, err := gs.generalService.GenerateQuestionsForTest(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	generatedQuestions := lo.Map(generatedQuestionsRaw, func(questionRaw *services.GenerateQuestionsForTestResponse, _ int) *schemas.GeneratedQuestion {
+		createdQuestion, err := gs.trainingService.CreateTestQuestion(ctx, services.CreateTestQuestionParams{
+			TestUuid:     payload.TestId,
+			UserUuid:     userId,
+			Name:         params.TestName,
+			QuestionText: &questionRaw.QuestionText,
+			TimeToAnswer: &questionRaw.TimeToAnswer,
+			Answer:       &questionRaw.Answer,
+			PracticeType: "input_word",
+		})
+		if err != nil {
+			fmt.Println("Ups.. Error! cant create test question")
+		}
+
+		question := &schemas.GeneratedQuestion{
+			UUID:         createdQuestion.Uuid,
+			Name:         &createdQuestion.Name,
+			TestUUID:     createdQuestion.TestUuid,
+			QuestionText: createdQuestion.QuestionText,
+			Order:        createdQuestion.Order,
+			TimeToAnswer: createdQuestion.TimeToAnswer,
+			Answer:       createdQuestion.Answer,
+			IsActive:     createdQuestion.IsActive,
+			CreatedAt:    createdQuestion.CreatedAt,
+			UpdatedAt:    createdQuestion.UpdatedAt,
+		}
+
+		return question
+	})
+
+	response := &schemas.AIGenerateQuestionsForTestResponse{
+		Questions: generatedQuestions,
+	}
 
 	return response, nil
 }
