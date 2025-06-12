@@ -11,6 +11,7 @@ import {HorizontalGridContainer} from "src/component/horizontalGridContainer/Hor
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -25,6 +26,7 @@ import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/editTestPage/descriptionBlock/DescriptionBlock";
 import {EditTestPageStore} from "src/logic/editTestPage/EditTestPageStore";
 import {QuestionItem} from "src/logic/editTestPage/questionItem/QuestionItem";
+import {QuestionsAiModal} from "src/logic/editTestPage/questionItem/QuestionsAiModal";
 import {PracticeMaterialType} from "src/logic/topicPage/TopicPage";
 import {Question, Test} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
@@ -126,72 +128,6 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
   }
 
   const isOwner = !!user && user.uuid === editTestPageStore.test.ownerUuid;
-
-  // /**я
-  //  * Add theory material
-  //  */
-  // const addTheoryMaterial = async (topicUuid: string) => {
-  //   const newTheoryMaterial = await TheoryMaterialDAL.createTheoryMaterial({
-  //     name: "",
-  //     description: "",
-  //     topicUuid,
-  //   });
-  //   editTestPageStore.topic.addTheoryMaterial(newTheoryMaterial);
-  // };
-
-  // /**
-  //  * Generate theory material by AI
-  //  */
-  // const generateTheoryMaterial = async (topicUuid: string) => {
-  //   try {
-  //     const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
-  //       topicId: topicUuid,
-  //       trainingId: props.testUuid,
-  //       language,
-  //     });
-  //     editTestPageStore.topic.addTheoryMaterial(newTheoryMaterial);
-  //   } catch (error) {
-  //     setIsErrorCatched(true);
-
-  //     //TODO: need manage error somehow
-  //     throw error;
-  //   }
-  // };
-
-  // /**
-  //  * Add practice material
-  //  */
-  // const addPracticeMaterial = async (topicUuid: string) => {
-  //   const newPracticeMaterial = await PracticeMaterialDAL.createPracticeMaterial({
-  //     name: "",
-  //     taskDescription: "",
-  //     topicUuid,
-  //     answer: "",
-  //     practiceType: PracticeMaterialType.INPUT_WORD,
-  //     timeToAnswer: 0,
-  //   });
-  //   editTestPageStore.topic.addPracticeMaterial(newPracticeMaterial);
-  // };
-
-  // /**
-  //  * Generate practice material by AI
-  //  */
-  // const generatePracticeMaterial = async (topicUuid: string) => {
-  //   try {
-  //     const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
-  //       generateAmount: 2,
-  //       topicId: topicUuid,
-  //       trainingId: props.testUuid,
-  //       language,
-  //     });
-  //     newPracticeMaterial.forEach(practiceMaterial => editTestPageStore.topic.addPracticeMaterial(practiceMaterial));
-  //   } catch (error) {
-  //     setIsErrorCatched(true);
-
-  //     //TODO: need manage error somehow
-  //     throw error;
-  //   }
-  // };
 
   /**
    * Add question
@@ -345,13 +281,13 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
 
             {editTestPageStore.test.questions.map((question) => (
               <HorizontalContainer
-                key={question.questionText}
+                key={question.uuid}
                 className={styles.materialShortBlock}
               >
-                <AnchorLink path={question.questionText}>
-                  {question.questionText.trim() === ""
-                    ? LanguageService.common.emptyMarkdown[language]
-                    : <Text text={question.name} />
+                <AnchorLink path={question.name}>
+                  {question.name.trim() === ""
+                    ? `${question.order}.${LanguageService.common.emptyMarkdown[language]}`
+                    : <Text text={`${question.order}.${question.name}`} />
                   }
                 </AnchorLink>
 
@@ -413,14 +349,34 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 onClick={() => addQuestion()}
                 className={styles.addMaterial}
               />
-              <Tooltip content={LanguageService.common.comingSoon[language]}>
+              <Modal
+                trigger={
+                  <Button
+                    value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
+                    onClick={() => { }}
+                    buttonType={ButtonType.PRIMARY}
+                  />
+                }
+                content={
+                  <QuestionsAiModal
+                    addQuestions={(questions) => questions.map(question => editTestPageStore.test.addQuestion(question))}
+                    testId={editTestPageStore.test.uuid}
+                  />
+                }
+                isFitContent={false}
+              />
+              {/* <Tooltip content={LanguageService.common.comingSoon[language]}>
                 <Button
                   value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
-                  onClick={() => {}}
+                  onClick={() => AIDAL.aiCreateTestQuestions({
+                    generateAmount: 5,
+                    language,
+                    testId: editTestPageStore.test.uuid,
+                  })}
                   buttonType={ButtonType.PRIMARY}
                   className={styles.addMaterial}
                 />
-              </Tooltip>
+              </Tooltip> */}
               <Button
                 value={LanguageService.test.questionsBlock.returnToLobby[language]}
                 onClick={() => navigate(pages.lobbyTest.getPath({uuid: editTestPageStore.test.uuid}))}
@@ -434,6 +390,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 }}
                 buttonType={ButtonType.PRIMARY}
               /> */}
+
             </HorizontalContainer>
           }
         </VerticalContainer>

@@ -1,12 +1,15 @@
 import {useEffect, useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
+import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
 import {QuestionResultDAL} from "src/dataAccessLogic/QuestionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -66,6 +69,16 @@ interface QuestionBlockProps {
    */
   answer: string;
 
+  /**
+   * Question's result
+   */
+  result?: QuestionResult;
+
+  /**
+   * Callback triggered on save answer button
+   */
+  saveUserAnswer: (questionResult: QuestionResult) => void;
+
 }
 
 /**
@@ -73,7 +86,7 @@ interface QuestionBlockProps {
  */
 export const QuestionItem = observer((props: QuestionBlockProps) => {
   const {language} = languageStore;
-  const [inputValue, setInputValue] = useState<string>(props.answer);
+  const [inputValue, setInputValue] = useState<string>(props.result?.userAnswer ?? "");
 
   useEffect(() => {
     setInputValue(props.answer);
@@ -81,11 +94,14 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
 
   return (
     <VerticalContainer className={styles.questionItem}>
-      <Title
-        level={HeadingLevel.h3}
-        text={props.question.name}
-        placeholder=""
-      />
+      <HorizontalContainer className={styles.questionTitleAndOrder}>
+        <Title
+          level={HeadingLevel.h3}
+          text={props.question.name}
+          placeholder=""
+        />
+        <Text text={`${LanguageService.test.questionsBlock.questionNumber[language]} ${props.question.order}`} />
+      </HorizontalContainer>
 
       <Title
         level={HeadingLevel.h4}
@@ -106,13 +122,14 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         autoFocus={true}
         typeInput={InputType.Line}
         disabled={props.isSavedAnswer}
+        // ClassName={props.result?.isOk ? styles.isOk : styles.isWrong}
       />
 
       {!props.isSavedAnswer &&
       <Button
         value={LanguageService.test.buttons.saveAnswer[language]}
         onClick={async () => {
-          await QuestionResultDAL.createQuestionResult({
+          const questionResult = await QuestionResultDAL.createQuestionResult({
             isOk: props.question.answer === inputValue,
             questionUuid: props.question.uuid,
             userAnswer: inputValue,
@@ -121,6 +138,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
             testUuid: props.question.testUuid,
             userUuid: props.userUuid,
           });
+          props.saveUserAnswer(questionResult);
         }}
         buttonType={ButtonType.PRIMARY}
       />

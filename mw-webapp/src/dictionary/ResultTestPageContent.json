@@ -5,9 +5,9 @@
         "ua": "Результати сесії"
     },
     "percentageResult": {
-        "ru": "У вас $rightAnswers правильных ответов",
-        "en": "You got $rightAnswers right answers",
-        "ua": "У вас є $rightAnswers правильних відповідей"
+        "ru": "У вас $rightAnswers % правильных ответов",
+        "en": "You got $rightAnswers % right answers",
+        "ua": "У вас є $rightAnswers % правильних відповідей"
     },
     "resultTable": {
         "title": {
@@ -36,10 +36,10 @@
                 "en": "Correct answer",
                 "ua": "Правильна відповідь"
             },
-            "resultDescription": {
-                "ru": "Описание результата",
-                "en": "Description of the result",
-                "ua": "Опис результату"
+            "aiComment": {
+                "ru": "Скоро будет комментарий AI!",
+                "en": "AI comment coming soon!",
+                "ua": "Коментар AI буде скоро!"
             },
             "isOk": {
                 "ru": "Правильный ответ?",

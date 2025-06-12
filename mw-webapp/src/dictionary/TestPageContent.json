@@ -46,7 +46,7 @@
         },
         "description": {
             "ru": "Описание",
-            "en": "Description",
+            "en": "Description ",
             "ua": "Опис"
         },
         "questionsAmount": {
@@ -82,6 +82,16 @@
             "ru": "Вопросы",
             "en": "Questions",
             "ua": "Запитання"
+        },
+        "answersAccepted": {
+            "ru": "ответов принято",
+            "en": "answers accepted",
+            "ua": "відповідей прийнято"
+        },
+        "questionNumber": {
+            "ru": "Вопрос №",
+            "en": "Question №",
+            "ua": "Питання №"
         },
         "createdAt": {
             "ru": "Создан",
@@ -166,6 +176,11 @@
             "ru": "Сгенерировать вопросы с AI",
             "en": "Generate questions using AI",
             "ua": "Згенерувати запитання за допомогою AI"
+        },
+        "chooseQuestionsAmountToGenerate": {
+            "ru": "Выберите, сколько вопросов хотите создать с помощью AI",
+            "en": "Select how many questions you want to generate using AI",
+            "ua": "Виберіть, скільки запитань ви хочете створити за допомогою ШІ AI"
         }
     }
 }

@@ -29,15 +29,15 @@ func NewTestSessionResultService(pgxPool *pgxpool.Pool, testSessionResultReposit
 	}
 }
 
-func (ts *TestSessionResultService) GetTestSessionResult(ctx context.Context, session_uuid pgtype.UUID) (*pb.GetTestSessionResultResponse, error) {
-	testSessionResultDb, err := ts.testSessionResultRepository.GetTestResultBySessionId(ctx, session_uuid)
+func (ts *TestSessionResultService) GetTestSessionResult(ctx context.Context, sessionUuid pgtype.UUID) (*pb.GetTestSessionResultResponse, error) {
+	testSessionResultDb, err := ts.testSessionResultRepository.GetTestResultBySessionId(ctx, sessionUuid)
 	if err != nil {
 		return &pb.GetTestSessionResultResponse{}, err
 	}
 
 	return &pb.GetTestSessionResultResponse{
-		SessionUuid:       *utils.MarshalPgUUID(testSessionResultDb.Uuid),
-		TestUuid:          *utils.MarshalPgUUID(testSessionResultDb.Uuid),
+		SessionUuid:       *utils.MarshalPgUUID(sessionUuid),
+		TestUuid:          *utils.MarshalPgUUID(testSessionResultDb.TestUuid),
 		ResultDescription: testSessionResultDb.ResultDescription,
 		CreatedAt:         testSessionResultDb.CreatedAt.Time.String(),
 	}, nil

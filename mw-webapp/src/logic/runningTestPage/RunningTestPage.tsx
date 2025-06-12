@@ -6,11 +6,13 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseModal";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -31,8 +33,12 @@ interface RunningTestPageProps {
   /**
    * Test's Uuid
    */
-  uuid: string;
+  testUuid: string;
 
+  /**
+   * Session's Uuid
+   */
+  sessionUuid: string;
 }
 
 /**
@@ -55,8 +61,8 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   new (testUuid: string, userUuid: string) => RunningTestPageStore,
   [string, string], RunningTestPageStore>({
       storeForInitialize: RunningTestPageStore,
-      dataForInitialization: [props.uuid, user.uuid],
-      dependency: [props.uuid, user.uuid],
+      dataForInitialization: [props.testUuid, props.sessionUuid],
+      dependency: [props.testUuid, user.uuid],
     });
 
   if (!runningTestPageStore.isInitialized) {
@@ -71,6 +77,8 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   const isNextButtonDisabled = runningTestPageStore.activeOrder >=
     runningTestPageStore.test.questions.length - DEFAULT_QUESTION_VALUE;
   const isPrevButtonDisabled = runningTestPageStore.activeOrder <= 0;
+
+  const isCreateSessionResultEnable = runningTestPageStore.questionResults.size === runningTestPageStore.test.questions.length;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -115,15 +123,25 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
 
             {runningTestPageStore.test.questions.map((question) => (
               <HorizontalContainer
-                key={question.questionText}
+                key={question.uuid}
                 className={clsx(
                   styles.questionShortBlock,
                   runningTestPageStore.activeQuestion.uuid === question.uuid && styles.active,
                 )}
               >
-                {question.questionText.trim() === ""
+                {question.name.trim() === ""
                   ? LanguageService.common.emptyMarkdown[language]
-                  : <Text text={question.name} />
+                  : (
+                    <HorizontalContainer className={styles.shortQuestion}>
+                      <Text text={`${question.order}.${question.name}`} />
+                      {runningTestPageStore.questionResults.get(question.uuid) &&
+                      <Icon
+                        name="CheckIcon"
+                        size={IconSize.SMALL}
+                      />
+                      }
+                    </HorizontalContainer>
+                  )
                 }
 
               </HorizontalContainer>
@@ -138,15 +156,17 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
           <ProgressBar
             value={runningTestPageStore.questionResults.size}
             max={runningTestPageStore.test.questions.length}
-            textToLabel={LanguageService.test.questionsBlock.questions[language]}
+            textToLabel={LanguageService.test.questionsBlock.answersAccepted[language]}
           />
           <VerticalContainer className={styles.theoryMaterials}>
             <QuestionItem
               question={runningTestPageStore.activeQuestion}
+              result={runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)}
               answer={runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)?.userAnswer ?? ""}
-              testSessionUuid={runningTestPageStore.testSessionUuid}
+              testSessionUuid={props.sessionUuid}
               userUuid={user.uuid}
               isSavedAnswer={!!runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)}
+              saveUserAnswer={runningTestPageStore.saveQuestionResult}
             />
           </VerticalContainer>
 
@@ -165,14 +185,22 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
               buttonType={ButtonType.SECONDARY}
               isDisabled={isNextButtonDisabled}
             />
-            <Button
-              value={LanguageService.test.buttons.seeResults[language]}
-              onClick={() => navigate(pages.resultTest.getPath({
-                testUuid: runningTestPageStore.test.uuid,
-                sessionUuid: runningTestPageStore.testSessionUuid,
-              }))}
-              buttonType={ButtonType.PRIMARY}
-            />
+            {isCreateSessionResultEnable &&
+              <Button
+                value={LanguageService.test.buttons.seeResults[language]}
+                onClick={async () => {
+                  await TestSessionResultDAL.createTestSessionResult({
+                    sessionUuid: props.sessionUuid,
+                    testUuid: runningTestPageStore.test.uuid,
+                  });
+                  navigate(pages.resultTest.getPath({
+                    testUuid: runningTestPageStore.test.uuid,
+                    sessionUuid: props.sessionUuid,
+                  }));
+                }}
+                buttonType={ButtonType.PRIMARY}
+              />
+            }
           </HorizontalContainer>
         </VerticalContainer>
 

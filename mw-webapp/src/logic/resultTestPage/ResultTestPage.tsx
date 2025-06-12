@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Text} from "src/component/text/Text";
@@ -44,7 +44,6 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
-  const navigate = useNavigate();
 
   if (!user) {
     throw new Error("User is not defined");
@@ -72,6 +71,15 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
 
   return (
     <VerticalContainer className={styles.resultsContainer}>
+      <Link path={pages.lobbyTest.getPath({uuid: resultTestPageStore.sessionResult.testUuid})}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.resultTest.buttons.returnToLobby[language]}
+          placeholder=""
+          classNameHeading={styles.headingLevelH2}
+        />
+      </Link>
+
       <Title
         level={HeadingLevel.h2}
         text={LanguageService.resultTest.sessionTitle[language]}
@@ -79,8 +87,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
         classNameHeading={styles.headingLevelH2}
       />
 
-      <Text text={resultTestPageStore.sessionResult.resultDescription} />
       <Text text={LanguageService.resultTest.percentageResult[language].replace("$rightAnswers", `${rightAnswersPercentages}`)} />
+      <Text text={resultTestPageStore.sessionResult.resultDescription} />
 
       <HorizontalContainer className={styles.titleContainer}>
         <Title
@@ -98,11 +106,6 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
       </div>
 
       <HorizontalContainer className={styles.buttons}>
-        <Button
-          value={LanguageService.resultTest.buttons.returnToLobby[language]}
-          onClick={() => navigate(pages.lobbyTest.getPath({uuid: resultTestPageStore.sessionResult.testUuid}))}
-          className={styles.addMaterial}
-        />
         <Tooltip content={LanguageService.common.comingSoon[language]}>
           <Button
             value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
@@ -111,100 +114,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
             className={styles.addMaterial}
           />
         </Tooltip>
-        {/* <Button
-                value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
-                onClick={() => {
-                  setIsErrorCatched(false);
-                  generatePracticeMaterial(editTestPageStore.topic.uuid);
-                }}
-                buttonType={ButtonType.PRIMARY}
-              /> */}
       </HorizontalContainer>
 
     </VerticalContainer>
-    // <VerticalContainer className={styles.container}>
-    //   <HorizontalGridContainer className={styles.testDashboard}>
-    //     <VerticalContainer className={styles.testDashBoardLeft}>
-    //       <VerticalContainer className={styles.testInfo}>
-    //         <HorizontalContainer className={styles.testTitleBlock}>
-    //           <Title
-    //             level={HeadingLevel.h2}
-    //             text={resultTestPageStore.test.name}
-    //             placeholder={LanguageService.common.emptyMarkdown[language]}
-    //             onChangeFinish={() => {}}
-    //             isEditable={false}
-    //             className={styles.testName}
-    //           />
-    //         </HorizontalContainer>
-
-  //         <VerticalContainer className={styles.descriptionSection}>
-  //           <Title
-  //             level={HeadingLevel.h3}
-  //             text={LanguageService.test.testInfo.description[language]}
-  //             placeholder={LanguageService.common.emptyMarkdownAction[language]}
-  //           />
-  //           <Text
-  //             text={resultTestPageStore.test.description}
-  //             className={styles.description}
-  //           />
-  //         </VerticalContainer>
-
-  //         <Title
-  //           level={HeadingLevel.h3}
-  //           text={LanguageService.test.questionsBlock.questions[language]}
-  //           placeholder=""
-  //         />
-
-  //         {resultTestPageStore.test.questions.map((question) => (
-  //           <HorizontalContainer
-  //             key={question.questionText}
-  //             className={clsx(
-  //               styles.questionShortBlock,
-  //               resultTestPageStore.activeQuestion.uuid === question.uuid && styles.active,
-  //             )}
-  //           >
-  //             {question.questionText.trim() === ""
-  //               ? LanguageService.common.emptyMarkdown[language]
-  //               : <Text text={question.questionText} />
-  //             }
-
-  //           </HorizontalContainer>
-  //         ),
-  //         )}
-
-  //       </VerticalContainer>
-
-  //     </VerticalContainer>
-
-  //     <VerticalContainer className={styles.questions}>
-  //       <VerticalContainer className={styles.theoryMaterials}>
-  //         <QuestionItem
-  //           question={resultTestPageStore.activeQuestion}
-  //           testSessionUuid={resultTestPageStore.testSessionUuid}
-  //           userUuid={user?.uuid ?? "000"}
-  //         />
-  //       </VerticalContainer>
-
-  //       <HorizontalContainer className={styles.questionButtons}>
-
-  //         <Button
-  //           value={"Prev"}
-  //           onClick={() => resultTestPageStore.prevQuestion()}
-  //           buttonType={ButtonType.SECONDARY}
-  //           isDisabled={isPrevButtonDisabled}
-  //         />
-
-  //         <Button
-  //           value={"Next"}
-  //           onClick={() => resultTestPageStore.nextQuestion()}
-  //           buttonType={ButtonType.PRIMARY}
-  //           isDisabled={isNextButtonDisabled}
-  //         />
-  //       </HorizontalContainer>
-  //     </VerticalContainer>
-
-  //   </HorizontalGridContainer>
-
-  // </VerticalContainer>
   );
 });

@@ -60,11 +60,6 @@ interface QuestionBlockProps {
    */
   isEditable: boolean;
 
-  // /**
-  //  * Callback to add question
-  //  */
-  // addQuestion: (question: Question) => void;
-
   /**
    * Callback to delete question
    */

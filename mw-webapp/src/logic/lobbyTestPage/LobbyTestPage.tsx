@@ -7,8 +7,10 @@ import {Loader} from "src/component/loader/Loader";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {SessionDAL} from "src/dataAccessLogic/SessionDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {LobbyTestPageStore} from "src/logic/lobbyTestPage/LobbyTestPageStore";
 import {pages} from "src/router/pages";
@@ -36,6 +38,7 @@ interface LobbyTestPageProps {
 export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
+  const {user} = userStore;
   const navigate = useNavigate();
 
   const lobbyTestPageStore = useStore<
@@ -54,6 +57,8 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
       />
     );
   }
+
+  const isOwner = user?.uuid === lobbyTestPageStore.test.ownerUuid;
 
   const timeToTest = DateUtils.getMinutesFromSeconds(lobbyTestPageStore.test.questions
     .reduce((summaryTime, question) => question.timeToAnswer + summaryTime, DEFAULT_SUMMARY_TIME));
@@ -104,15 +109,24 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
         </VerticalContainer>
 
         <HorizontalContainer className={styles.lobbyTestButtons}>
-          <Button
-            value={LanguageService.lobbyTest.buttons.editTest[language]}
-            onClick={() => navigate(pages.editTest.getPath({uuid: lobbyTestPageStore.test.uuid}))}
-          />
-          <Button
-            value={LanguageService.lobbyTest.buttons.startTest[language]}
-            buttonType={ButtonType.PRIMARY}
-            onClick={() => navigate(pages.runningTest.getPath({uuid: lobbyTestPageStore.test.uuid}))}
-          />
+          {isOwner &&
+            <Button
+              value={LanguageService.lobbyTest.buttons.editTest[language]}
+              onClick={() => navigate(pages.editTest.getPath({uuid: lobbyTestPageStore.test.uuid}))}
+            />
+          }
+
+          {user &&
+            <Button
+              value={LanguageService.lobbyTest.buttons.startTest[language]}
+              buttonType={ButtonType.PRIMARY}
+              onClick={async () => {
+                const testSession = await SessionDAL.createSession({userUuid: user.uuid});
+                navigate(pages.runningTest.getPath({testUuid: lobbyTestPageStore.test.uuid, sessionUuid: testSession}));
+              }}
+            />
+          }
+
         </HorizontalContainer>
 
       </HorizontalGridContainer>

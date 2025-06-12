@@ -5,6 +5,7 @@ import {
   AiEstimateIssueRequest,
   AiPlansByMetricsRequest,
   AiPracticeMaterialForTopicRequest,
+  AiQuestionTestRequest,
   AiTheoryMaterialForTopicRequest,
   AiTopicForTrainingRequest,
   GenerateMetricsRequest,
@@ -14,6 +15,7 @@ import {
   MwGeneralBffInternalSchemasAIEstimateIssueResponse,
   MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse,
   MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse,
   MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse,
   MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse,
   MwGeneralBffInternalSchemasGenerateMetricsResponse,
@@ -123,6 +125,17 @@ export class AIService {
     const practiceMaterial = await aiService.aiPracticeMaterialForTopic(requestParameters);
 
     return practiceMaterial;
+  }
+
+  /**
+   * Generate test questions based on the description by AI
+   */
+  public static async aiCreateTestQuestions(
+    requestParameters: AiQuestionTestRequest,
+  ): Promise<MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse> {
+    const testQuestions = await aiService.aiQuestionTest(requestParameters);
+
+    return testQuestions;
   }
 
 }

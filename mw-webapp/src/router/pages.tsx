@@ -63,7 +63,8 @@ const getPathForEditTestPage = (params: {uuid: string}): string => `/editTest/${
 /**
  * Create url with appropriate params for @RunningTestPage
  */
-const getPathForRunningTestPage = (params: {uuid: string}): string => `/runningTest/${params.uuid}`;
+const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
+  `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
 
 /**
  * Create url with appropriate params for @ResultTestPage
@@ -149,7 +150,7 @@ const EditTestPage = (params: {uuid: string}) => (<>
 
 const RunningTestPageLazy = React.lazy(() => import("src/logic/runningTestPage/RunningTestPage")
   .then((module) => ({default: module.RunningTestPage})));
-const RunningTestPage = (params: {uuid: string}) => (<>
+const RunningTestPage = (params: {testUuid: string; sessionUuid: string}) => (<>
   <RunningTestPageLazy {...params} />
 </>);
 
@@ -319,10 +320,10 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   runningTest: {
-    getPath: (params): string => getPathForRunningTestPage({uuid: params.uuid}),
+    getPath: (params): string => getPathForRunningTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
     getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
-    urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{uuid: string}>,
+    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{testUuid: string; sessionUuid: string}>,
   resultTest: {
     getPath: (params): string => getPathForResultTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
     getPageComponent: (params) => suspended(<ResultTestPage {...params} />),

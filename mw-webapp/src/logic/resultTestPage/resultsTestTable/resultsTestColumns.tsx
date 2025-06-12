@@ -115,7 +115,7 @@ export const getResultsTestColumns = (language: Language) => [
      * Header
      */
     header: () => (<>
-      {LanguageService.resultTest.resultTable.column.resultDescription[language]}
+      {LanguageService.resultTest.resultTable.column.aiComment[language]}
     </>
     ),
 
@@ -129,7 +129,7 @@ export const getResultsTestColumns = (language: Language) => [
       )}
       >
 
-        {row.original.userAnswer}
+        {row.original.resultDescription}
       </VerticalContainer>
     ),
   }),

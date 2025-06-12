@@ -1,25 +1,8 @@
 import {makeAutoObservable} from "mobx";
-import {SessionDAL} from "src/dataAccessLogic/SessionDAL";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {load} from "src/hooks/useLoad";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question, Test} from "src/model/businessModel/Test";
-
-/**
- * Test data for initialization
- */
-interface TestDataParams {
-
-  /**
-   * Loaded test
-   */
-  test: Test;
-
-  /**
-   * Test session Uuid
-   */
-  testSession: string;
-}
 
 /**
  * RunningTestPageStore related methods
@@ -43,11 +26,6 @@ export class RunningTestPageStore {
   public activeOrder: number = 0;
 
   /**
-   * Test session uuid
-   */
-  public testSessionUuid!: string;
-
-  /**
    * QuestionResults for manage running questions and answers
    */
   public questionResults!: Map<string, QuestionResult>;
@@ -57,9 +35,9 @@ export class RunningTestPageStore {
    */
   public isInitialized: boolean = false;
 
-  constructor(testUuid: string, userUuid: string) {
+  constructor(testUuid: string) {
     makeAutoObservable(this);
-    this.initialize(testUuid, userUuid);
+    this.initialize(testUuid);
   }
 
   /**
@@ -82,15 +60,14 @@ export class RunningTestPageStore {
    * Save question result after user save answer
    */
   public saveQuestionResult = (questionResult: QuestionResult) => {
-    this.questionResults.set(questionResult.uuid, questionResult);
+    this.questionResults.set(questionResult.questionUuid, questionResult);
   };
 
   /**
    * Set test
    */
-  private setLoadedData = (loadedData: TestDataParams) => {
-    this.test = loadedData.test;
-    this.testSessionUuid = loadedData.testSession;
+  private setLoadedData = (loadedData: Test) => {
+    this.test = loadedData;
     this.activeQuestion = this.test.questions[0];
     this.questionResults = new Map<string, QuestionResult>;
   };
@@ -98,13 +75,13 @@ export class RunningTestPageStore {
   /**
    * Initialize
    */
-  private async initialize(testUuid: string, userUuid: string) {
-    await load<TestDataParams>({
+  private async initialize(testUuid: string) {
+    await load<Test>({
 
       /**
        * Load data
        */
-      loadData: () => this.loadData(testUuid, userUuid),
+      loadData: () => this.loadData(testUuid),
       validateData: this.validateData,
       onError: this.onError,
       onSuccess: this.setLoadedData,
@@ -116,29 +93,16 @@ export class RunningTestPageStore {
   /**
    * Load data
    */
-  private loadData = async (testUuid: string, userUuid: string): Promise<TestDataParams> => {
+  private loadData = async (testUuid: string): Promise<Test> => {
     const test = await TestDAL.getTest(testUuid);
-    const testSession = await this.createTestSession(userUuid);
 
-    return {
-      test,
-      testSession,
-    };
-  };
-
-  /**
-   * Create test session
-   */
-  private createTestSession = async (userUuid: string) => {
-    const sessionUuid = await SessionDAL.createSession({userUuid});
-
-    return sessionUuid;
+    return test;
   };
 
   /**
    * Validate data
    */
-  private validateData = (data: TestDataParams) => {
+  private validateData = (data: Test) => {
     return !!data;
   };
 
