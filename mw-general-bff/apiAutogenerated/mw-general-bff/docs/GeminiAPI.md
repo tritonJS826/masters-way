@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**AiQuestionTest**](GeminiAPI.md#AiQuestionTest) | **Post** /gemini/test/questions | Generate questions for test
 [**AiTheoryMaterialForTopic**](GeminiAPI.md#AiTheoryMaterialForTopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 [**AiTopicForTraining**](GeminiAPI.md#AiTopicForTraining) | **Post** /gemini/trainings/topics | 
+[**AiTrainingByTestSession**](GeminiAPI.md#AiTrainingByTestSession) | **Post** /gemini/training/topics/{sessionResultId} | Generate training by test test sessionId
 [**GenerateMetrics**](GeminiAPI.md#GenerateMetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 
 
@@ -596,6 +597,78 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse**](MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiTrainingByTestSession
+
+> MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse AiTrainingByTestSession(ctx, sessionResultId).Request(request).Execute()
+
+Generate training by test test sessionId
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	sessionResultId := "sessionResultId_example" // string | test session ID
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(int32(123), "ru|en|ua", int32(123), "TestSessionId_example") // MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiTrainingByTestSession(context.Background(), sessionResultId).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiTrainingByTestSession``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiTrainingByTestSession`: MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiTrainingByTestSession`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sessionResultId** | **string** | test session ID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiTrainingByTestSessionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **request** | [**MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload**](MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload.md) | Request payload | 
+
+### Return type
+
+[**MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse**](MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse.md)
 
 ### Authorization
 

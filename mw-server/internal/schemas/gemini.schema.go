@@ -60,6 +60,28 @@ type AIEstimateIssueResponse struct {
 	Estimation string `json:"estimation" validate:"required"`
 }
 
+type QuestionResult struct {
+	IsOk                bool   `json:"isOk" validate:"required"`
+	QuestionName        string `json:"questionName" validate:"required"`
+	QuestionDescription string `json:"questionDescription" validate:"required"`
+	UserAnswer          string `json:"userAnswer" validate:"required"`
+	QuestionAnswer      string `json:"questionAnswer" validate:"required"`
+	ResultDescription   string `json:"resultDescription" validate:"required"`
+}
+
+type AIGenerateTrainingDescriptionByTestResultsPayload struct {
+	TestName            string           `json:"testName" validate:"required"`
+	TestDescription     string           `json:"testDescription" validate:"required"`
+	TestQuestionResults []QuestionResult `json:"testQuestionResults" validate:"required"`
+	TestSessionResult   string           `json:"testSessionResult" validate:"required"`
+	Language            string           `json:"language" validate:"required" example:"ru|en|ua"`
+}
+
+type AIGenerateTrainingDescriptionByTestResultsResponse struct {
+	TrainingName        string `json:"trainingName" validate:"required"`
+	TrainingDescription string `json:"trainingDescription" validate:"required"`
+}
+
 type AIGenerateTopicsForTrainingPayload struct {
 	TopicsAmount               int     `json:"topicsAmount" validate:"required"`
 	TrainingName               string  `json:"trainingName" validate:"required"`

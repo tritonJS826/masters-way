@@ -614,6 +614,27 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/trainings/description:
+    post:
+      description: Generate training description by test result
+      operationId: ai-description-for-training-by-test-results
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse'
+          description: OK
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/trainings/practiceMaterial:
     post:
       description: Generate practice material for training
@@ -2209,6 +2230,41 @@ components:
           type: array
       required:
       - topics
+      type: object
+    mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload:
+      properties:
+        language:
+          example: ru|en|ua
+          type: string
+        testDescription:
+          type: string
+        testName:
+          type: string
+        testQuestionResults:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.QuestionResult'
+          type: array
+        testSessionResult:
+          type: string
+      required:
+      - language
+      - testDescription
+      - testName
+      - testQuestionResults
+      - testSessionResult
+      type: object
+    mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse:
+      example:
+        trainingDescription: trainingDescription
+        trainingName: trainingName
+      properties:
+        trainingDescription:
+          type: string
+        trainingName:
+          type: string
+      required:
+      - trainingDescription
+      - trainingName
       type: object
     mw-server_internal_schemas.AddWayToCompositeWayPayload:
       properties:
@@ -4131,6 +4187,28 @@ components:
       - ownerId
       - users
       - ways
+      type: object
+    mw-server_internal_schemas.QuestionResult:
+      properties:
+        isOk:
+          type: boolean
+        questionAnswer:
+          type: string
+        questionDescription:
+          type: string
+        questionName:
+          type: string
+        resultDescription:
+          type: string
+        userAnswer:
+          type: string
+      required:
+      - isOk
+      - questionAnswer
+      - questionDescription
+      - questionName
+      - resultDescription
+      - userAnswer
       type: object
     mw-server_internal_schemas.RefreshAccessTokenPayload:
       properties:

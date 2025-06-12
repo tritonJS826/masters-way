@@ -115,6 +115,26 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingId strin
 	return training, nil
 }
 
+type CreateNewTrainingParams struct {
+	Name        string
+	UserId      string
+	Description string
+	IsPrivate   bool
+}
+
+func (ts *TrainingService) CreateNewTraining(ctx context.Context, params *CreateNewTrainingParams) (*pb.Training, error) {
+	training, err := ts.trainingGRPC.CreateNewTraining(ctx, &pb.CreateTrainingRequest{
+		Name:        params.Name,
+		UserId:      params.UserId,
+		Description: params.Description,
+		IsPrivate:   params.IsPrivate,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return training, nil
+}
+
 func (ts *TrainingService) GetTopicById(ctx context.Context, topicId string) (*pb.Topic, error) {
 	topic, err := ts.topicGRPC.GetTopicById(ctx, &pb.GetTopicByIdRequest{TopicUuid: topicId})
 	if err != nil {

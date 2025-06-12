@@ -967,6 +967,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/trainings/description": {
+            "post": {
+                "description": "Generate training description by test result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "operationId": "ai-description-for-training-by-test-results",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/trainings/practiceMaterial": {
             "post": {
                 "description": "Generate practice material for training",
@@ -3342,6 +3376,52 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload": {
+            "type": "object",
+            "required": [
+                "language",
+                "testDescription",
+                "testName",
+                "testQuestionResults",
+                "testSessionResult"
+            ],
+            "properties": {
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "testDescription": {
+                    "type": "string"
+                },
+                "testName": {
+                    "type": "string"
+                },
+                "testQuestionResults": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.QuestionResult"
+                    }
+                },
+                "testSessionResult": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse": {
+            "type": "object",
+            "required": [
+                "trainingDescription",
+                "trainingName"
+            ],
+            "properties": {
+                "trainingDescription": {
+                    "type": "string"
+                },
+                "trainingName": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-server_internal_schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -4508,6 +4588,37 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "mw-server_internal_schemas.QuestionResult": {
+            "type": "object",
+            "required": [
+                "isOk",
+                "questionAnswer",
+                "questionDescription",
+                "questionName",
+                "resultDescription",
+                "userAnswer"
+            ],
+            "properties": {
+                "isOk": {
+                    "type": "boolean"
+                },
+                "questionAnswer": {
+                    "type": "string"
+                },
+                "questionDescription": {
+                    "type": "string"
+                },
+                "questionName": {
+                    "type": "string"
+                },
+                "resultDescription": {
+                    "type": "string"
+                },
+                "userAnswer": {
+                    "type": "string"
                 }
             }
         },

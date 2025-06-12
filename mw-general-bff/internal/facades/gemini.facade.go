@@ -43,32 +43,64 @@ func (gs *GeminiFacade) EstimateIssue(ctx context.Context, payload *schemas.AIEs
 	return gs.generalService.EstimateIssue(ctx, payload)
 }
 
-type ShortParentTopicForGeneration struct {
-	Name        string
-	Description string
-}
-
 func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload, userId string) (*schemas.AIGenerateTrainingByTestTestSessionIdResponse, error) {
-	// 	SessionUuid: payload.TestSessionId,
-	// 	UserUuid:    userId,
-	// })
-	// if err != nil {
-	// 	return nil, err
-	// }
+	test, err := gs.trainingService.GetTestById(ctx, &services.GetTestParams{
+		TestId: payload.TestId,
+		UserId: userId,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	// generatedTraining, err := gs.generalService.GenerateTrainingByTestResults(ctx, params)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	testSessionResult, err := gs.trainingService.GetTestSessionResult(ctx, &services.GetTestSessionResultParams{
+		SessionUuid: payload.TestSessionId,
+		UserUuid:    userId,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	// generate training description 1
-	// create training
+	questionResults, err := gs.trainingService.GetQuestionResultsBySessionUuid(ctx, &services.GetQuestionResultsBySessionUuidParams{
+		SessionUuid: payload.TestSessionId,
+		UserUuid:    userId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	args := &services.GenerateTrainingDescriptionByTestResultsParams{
+		TestName:        test.Name,
+		TestDescription: test.Description,
+		Language:        payload.Language,
+		QuestionResults: questionResults.Results,
+		SessionResult:   testSessionResult.ResultDescription,
+	}
+
+	generatedTraining, err := gs.generalService.GenerateTrainingDescriptionByTestResults(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	training, err := gs.trainingService.CreateNewTraining(ctx, &services.CreateNewTrainingParams{
+		Name:        generatedTraining.Name,
+		Description: generatedTraining.Description,
+		UserId:      userId,
+		IsPrivate:   false,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO
 	// generate topics 1
 	// create topics (use existent method)
 	// ?? generate theory materials (bunch) maybe with practice material generation! in one request
 	// ?? generate practice material for each topic (use existent method) topics amount (max 30?)
-	// return &schemas.AIGenerateTrainingByTestTestSessionIdResponse{}, nil
-	return nil, nil
+
+	response := &schemas.AIGenerateTrainingByTestTestSessionIdResponse{
+		TrainingId: training.Uuid,
+	}
+	return response, nil
 }
 
 func (gs *GeminiFacade) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {

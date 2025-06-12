@@ -995,6 +995,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/training/topics/{sessionResultId}": {
+            "post": {
+                "description": "Generate training by test sessionId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate training by test test sessionId",
+                "operationId": "ai-training-by-test-session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "test session ID",
+                        "name": "sessionResultId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/trainings/practiceMaterial": {
             "post": {
                 "description": "Generate practice material for training",
@@ -3295,6 +3337,42 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-general-bff_internal_schemas.GeneratedTopicPreview"
                     }
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload": {
+            "type": "object",
+            "required": [
+                "generateTopicsAmount",
+                "language",
+                "practiceMaterialInEachTopic",
+                "testSessionId",
+                "testSessionId"
+            ],
+            "properties": {
+                "generateTopicsAmount": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "practiceMaterialInEachTopic": {
+                    "type": "integer"
+                },
+                "testSessionId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse": {
+            "type": "object",
+            "required": [
+                "trainingId"
+            ],
+            "properties": {
+                "trainingId": {
+                    "type": "string"
                 }
             }
         },

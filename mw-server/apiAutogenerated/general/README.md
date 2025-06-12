@@ -102,6 +102,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
 *GeminiAPI* | [**AiCommentIssue**](docs/GeminiAPI.md#aicommentissue) | **Post** /gemini/comment-issue | Generate a comment for any issue
 *GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
+*GeminiAPI* | [**AiDescriptionForTrainingByTestResults**](docs/GeminiAPI.md#aidescriptionfortrainingbytestresults) | **Post** /gemini/trainings/description | 
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
@@ -185,6 +186,8 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse](docs/MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse.md)
  - [MwServerInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwServerInternalSchemasAIGenerateTopicsForTrainingPayload.md)
  - [MwServerInternalSchemasAIGenerateTopicsForTrainingResponse](docs/MwServerInternalSchemasAIGenerateTopicsForTrainingResponse.md)
+ - [MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload](docs/MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload.md)
+ - [MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse](docs/MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse.md)
  - [MwServerInternalSchemasAddWayToCompositeWayPayload](docs/MwServerInternalSchemasAddWayToCompositeWayPayload.md)
  - [MwServerInternalSchemasBeginAuthResponse](docs/MwServerInternalSchemasBeginAuthResponse.md)
  - [MwServerInternalSchemasCommentPopulatedResponse](docs/MwServerInternalSchemasCommentPopulatedResponse.md)
@@ -236,6 +239,7 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasProblemPopulatedResponse](docs/MwServerInternalSchemasProblemPopulatedResponse.md)
  - [MwServerInternalSchemasProjectPlainResponse](docs/MwServerInternalSchemasProjectPlainResponse.md)
  - [MwServerInternalSchemasProjectPopulatedResponse](docs/MwServerInternalSchemasProjectPopulatedResponse.md)
+ - [MwServerInternalSchemasQuestionResult](docs/MwServerInternalSchemasQuestionResult.md)
  - [MwServerInternalSchemasRefreshAccessTokenPayload](docs/MwServerInternalSchemasRefreshAccessTokenPayload.md)
  - [MwServerInternalSchemasRefreshAccessTokenResponse](docs/MwServerInternalSchemasRefreshAccessTokenResponse.md)
  - [MwServerInternalSchemasShortUser](docs/MwServerInternalSchemasShortUser.md)

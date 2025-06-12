@@ -21,6 +21,8 @@ export * from './MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingP
 export * from './MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse';
 export * from './MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload';
 export * from './MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse';
+export * from './MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload';
+export * from './MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse';
 export * from './MwGeneralBffInternalSchemasAddWayToCompositeWayPayload';
 export * from './MwGeneralBffInternalSchemasCommentPopulatedResponse';
 export * from './MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse';

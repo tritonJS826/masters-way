@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
+	"github.com/samber/lo"
 )
 
 type GeminiService struct {
@@ -306,6 +307,72 @@ func (gs *GeminiService) EstimateIssue(ctx context.Context, payload *schemas.AIE
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	return &schemas.AIEstimateIssueResponse{Estimation: responseText}, nil
+}
+
+type questionResults struct {
+	ru []string
+	en []string
+	ua []string
+}
+
+func (gs *GeminiService) GenerateTrainingDescriptionByTestResults(ctx context.Context, payload *schemas.AIGenerateTrainingDescriptionByTestResultsPayload) (*schemas.AIGenerateTrainingDescriptionByTestResultsResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		trainingDescription := &schemas.AIGenerateTrainingDescriptionByTestResultsResponse{
+			TrainingName:        "Stub training name",
+			TrainingDescription: "Stub training description",
+		}
+		return trainingDescription, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var questionResultStr questionResults
+	lo.ForEach(payload.TestQuestionResults, func(questionResult schemas.QuestionResult, _ int) {
+		questionResultStr.en = append(questionResultStr.en, "Question name: "+questionResult.QuestionName+"| question: "+questionResult.QuestionDescription+"| my answer: "+questionResult.UserAnswer+"| expected correct answer: "+questionResult.QuestionAnswer+"| was marked correct: "+strconv.FormatBool(questionResult.IsOk)+"| and added to description: "+questionResult.ResultDescription)
+		questionResultStr.ru = append(questionResultStr.ru, "Название для вопроса: "+questionResult.QuestionName+"| вопрос: "+questionResult.QuestionDescription+"| мой ответ на вопрос: "+questionResult.UserAnswer+"| предполагаемы правильный ответ: "+questionResult.QuestionAnswer+"| при проверке в графе правильно меня оценили:"+strconv.FormatBool(questionResult.IsOk)+"| и добавлено в описание "+questionResult.ResultDescription)
+		questionResultStr.ua = append(questionResultStr.ua, "Назва питання: "+questionResult.QuestionName+"| питання: "+questionResult.QuestionDescription+"| моя відповідь: "+questionResult.UserAnswer+"| очікувана правильна відповідь: "+questionResult.QuestionAnswer+"| оцінено як правильно: "+strconv.FormatBool(questionResult.IsOk)+"| і додано до опису: "+questionResult.ResultDescription)
+
+	})
+
+	var payloadMessage string
+	switch payload.Language {
+	case "en":
+		payloadMessage = "I have completed the test " + payload.TestName + ". Test description: " + payload.TestDescription + ". Here are my results: " + strings.Join(questionResultStr.en, ", ") + ". Based on this, generate a personalized course name and description to help me master this topic. Max 40 characters for the course name, max 4096 for the description. Provide the answer in JSON format. For example: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	case "ru":
+		payloadMessage = "Я прошел тест " + payload.TestName + ". Описание теста:" + payload.TestDescription + "\n" + ". Вот мой результат: " + strings.Join(questionResultStr.ru, ", ") + "Сгенерируйте мне список на основе этого название и описание персонализированного курса, чтобы я мог хорошо разобраться с этой темой." + "Макс 40 символов для имени курса, максимум 4096 для описания. Предоставьте мне ответ в формате json. Например: {name: \"Some course name\", description: \"Some long and interesting course description\"}"
+	case "ua":
+		payloadMessage = "Я пройшов тест " + payload.TestName + ". Опис тесту: " + payload.TestDescription + ". Ось мій результат: " + strings.Join(questionResultStr.ua, ", ") + ". Згенеруй для мене на основі цього назву та опис персоналізованого курсу, щоб я міг добре розібратися з цією темою. Макс 40 символів для назви курсу, максимум 4096 для опису. Надішли мені відповідь у форматі json. Наприклад: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	default:
+		payloadMessage = "I have completed the test " + payload.TestName + ". Test description: " + payload.TestDescription + ". Here are my results: " + strings.Join(questionResultStr.en, ", ") + ". Based on this, generate a personalized course name and description to help me master this topic. Max 40 characters for the course name, max 4096 for the description. Provide the answer in JSON format. For example: {\"name\": \"Some course name\", \"description\": \"Some long and interesting course description\"}"
+	}
+
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var training schemas.AIGenerateTrainingDescriptionByTestResultsResponse
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &training)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &training, nil
+
 }
 
 func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {

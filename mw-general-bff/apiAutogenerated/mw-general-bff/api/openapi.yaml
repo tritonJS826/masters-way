@@ -622,6 +622,35 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/training/topics/{sessionResultId}:
+    post:
+      description: Generate training by test sessionId
+      operationId: ai-training-by-test-session
+      parameters:
+      - description: test session ID
+        in: path
+        name: sessionResultId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse'
+          description: OK
+      summary: Generate training by test test sessionId
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/trainings/practiceMaterial:
     post:
       description: Generate practice material for training
@@ -2196,6 +2225,32 @@ components:
           type: array
       required:
       - topics
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdPayload:
+      properties:
+        generateTopicsAmount:
+          type: integer
+        language:
+          example: ru|en|ua
+          type: string
+        practiceMaterialInEachTopic:
+          type: integer
+        testSessionId:
+          type: string
+      required:
+      - generateTopicsAmount
+      - language
+      - practiceMaterialInEachTopic
+      - testSessionId
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse:
+      example:
+        trainingId: trainingId
+      properties:
+        trainingId:
+          type: string
+      required:
+      - trainingId
       type: object
     mw-general-bff_internal_schemas.AddWayToCompositeWayPayload:
       properties:

@@ -251,6 +251,38 @@ definitions:
     required:
     - topics
     type: object
+  mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload:
+    properties:
+      language:
+        example: ru|en|ua
+        type: string
+      testDescription:
+        type: string
+      testName:
+        type: string
+      testQuestionResults:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.QuestionResult'
+        type: array
+      testSessionResult:
+        type: string
+    required:
+    - language
+    - testDescription
+    - testName
+    - testQuestionResults
+    - testSessionResult
+    type: object
+  mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse:
+    properties:
+      trainingDescription:
+        type: string
+      trainingName:
+        type: string
+    required:
+    - trainingDescription
+    - trainingName
+    type: object
   mw-server_internal_schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -1061,6 +1093,28 @@ definitions:
     - ownerId
     - users
     - ways
+    type: object
+  mw-server_internal_schemas.QuestionResult:
+    properties:
+      isOk:
+        type: boolean
+      questionAnswer:
+        type: string
+      questionDescription:
+        type: string
+      questionName:
+        type: string
+      resultDescription:
+        type: string
+      userAnswer:
+        type: string
+    required:
+    - isOk
+    - questionAnswer
+    - questionDescription
+    - questionName
+    - resultDescription
+    - userAnswer
     type: object
   mw-server_internal_schemas.RefreshAccessTokenPayload:
     properties:
@@ -2233,6 +2287,28 @@ paths:
           schema:
             $ref: '#/definitions/mw-server_internal_schemas.AIGenerateQuestionsForTestResponse'
       summary: Generate questions test
+      tags:
+      - gemini
+  /gemini/trainings/description:
+    post:
+      consumes:
+      - application/json
+      description: Generate training description by test result
+      operationId: ai-description-for-training-by-test-results
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTrainingDescriptionByTestResultsResponse'
       tags:
       - gemini
   /gemini/trainings/practiceMaterial:

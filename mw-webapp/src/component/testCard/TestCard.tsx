@@ -1,5 +1,4 @@
 import {observer} from "mobx-react-lite";
-import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {Text} from "src/component/text/Text";

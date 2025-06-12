@@ -230,6 +230,7 @@ func (cc *GeminiController) GeneratePracticeMaterialForTraining(ctx *gin.Context
 // @ID ai-training-by-test-session
 // @Accept  json
 // @Produce  json
+// @Param sessionResultId path string true "test session ID"
 // @Param request body schemas.AIGenerateTrainingByTestTestSessionIdPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateTrainingByTestTestSessionIdResponse
 // @Router /gemini/training/topics/{sessionResultId} [post]

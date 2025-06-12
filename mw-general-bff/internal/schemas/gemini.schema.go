@@ -135,7 +135,8 @@ type AIGenerateQuestionsForTestResponse struct {
 }
 
 type AIGenerateTrainingByTestTestSessionIdPayload struct {
-	TestSessionId               string `json:"testId" validate:"required"`
+	TestId                      string `json:"testSessionId" validate:"required" description:"probably we can remove this property if it will be required, but it will not be easy"`
+	TestSessionId               string `json:"testSessionId" validate:"required"`
 	GenerateTopicsAmount        int32  `json:"generateTopicsAmount" validate:"required"`
 	PracticeMaterialInEachTopic int32  `json:"practiceMaterialInEachTopic" validate:"required"`
 	Language                    string `json:"language" validate:"required" example:"ru|en|ua"`
