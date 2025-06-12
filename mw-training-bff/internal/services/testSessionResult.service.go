@@ -36,3 +36,37 @@ func (s *TestSessionResultsService) GetTestSessionResult(ctx context.Context, pa
 		CreatedAt:         testSessionResult.CreatedAt,
 	}, nil
 }
+
+type CreateTestSessionResultParams struct {
+	SessionUuid       string
+	UserUuid          string
+	TestUuid          string
+	ResultDescription *string
+}
+
+func (s *TestSessionResultsService) CreateTestSessionResult(ctx context.Context, params *CreateTestSessionResultParams) (*schemas.GetTestSessionResultResponse, error) {
+	var resultDescription string
+	if params.ResultDescription == nil {
+		// TODO: generate it with AI
+		resultDescription = "Not bad! Pretty soon it will be AI generated!"
+	} else {
+		resultDescription = *params.ResultDescription
+	}
+
+	testSessionResult, err := s.testSessionResultsGRPC.CreateTestSessionResult(ctx, &pb.CreateTestSessionResultRequest{
+		SessionUuid:       params.SessionUuid,
+		UserUuid:          params.UserUuid,
+		TestUuid:          params.TestUuid,
+		ResultDescription: resultDescription,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &schemas.GetTestSessionResultResponse{
+		SessionUUID:       testSessionResult.SessionUuid,
+		TestUUID:          testSessionResult.TestUuid,
+		ResultDescription: testSessionResult.ResultDescription,
+		CreatedAt:         testSessionResult.CreatedAt,
+	}, nil
+}

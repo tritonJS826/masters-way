@@ -4,6 +4,7 @@ export * from './MwTrainingBffInternalSchemasCreatePracticeMaterialPayload';
 export * from './MwTrainingBffInternalSchemasCreateQuestionPayload';
 export * from './MwTrainingBffInternalSchemasCreateQuestionResultRequest';
 export * from './MwTrainingBffInternalSchemasCreateSessionRequest';
+export * from './MwTrainingBffInternalSchemasCreateSessionResultRequest';
 export * from './MwTrainingBffInternalSchemasCreateTestRequest';
 export * from './MwTrainingBffInternalSchemasCreateTheoryMaterialPayload';
 export * from './MwTrainingBffInternalSchemasCreateTopicPayload';

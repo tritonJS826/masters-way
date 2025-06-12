@@ -2324,6 +2324,7 @@ var QuestionResultsService_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestSessionResultsServiceClient interface {
 	GetTestSessionResult(ctx context.Context, in *GetTestSessionResultRequest, opts ...grpc.CallOption) (*GetTestSessionResultResponse, error)
+	CreateTestSessionResult(ctx context.Context, in *CreateTestSessionResultRequest, opts ...grpc.CallOption) (*GetTestSessionResultResponse, error)
 }
 
 type testSessionResultsServiceClient struct {
@@ -2343,11 +2344,21 @@ func (c *testSessionResultsServiceClient) GetTestSessionResult(ctx context.Conte
 	return out, nil
 }
 
+func (c *testSessionResultsServiceClient) CreateTestSessionResult(ctx context.Context, in *CreateTestSessionResultRequest, opts ...grpc.CallOption) (*GetTestSessionResultResponse, error) {
+	out := new(GetTestSessionResultResponse)
+	err := c.cc.Invoke(ctx, "/training.TestSessionResultsService/CreateTestSessionResult", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TestSessionResultsServiceServer is the server API for TestSessionResultsService service.
 // All implementations must embed UnimplementedTestSessionResultsServiceServer
 // for forward compatibility
 type TestSessionResultsServiceServer interface {
 	GetTestSessionResult(context.Context, *GetTestSessionResultRequest) (*GetTestSessionResultResponse, error)
+	CreateTestSessionResult(context.Context, *CreateTestSessionResultRequest) (*GetTestSessionResultResponse, error)
 	mustEmbedUnimplementedTestSessionResultsServiceServer()
 }
 
@@ -2357,6 +2368,9 @@ type UnimplementedTestSessionResultsServiceServer struct {
 
 func (UnimplementedTestSessionResultsServiceServer) GetTestSessionResult(context.Context, *GetTestSessionResultRequest) (*GetTestSessionResultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTestSessionResult not implemented")
+}
+func (UnimplementedTestSessionResultsServiceServer) CreateTestSessionResult(context.Context, *CreateTestSessionResultRequest) (*GetTestSessionResultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTestSessionResult not implemented")
 }
 func (UnimplementedTestSessionResultsServiceServer) mustEmbedUnimplementedTestSessionResultsServiceServer() {
 }
@@ -2390,6 +2404,24 @@ func _TestSessionResultsService_GetTestSessionResult_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TestSessionResultsService_CreateTestSessionResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTestSessionResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestSessionResultsServiceServer).CreateTestSessionResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestSessionResultsService/CreateTestSessionResult",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestSessionResultsServiceServer).CreateTestSessionResult(ctx, req.(*CreateTestSessionResultRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TestSessionResultsService_ServiceDesc is the grpc.ServiceDesc for TestSessionResultsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2400,6 +2432,10 @@ var TestSessionResultsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTestSessionResult",
 			Handler:    _TestSessionResultsService_GetTestSessionResult_Handler,
+		},
+		{
+			MethodName: "CreateTestSessionResult",
+			Handler:    _TestSessionResultsService_CreateTestSessionResult_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

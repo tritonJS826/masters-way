@@ -76,6 +76,15 @@ definitions:
     required:
     - userUuid
     type: object
+  mw-training-bff_internal_schemas.CreateSessionResultRequest:
+    properties:
+      resultDescription:
+        type: string
+      sessionUuid:
+        type: string
+    required:
+    - sessionUuid
+    type: object
   mw-training-bff_internal_schemas.CreateTestRequest:
     properties:
       description:
@@ -1123,6 +1132,29 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
       summary: Get test session result by session uuid
+      tags:
+      - test-session-result
+    post:
+      consumes:
+      - application/json
+      description: If ResultDescription will no be provided - it will be generated
+        with Ai
+      operationId: create-test-session-result-by-session-uuid
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateSessionResultRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
+      summary: Create test session result by session uuid
       tags:
       - test-session-result
   /theoryMaterials:

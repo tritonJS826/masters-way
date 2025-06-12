@@ -55,3 +55,34 @@ func (c *TestSessionResultsController) GetTestSessionResult(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, testSessionResult)
 }
+
+// CreateTestSessionResult
+// @Summary Create test session result by session uuid
+// @Description If ResultDescription will no be provided - it will be generated with Ai
+// @Tags test-session-result
+// @ID create-test-session-result-by-session-uuid
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateSessionResultRequest true "body"
+// @Success 200 {object} schemas.GetTestSessionResultResponse
+// @Router /testSessionResult [post]
+func (c *TestSessionResultsController) CreateTestSessionResult(ctx *gin.Context) {
+	requestOwnerUuid := ctx.Value(auth.ContextKeyUserID).(string)
+
+	var payload *schemas.CreateSessionResultRequest
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	params := &services.CreateTestSessionResultParams{
+		SessionUuid:       payload.SessionUUID,
+		UserUuid:          requestOwnerUuid,
+		ResultDescription: payload.ResultDescription,
+	}
+
+	testSessionResult, err := c.testSessionResultsService.CreateTestSessionResult(ctx, params)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, testSessionResult)
+}

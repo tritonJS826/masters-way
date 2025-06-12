@@ -1,10 +1,12 @@
--- name: CreateTestResult :one
+-- name: CreateTestSessionResult :one
 INSERT INTO test_session_results (
     test_uuid,
+    session_uuid,
     user_uuid,
     result_description
 ) VALUES (
     @test_uuid,
+    @session_uuid,
     @user_uuid,
     @result_description
 ) RETURNING *;

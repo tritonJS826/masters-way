@@ -34,3 +34,26 @@ func (c *TestSessionResultController) GetTestSessionResult(ctx context.Context, 
 
 	return tesSessionResult, nil
 }
+
+func (c *TestSessionResultController) CreateTestSessionResult(ctx context.Context, in *pb.CreateTestSessionResultRequest) (*pb.GetTestSessionResultResponse, error) {
+	sessionUuid := in.GetSessionUuid()
+	userUuid := in.GetUserUuid()
+	testUuid := in.GetTestUuid()
+	resultDescription := in.GetResultDescription()
+
+	// TODO use userUuid for security (check relations)
+
+	args := services.CreateTestSessionResultParams{
+		TestUuid:          pgtype.UUID{Bytes: uuid.MustParse(testUuid), Valid: true},
+		UserUuid:          pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+		SessionUuid:       pgtype.UUID{Bytes: uuid.MustParse(sessionUuid), Valid: true},
+		ResultDescription: resultDescription,
+	}
+
+	tesSessionResult, err := c.testSessionService.CreateTestSessionResult(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	return tesSessionResult, nil
+}

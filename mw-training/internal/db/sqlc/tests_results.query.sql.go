@@ -33,26 +33,34 @@ func (q *Queries) CountTestAttempts(ctx context.Context, testUuid pgtype.UUID) (
 	return i, err
 }
 
-const createTestResult = `-- name: CreateTestResult :one
+const createTestSessionResult = `-- name: CreateTestSessionResult :one
 INSERT INTO test_session_results (
     test_uuid,
+    session_uuid,
     user_uuid,
     result_description
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING uuid, test_uuid, session_uuid, user_uuid, result_description, created_at
 `
 
-type CreateTestResultParams struct {
+type CreateTestSessionResultParams struct {
 	TestUuid          pgtype.UUID `json:"test_uuid"`
+	SessionUuid       pgtype.UUID `json:"session_uuid"`
 	UserUuid          pgtype.UUID `json:"user_uuid"`
 	ResultDescription string      `json:"result_description"`
 }
 
-func (q *Queries) CreateTestResult(ctx context.Context, arg CreateTestResultParams) (TestSessionResult, error) {
-	row := q.db.QueryRow(ctx, createTestResult, arg.TestUuid, arg.UserUuid, arg.ResultDescription)
+func (q *Queries) CreateTestSessionResult(ctx context.Context, arg CreateTestSessionResultParams) (TestSessionResult, error) {
+	row := q.db.QueryRow(ctx, createTestSessionResult,
+		arg.TestUuid,
+		arg.SessionUuid,
+		arg.UserUuid,
+		arg.ResultDescription,
+	)
 	var i TestSessionResult
 	err := row.Scan(
 		&i.Uuid,

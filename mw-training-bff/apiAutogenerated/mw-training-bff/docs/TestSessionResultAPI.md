@@ -4,8 +4,75 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateTestSessionResultBySessionUuid**](TestSessionResultAPI.md#CreateTestSessionResultBySessionUuid) | **Post** /testSessionResult | Create test session result by session uuid
 [**GetTestSessionResultBySessionUuid**](TestSessionResultAPI.md#GetTestSessionResultBySessionUuid) | **Get** /testSessionResult | Get test session result by session uuid
 
+
+
+## CreateTestSessionResultBySessionUuid
+
+> MwTrainingBffInternalSchemasGetTestSessionResultResponse CreateTestSessionResultBySessionUuid(ctx).Request(request).Execute()
+
+Create test session result by session uuid
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateSessionResultRequest("SessionUuid_example") // MwTrainingBffInternalSchemasCreateSessionResultRequest | body
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TestSessionResultAPI.CreateTestSessionResultBySessionUuid(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TestSessionResultAPI.CreateTestSessionResultBySessionUuid``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateTestSessionResultBySessionUuid`: MwTrainingBffInternalSchemasGetTestSessionResultResponse
+	fmt.Fprintf(os.Stdout, "Response from `TestSessionResultAPI.CreateTestSessionResultBySessionUuid`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateTestSessionResultBySessionUuidRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwTrainingBffInternalSchemasCreateSessionResultRequest**](MwTrainingBffInternalSchemasCreateSessionResultRequest.md) | body | 
+
+### Return type
+
+[**MwTrainingBffInternalSchemasGetTestSessionResultResponse**](MwTrainingBffInternalSchemasGetTestSessionResultResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetTestSessionResultBySessionUuid

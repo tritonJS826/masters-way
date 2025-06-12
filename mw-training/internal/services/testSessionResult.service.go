@@ -13,6 +13,7 @@ import (
 
 type TestSessionResultRepository interface {
 	GetTestResultBySessionId(ctx context.Context, session_result_uuid pgtype.UUID) (db.GetTestResultBySessionIdRow, error)
+	CreateTestSessionResult(ctx context.Context, params db.CreateTestSessionResultParams) (db.TestSessionResult, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -30,6 +31,32 @@ func NewTestSessionResultService(pgxPool *pgxpool.Pool, testSessionResultReposit
 
 func (ts *TestSessionResultService) GetTestSessionResult(ctx context.Context, session_result_uuid pgtype.UUID) (*pb.GetTestSessionResultResponse, error) {
 	testSessionResultDb, err := ts.testSessionResultRepository.GetTestResultBySessionId(ctx, session_result_uuid)
+	if err != nil {
+		return &pb.GetTestSessionResultResponse{}, err
+	}
+
+	return &pb.GetTestSessionResultResponse{
+		SessionUuid:       *utils.MarshalPgUUID(testSessionResultDb.Uuid),
+		TestUuid:          *utils.MarshalPgUUID(testSessionResultDb.Uuid),
+		ResultDescription: testSessionResultDb.ResultDescription,
+		CreatedAt:         testSessionResultDb.CreatedAt.Time.String(),
+	}, nil
+}
+
+type CreateTestSessionResultParams struct {
+	TestUuid          pgtype.UUID
+	SessionUuid       pgtype.UUID
+	UserUuid          pgtype.UUID
+	ResultDescription string
+}
+
+func (ts *TestSessionResultService) CreateTestSessionResult(ctx context.Context, params CreateTestSessionResultParams) (*pb.GetTestSessionResultResponse, error) {
+	testSessionResultDb, err := ts.testSessionResultRepository.CreateTestSessionResult(ctx, db.CreateTestSessionResultParams{
+		TestUuid:          params.TestUuid,
+		SessionUuid:       params.SessionUuid,
+		UserUuid:          params.UserUuid,
+		ResultDescription: params.ResultDescription,
+	})
 	if err != nil {
 		return &pb.GetTestSessionResultResponse{}, err
 	}

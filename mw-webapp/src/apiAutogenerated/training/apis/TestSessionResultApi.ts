@@ -15,15 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwTrainingBffInternalSchemasCreateSessionResultRequest,
   MwTrainingBffInternalSchemasGetTestSessionResultRequest,
   MwTrainingBffInternalSchemasGetTestSessionResultResponse,
 } from '../models/index';
 import {
+    MwTrainingBffInternalSchemasCreateSessionResultRequestFromJSON,
+    MwTrainingBffInternalSchemasCreateSessionResultRequestToJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultRequestFromJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultRequestToJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultResponseToJSON,
 } from '../models/index';
+
+export interface CreateTestSessionResultBySessionUuidRequest {
+    request: MwTrainingBffInternalSchemasCreateSessionResultRequest;
+}
 
 export interface GetTestSessionResultBySessionUuidRequest {
     request: MwTrainingBffInternalSchemasGetTestSessionResultRequest;
@@ -33,6 +40,41 @@ export interface GetTestSessionResultBySessionUuidRequest {
  * 
  */
 export class TestSessionResultApi extends runtime.BaseAPI {
+
+    /**
+     * If ResultDescription will no be provided - it will be generated with Ai
+     * Create test session result by session uuid
+     */
+    async createTestSessionResultBySessionUuidRaw(requestParameters: CreateTestSessionResultBySessionUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasGetTestSessionResultResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createTestSessionResultBySessionUuid.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/testSessionResult`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwTrainingBffInternalSchemasCreateSessionResultRequestToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * If ResultDescription will no be provided - it will be generated with Ai
+     * Create test session result by session uuid
+     */
+    async createTestSessionResultBySessionUuid(requestParameters: CreateTestSessionResultBySessionUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasGetTestSessionResultResponse> {
+        const response = await this.createTestSessionResultBySessionUuidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Get test session result by session uuid

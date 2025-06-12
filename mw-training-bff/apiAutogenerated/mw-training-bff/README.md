@@ -97,6 +97,7 @@ Class | Method | HTTP request | Description
 *TestAPI* | [**GetTestsAmountByUserId**](docs/TestAPI.md#gettestsamountbyuserid) | **Get** /test/amount/user/{userId} | Get tests amount by user id
 *TestAPI* | [**GetTestsByUserId**](docs/TestAPI.md#gettestsbyuserid) | **Get** /test/user/{userId} | Get tests by user id
 *TestAPI* | [**UpdateTest**](docs/TestAPI.md#updatetest) | **Patch** /test/{testId} | Update test by uuid
+*TestSessionResultAPI* | [**CreateTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#createtestsessionresultbysessionuuid) | **Post** /testSessionResult | Create test session result by session uuid
 *TestSessionResultAPI* | [**GetTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#gettestsessionresultbysessionuuid) | **Get** /testSessionResult | Get test session result by session uuid
 *TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials | Create theory material
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
@@ -128,6 +129,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasCreateQuestionPayload](docs/MwTrainingBffInternalSchemasCreateQuestionPayload.md)
  - [MwTrainingBffInternalSchemasCreateQuestionResultRequest](docs/MwTrainingBffInternalSchemasCreateQuestionResultRequest.md)
  - [MwTrainingBffInternalSchemasCreateSessionRequest](docs/MwTrainingBffInternalSchemasCreateSessionRequest.md)
+ - [MwTrainingBffInternalSchemasCreateSessionResultRequest](docs/MwTrainingBffInternalSchemasCreateSessionResultRequest.md)
  - [MwTrainingBffInternalSchemasCreateTestRequest](docs/MwTrainingBffInternalSchemasCreateTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasCreateTopicPayload](docs/MwTrainingBffInternalSchemasCreateTopicPayload.md)

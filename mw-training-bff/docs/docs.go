@@ -686,6 +686,39 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "If ResultDescription will no be provided - it will be generated with Ai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test-session-result"
+                ],
+                "summary": "Create test session result by session uuid",
+                "operationId": "create-test-session-result-by-session-uuid",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateSessionResultRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse"
+                        }
+                    }
+                }
             }
         },
         "/theoryMaterials": {
@@ -1561,6 +1594,20 @@ const docTemplate = `{
             ],
             "properties": {
                 "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateSessionResultRequest": {
+            "type": "object",
+            "required": [
+                "sessionUuid"
+            ],
+            "properties": {
+                "resultDescription": {
+                    "type": "string"
+                },
+                "sessionUuid": {
                     "type": "string"
                 }
             }

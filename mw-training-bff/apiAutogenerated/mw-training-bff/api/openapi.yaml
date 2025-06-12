@@ -432,6 +432,28 @@ paths:
       tags:
       - test-session-result
       x-codegen-request-body-name: request
+    post:
+      description: If ResultDescription will no be provided - it will be generated
+        with Ai
+      operationId: create-test-session-result-by-session-uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateSessionResultRequest'
+        description: body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
+          description: OK
+      summary: Create test session result by session uuid
+      tags:
+      - test-session-result
+      x-codegen-request-body-name: request
   /theoryMaterials:
     post:
       operationId: create-theory-material
@@ -1003,6 +1025,15 @@ components:
           type: string
       required:
       - userUuid
+      type: object
+    mw-training-bff_internal_schemas.CreateSessionResultRequest:
+      properties:
+        resultDescription:
+          type: string
+        sessionUuid:
+          type: string
+      required:
+      - sessionUuid
       type: object
     mw-training-bff_internal_schemas.CreateTestRequest:
       properties:

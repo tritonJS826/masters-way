@@ -97,6 +97,7 @@ service QuestionResultsService {
 
 service TestSessionResultsService {
   rpc GetTestSessionResult(GetTestSessionResultRequest) returns (GetTestSessionResultResponse);
+  rpc CreateTestSessionResult(CreateTestSessionResultRequest) returns (GetTestSessionResultResponse);
 }
 
 message CreateTrainingTagRequest {
@@ -505,6 +506,13 @@ message CreateSessionResult {
 message GetTestSessionResultRequest {
   string session_uuid = 1;
   string user_uuid = 2; 
+}
+
+message CreateTestSessionResultRequest {
+  string session_uuid = 1;
+  string user_uuid = 2;
+  string test_uuid = 3;
+  string result_description = 4;
 }
 
 message GetTestSessionResultResponse {
