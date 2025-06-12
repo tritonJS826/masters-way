@@ -71,7 +71,7 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
-          path={pages.runningTest.getPath({uuid: ":uuid"})}
+          path={pages.runningTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid"})}
           element={<WithValidatedParams paramsSchema={pages.runningTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
         />
