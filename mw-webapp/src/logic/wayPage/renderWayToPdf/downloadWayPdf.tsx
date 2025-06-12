@@ -293,9 +293,24 @@ const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTrip
 };
 
 /**
+ * Get header for reports block
+ */
+const getReportsHeader = (): Content[] => {
+  return [
+    {
+      alignment: "center",
+      text: "Reports",
+      style: "header",
+      bold: true,
+      margin: [0, MARGIN_MEDIUM],
+    },
+  ];
+};
+
+/**
  * Get reports
  */
-export const getReports = async (way: Way): Promise<Content[]> => {
+const getReports = async (way: Way): Promise<Content[]> => {
   const dayReports = await getAllDayReports(way);
 
   return dayReports.flatMap<Content>(day => {
@@ -331,7 +346,13 @@ export const getReports = async (way: Way): Promise<Content[]> => {
     const ulFrom = (items: ListItem[]): ContentUnorderedList => ({ul: items.map(item => item.description)});
 
     return [
-      dateHeader,
+      {
+        alignment: "center",
+        text: dateHeader,
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_MEDIUM],
+      },
       sectionHeader("Jobs Done"), ulFrom(day.jobsDone),
       sectionHeader("Plans"), ulFrom(day.plans),
       sectionHeader("Problems"), ulFrom(day.problems),
@@ -360,6 +381,7 @@ export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTr
     metrics: way.metrics,
   });
   const statisticsDefinition = getStatistics(way.dayReports, statisticsTriple);
+  const reportsHeader = getReportsHeader();
   const reportsDefinition = await getReports(way);
 
   const docDefinition: TDocumentDefinitions = {
@@ -372,6 +394,7 @@ export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTr
       formerMentorsDefinition,
       goalDefinition,
       statisticsDefinition,
+      reportsHeader,
       reportsDefinition,
     ],
   };

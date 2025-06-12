@@ -5,7 +5,6 @@ import {GetTestsByUserIdParams} from "src/logic/userPage/testTab/TestTabStore";
 import {Test} from "src/model/businessModel/Test";
 import {TestPreview} from "src/model/businessModelPreview/TestPreview";
 import {TestService} from "src/service/TestService";
-import {TrainingService} from "src/service/TrainingService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
@@ -196,7 +195,7 @@ export class TestDAL {
    * Delete Test
    */
   public static async deleteTest(testId: string) {
-    await TrainingService.deleteTraining({trainingId: testId});
+    await TestService.deleteTest({testId});
   }
 
 }
