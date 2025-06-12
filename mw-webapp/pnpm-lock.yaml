@@ -63,8 +63,8 @@ dependencies:
     specifier: 4.0.7
     version: 4.0.7(mobx@6.12.5)(react-dom@18.2.0)(react@18.2.0)
   pdfmake:
-    specifier: 0.2.11
-    version: 0.2.11
+    specifier: 0.2.20
+    version: 0.2.20
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -158,8 +158,8 @@ devDependencies:
     specifier: 20.10.0
     version: 20.10.0
   '@types/pdfmake':
-    specifier: 0.2.9
-    version: 0.2.9
+    specifier: 0.2.11
+    version: 0.2.11
   '@types/react':
     specifier: 18.2.55
     version: 18.2.55
@@ -2226,12 +2226,13 @@ packages:
       unicode-trie: 2.0.0
     dev: false
 
-  /@foliojs-fork/pdfkit@0.14.0:
-    resolution: {integrity: sha512-nMOiQAv6id89MT3tVTCgc7HxD5ZMANwio2o5yvs5sexQkC0KI3BLaLakpsrHmFfeGFAhqPmZATZGbJGXTUebpg==}
+  /@foliojs-fork/pdfkit@0.15.3:
+    resolution: {integrity: sha512-Obc0Wmy3bm7BINFVvPhcl2rnSSK61DQrlHU8aXnAqDk9LCjWdUOPwhgD8Ywz5VtuFjRxmVOM/kQ/XLIBjDvltw==}
     dependencies:
       '@foliojs-fork/fontkit': 1.9.2
       '@foliojs-fork/linebreak': 1.1.2
       crypto-js: 4.2.0
+      jpeg-exif: 1.1.4
       png-js: 1.0.0
     dev: false
 
@@ -5334,8 +5335,8 @@ packages:
       '@types/node': 20.10.0
     dev: true
 
-  /@types/pdfmake@0.2.9:
-    resolution: {integrity: sha512-uLDKEH3A1fnCd/qXYJB2OnKkkjfdC1oc6HYVYBKxsyN1UsJL/8Lt67T6WFo3umkL+5Zd74M2IYcOf5kwwd9x9w==}
+  /@types/pdfmake@0.2.11:
+    resolution: {integrity: sha512-gglgMQhnG6C2kco13DJlvokqTxL+XKxHwCejElH8fSCNF9ZCkRK6Mzo011jQ0zuug+YlIgn6BpcpZrARyWdW3Q==}
     dependencies:
       '@types/node': 20.10.0
       '@types/pdfkit': 0.13.9
@@ -8981,6 +8982,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /jpeg-exif@1.1.4:
+    resolution: {integrity: sha512-a+bKEcCjtuW5WTdgeXFzswSrdqi0jk4XlEtZlx5A94wCoBpFjfFTbo/Tra5SpNCl/YFZPvcV1dJc+TAYeg6ROQ==}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -10235,14 +10240,14 @@ packages:
     engines: {node: '>= 14.16'}
     dev: true
 
-  /pdfmake@0.2.11:
-    resolution: {integrity: sha512-Ig9LBhIYWW8t0/MiXQPYOQdMgwjg+f3JS2iWA7q94Ftc4wSDO5VZP+a1+QN7uz3FbA7+vB4EEYfg3xU0wRPk8w==}
-    engines: {node: '>=12'}
+  /pdfmake@0.2.20:
+    resolution: {integrity: sha512-bGbxbGFP5p8PWNT3Phsu1ZcRLnRfF6jmnuKTkgmt6i5PZzSdX6JaB+NeTz9q+aocfW8SE9GUjL3o/5GroBqGcQ==}
+    engines: {node: '>=18'}
     dependencies:
       '@foliojs-fork/linebreak': 1.1.2
-      '@foliojs-fork/pdfkit': 0.14.0
+      '@foliojs-fork/pdfkit': 0.15.3
       iconv-lite: 0.6.3
-      xmldoc: 1.3.0
+      xmldoc: 2.0.1
     dev: false
 
   /pend@1.2.0:
@@ -12686,8 +12691,9 @@ packages:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
     dev: true
 
-  /xmldoc@1.3.0:
-    resolution: {integrity: sha512-y7IRWW6PvEnYQZNZFMRLNJw+p3pezM4nKYPfr15g4OOW9i8VpeydycFuipE2297OvZnh3jSb2pxOt9QpkZUVng==}
+  /xmldoc@2.0.1:
+    resolution: {integrity: sha512-sOOqgsjl3PU6iBw+fBUGAkTCE+JFK+sBaOL3pnZgzqk2/yvOD7RlFmZtDRJAEBzdpOYxSXyOQH4mjubdfs3MSg==}
+    engines: {node: '>=12.0.0'}
     dependencies:
       sax: 1.4.1
     dev: false
