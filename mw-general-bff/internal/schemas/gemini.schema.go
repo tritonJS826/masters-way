@@ -133,3 +133,14 @@ type GeneratedQuestion struct {
 type AIGenerateQuestionsForTestResponse struct {
 	Questions []*GeneratedQuestion `json:"questions" validate:"required"`
 }
+
+type AIGenerateTrainingByTestTestSessionIdPayload struct {
+	TestSessionId               string `json:"testId" validate:"required"`
+	GenerateTopicsAmount        int32  `json:"generateTopicsAmount" validate:"required"`
+	PracticeMaterialInEachTopic int32  `json:"practiceMaterialInEachTopic" validate:"required"`
+	Language                    string `json:"language" validate:"required" example:"ru|en|ua"`
+}
+
+type AIGenerateTrainingByTestTestSessionIdResponse struct {
+	TrainingId string `json:"trainingId" validate:"required"`
+}

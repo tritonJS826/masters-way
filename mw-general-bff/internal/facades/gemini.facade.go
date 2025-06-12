@@ -43,9 +43,32 @@ func (gs *GeminiFacade) EstimateIssue(ctx context.Context, payload *schemas.AIEs
 	return gs.generalService.EstimateIssue(ctx, payload)
 }
 
-type shortParentTopicForGeneration struct {
+type ShortParentTopicForGeneration struct {
 	Name        string
 	Description string
+}
+
+func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload, userId string) (*schemas.AIGenerateTrainingByTestTestSessionIdResponse, error) {
+	// 	SessionUuid: payload.TestSessionId,
+	// 	UserUuid:    userId,
+	// })
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// generatedTraining, err := gs.generalService.GenerateTrainingByTestResults(ctx, params)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// generate training description 1
+	// create training
+	// generate topics 1
+	// create topics (use existent method)
+	// ?? generate theory materials (bunch) maybe with practice material generation! in one request
+	// ?? generate practice material for each topic (use existent method) topics amount (max 30?)
+	// return &schemas.AIGenerateTrainingByTestTestSessionIdResponse{}, nil
+	return nil, nil
 }
 
 func (gs *GeminiFacade) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {

@@ -11,6 +11,8 @@ type TrainingService struct {
 	trainingGRPC            pb.TrainingServiceClient
 	testGRPC                pb.TestServiceClient
 	questionGRPC            pb.QuestionServiceClient
+	questionResultsGRPC     pb.QuestionResultsServiceClient
+	testSessionResultGRPC   pb.TestSessionResultsServiceClient
 	topicGRPC               pb.TopicsServiceClient
 	theoryMaterialGRPC      pb.TheoryMaterialServiceClient
 	practiceMaterialGRPC    pb.PracticeMaterialServiceClient
@@ -21,12 +23,14 @@ func newTrainingService(
 	trainingGRPC pb.TrainingServiceClient,
 	testGRPC pb.TestServiceClient,
 	questionGRPC pb.QuestionServiceClient,
+	questionResultsGRPC pb.QuestionResultsServiceClient,
+	testSessionResultGRPC pb.TestSessionResultsServiceClient,
 	topicGRPC pb.TopicsServiceClient,
 	theoryMaterialGRPC pb.TheoryMaterialServiceClient,
 	practiceMaterialGRPC pb.PracticeMaterialServiceClient,
 	trainingMessageToAiGRPC pb.TrainingMessageToAIServiceClient,
 ) *TrainingService {
-	return &TrainingService{trainingGRPC, testGRPC, questionGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
+	return &TrainingService{trainingGRPC, testGRPC, questionGRPC, questionResultsGRPC, testSessionResultGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
 }
 
 type GetTestParams struct {
@@ -43,6 +47,38 @@ func (ts *TrainingService) GetTestById(ctx context.Context, params *GetTestParam
 		return nil, err
 	}
 	return test, nil
+}
+
+type GetTestSessionResultParams struct {
+	SessionUuid string
+	UserUuid    string
+}
+
+func (ts *TrainingService) GetTestSessionResult(ctx context.Context, params *GetTestSessionResultParams) (*pb.GetTestSessionResultResponse, error) {
+	testSessionResult, err := ts.testSessionResultGRPC.GetTestSessionResult(ctx, &pb.GetTestSessionResultRequest{
+		SessionUuid: params.SessionUuid,
+		UserUuid:    params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return testSessionResult, nil
+}
+
+type GetQuestionResultsBySessionUuidParams struct {
+	SessionUuid string
+	UserUuid    string
+}
+
+func (ts *TrainingService) GetQuestionResultsBySessionUuid(ctx context.Context, params *GetQuestionResultsBySessionUuidParams) (*pb.GetQuestionResultsBySessionUuidResponse, error) {
+	questionResult, err := ts.questionResultsGRPC.GetQuestionResultsBySessionUuid(ctx, &pb.GetQuestionResultsBySessionUuidRequest{
+		SessionUuid: params.SessionUuid,
+		UserUuid:    params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return questionResult, nil
 }
 
 type CreateTestQuestionParams struct {

@@ -224,6 +224,31 @@ func (cc *GeminiController) GeneratePracticeMaterialForTraining(ctx *gin.Context
 	ctx.JSON(http.StatusOK, response)
 }
 
+// @Summary Generate training by test test sessionId
+// @Description Generate training by test sessionId
+// @Tags gemini
+// @ID ai-training-by-test-session
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.AIGenerateTrainingByTestTestSessionIdPayload true "Request payload"
+// @Success 200 {object} schemas.AIGenerateTrainingByTestTestSessionIdResponse
+// @Router /gemini/training/topics/{sessionResultId} [post]
+func (cc *GeminiController) GenerateTrainingByTestSessionId(ctx *gin.Context) {
+	var payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userIdRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userId := userIdRaw.(string)
+
+	response, err := cc.geminiFacade.GenerateTrainingByTestSessionId(ctx, payload, userId)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 // Generate questions for test
 // @Summary Generate questions for test
 // @Description Generate questions for test

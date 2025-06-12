@@ -38,6 +38,8 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 
 	testGRPC := training.NewTestServiceClient(trainingConfig)
 	questionGRPC := training.NewQuestionServiceClient(trainingConfig)
+	questionResultsGRPC := training.NewQuestionResultsServiceClient(trainingConfig)
+	testSessionResultsGRPC := training.NewTestSessionResultsServiceClient(trainingConfig)
 
 	return &Service{
 		AuthService:          newAuthService(generalApi),
@@ -47,6 +49,6 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 		NotificationService:  newNotificationService(notificationGRPC, notificationSettingGRPC),
 		ChatService:          newChatService(chatApi, config),
 		ChatWebSocketService: newChatWebSocketService(chatWebSocketApi),
-		TrainingService:      newTrainingService(trainingGRPC, testGRPC, questionGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
+		TrainingService:      newTrainingService(trainingGRPC, testGRPC, questionGRPC, questionResultsGRPC, testSessionResultsGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
 	}
 }
