@@ -82,8 +82,11 @@ definitions:
         type: string
       sessionUuid:
         type: string
+      testUuid:
+        type: string
     required:
     - sessionUuid
+    - testUuid
     type: object
   mw-training-bff_internal_schemas.CreateTestRequest:
     properties:
@@ -148,13 +151,6 @@ definitions:
         type: string
     required:
     - name
-    type: object
-  mw-training-bff_internal_schemas.GetTestSessionResultRequest:
-    properties:
-      sessionUuid:
-        type: string
-    required:
-    - sessionUuid
     type: object
   mw-training-bff_internal_schemas.GetTestSessionResultResponse:
     properties:
@@ -1113,27 +1109,6 @@ paths:
       tags:
       - test
   /testSessionResult:
-    get:
-      consumes:
-      - application/json
-      operationId: get-test-session-result-by-session-uuid
-      parameters:
-      - description: body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
-      summary: Get test session result by session uuid
-      tags:
-      - test-session-result
     post:
       consumes:
       - application/json
@@ -1155,6 +1130,27 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
       summary: Create test session result by session uuid
+      tags:
+      - test-session-result
+  /testSessionResult/{sessionId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-test-session-result-by-session-uuid
+      parameters:
+      - description: session ID
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
+      summary: Get test session result by session uuid
       tags:
       - test-session-result
   /theoryMaterials:

@@ -600,6 +600,28 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/test/questions:
+    post:
+      description: Generate questions for test
+      operationId: ai-question-test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse'
+          description: OK
+      summary: Generate questions for test
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/trainings/practiceMaterial:
     post:
       description: Generate practice material for training
@@ -2054,6 +2076,51 @@ components:
       required:
       - practiceMaterials
       type: object
+    mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload:
+      properties:
+        generateAmount:
+          type: integer
+        language:
+          example: ru|en|ua
+          type: string
+        testId:
+          type: string
+      required:
+      - generateAmount
+      - language
+      - testId
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse:
+      example:
+        questions:
+        - createdAt: createdAt
+          test_uuid: test_uuid
+          is_active: true
+          answer: answer
+          name: name
+          time_to_answer: 6
+          uuid: uuid
+          questionText: questionText
+          order: 0
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          test_uuid: test_uuid
+          is_active: true
+          answer: answer
+          name: name
+          time_to_answer: 6
+          uuid: uuid
+          questionText: questionText
+          order: 0
+          updatedAt: updatedAt
+      properties:
+        questions:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.GeneratedQuestion'
+          type: array
+      required:
+      - questions
+      type: object
     mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
       properties:
         language:
@@ -3080,6 +3147,50 @@ components:
       - taskDescription
       - timeToAnswer
       - topicUuid
+      - updatedAt
+      - uuid
+      type: object
+    mw-general-bff_internal_schemas.GeneratedQuestion:
+      example:
+        createdAt: createdAt
+        test_uuid: test_uuid
+        is_active: true
+        answer: answer
+        name: name
+        time_to_answer: 6
+        uuid: uuid
+        questionText: questionText
+        order: 0
+        updatedAt: updatedAt
+      properties:
+        answer:
+          type: string
+        createdAt:
+          type: string
+        is_active:
+          type: boolean
+        name:
+          type: string
+        order:
+          type: integer
+        questionText:
+          type: string
+        test_uuid:
+          type: string
+        time_to_answer:
+          type: integer
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - answer
+      - createdAt
+      - is_active
+      - order
+      - questionText
+      - test_uuid
+      - time_to_answer
       - updatedAt
       - uuid
       type: object

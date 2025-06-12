@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"mw-general-bff/internal/auth"
+	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -8,10 +10,11 @@ import (
 
 type geminiRouter struct {
 	geminiController *controllers.GeminiController
+	config           *config.Config
 }
 
-func newGeminiRouter(geminiController *controllers.GeminiController) *geminiRouter {
-	return &geminiRouter{geminiController}
+func newGeminiRouter(geminiController *controllers.GeminiController, config *config.Config) *geminiRouter {
+	return &geminiRouter{geminiController, config}
 }
 
 func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
@@ -27,5 +30,7 @@ func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
 		router.POST("/trainings/topics", gr.geminiController.GenerateTopicsForTraining)
 		router.POST("/trainings/theoryMaterial", gr.geminiController.GenerateTheoryMaterialForTraining)
 		router.POST("/trainings/practiceMaterial", gr.geminiController.GeneratePracticeMaterialForTraining)
+
+		router.POST("/test/questions", auth.HandleHeaders(gr.config), gr.geminiController.GenerateQuestionsForTest)
 	}
 }

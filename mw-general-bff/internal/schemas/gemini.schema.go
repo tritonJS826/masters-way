@@ -110,3 +110,26 @@ type GeneratedPracticeMaterial struct {
 type AIGeneratePracticeMaterialsForTrainingResponse struct {
 	PracticeMaterials []GeneratedPracticeMaterial `json:"practiceMaterials" validate:"required"`
 }
+
+type AIGenerateQuestionsForTestPayload struct {
+	TestId         string `json:"testId" validate:"required"`
+	GenerateAmount int32  `json:"generateAmount" validate:"required"`
+	Language       string `json:"language" validate:"required" example:"ru|en|ua"`
+}
+
+type GeneratedQuestion struct {
+	UUID         string  `json:"uuid" validate:"required"`
+	Name         *string `json:"name"`
+	TestUUID     string  `json:"test_uuid" validate:"required"`
+	QuestionText string  `json:"questionText" validate:"required"`
+	Order        int32   `json:"order" validate:"required"`
+	TimeToAnswer int32   `json:"time_to_answer" validate:"required"`
+	Answer       string  `json:"answer" validate:"required"`
+	IsActive     bool    `json:"is_active" validate:"required"`
+	CreatedAt    string  `json:"createdAt" validate:"required"`
+	UpdatedAt    string  `json:"updatedAt" validate:"required"`
+}
+
+type AIGenerateQuestionsForTestResponse struct {
+	Questions []*GeneratedQuestion `json:"questions" validate:"required"`
+}

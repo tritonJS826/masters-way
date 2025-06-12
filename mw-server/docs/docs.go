@@ -932,6 +932,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/test/questions": {
+            "post": {
+                "description": "Generate questions test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate questions test",
+                "operationId": "ai-questions-for-test",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateQuestionsForTestPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateQuestionsForTestResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/trainings/practiceMaterial": {
             "post": {
                 "description": "Generate practice material for training",
@@ -3168,6 +3203,51 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-server_internal_schemas.AIGenerateQuestionsForTestPayload": {
+            "type": "object",
+            "required": [
+                "generateAmount",
+                "language",
+                "questions",
+                "testDescription",
+                "testName"
+            ],
+            "properties": {
+                "generateAmount": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "testDescription": {
+                    "type": "string"
+                },
+                "testName": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateQuestionsForTestResponse": {
+            "type": "object",
+            "required": [
+                "questions"
+            ],
+            "properties": {
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.GeneratedQuestion"
+                    }
+                }
+            }
+        },
         "mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload": {
             "type": "object",
             "required": [
@@ -3930,6 +4010,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-server_internal_schemas.GeneratedQuestion": {
+            "type": "object",
+            "required": [
+                "answer",
+                "name",
+                "questionText",
+                "timeToAnswer"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "questionText": {
                     "type": "string"
                 },
                 "timeToAnswer": {

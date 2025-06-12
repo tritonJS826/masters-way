@@ -655,38 +655,6 @@ const docTemplate = `{
             }
         },
         "/testSessionResult": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "test-session-result"
-                ],
-                "summary": "Get test session result by session uuid",
-                "operationId": "get-test-session-result-by-session-uuid",
-                "parameters": [
-                    {
-                        "description": "body",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "If ResultDescription will no be provided - it will be generated with Ai",
                 "consumes": [
@@ -709,6 +677,38 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateSessionResultRequest"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/testSessionResult/{sessionId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test-session-result"
+                ],
+                "summary": "Get test session result by session uuid",
+                "operationId": "get-test-session-result-by-session-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "session ID",
+                        "name": "sessionId",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1601,13 +1601,17 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.CreateSessionResultRequest": {
             "type": "object",
             "required": [
-                "sessionUuid"
+                "sessionUuid",
+                "testUuid"
             ],
             "properties": {
                 "resultDescription": {
                     "type": "string"
                 },
                 "sessionUuid": {
+                    "type": "string"
+                },
+                "testUuid": {
                     "type": "string"
                 }
             }
@@ -1703,17 +1707,6 @@ const docTemplate = `{
             ],
             "properties": {
                 "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "mw-training-bff_internal_schemas.GetTestSessionResultRequest": {
-            "type": "object",
-            "required": [
-                "sessionUuid"
-            ],
-            "properties": {
-                "sessionUuid": {
                     "type": "string"
                 }
             }

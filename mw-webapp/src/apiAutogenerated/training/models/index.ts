@@ -11,7 +11,6 @@ export * from './MwTrainingBffInternalSchemasCreateTopicPayload';
 export * from './MwTrainingBffInternalSchemasCreateTrainingPayload';
 export * from './MwTrainingBffInternalSchemasCreateTrainingTestRequest';
 export * from './MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload';
-export * from './MwTrainingBffInternalSchemasGetTestSessionResultRequest';
 export * from './MwTrainingBffInternalSchemasGetTestSessionResultResponse';
 export * from './MwTrainingBffInternalSchemasPracticeMaterial';
 export * from './MwTrainingBffInternalSchemasPracticeMaterials';

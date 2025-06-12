@@ -592,6 +592,28 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/test/questions:
+    post:
+      description: Generate questions test
+      operationId: ai-questions-for-test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateQuestionsForTestPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateQuestionsForTestResponse'
+          description: OK
+      summary: Generate questions test
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/trainings/practiceMaterial:
     post:
       description: Generate practice material for training
@@ -2075,6 +2097,47 @@ components:
       required:
       - practiceMaterials
       type: object
+    mw-server_internal_schemas.AIGenerateQuestionsForTestPayload:
+      properties:
+        generateAmount:
+          type: integer
+        language:
+          example: ru|en|ua
+          type: string
+        questions:
+          items:
+            type: string
+          type: array
+        testDescription:
+          type: string
+        testName:
+          type: string
+      required:
+      - generateAmount
+      - language
+      - questions
+      - testDescription
+      - testName
+      type: object
+    mw-server_internal_schemas.AIGenerateQuestionsForTestResponse:
+      example:
+        questions:
+        - timeToAnswer: 0
+          answer: answer
+          name: name
+          questionText: questionText
+        - timeToAnswer: 0
+          answer: answer
+          name: name
+          questionText: questionText
+      properties:
+        questions:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.GeneratedQuestion'
+          type: array
+      required:
+      - questions
+      type: object
     mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
       properties:
         existentPracticeMaterials:
@@ -3067,6 +3130,27 @@ components:
       - answer
       - name
       - taskDescription
+      - timeToAnswer
+      type: object
+    mw-server_internal_schemas.GeneratedQuestion:
+      example:
+        timeToAnswer: 0
+        answer: answer
+        name: name
+        questionText: questionText
+      properties:
+        answer:
+          type: string
+        name:
+          type: string
+        questionText:
+          type: string
+        timeToAnswer:
+          type: integer
+      required:
+      - answer
+      - name
+      - questionText
       - timeToAnswer
       type: object
     mw-server_internal_schemas.GetAllUsersResponse:

@@ -106,3 +106,22 @@ type GeneratedPracticeMaterial struct {
 type AIGeneratePracticeMaterialsForTopicResponse struct {
 	PracticeMaterials []GeneratedPracticeMaterial `json:"practiceMaterials" validate:"required"`
 }
+
+type AIGenerateQuestionsForTestPayload struct {
+	TestDescription string   `json:"testDescription" validate:"required"`
+	TestName        string   `json:"testName" validate:"required"`
+	GenerateAmount  int      `json:"generateAmount" validate:"required"`
+	Language        string   `json:"language" validate:"required" example:"ru|en|ua"`
+	Questions       []string `json:"questions" validate:"required"`
+}
+
+type GeneratedQuestion struct {
+	QuestionText string `json:"questionText" validate:"required"`
+	TimeToAnswer int    `json:"timeToAnswer" validate:"required" description:"13, 120 etc.: in seconds"`
+	Answer       string `json:"answer" validate:"required"`
+	Name         string `json:"name" validate:"required"`
+}
+
+type AIGenerateQuestionsForTestResponse struct {
+	Questions []GeneratedQuestion `json:"questions" validate:"required"`
+}

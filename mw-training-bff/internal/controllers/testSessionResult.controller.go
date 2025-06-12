@@ -33,20 +33,15 @@ func NewTestSessionResultsController(
 // @ID get-test-session-result-by-session-uuid
 // @Accept json
 // @Produce json
-// @Param request body schemas.GetTestSessionResultRequest true "body"
+// @Param sessionId path string true "session ID"
 // @Success 200 {object} schemas.GetTestSessionResultResponse
-// @Router /testSessionResult [get]
+// @Router /testSessionResult/{sessionId} [get]
 func (c *TestSessionResultsController) GetTestSessionResult(ctx *gin.Context) {
 	requestOwnerUuid := ctx.Value(auth.ContextKeyUserID).(string)
-
-	var payload *schemas.GetTestSessionResultRequest
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
-	}
+	sessionUuidRaw := ctx.Param("sessionId")
 
 	params := &services.GetTestSessionResultParams{
-		SessionUuid: payload.SessionUUID,
+		SessionUuid: sessionUuidRaw,
 		UserUuid:    requestOwnerUuid,
 	}
 
@@ -79,6 +74,7 @@ func (c *TestSessionResultsController) CreateTestSessionResult(ctx *gin.Context)
 		SessionUuid:       payload.SessionUUID,
 		UserUuid:          requestOwnerUuid,
 		ResultDescription: payload.ResultDescription,
+		TestUuid:          payload.TestUuid,
 	}
 
 	testSessionResult, err := c.testSessionResultsService.CreateTestSessionResult(ctx, params)

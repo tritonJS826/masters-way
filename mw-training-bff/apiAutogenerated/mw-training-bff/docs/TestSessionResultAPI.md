@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost/mw-training*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTestSessionResultBySessionUuid**](TestSessionResultAPI.md#CreateTestSessionResultBySessionUuid) | **Post** /testSessionResult | Create test session result by session uuid
-[**GetTestSessionResultBySessionUuid**](TestSessionResultAPI.md#GetTestSessionResultBySessionUuid) | **Get** /testSessionResult | Get test session result by session uuid
+[**GetTestSessionResultBySessionUuid**](TestSessionResultAPI.md#GetTestSessionResultBySessionUuid) | **Get** /testSessionResult/{sessionId} | Get test session result by session uuid
 
 
 
@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateSessionResultRequest("SessionUuid_example") // MwTrainingBffInternalSchemasCreateSessionResultRequest | body
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateSessionResultRequest("SessionUuid_example", "TestUuid_example") // MwTrainingBffInternalSchemasCreateSessionResultRequest | body
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -77,7 +77,7 @@ No authorization required
 
 ## GetTestSessionResultBySessionUuid
 
-> MwTrainingBffInternalSchemasGetTestSessionResultResponse GetTestSessionResultBySessionUuid(ctx).Request(request).Execute()
+> MwTrainingBffInternalSchemasGetTestSessionResultResponse GetTestSessionResultBySessionUuid(ctx, sessionId).Execute()
 
 Get test session result by session uuid
 
@@ -94,11 +94,11 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwTrainingBffInternalSchemasGetTestSessionResultRequest("SessionUuid_example") // MwTrainingBffInternalSchemasGetTestSessionResultRequest | body
+	sessionId := "sessionId_example" // string | session ID
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TestSessionResultAPI.GetTestSessionResultBySessionUuid(context.Background()).Request(request).Execute()
+	resp, r, err := apiClient.TestSessionResultAPI.GetTestSessionResultBySessionUuid(context.Background(), sessionId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TestSessionResultAPI.GetTestSessionResultBySessionUuid``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -111,6 +111,10 @@ func main() {
 ### Path Parameters
 
 
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sessionId** | **string** | session ID | 
 
 ### Other Parameters
 
@@ -119,7 +123,7 @@ Other parameters are passed through a pointer to a apiGetTestSessionResultBySess
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwTrainingBffInternalSchemasGetTestSessionResultRequest**](MwTrainingBffInternalSchemasGetTestSessionResultRequest.md) | body | 
+
 
 ### Return type
 
@@ -131,7 +135,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

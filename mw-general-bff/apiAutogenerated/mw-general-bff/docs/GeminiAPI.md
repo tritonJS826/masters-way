@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**AiEstimateIssue**](GeminiAPI.md#AiEstimateIssue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 [**AiPlansByMetrics**](GeminiAPI.md#AiPlansByMetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 [**AiPracticeMaterialForTopic**](GeminiAPI.md#AiPracticeMaterialForTopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+[**AiQuestionTest**](GeminiAPI.md#AiQuestionTest) | **Post** /gemini/test/questions | Generate questions for test
 [**AiTheoryMaterialForTopic**](GeminiAPI.md#AiTheoryMaterialForTopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 [**AiTopicForTraining**](GeminiAPI.md#AiTopicForTraining) | **Post** /gemini/trainings/topics | 
 [**GenerateMetrics**](GeminiAPI.md#GenerateMetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
@@ -397,6 +398,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse**](MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiQuestionTest
+
+> MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse AiQuestionTest(ctx).Request(request).Execute()
+
+Generate questions for test
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload(int32(123), "ru|en|ua", "TestId_example") // MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiQuestionTest(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiQuestionTest``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiQuestionTest`: MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiQuestionTest`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiQuestionTestRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload**](MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload.md) | Request payload | 
+
+### Return type
+
+[**MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse**](MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse.md)
 
 ### Authorization
 

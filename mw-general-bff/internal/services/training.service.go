@@ -9,6 +9,8 @@ import (
 
 type TrainingService struct {
 	trainingGRPC            pb.TrainingServiceClient
+	testGRPC                pb.TestServiceClient
+	questionGRPC            pb.QuestionServiceClient
 	topicGRPC               pb.TopicsServiceClient
 	theoryMaterialGRPC      pb.TheoryMaterialServiceClient
 	practiceMaterialGRPC    pb.PracticeMaterialServiceClient
@@ -17,12 +19,56 @@ type TrainingService struct {
 
 func newTrainingService(
 	trainingGRPC pb.TrainingServiceClient,
+	testGRPC pb.TestServiceClient,
+	questionGRPC pb.QuestionServiceClient,
 	topicGRPC pb.TopicsServiceClient,
 	theoryMaterialGRPC pb.TheoryMaterialServiceClient,
 	practiceMaterialGRPC pb.PracticeMaterialServiceClient,
 	trainingMessageToAiGRPC pb.TrainingMessageToAIServiceClient,
 ) *TrainingService {
-	return &TrainingService{trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
+	return &TrainingService{trainingGRPC, testGRPC, questionGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
+}
+
+type GetTestParams struct {
+	TestId string
+	UserId string
+}
+
+func (ts *TrainingService) GetTestById(ctx context.Context, params *GetTestParams) (*pb.Test, error) {
+	test, err := ts.testGRPC.GetTestById(ctx, &pb.GetTestByIdRequest{
+		Uuid:      params.TestId,
+		OwnerUuid: params.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return test, nil
+}
+
+type CreateTestQuestionParams struct {
+	TestUuid     string
+	UserUuid     string
+	Name         string
+	QuestionText *string
+	TimeToAnswer *int32
+	Answer       *string
+	PracticeType string
+}
+
+func (ts *TrainingService) CreateTestQuestion(ctx context.Context, params CreateTestQuestionParams) (*pb.Question, error) {
+	question, err := ts.questionGRPC.CreateQuestion(ctx, &pb.CreateQuestionRequest{
+		TestUuid:     params.TestUuid,
+		UserUuid:     params.UserUuid,
+		Name:         params.Name,
+		QuestionText: params.QuestionText,
+		TimeToAnswer: params.TimeToAnswer,
+		Answer:       params.Answer,
+		PracticeType: params.PracticeType,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return question, nil
 }
 
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingId string) (*pb.Training, error) {

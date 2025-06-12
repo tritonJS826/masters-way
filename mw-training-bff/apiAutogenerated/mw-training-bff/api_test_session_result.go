@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 
@@ -220,13 +221,7 @@ func (a *TestSessionResultAPIService) CreateTestSessionResultBySessionUuidStream
 type ApiGetTestSessionResultBySessionUuidRequest struct {
 	ctx context.Context
 	ApiService *TestSessionResultAPIService
-	request *MwTrainingBffInternalSchemasGetTestSessionResultRequest
-}
-
-// body
-func (r ApiGetTestSessionResultBySessionUuidRequest) Request(request MwTrainingBffInternalSchemasGetTestSessionResultRequest) ApiGetTestSessionResultBySessionUuidRequest {
-	r.request = &request
-	return r
+	sessionId string
 }
 
 func (r ApiGetTestSessionResultBySessionUuidRequest) Execute() (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
@@ -237,12 +232,14 @@ func (r ApiGetTestSessionResultBySessionUuidRequest) Execute() (*MwTrainingBffIn
 GetTestSessionResultBySessionUuid Get test session result by session uuid
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param sessionId session ID
  @return ApiGetTestSessionResultBySessionUuidRequest
 */
-func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuid(ctx context.Context) ApiGetTestSessionResultBySessionUuidRequest {
+func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuid(ctx context.Context, sessionId string) ApiGetTestSessionResultBySessionUuidRequest {
 	return ApiGetTestSessionResultBySessionUuidRequest{
 		ApiService: a,
 		ctx: ctx,
+		sessionId: sessionId,
 	}
 }
 
@@ -261,17 +258,15 @@ func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidExecute(r
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/testSessionResult"
+	localVarPath := localBasePath + "/testSessionResult/{sessionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", url.PathEscape(parameterValueToString(r.sessionId, "sessionId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.request == nil {
-		return localVarReturnValue, nil, reportError("request is required and must be specified")
-	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -287,8 +282,6 @@ func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidExecute(r
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -339,7 +332,8 @@ func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidStreamExe
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/testSessionResult"
+	localVarPath := localBasePath + "/testSessionResult/{sessionId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", url.PathEscape(parameterValueToString(r.sessionId, "sessionId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -347,7 +341,7 @@ func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidStreamExe
 
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)

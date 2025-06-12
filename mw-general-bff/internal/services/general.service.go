@@ -433,6 +433,46 @@ func (gs *GeneralService) GeneratePracticeMaterialForTraining(ctx context.Contex
 	return GeneratedPracticeMaterials, nil
 }
 
+type GenerateQuestionsForTestPayload struct {
+	TestDescription string
+	TestName        string
+	GenerateAmount  int32
+	Language        string
+	Questions       []string
+}
+
+type GenerateQuestionsForTestResponse struct {
+	Answer       string
+	Name         string
+	QuestionText string
+	TimeToAnswer int32
+}
+
+func (gs *GeneralService) GenerateQuestionsForTest(ctx context.Context, payload *GenerateQuestionsForTestPayload) ([]*GenerateQuestionsForTestResponse, error) {
+	questionListRaw, response, err := gs.generalAPI.GeminiAPI.AiQuestionsForTest(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateQuestionsForTestPayload{
+		TestDescription: payload.TestDescription,
+		TestName:        payload.TestName,
+		Questions:       payload.Questions,
+		GenerateAmount:  payload.GenerateAmount,
+		Language:        payload.Language,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	questions := lo.Map(questionListRaw.Questions, func(question openapiGeneral.MwServerInternalSchemasGeneratedQuestion, _ int) *GenerateQuestionsForTestResponse {
+		return &GenerateQuestionsForTestResponse{
+			Answer:       question.Answer,
+			Name:         question.Name,
+			QuestionText: question.QuestionText,
+			TimeToAnswer: question.TimeToAnswer,
+		}
+	})
+
+	return questions, nil
+}
+
 func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
 	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDonePayload{
 		DayReportUuid: payload.DayReportUuid,

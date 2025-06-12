@@ -16,14 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   MwTrainingBffInternalSchemasCreateSessionResultRequest,
-  MwTrainingBffInternalSchemasGetTestSessionResultRequest,
   MwTrainingBffInternalSchemasGetTestSessionResultResponse,
 } from '../models/index';
 import {
     MwTrainingBffInternalSchemasCreateSessionResultRequestFromJSON,
     MwTrainingBffInternalSchemasCreateSessionResultRequestToJSON,
-    MwTrainingBffInternalSchemasGetTestSessionResultRequestFromJSON,
-    MwTrainingBffInternalSchemasGetTestSessionResultRequestToJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON,
     MwTrainingBffInternalSchemasGetTestSessionResultResponseToJSON,
 } from '../models/index';
@@ -33,7 +30,7 @@ export interface CreateTestSessionResultBySessionUuidRequest {
 }
 
 export interface GetTestSessionResultBySessionUuidRequest {
-    request: MwTrainingBffInternalSchemasGetTestSessionResultRequest;
+    sessionId: string;
 }
 
 /**
@@ -80,22 +77,19 @@ export class TestSessionResultApi extends runtime.BaseAPI {
      * Get test session result by session uuid
      */
     async getTestSessionResultBySessionUuidRaw(requestParameters: GetTestSessionResultBySessionUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasGetTestSessionResultResponse>> {
-        if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling getTestSessionResultBySessionUuid.');
+        if (requestParameters.sessionId === null || requestParameters.sessionId === undefined) {
+            throw new runtime.RequiredError('sessionId','Required parameter requestParameters.sessionId was null or undefined when calling getTestSessionResultBySessionUuid.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         const response = await this.request({
-            path: `/testSessionResult`,
+            path: `/testSessionResult/{sessionId}`.replace(`{${"sessionId"}}`, encodeURIComponent(String(requestParameters.sessionId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-            body: MwTrainingBffInternalSchemasGetTestSessionResultRequestToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON(jsonValue));

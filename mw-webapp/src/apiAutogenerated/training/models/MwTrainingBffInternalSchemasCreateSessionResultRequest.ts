@@ -31,6 +31,12 @@ export interface MwTrainingBffInternalSchemasCreateSessionResultRequest {
      * @memberof MwTrainingBffInternalSchemasCreateSessionResultRequest
      */
     sessionUuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasCreateSessionResultRequest
+     */
+    testUuid: string;
 }
 
 /**
@@ -41,6 +47,7 @@ export function instanceOfMwTrainingBffInternalSchemasCreateSessionResultRequest
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "sessionUuid" in value;
+    isInstance = isInstance && "testUuid" in value;
 
     return isInstance;
 }
@@ -60,6 +67,7 @@ export function MwTrainingBffInternalSchemasCreateSessionResultRequestFromJSONTy
         
         'resultDescription': !exists(json, 'resultDescription') ? undefined : json['resultDescription'],
         'sessionUuid': json['sessionUuid'],
+        'testUuid': json['testUuid'],
     };
 }
 
@@ -75,6 +83,7 @@ export function MwTrainingBffInternalSchemasCreateSessionResultRequestToJSON(val
         
         'resultDescription': value.resultDescription,
         'sessionUuid': value.sessionUuid,
+        'testUuid': value.testUuid,
     };
 }
 

@@ -960,6 +960,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/test/questions": {
+            "post": {
+                "description": "Generate questions for test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate questions for test",
+                "operationId": "ai-question-test",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/trainings/practiceMaterial": {
             "post": {
                 "description": "Generate practice material for training",
@@ -3137,6 +3172,40 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-general-bff_internal_schemas.AIGenerateQuestionsForTestPayload": {
+            "type": "object",
+            "required": [
+                "generateAmount",
+                "language",
+                "testId"
+            ],
+            "properties": {
+                "generateAmount": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "testId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateQuestionsForTestResponse": {
+            "type": "object",
+            "required": [
+                "questions"
+            ],
+            "properties": {
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.GeneratedQuestion"
+                    }
+                }
+            }
+        },
         "mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload": {
             "type": "object",
             "required": [
@@ -3930,6 +3999,52 @@ const docTemplate = `{
                 },
                 "topicUuid": {
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.GeneratedQuestion": {
+            "type": "object",
+            "required": [
+                "answer",
+                "createdAt",
+                "is_active",
+                "order",
+                "questionText",
+                "test_uuid",
+                "time_to_answer",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "questionText": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string"
+                },
+                "time_to_answer": {
+                    "type": "integer"
                 },
                 "updatedAt": {
                     "type": "string"

@@ -23,6 +23,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateSessionResultRequest{}
 type MwTrainingBffInternalSchemasCreateSessionResultRequest struct {
 	ResultDescription *string
 	SessionUuid string
+	TestUuid string
 }
 
 type _MwTrainingBffInternalSchemasCreateSessionResultRequest MwTrainingBffInternalSchemasCreateSessionResultRequest
@@ -31,9 +32,10 @@ type _MwTrainingBffInternalSchemasCreateSessionResultRequest MwTrainingBffIntern
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasCreateSessionResultRequest(sessionUuid string) *MwTrainingBffInternalSchemasCreateSessionResultRequest {
+func NewMwTrainingBffInternalSchemasCreateSessionResultRequest(sessionUuid string, testUuid string) *MwTrainingBffInternalSchemasCreateSessionResultRequest {
 	this := MwTrainingBffInternalSchemasCreateSessionResultRequest{}
 	this.SessionUuid = sessionUuid
+	this.TestUuid = testUuid
 	return &this
 }
 
@@ -101,6 +103,30 @@ func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) SetSessionUuid(
 	o.SessionUuid = v
 }
 
+// GetTestUuid returns the TestUuid field value
+func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) GetTestUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.TestUuid
+}
+
+// GetTestUuidOk returns a tuple with the TestUuid field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) GetTestUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TestUuid, true
+}
+
+// SetTestUuid sets field value
+func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) SetTestUuid(v string) {
+	o.TestUuid = v
+}
+
 func (o MwTrainingBffInternalSchemasCreateSessionResultRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -115,6 +141,7 @@ func (o MwTrainingBffInternalSchemasCreateSessionResultRequest) ToMap() (map[str
 		toSerialize["resultDescription"] = o.ResultDescription
 	}
 	toSerialize["sessionUuid"] = o.SessionUuid
+	toSerialize["testUuid"] = o.TestUuid
 	return toSerialize, nil
 }
 
@@ -124,6 +151,7 @@ func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) UnmarshalJSON(d
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"sessionUuid",
+		"testUuid",
 	}
 
 	allProperties := make(map[string]interface{})

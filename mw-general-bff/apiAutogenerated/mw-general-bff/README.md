@@ -106,6 +106,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+*GeminiAPI* | [**AiQuestionTest**](docs/GeminiAPI.md#aiquestiontest) | **Post** /gemini/test/questions | Generate questions for test
 *GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 *GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
@@ -180,6 +181,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse](docs/MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse.md)
  - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md)
  - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse.md)
+ - [MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload](docs/MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload.md)
+ - [MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse](docs/MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse.md)
  - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload.md)
  - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse.md)
  - [MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload.md)
@@ -218,6 +221,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasGenerateMetricsPayload](docs/MwGeneralBffInternalSchemasGenerateMetricsPayload.md)
  - [MwGeneralBffInternalSchemasGenerateMetricsResponse](docs/MwGeneralBffInternalSchemasGenerateMetricsResponse.md)
  - [MwGeneralBffInternalSchemasGeneratedPracticeMaterial](docs/MwGeneralBffInternalSchemasGeneratedPracticeMaterial.md)
+ - [MwGeneralBffInternalSchemasGeneratedQuestion](docs/MwGeneralBffInternalSchemasGeneratedQuestion.md)
  - [MwGeneralBffInternalSchemasGeneratedTopicPreview](docs/MwGeneralBffInternalSchemasGeneratedTopicPreview.md)
  - [MwGeneralBffInternalSchemasGetAllUsersResponse](docs/MwGeneralBffInternalSchemasGetAllUsersResponse.md)
  - [MwGeneralBffInternalSchemasGetAllWaysResponse](docs/MwGeneralBffInternalSchemasGetAllWaysResponse.md)

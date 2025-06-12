@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+*GeminiAPI* | [**AiQuestionsForTest**](docs/GeminiAPI.md#aiquestionsfortest) | **Post** /gemini/test/questions | Generate questions test
 *GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 *GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
@@ -178,6 +179,8 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasAIGeneratePlansByMetricResponse](docs/MwServerInternalSchemasAIGeneratePlansByMetricResponse.md)
  - [MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload](docs/MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md)
  - [MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse](docs/MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse.md)
+ - [MwServerInternalSchemasAIGenerateQuestionsForTestPayload](docs/MwServerInternalSchemasAIGenerateQuestionsForTestPayload.md)
+ - [MwServerInternalSchemasAIGenerateQuestionsForTestResponse](docs/MwServerInternalSchemasAIGenerateQuestionsForTestResponse.md)
  - [MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload](docs/MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload.md)
  - [MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse](docs/MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse.md)
  - [MwServerInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwServerInternalSchemasAIGenerateTopicsForTrainingPayload.md)
@@ -215,6 +218,7 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasGenerateMetricsPayload](docs/MwServerInternalSchemasGenerateMetricsPayload.md)
  - [MwServerInternalSchemasGenerateMetricsResponse](docs/MwServerInternalSchemasGenerateMetricsResponse.md)
  - [MwServerInternalSchemasGeneratedPracticeMaterial](docs/MwServerInternalSchemasGeneratedPracticeMaterial.md)
+ - [MwServerInternalSchemasGeneratedQuestion](docs/MwServerInternalSchemasGeneratedQuestion.md)
  - [MwServerInternalSchemasGetAllUsersResponse](docs/MwServerInternalSchemasGetAllUsersResponse.md)
  - [MwServerInternalSchemasGetAllWaysResponse](docs/MwServerInternalSchemasGetAllWaysResponse.md)
  - [MwServerInternalSchemasGetAuthCallbackFunctionResponse](docs/MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)

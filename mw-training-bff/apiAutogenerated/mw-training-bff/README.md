@@ -98,7 +98,7 @@ Class | Method | HTTP request | Description
 *TestAPI* | [**GetTestsByUserId**](docs/TestAPI.md#gettestsbyuserid) | **Get** /test/user/{userId} | Get tests by user id
 *TestAPI* | [**UpdateTest**](docs/TestAPI.md#updatetest) | **Patch** /test/{testId} | Update test by uuid
 *TestSessionResultAPI* | [**CreateTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#createtestsessionresultbysessionuuid) | **Post** /testSessionResult | Create test session result by session uuid
-*TestSessionResultAPI* | [**GetTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#gettestsessionresultbysessionuuid) | **Get** /testSessionResult | Get test session result by session uuid
+*TestSessionResultAPI* | [**GetTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#gettestsessionresultbysessionuuid) | **Get** /testSessionResult/{sessionId} | Get test session result by session uuid
 *TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials | Create theory material
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 *TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
@@ -136,7 +136,6 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasCreateTrainingPayload](docs/MwTrainingBffInternalSchemasCreateTrainingPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTestRequest](docs/MwTrainingBffInternalSchemasCreateTrainingTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload](docs/MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload.md)
- - [MwTrainingBffInternalSchemasGetTestSessionResultRequest](docs/MwTrainingBffInternalSchemasGetTestSessionResultRequest.md)
  - [MwTrainingBffInternalSchemasGetTestSessionResultResponse](docs/MwTrainingBffInternalSchemasGetTestSessionResultResponse.md)
  - [MwTrainingBffInternalSchemasPracticeMaterial](docs/MwTrainingBffInternalSchemasPracticeMaterial.md)
  - [MwTrainingBffInternalSchemasPracticeMaterials](docs/MwTrainingBffInternalSchemasPracticeMaterials.md)

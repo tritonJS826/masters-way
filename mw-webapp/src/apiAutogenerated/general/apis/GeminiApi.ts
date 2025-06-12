@@ -27,6 +27,8 @@ import type {
   MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse,
   MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload,
   MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload,
+  MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse,
   MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload,
   MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse,
   MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload,
@@ -59,6 +61,10 @@ import {
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayloadToJSON,
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseFromJSON,
     MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseToJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseToJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadFromJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadToJSON,
     MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponseFromJSON,
@@ -95,6 +101,10 @@ export interface AiPlansByMetricsRequest {
 
 export interface AiPracticeMaterialForTopicRequest {
     request: MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload;
+}
+
+export interface AiQuestionTestRequest {
+    request: MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayload;
 }
 
 export interface AiTheoryMaterialForTopicRequest {
@@ -321,6 +331,41 @@ export class GeminiApi extends runtime.BaseAPI {
      */
     async aiPracticeMaterialForTopic(requestParameters: AiPracticeMaterialForTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse> {
         const response = await this.aiPracticeMaterialForTopicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate questions for test
+     * Generate questions for test
+     */
+    async aiQuestionTestRaw(requestParameters: AiQuestionTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiQuestionTest.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/test/questions`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGenerateQuestionsForTestPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate questions for test
+     * Generate questions for test
+     */
+    async aiQuestionTest(requestParameters: AiQuestionTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateQuestionsForTestResponse> {
+        const response = await this.aiQuestionTestRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

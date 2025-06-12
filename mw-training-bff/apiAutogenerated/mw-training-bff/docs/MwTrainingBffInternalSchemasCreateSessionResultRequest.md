@@ -6,12 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ResultDescription** | Pointer to **string** |  | [optional] 
 **SessionUuid** | **string** |  | 
+**TestUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwTrainingBffInternalSchemasCreateSessionResultRequest
 
-`func NewMwTrainingBffInternalSchemasCreateSessionResultRequest(sessionUuid string, ) *MwTrainingBffInternalSchemasCreateSessionResultRequest`
+`func NewMwTrainingBffInternalSchemasCreateSessionResultRequest(sessionUuid string, testUuid string, ) *MwTrainingBffInternalSchemasCreateSessionResultRequest`
 
 NewMwTrainingBffInternalSchemasCreateSessionResultRequest instantiates a new MwTrainingBffInternalSchemasCreateSessionResultRequest object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +70,26 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) SetSessionUuid(v string)`
 
 SetSessionUuid sets SessionUuid field to given value.
+
+
+### GetTestUuid
+
+`func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) GetTestUuid() string`
+
+GetTestUuid returns the TestUuid field if non-nil, zero value otherwise.
+
+### GetTestUuidOk
+
+`func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) GetTestUuidOk() (*string, bool)`
+
+GetTestUuidOk returns a tuple with the TestUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTestUuid
+
+`func (o *MwTrainingBffInternalSchemasCreateSessionResultRequest) SetTestUuid(v string)`
+
+SetTestUuid sets TestUuid field to given value.
 
 
 

@@ -155,6 +155,37 @@ definitions:
     required:
     - practiceMaterials
     type: object
+  mw-server_internal_schemas.AIGenerateQuestionsForTestPayload:
+    properties:
+      generateAmount:
+        type: integer
+      language:
+        example: ru|en|ua
+        type: string
+      questions:
+        items:
+          type: string
+        type: array
+      testDescription:
+        type: string
+      testName:
+        type: string
+    required:
+    - generateAmount
+    - language
+    - questions
+    - testDescription
+    - testName
+    type: object
+  mw-server_internal_schemas.AIGenerateQuestionsForTestResponse:
+    properties:
+      questions:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.GeneratedQuestion'
+        type: array
+    required:
+    - questions
+    type: object
   mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
     properties:
       existentPracticeMaterials:
@@ -683,6 +714,22 @@ definitions:
     - answer
     - name
     - taskDescription
+    - timeToAnswer
+    type: object
+  mw-server_internal_schemas.GeneratedQuestion:
+    properties:
+      answer:
+        type: string
+      name:
+        type: string
+      questionText:
+        type: string
+      timeToAnswer:
+        type: integer
+    required:
+    - answer
+    - name
+    - questionText
     - timeToAnswer
     type: object
   mw-server_internal_schemas.GetAllUsersResponse:
@@ -2163,6 +2210,29 @@ paths:
           schema:
             $ref: '#/definitions/mw-server_internal_schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
+      tags:
+      - gemini
+  /gemini/test/questions:
+    post:
+      consumes:
+      - application/json
+      description: Generate questions test
+      operationId: ai-questions-for-test
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateQuestionsForTestPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateQuestionsForTestResponse'
+      summary: Generate questions test
       tags:
       - gemini
   /gemini/trainings/practiceMaterial:
