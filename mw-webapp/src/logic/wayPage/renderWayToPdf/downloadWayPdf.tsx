@@ -1,4 +1,6 @@
-import pdfMake from "pdfmake";
+import pdfMake from "pdfmake/build/pdfmake";
+import {Content, ContentColumns, ContentStack, ContentText, ContentUnorderedList, TDocumentDefinitions} from "pdfmake/interfaces";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
@@ -9,6 +11,7 @@ import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/ut
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
 const MARGIN_LARGE = 15;
+const SVG_WIDTH = 16;
 const UNCHECKED_CHECKBOX_SVG =
   "<svg width=\"12\" height=\"12\">" +
   "<rect x=\"1\" y=\"1\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"black\"/>" +
@@ -19,9 +22,6 @@ const CHECKED_SVG =
   "<polyline points=\"3,7 6,10 9,3\" style=\"fill:none;stroke:black;stroke-width:2\"/>" +
   "</svg>";
 
-// TODO: there is a problem with pdfMake types, hope next version will fix it
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 pdfMake.fonts = {
   Roboto: {
     normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Regular.ttf",
@@ -31,10 +31,31 @@ pdfMake.fonts = {
   },
 };
 
+const REPORTS_PER_PAGE = 7;
+const DEFAULT_DAY_REPORTS_PAGINATION_VALUE = 1;
+
+/**
+ * Fetch all reports for a way using pagination
+ */
+const getAllDayReports = async (way: Way): Promise<DayReport[]> => {
+  const pageAmount = way.dayReportsAmount / REPORTS_PER_PAGE;
+  const reports: DayReport[] = [];
+  for (let i = 0; i < pageAmount; i++) {
+    const dayReports = await DayReportDAL.getDayReports({
+      page: i + DEFAULT_DAY_REPORTS_PAGINATION_VALUE,
+      wayId: way.uuid,
+      wayName: way.name,
+    });
+    reports.push(...dayReports.dayReports);
+  }
+
+  return reports;
+};
+
 /**
  * Render header
  */
-const getHeader = (way: Way) => {
+const getHeader = (way: Way): Content[] => {
   return [
     {
       text: `Way link: https://mastersway.netlify.app/way/${way.uuid}`,
@@ -50,7 +71,7 @@ const getHeader = (way: Way) => {
 /**
  * Render title
  */
-const getTitle = (wayName: string) => ({
+const getTitle = (wayName: string): ContentText => ({
   alignment: "center",
   text: wayName,
   style: "header",
@@ -62,7 +83,7 @@ const getTitle = (wayName: string) => ({
 /**
  * Render owner's name
  */
-const getOwner = (wayOwner: string) => ({
+const getOwner = (wayOwner: string): ContentText => ({
   alignment: "center",
   text: wayOwner,
   fontSize: 18,
@@ -83,7 +104,7 @@ const getDates = (createdAt: Date, lastUpdate: Date) => {
 /**
  * Render mentor's names
  */
-const getMentors = (wayMentors: Map<string, UserPlain>) => {
+const getMentors = (wayMentors: Map<string, UserPlain>): Content[] => {
   const mentorsArray = Array.from(wayMentors.values());
   if (mentorsArray.length === 0) {
     return [];
@@ -102,7 +123,7 @@ const getMentors = (wayMentors: Map<string, UserPlain>) => {
 /**
  * Render formerMentor's names
  */
-const getFormerMentors = (formerMentors: Map<string, UserPlain>) => {
+const getFormerMentors = (formerMentors: Map<string, UserPlain>): Content[] => {
   const formerMentorsArray = Array.from(formerMentors.values());
   if (formerMentorsArray.length === 0) {
     return [];
@@ -119,79 +140,42 @@ const getFormerMentors = (formerMentors: Map<string, UserPlain>) => {
 };
 
 /**
- * PdfMakeColumn
+ * Render metric list recursively
  */
-interface PdfMakeColumn {
+const renderMetricList = (metrics: Metric[]): ContentUnorderedList => {
 
-  /**
-   * SVG
-   */
-  svg?: string;
+  const items: Content[] = metrics.map(metric => {
 
-  /**
-   * Width
-   */
-  width?: number;
-}
-
-/**
- * PdfMakeListItem
- */
-interface PdfMakeListItem {
-
-  /**
-   * Columns fro corrected rendering SVG
-   */
-  columns?: PdfMakeColumn[];
-
-  /**
-   * Column gap
-   */
-  columnGap?: number;
-
-  /**
-   * List
-   */
-  ul?: PdfMakeListItem[];
-
-  /**
-   * Stack
-   */
-  stack?: PdfMakeListItem[];
-
-  /**
-   * Text
-   */
-  text?: string;
-}
-
-/**
- * Render metric list
- */
-const renderMetricList = (metrics: Metric[]): PdfMakeListItem[] => {
-  return metrics.map(metric => {
-    const item = {
+    const item: ContentColumns = {
       columns: [
-        {svg: metric.isDone && metric.doneDate ? CHECKED_SVG : UNCHECKED_CHECKBOX_SVG, width: 16},
+        {
+          svg: metric.isDone && metric.doneDate
+            ? CHECKED_SVG
+            : UNCHECKED_CHECKBOX_SVG,
+          width: SVG_WIDTH,
+        },
         {text: metric.description},
       ],
-      columnGap: 15,
     };
 
     if (metric.children && metric.children.length > 0) {
-      return {
-        stack: [
-          item,
-          {
-            ul: renderMetricList(metric.children),
-            listType: "none",
-          },
-        ],
-      };
+      const nested: ContentUnorderedList = renderMetricList(metric.children);
+
+      const stackNode: ContentStack = {stack: [item, nested]};
+
+      return stackNode;
     }
 
     return item;
   });
+
+  const listNode: ContentUnorderedList = {
+    ul: items,
+    type: "none",
+    margin: [MARGIN_SMALL, 0, 0, 0],
+  };
+
+  return listNode;
 };
 
 /**
@@ -216,38 +200,42 @@ interface GoalParams {
 }
 
 /**
- * Render way's goal, estimation time and goalMetrics
+ * Render way's goal, estimation time and goal metrics
  */
-const getGoal = (params: GoalParams) => {
+const getGoal = (params: GoalParams): Content[] => {
+  const headerText: ContentText = {
+    text: "Goal:",
+    bold: true,
+    margin: [0, MARGIN_SMALL, 0, 0],
+  };
+
+  const estimationText: ContentText = {
+    text: `Estimation time: ${params.estimationTime}`,
+    bold: true,
+    margin: [0, MARGIN_SMALL, 0, 0],
+  };
+
+  const metricsHeader: ContentText = {
+    text: "Goal metrics:",
+    bold: true,
+    margin: [0, MARGIN_SMALL, 0, MARGIN_SMALL],
+  };
+
+  const metricsList: ContentUnorderedList = renderMetricList(params.metrics);
+
   return [
-    {
-      text: "Goal:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
+    headerText,
     params.goalDescription,
-    {
-      text: `Estimation time: ${params.estimationTime}`,
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
-    {
-      text: "Goal metrics:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, MARGIN_SMALL],
-    },
-    {
-      ul: renderMetricList(params.metrics),
-      listType: "none",
-      margin: [MARGIN_SMALL, 0, 0, 0],
-    },
+    estimationText,
+    metricsHeader,
+    metricsList,
   ];
 };
 
 /**
  * Render way's statistics
  */
-const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTriple) => {
+const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTriple): Content[] => {
   const allDatesTimestamps = dayReports.map(report => report.createdAt.getTime());
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
@@ -305,54 +293,51 @@ const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTrip
 };
 
 /**
- * Render reports
+ * Get reports
  */
-const getReports = (dayReports: DayReport[]) => {
-  return [
-    {
-      alignment: "center",
-      text: "Reports",
+export const getReports = async (way: Way): Promise<Content[]> => {
+  const dayReports = await getAllDayReports(way);
+
+  return dayReports.flatMap<Content>(day => {
+    const dateHeader: ContentText = {
+      text: DateUtils.getShortISODateValue(day.createdAt),
       style: "header",
       bold: true,
-      margin: [0, MARGIN_MEDIUM],
-    },
-    ...dayReports.map(dayReport => [
-      {
-        text: DateUtils.getShortISODateValue(dayReport.createdAt),
-        style: "header",
-        bold: true,
-        margin: [0, MARGIN_LARGE, 0, 0],
-      },
-      {
-        text: "Jobs Done",
-        style: "header",
-        bold: true,
-        margin: [0, MARGIN_SMALL, 0, 0],
-      },
-      {ul: dayReport.jobsDone.map(job => job.description)},
-      {
-        text: "Plans",
-        style: "header",
-        bold: true,
-        margin: [0, MARGIN_SMALL, 0, 0],
-      },
-      {ul: dayReport.plans.map(plan => plan.description)},
-      {
-        text: "Problems",
-        style: "header",
-        bold: true,
-        margin: [0, MARGIN_SMALL, 0, 0],
-      },
-      {ul: dayReport.problems.map(problem => problem.description)},
-      {
-        text: "Comments",
-        style: "header",
-        bold: true,
-        margin: [0, MARGIN_SMALL, 0, 0],
-      },
-      {ul: dayReport.comments.map(comment => comment.description)},
-    ]),
-  ];
+      margin: [0, MARGIN_LARGE, 0, 0],
+    };
+
+    /**
+     * Create section header
+     */
+    const sectionHeader = (label: string): ContentText => ({
+      text: label,
+      style: "header",
+      bold: true,
+      margin: [0, MARGIN_SMALL, 0, 0],
+    });
+
+    /**
+     * Interface for items that can be converted to list items
+     */
+    interface ListItem {
+
+      /**
+       * Description
+       */
+      description: string;
+    }
+
+    /** Creates an unordered list from items */
+    const ulFrom = (items: ListItem[]): ContentUnorderedList => ({ul: items.map(item => item.description)});
+
+    return [
+      dateHeader,
+      sectionHeader("Jobs Done"), ulFrom(day.jobsDone),
+      sectionHeader("Plans"), ulFrom(day.plans),
+      sectionHeader("Problems"), ulFrom(day.problems),
+      sectionHeader("Comments"), ulFrom(day.comments),
+    ];
+  });
 };
 
 /**
@@ -362,7 +347,7 @@ const getReports = (dayReports: DayReport[]) => {
  * https://brahmaputra1996.medium.com/
  * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
  */
-export const downloadWayPdf = (way: Way, statisticsTriple: WayStatisticsTriple) => {
+export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTriple) => {
   const headerDefinition = getHeader(way);
   const titleDefinition = getTitle(way.name);
   const ownerDefinition = getOwner(way.owner.name);
@@ -375,9 +360,9 @@ export const downloadWayPdf = (way: Way, statisticsTriple: WayStatisticsTriple) 
     metrics: way.metrics,
   });
   const statisticsDefinition = getStatistics(way.dayReports, statisticsTriple);
-  const reportsDefinition = getReports(way.dayReports);
+  const reportsDefinition = await getReports(way);
 
-  const docDefinition = {
+  const docDefinition: TDocumentDefinitions = {
     header: headerDefinition,
     content: [
       titleDefinition,
@@ -391,9 +376,6 @@ export const downloadWayPdf = (way: Way, statisticsTriple: WayStatisticsTriple) 
     ],
   };
 
-  // TODO: there is a problem with pdfMake types, hope next version will fix it
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const pdf = pdfMake.createPdf(docDefinition);
   pdf.download(`${way.name}.pdf`);
 };
