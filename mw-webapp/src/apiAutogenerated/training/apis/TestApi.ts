@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   MwTrainingBffInternalSchemasCreateTestRequest,
   MwTrainingBffInternalSchemasTest,
+  MwTrainingBffInternalSchemasTestPreview,
   MwTrainingBffInternalSchemasTestPreviewList,
   MwTrainingBffInternalSchemasTestsAmount,
   MwTrainingBffInternalSchemasUpdateTestRequest,
@@ -26,6 +27,8 @@ import {
     MwTrainingBffInternalSchemasCreateTestRequestToJSON,
     MwTrainingBffInternalSchemasTestFromJSON,
     MwTrainingBffInternalSchemasTestToJSON,
+    MwTrainingBffInternalSchemasTestPreviewFromJSON,
+    MwTrainingBffInternalSchemasTestPreviewToJSON,
     MwTrainingBffInternalSchemasTestPreviewListFromJSON,
     MwTrainingBffInternalSchemasTestPreviewListToJSON,
     MwTrainingBffInternalSchemasTestsAmountFromJSON,
@@ -268,7 +271,7 @@ export class TestApi extends runtime.BaseAPI {
     /**
      * Update test by uuid
      */
-    async updateTestRaw(requestParameters: UpdateTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTest>> {
+    async updateTestRaw(requestParameters: UpdateTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTestPreview>> {
         if (requestParameters.testId === null || requestParameters.testId === undefined) {
             throw new runtime.RequiredError('testId','Required parameter requestParameters.testId was null or undefined when calling updateTest.');
         }
@@ -291,13 +294,13 @@ export class TestApi extends runtime.BaseAPI {
             body: MwTrainingBffInternalSchemasUpdateTestRequestToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTestFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTestPreviewFromJSON(jsonValue));
     }
 
     /**
      * Update test by uuid
      */
-    async updateTest(requestParameters: UpdateTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTest> {
+    async updateTest(requestParameters: UpdateTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTestPreview> {
         const response = await this.updateTestRaw(requestParameters, initOverrides);
         return await response.value();
     }

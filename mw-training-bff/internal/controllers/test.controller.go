@@ -59,7 +59,7 @@ func (tc *TestController) CreateTest(ctx *gin.Context) {
 // @Produce json
 // @Param testId path string true "test id"
 // @Param request body schemas.UpdateTestRequest true "query params"
-// @Success 200 {object} schemas.Test
+// @Success 200 {object} schemas.TestPreview
 // @Router /test/{testId} [patch]
 func (tc *TestController) UpdateTest(ctx *gin.Context) {
 	testId := ctx.Param("testId")

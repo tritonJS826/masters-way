@@ -648,7 +648,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Test"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreview"
                         }
                     }
                 }

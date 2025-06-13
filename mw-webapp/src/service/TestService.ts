@@ -6,6 +6,7 @@ import {
   GetTestsAmountByUserIdRequest,
   GetTestsByUserIdRequest,
   MwTrainingBffInternalSchemasTest,
+  MwTrainingBffInternalSchemasTestPreview,
   MwTrainingBffInternalSchemasTestPreviewList,
   MwTrainingBffInternalSchemasTestsAmount,
   UpdateTestRequest,
@@ -71,7 +72,7 @@ export class TestService {
   /**
    * Update test
    */
-  public static async updateTest(requestParameters: UpdateTestRequest): Promise<MwTrainingBffInternalSchemasTest> {
+  public static async updateTest(requestParameters: UpdateTestRequest): Promise<MwTrainingBffInternalSchemasTestPreview> {
     const updatedTest = await testService.updateTest(requestParameters);
 
     return updatedTest;

@@ -405,7 +405,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Test'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestPreview'
           description: OK
       summary: Update test by uuid
       tags:

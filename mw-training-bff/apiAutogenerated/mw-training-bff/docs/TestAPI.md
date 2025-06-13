@@ -421,7 +421,7 @@ No authorization required
 
 ## UpdateTest
 
-> MwTrainingBffInternalSchemasTest UpdateTest(ctx, testId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTestPreview UpdateTest(ctx, testId).Request(request).Execute()
 
 Update test by uuid
 
@@ -448,7 +448,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TestAPI.UpdateTest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateTest`: MwTrainingBffInternalSchemasTest
+	// response from `UpdateTest`: MwTrainingBffInternalSchemasTestPreview
 	fmt.Fprintf(os.Stdout, "Response from `TestAPI.UpdateTest`: %v\n", resp)
 }
 ```
@@ -473,7 +473,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTest**](MwTrainingBffInternalSchemasTest.md)
+[**MwTrainingBffInternalSchemasTestPreview**](MwTrainingBffInternalSchemasTestPreview.md)
 
 ### Authorization
 

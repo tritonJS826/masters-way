@@ -1174,7 +1174,7 @@ func (r ApiUpdateTestRequest) Request(request MwTrainingBffInternalSchemasUpdate
 	return r
 }
 
-func (r ApiUpdateTestRequest) Execute() (*MwTrainingBffInternalSchemasTest, *http.Response, error) {
+func (r ApiUpdateTestRequest) Execute() (*MwTrainingBffInternalSchemasTestPreview, *http.Response, error) {
 	return r.ApiService.UpdateTestExecute(r)
 }
 
@@ -1194,13 +1194,13 @@ func (a *TestAPIService) UpdateTest(ctx context.Context, testId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTest
-func (a *TestAPIService) UpdateTestExecute(r ApiUpdateTestRequest) (*MwTrainingBffInternalSchemasTest, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTestPreview
+func (a *TestAPIService) UpdateTestExecute(r ApiUpdateTestRequest) (*MwTrainingBffInternalSchemasTestPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTest
+		localVarReturnValue  *MwTrainingBffInternalSchemasTestPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestAPIService.UpdateTest")
@@ -1275,11 +1275,11 @@ func (a *TestAPIService) UpdateTestExecute(r ApiUpdateTestRequest) (*MwTrainingB
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTestStream
-func (a *TestAPIService) UpdateTestStreamExecute(r ApiUpdateTestRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTest, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTestPreviewStream
+func (a *TestAPIService) UpdateTestStreamExecute(r ApiUpdateTestRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTestPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwTrainingBffInternalSchemasTest
+		localVarReturnValue  *MwTrainingBffInternalSchemasTestPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestAPIService.UpdateTest")
