@@ -7,8 +7,5 @@ import {QuestionResult} from "src/model/businessModel/QuestionResult";
 export const questionResultDTOToQuestionResult = (
   questionResultDTO: MwTrainingBffInternalSchemasQuestionResult,
 ): QuestionResult => {
-  return new QuestionResult({
-    ...questionResultDTO,
-    createdAt: new Date(questionResultDTO.createdAt),
-  });
+  return new QuestionResult({...questionResultDTO});
 };

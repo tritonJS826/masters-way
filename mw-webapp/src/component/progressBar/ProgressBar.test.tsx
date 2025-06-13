@@ -34,6 +34,7 @@ const renderProgressBar = (props?: {
       cy={PROGRESS_BAR_CY}
       getRightValueLabel={props?.getRightValueLabel}
       getLeftValueLabel={props?.getLeftValueLabel}
+      textToLabel="Metrics"
     />,
   );
 };

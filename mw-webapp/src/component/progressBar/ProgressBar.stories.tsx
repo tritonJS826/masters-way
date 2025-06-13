@@ -18,6 +18,7 @@ export const Default: Story = {
   args: {
     value: 50,
     getRightValueLabel: getDefaultRightValueLabel,
+    textToLabel: "Values",
   },
   render: (args) => (
     <div style={{width: 500}}>

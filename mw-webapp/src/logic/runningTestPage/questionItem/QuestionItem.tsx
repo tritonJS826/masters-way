@@ -12,6 +12,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/runningTestPage/questionItem/QuestionItem.module.scss";
 
@@ -103,11 +104,9 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         <Text text={`${LanguageService.test.questionsBlock.questionNumber[language]} ${props.question.order}`} />
       </HorizontalContainer>
 
-      <Title
-        level={HeadingLevel.h4}
-        text={props.question.questionText}
-        placeholder=""
-      />
+      <span>
+        {renderMarkdown(props.question.questionText)}
+      </span>
 
       <Title
         level={HeadingLevel.h4}

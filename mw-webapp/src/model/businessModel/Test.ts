@@ -177,6 +177,11 @@ interface TestProps {
   description: string;
 
   /**
+   * If true then test is private
+   */
+  isPrivate: boolean;
+
+  /**
    * Test's owner UUID
    */
   ownerUuid: string;
@@ -219,6 +224,11 @@ export class Test {
   public description: string;
 
   /**
+   * If true then test is private
+   */
+  public isPrivate: boolean;
+
+  /**
    * Test's owner UUID
    */
   public ownerUuid: string;
@@ -242,6 +252,7 @@ export class Test {
     makeAutoObservable(this);
     this.uuid = testData.uuid;
     this.name = testData.name;
+    this.isPrivate = testData.isPrivate;
     this.description = testData.description;
     this.ownerUuid = testData.ownerUuid;
     this.createdAt = testData.createdAt;

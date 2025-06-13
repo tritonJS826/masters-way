@@ -328,8 +328,8 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
           {editTestPageStore.test.questions.map((question: Question) => (
             <div
               key={question.uuid}
-              className={styles.theoryMaterials}
-              id={question.questionText}
+              className={styles.question}
+              id={question.name}
             >
               <QuestionItem
                 key={question.uuid}
@@ -365,31 +365,11 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 }
                 isFitContent={false}
               />
-              {/* <Tooltip content={LanguageService.common.comingSoon[language]}>
-                <Button
-                  value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
-                  onClick={() => AIDAL.aiCreateTestQuestions({
-                    generateAmount: 5,
-                    language,
-                    testId: editTestPageStore.test.uuid,
-                  })}
-                  buttonType={ButtonType.PRIMARY}
-                  className={styles.addMaterial}
-                />
-              </Tooltip> */}
               <Button
                 value={LanguageService.test.questionsBlock.returnToLobby[language]}
                 onClick={() => navigate(pages.lobbyTest.getPath({uuid: editTestPageStore.test.uuid}))}
                 className={styles.addMaterial}
               />
-              {/* <Button
-                value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
-                onClick={() => {
-                  setIsErrorCatched(false);
-                  generatePracticeMaterial(editTestPageStore.topic.uuid);
-                }}
-                buttonType={ButtonType.PRIMARY}
-              /> */}
 
             </HorizontalContainer>
           }

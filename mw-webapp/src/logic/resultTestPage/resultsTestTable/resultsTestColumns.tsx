@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import clsx from "clsx";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
@@ -27,11 +28,7 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with question name
      */
     cell: ({row}) => (
-      <VerticalContainer className={clsx(
-        styles.cellWrapper,
-        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
-      )}
-      >
+      <VerticalContainer className={styles.cellWrapper}>
         {row.original.questionName}
       </VerticalContainer>
     ),
@@ -51,11 +48,7 @@ export const getResultsTestColumns = (language: Language) => [
      */
     cell: ({row}) => {
       return (
-        <VerticalContainer className={clsx(
-          styles.cellWrapper,
-          row.original.isOk ? styles.compositeWay : styles.abandonedWay,
-        )}
-        >
+        <VerticalContainer className={styles.cellWrapper}>
           {row.original.questionDescription}
         </VerticalContainer>
       );
@@ -75,12 +68,7 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with right answer
      */
     cell: ({row}) => (
-      <VerticalContainer className={clsx(
-        styles.cellWrapper,
-        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
-      )}
-      >
-
+      <VerticalContainer className={styles.cellWrapper}>
         {row.original.questionAnswer}
       </VerticalContainer>
     ),
@@ -99,13 +87,35 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with user's answer
      */
     cell: ({row}) => (
+      <VerticalContainer className={styles.cellWrapper}>
+        {row.original.userAnswer}
+      </VerticalContainer>
+    ),
+  }),
+  columnHelper.accessor("isOk", {
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      {LanguageService.resultTest.resultTable.column.isOk[language]}
+    </>
+    ),
+
+    /**
+     * Cell with user's answer
+     */
+    cell: ({row}) => (
       <VerticalContainer className={clsx(
         styles.cellWrapper,
-        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
+        styles.iconCell,
       )}
       >
-
-        {row.original.userAnswer}
+        <Icon
+          size={IconSize.MEDIUM}
+          name={row.original.isOk ? "CheckIcon" : "RemoveIcon"}
+          className={clsx(row.original.isOk ? styles.answerIsOk : styles.answerIsWrong)}
+        />
       </VerticalContainer>
     ),
   }),
@@ -123,11 +133,7 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with user's answer
      */
     cell: ({row}) => (
-      <VerticalContainer className={clsx(
-        styles.cellWrapper,
-        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
-      )}
-      >
+      <VerticalContainer className={styles.cellWrapper}>
 
         {row.original.resultDescription}
       </VerticalContainer>

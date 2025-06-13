@@ -64,6 +64,24 @@ export class RunningTestPageStore {
   };
 
   /**
+   * Set active question order
+   */
+  public setActiveQuestionOrder = (questionOrder: number) => {
+    this.activeOrder = questionOrder;
+  };
+
+  /**
+   * Set active question
+   */
+  public setActiveQuestion = (questionUuid: string) => {
+    const foundQuestion = this.test.questions.find(question => question.uuid === questionUuid);
+    if (!foundQuestion) {
+      throw Error("Question with this Uuid is not exist");
+    }
+    this.activeQuestion = foundQuestion;
+  };
+
+  /**
    * Set test
    */
   private setLoadedData = (loadedData: Test) => {

@@ -1,7 +1,6 @@
 import {observer} from "mobx-react-lite";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
-import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -87,21 +86,6 @@ export const TestCard = observer((props: TestCardProps) => {
                 {DateUtils.getShortISODotSplitted(props.testPreview.updatedAt)}
               </span>
             </HorizontalContainer>
-          </HorizontalContainer>
-          <HorizontalContainer className={styles.people}>
-            <Tooltip
-              position={PositionTooltip.BOTTOM}
-              content={props.testPreview.ownerUuid}
-            >
-              <HorizontalContainer className={styles.owner}>
-                {/* <Avatar
-                  alt={props.testPreview.owner.name}
-                  src={props.testPreview.owner.imageUrl}
-                  className={styles.avatar}
-                /> */}
-                <Text text={props.testPreview.ownerUuid} />
-              </HorizontalContainer>
-            </Tooltip>
           </HorizontalContainer>
         </VerticalContainer>
       </VerticalContainer>
