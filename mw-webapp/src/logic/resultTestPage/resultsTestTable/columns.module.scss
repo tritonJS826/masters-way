@@ -46,19 +46,13 @@
 }
 
 .answerIsOk {
-  border: 1px solid var(--attentionColor);
-  // Need create a new token for composite way background
-  // background-color: var(--attentionColor);
+  border: $primaryBorder solid var(--attentionColor);
   border-radius: $tertiaryBorderRadius;
   stroke: var(--attentionColor);
-  // stroke-width: 2;
 }
 
 .answerIsWrong {
-  // Need create a new token for composite way background
-  // stroke: var(--dangerColor);
-  // background-color: var(--dangerColor);
-  border: 1px solid var(--dangerColor);
+  border: $primaryBorder solid var(--dangerColor);
   border-radius: $tertiaryBorderRadius;
   stroke: var(--dangerColor);
 }
