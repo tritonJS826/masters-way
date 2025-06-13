@@ -634,7 +634,7 @@ import (
 
 func main() {
 	sessionResultId := "sessionResultId_example" // string | test session ID
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(int32(123), "ru|en|ua", int32(123), "TestSessionId_example") // MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(int32(123), "ru|en|ua", int32(123), "TestId_example", "TestSessionId_example") // MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -620,3 +620,56 @@ func (gs *GeminiService) GenerateQuestionsForTest(ctx context.Context, payload *
 
 	return &schemas.AIGenerateQuestionsForTestResponse{Questions: questions}, nil
 }
+
+func (gs *GeminiService) GenerateQuestionResult(ctx context.Context, payload *schemas.AIGenerateQuestionResultPayload) (*schemas.AIGenerateQuestionResultResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AIGenerateQuestionResultResponse{
+			IsOk:              true,
+			ResultDescription: "Hi! It's a stub message from AI GenerateQuestionResult for developing",
+		}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage string
+	switch payload.Language {
+	case "en":
+		payloadMessage = "I have a question named " + payload.QuestionName + ". Description: " + payload.QuestionText + ". Expected answer: " + payload.AnswerByCreator + ". I answered: " + payload.AnswerFromUser + ".\nGenerate whether my answer is correct and provide a comment or improve my answer. Give me a response with a boolean for isOk and up to 4096 characters for the result description. Provide the answer in JSON with fields 'isOk' and 'resultDescription' (for example {\"isOk\": true, \"resultDescription\": \"some result description\"})"
+	case "ru":
+		payloadMessage = "У меня есть вопрос под названием " + payload.QuestionName + ". Описание:" + payload.QuestionText + ". Предполагаемый ответ: " + payload.AnswerByCreator + ". Я ответил так: " + payload.AnswerFromUser + "." + " \n Сгенерируйте мне правильно ли я ответил и дай комментарий или дополни мой ответ. Дайте мне ответ с макс boolean символов для isOk и до 4096 символов для описания комментария. Предоставьте мне ответ в json с полями 'isOk' и 'resultDescription' (например {\"isOk\": true, resultDescription: \"some result description\"})"
+	case "ua":
+		payloadMessage = "У мене є питання з назвою " + payload.QuestionName + ". Опис: " + payload.QuestionText + ". Очікувана відповідь: " + payload.AnswerByCreator + ". Я відповів так: " + payload.AnswerFromUser + ".\nЗгенеруй, чи є моя відповідь правильною, і дай коментар або доповни мою відповідь. Дай мені відповідь з boolean для isOk і до 4096 символів для опису результату. Надішли відповідь у форматі JSON з полями 'isOk' та 'resultDescription' (наприклад {\"isOk\": true, \"resultDescription\": \"some result description\"})"
+	default:
+		payloadMessage = "I have a question named " + payload.QuestionName + ". Description: " + payload.QuestionText + ". Expected answer: " + payload.AnswerByCreator + ". I answered: " + payload.AnswerFromUser + ".\nGenerate whether my answer is correct and provide a comment or improve my answer. Give me a response with a boolean for isOk and up to 4096 characters for the result description. Provide the answer in JSON with fields 'isOk' and 'resultDescription' (for example {\"isOk\": true, \"resultDescription\": \"some result description\"})"
+	}
+
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var theoryMaterial schemas.AIGenerateQuestionResultResponse
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &theoryMaterial)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGenerateQuestionResultResponse{
+		IsOk:              theoryMaterial.IsOk,
+		ResultDescription: theoryMaterial.ResultDescription,
+	}, nil
+}

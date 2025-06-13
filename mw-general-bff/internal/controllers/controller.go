@@ -33,6 +33,7 @@ type Controller struct {
 	WayCollectionController            *WayCollectionController
 	WayCollectionWayController         *WayCollectionWayController
 	HealthCheckController              *HealthCheckController
+	QuestionResultController           *QuestionResultController
 }
 
 func NewController(facade *facades.Facade) *Controller {
@@ -65,5 +66,7 @@ func NewController(facade *facades.Facade) *Controller {
 		WayCollectionController:            NewWayCollectionController(facade.WayCollectionFacade),
 		WayCollectionWayController:         NewWayCollectionWayController(facade.WayCollectionWayFacade),
 		HealthCheckController:              NewHealthCheckController(facade.HealthCheckFacade),
+		// for training
+		QuestionResultController: NewQuestionResultController(facade.QuestionResultFacade),
 	}
 }

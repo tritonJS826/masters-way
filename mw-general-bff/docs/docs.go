@@ -2034,6 +2034,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/questionResult/createAndCheck": {
+            "post": {
+                "description": "Create and check question result",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questionResult"
+                ],
+                "summary": "Create and check question result",
+                "operationId": "create-and-check-question-result",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.CreateQuestionResultRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.QuestionResult"
+                        }
+                    }
+                }
+            }
+        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -3346,7 +3381,7 @@ const docTemplate = `{
                 "generateTopicsAmount",
                 "language",
                 "practiceMaterialInEachTopic",
-                "testSessionId",
+                "testId",
                 "testSessionId"
             ],
             "properties": {
@@ -3359,6 +3394,9 @@ const docTemplate = `{
                 },
                 "practiceMaterialInEachTopic": {
                     "type": "integer"
+                },
+                "testId": {
+                    "type": "string"
                 },
                 "testSessionId": {
                     "type": "string"
@@ -3773,6 +3811,46 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.CreateQuestionResultRequest": {
+            "type": "object",
+            "required": [
+                "isOk",
+                "language",
+                "questionUuid",
+                "resultDescription",
+                "testSessionUuid",
+                "testUuid",
+                "userAnswer",
+                "userUuid"
+            ],
+            "properties": {
+                "isOk": {
+                    "type": "boolean"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "questionUuid": {
+                    "type": "string"
+                },
+                "resultDescription": {
+                    "type": "string"
+                },
+                "testSessionUuid": {
+                    "type": "string"
+                },
+                "testUuid": {
+                    "type": "string"
+                },
+                "userAnswer": {
+                    "type": "string"
+                },
+                "userUuid": {
                     "type": "string"
                 }
             }
@@ -4593,6 +4671,49 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-general-bff_internal_schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.QuestionResult": {
+            "type": "object",
+            "required": [
+                "isOk",
+                "questionAnswer",
+                "questionDescription",
+                "questionName",
+                "questionUuid",
+                "resultDescription",
+                "userAnswer",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "isOk": {
+                    "type": "boolean"
+                },
+                "questionAnswer": {
+                    "type": "string"
+                },
+                "questionDescription": {
+                    "type": "string"
+                },
+                "questionName": {
+                    "type": "string"
+                },
+                "questionUuid": {
+                    "type": "string"
+                },
+                "resultDescription": {
+                    "type": "string"
+                },
+                "userAnswer": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },

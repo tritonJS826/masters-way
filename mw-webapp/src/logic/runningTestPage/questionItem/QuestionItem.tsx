@@ -6,8 +6,8 @@ import {Input, InputType} from "src/component/input/Input";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
-import {QuestionResultDAL} from "src/dataAccessLogic/QuestionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question} from "src/model/businessModel/Test";
@@ -128,7 +128,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
       <Button
         value={LanguageService.test.buttons.saveAnswer[language]}
         onClick={async () => {
-          const questionResult = await QuestionResultDAL.createQuestionResult({
+          const questionResult = await AiQuestionResultDAL.createQuestionResult({
             isOk: props.question.answer === inputValue,
             questionUuid: props.question.uuid,
             userAnswer: inputValue,
@@ -136,6 +136,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
             testSessionUuid: props.testSessionUuid,
             testUuid: props.question.testUuid,
             userUuid: props.userUuid,
+            language,
           });
           props.saveUserAnswer(questionResult);
         }}

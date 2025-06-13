@@ -266,3 +266,25 @@ func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, response)
 }
+
+// @Summary Generate questionResult
+// @Description Generate questionResult
+// @Tags gemini
+// @ID ai-question-result
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.AIGenerateQuestionResultPayload true "Request payload"
+// @Success 200 {object} schemas.AIGenerateQuestionResultResponse
+// @Router /gemini/test/questionResult [post]
+func (cc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
+	var payload *schemas.AIGenerateQuestionResultPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	response, err := cc.geminiService.GenerateQuestionResult(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}

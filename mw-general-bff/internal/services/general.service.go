@@ -123,14 +123,6 @@ func (gs *GeneralService) DeleteCompositeWayRelation(ctx context.Context, parent
 	return nil
 }
 
-//type DayReportService struct {
-//	dayReportRepository IDayReportRepository
-//}
-//
-//func NewDayReportService(dayReportRepository IDayReportRepository) *DayReportService {
-//	return &DayReportService{dayReportRepository}
-//}
-
 type GetDayReportsByWayIdParams struct {
 	WayUUID string
 	Page    int
@@ -515,6 +507,30 @@ func (gs *GeneralService) GenerateQuestionsForTest(ctx context.Context, payload 
 	})
 
 	return questions, nil
+}
+
+type AiGenerateQuestionResultParams struct {
+	QuestionName    string
+	QuestionText    string
+	AnswerByCreator string
+	AnswerFromUser  string
+	Language        string
+}
+
+func (gs *GeneralService) AiGenerateQuestionResult(ctx context.Context, payload *AiGenerateQuestionResultParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateQuestionResultResponse, error) {
+	generatedQuestionResult, response, err := gs.generalAPI.GeminiAPI.AiQuestionResult(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateQuestionResultPayload{
+		QuestionName:    payload.QuestionName,
+		QuestionText:    payload.QuestionText,
+		AnswerByCreator: payload.AnswerByCreator,
+		AnswerFromUser:  payload.AnswerFromUser,
+		Language:        payload.Language,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return generatedQuestionResult, nil
 }
 
 func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {

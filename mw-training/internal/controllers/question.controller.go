@@ -22,6 +22,25 @@ func NewQuestionController(questionService *services.QuestionService) *QuestionC
 	return &QuestionController{questionService: questionService}
 }
 
+func (qc *QuestionController) GetQuestionById(ctx context.Context, in *pb.GetQuestionByIdRequest) (*pb.Question, error) {
+	questionUuid := in.GetQuestionUuid()
+
+	// TODO use userUuid for security (check relations)
+	userUuid := in.GetUserUuid()
+
+	arg := services.GetQuestionByIdParams{
+		QuestionUuid: pgtype.UUID{Bytes: uuid.MustParse(questionUuid), Valid: true},
+		UserUuid:     pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+	}
+
+	question, err := qc.questionService.GetQuestionById(ctx, arg)
+	if err != nil {
+		return nil, err
+	}
+
+	return question, nil
+}
+
 func (qc *QuestionController) CreateQuestion(ctx context.Context, in *pb.CreateQuestionRequest) (*pb.Question, error) {
 	testUuid := in.GetTestUuid()
 	questionText := in.GetQuestionText()

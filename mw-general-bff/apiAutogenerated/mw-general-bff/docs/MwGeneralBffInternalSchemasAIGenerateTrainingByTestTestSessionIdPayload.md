@@ -7,13 +7,14 @@ Name | Type | Description | Notes
 **GenerateTopicsAmount** | **int32** |  | 
 **Language** | **string** |  | 
 **PracticeMaterialInEachTopic** | **int32** |  | 
+**TestId** | **string** |  | 
 **TestSessionId** | **string** |  | 
 
 ## Methods
 
 ### NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload
 
-`func NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(generateTopicsAmount int32, language string, practiceMaterialInEachTopic int32, testSessionId string, ) *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload`
+`func NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(generateTopicsAmount int32, language string, practiceMaterialInEachTopic int32, testId string, testSessionId string, ) *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload`
 
 NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload instantiates a new MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload object
 This constructor will assign default values to properties that have it defined,
@@ -86,6 +87,26 @@ and a boolean to check if the value has been set.
 `func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) SetPracticeMaterialInEachTopic(v int32)`
 
 SetPracticeMaterialInEachTopic sets PracticeMaterialInEachTopic field to given value.
+
+
+### GetTestId
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) GetTestId() string`
+
+GetTestId returns the TestId field if non-nil, zero value otherwise.
+
+### GetTestIdOk
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) GetTestIdOk() (*string, bool)`
+
+GetTestIdOk returns a tuple with the TestId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTestId
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) SetTestId(v string)`
+
+SetTestId sets TestId field to given value.
 
 
 ### GetTestSessionId

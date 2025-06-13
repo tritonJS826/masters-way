@@ -24,6 +24,7 @@ type MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload str
 	GenerateTopicsAmount int32
 	Language string
 	PracticeMaterialInEachTopic int32
+	TestId string
 	TestSessionId string
 }
 
@@ -33,11 +34,12 @@ type _MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload Mw
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(generateTopicsAmount int32, language string, practiceMaterialInEachTopic int32, testSessionId string) *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload {
+func NewMwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload(generateTopicsAmount int32, language string, practiceMaterialInEachTopic int32, testId string, testSessionId string) *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload {
 	this := MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload{}
 	this.GenerateTopicsAmount = generateTopicsAmount
 	this.Language = language
 	this.PracticeMaterialInEachTopic = practiceMaterialInEachTopic
+	this.TestId = testId
 	this.TestSessionId = testSessionId
 	return &this
 }
@@ -122,6 +124,30 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload
 	o.PracticeMaterialInEachTopic = v
 }
 
+// GetTestId returns the TestId field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) GetTestId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.TestId
+}
+
+// GetTestIdOk returns a tuple with the TestId field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) GetTestIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TestId, true
+}
+
+// SetTestId sets field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) SetTestId(v string) {
+	o.TestId = v
+}
+
 // GetTestSessionId returns the TestSessionId field value
 func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload) GetTestSessionId() string {
 	if o == nil {
@@ -159,6 +185,7 @@ func (o MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload)
 	toSerialize["generateTopicsAmount"] = o.GenerateTopicsAmount
 	toSerialize["language"] = o.Language
 	toSerialize["practiceMaterialInEachTopic"] = o.PracticeMaterialInEachTopic
+	toSerialize["testId"] = o.TestId
 	toSerialize["testSessionId"] = o.TestSessionId
 	return toSerialize, nil
 }
@@ -171,6 +198,7 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload
 		"generateTopicsAmount",
 		"language",
 		"practiceMaterialInEachTopic",
+		"testId",
 		"testSessionId",
 	}
 

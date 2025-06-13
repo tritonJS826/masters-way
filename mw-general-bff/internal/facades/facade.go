@@ -34,6 +34,7 @@ type Facade struct {
 	WayCollectionFacade            *WayCollectionFacade
 	WayCollectionWayFacade         *WayCollectionWayFacade
 	HealthCheckFacade              *HealthCheckFacade
+	QuestionResultFacade           *QuestionResultFacade
 }
 
 func NewFacade(service *services.Service, config *config.Config) *Facade {
@@ -66,5 +67,6 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		WayCollectionFacade:            newWayCollectionFacade(service.GeneralService),
 		WayCollectionWayFacade:         newWayCollectionWayFacade(service.GeneralService),
 		HealthCheckFacade:              newHealthCheckFacade(service.GeneralService),
+		QuestionResultFacade:           newQuestionResultFacade(service.GeneralService, service.TrainingService),
 	}
 }

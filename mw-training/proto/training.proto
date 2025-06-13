@@ -85,6 +85,7 @@ service SessionService {
 }
 
 service QuestionService {
+  rpc GetQuestionById(GetQuestionByIdRequest) returns (Question);
   rpc CreateQuestion(CreateQuestionRequest) returns (Question);
   rpc UpdateQuestion(UpdateQuestionRequest) returns (Question);
   rpc DeleteQuestion(DeleteQuestionRequest) returns (google.protobuf.Empty);
@@ -435,6 +436,11 @@ message CreateTrainingTestRequest {
   string training_uuid = 1;
   string test_uuid = 2;
   string test_owner_uuid = 3; 
+}
+
+message GetQuestionByIdRequest {
+  string question_uuid = 1;
+  string user_uuid = 2;
 }
 
 message CreateQuestionRequest {

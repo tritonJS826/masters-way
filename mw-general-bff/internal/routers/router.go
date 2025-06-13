@@ -46,6 +46,7 @@ type Router struct {
 	wayCollectionRouter            *wayCollectionRouter
 	wayCollectionWayRouter         *wayCollectionWayRouter
 	healthCheckRouter              *healthCheckRouter
+	questionResultRouter           *questionResultRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -95,6 +96,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),
 		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
 		healthCheckRouter:              newHealthCheckRouter(controller.HealthCheckController),
+		questionResultRouter:           newQuestionResultRouter(controller.QuestionResultController, config),
 	}
 }
 
@@ -131,6 +133,7 @@ func (r *Router) SetRoutes(cfg *config.Config) {
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(general)
 	r.wayTagRouter.setWayTagRoutes(general)
 	r.healthCheckRouter.setHealthCheckRoutes(general)
+	r.questionResultRouter.setQuestionResultRouter(general)
 
 	if r.config.EnvType != "prod" {
 		r.Gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

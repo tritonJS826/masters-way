@@ -932,6 +932,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/test/questionResult": {
+            "post": {
+                "description": "Generate questionResult",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate questionResult",
+                "operationId": "ai-question-result",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateQuestionResultPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateQuestionResultResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/test/questions": {
             "post": {
                 "description": "Generate questions test",
@@ -3234,6 +3269,49 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.GeneratedPracticeMaterial"
                     }
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateQuestionResultPayload": {
+            "type": "object",
+            "required": [
+                "answerByCreator",
+                "answerFromUser",
+                "language",
+                "questionName",
+                "questionText"
+            ],
+            "properties": {
+                "answerByCreator": {
+                    "type": "string"
+                },
+                "answerFromUser": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
+                "questionName": {
+                    "type": "string"
+                },
+                "questionText": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateQuestionResultResponse": {
+            "type": "object",
+            "required": [
+                "isOk",
+                "resultDescription"
+            ],
+            "properties": {
+                "isOk": {
+                    "type": "boolean"
+                },
+                "resultDescription": {
+                    "type": "string"
                 }
             }
         },

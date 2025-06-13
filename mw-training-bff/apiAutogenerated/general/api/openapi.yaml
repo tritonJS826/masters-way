@@ -592,6 +592,28 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/test/questionResult:
+    post:
+      description: Generate questionResult
+      operationId: ai-question-result
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateQuestionResultPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateQuestionResultResponse'
+          description: OK
+      summary: Generate questionResult
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/test/questions:
     post:
       description: Generate questions test
@@ -2117,6 +2139,39 @@ components:
           type: array
       required:
       - practiceMaterials
+      type: object
+    mw-server_internal_schemas.AIGenerateQuestionResultPayload:
+      properties:
+        answerByCreator:
+          type: string
+        answerFromUser:
+          type: string
+        language:
+          example: ru|en|ua
+          type: string
+        questionName:
+          type: string
+        questionText:
+          type: string
+      required:
+      - answerByCreator
+      - answerFromUser
+      - language
+      - questionName
+      - questionText
+      type: object
+    mw-server_internal_schemas.AIGenerateQuestionResultResponse:
+      example:
+        isOk: true
+        resultDescription: resultDescription
+      properties:
+        isOk:
+          type: boolean
+        resultDescription:
+          type: string
+      required:
+      - isOk
+      - resultDescription
       type: object
     mw-server_internal_schemas.AIGenerateQuestionsForTestPayload:
       properties:

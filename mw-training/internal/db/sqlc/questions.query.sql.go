@@ -221,22 +221,9 @@ func (q *Queries) GetActiveQuestionsByTestId(ctx context.Context, arg GetActiveQ
 
 const getQuestionById = `-- name: GetQuestionById :one
 SELECT
-    questions.uuid,
-    questions.name,
-    practice_type,
-    questions.test_uuid,
-    questions.question_text,
-    questions.question_order,
-    questions.time_to_answer,
-    questions.answer,
-    questions.is_active,
-    questions.is_private,
-    questions.created_at,
-    questions.updated_at
-FROM
-    questions
-WHERE
-    questions.uuid = $1
+    uuid, name, practice_type, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
+FROM questions
+WHERE questions.uuid = $1
 `
 
 func (q *Queries) GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (Question, error) {
@@ -251,59 +238,6 @@ func (q *Queries) GetQuestionById(ctx context.Context, questionUuid pgtype.UUID)
 		&i.QuestionOrder,
 		&i.TimeToAnswer,
 		&i.Answer,
-		&i.IsActive,
-		&i.IsPrivate,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-	)
-	return i, err
-}
-
-const getQuestionForTaking = `-- name: GetQuestionForTaking :one
-SELECT
-    questions.uuid,
-    questions.name,
-    practice_type,
-    questions.test_uuid,
-    questions.question_text,
-    questions.question_order,
-    questions.time_to_answer,
-    questions.is_active,
-    questions.is_private,
-    questions.created_at,
-    questions.updated_at
-FROM
-    questions
-WHERE
-    questions.uuid = $1
-    AND questions.is_active = true
-`
-
-type GetQuestionForTakingRow struct {
-	Uuid          pgtype.UUID      `json:"uuid"`
-	Name          pgtype.Text      `json:"name"`
-	PracticeType  PracticeType     `json:"practice_type"`
-	TestUuid      pgtype.UUID      `json:"test_uuid"`
-	QuestionText  string           `json:"question_text"`
-	QuestionOrder int32            `json:"question_order"`
-	TimeToAnswer  int32            `json:"time_to_answer"`
-	IsActive      bool             `json:"is_active"`
-	IsPrivate     bool             `json:"is_private"`
-	CreatedAt     pgtype.Timestamp `json:"created_at"`
-	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
-}
-
-func (q *Queries) GetQuestionForTaking(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionForTakingRow, error) {
-	row := q.db.QueryRow(ctx, getQuestionForTaking, questionUuid)
-	var i GetQuestionForTakingRow
-	err := row.Scan(
-		&i.Uuid,
-		&i.Name,
-		&i.PracticeType,
-		&i.TestUuid,
-		&i.QuestionText,
-		&i.QuestionOrder,
-		&i.TimeToAnswer,
 		&i.IsActive,
 		&i.IsPrivate,
 		&i.CreatedAt,

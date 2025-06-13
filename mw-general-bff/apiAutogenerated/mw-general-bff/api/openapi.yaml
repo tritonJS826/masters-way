@@ -1289,6 +1289,28 @@ paths:
       tags:
       - project
       x-codegen-request-body-name: request
+  /questionResult/createAndCheck:
+    post:
+      description: Create and check question result
+      operationId: create-and-check-question-result
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.CreateQuestionResultRequest'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.QuestionResult'
+          description: OK
+      summary: Create and check question result
+      tags:
+      - questionResult
+      x-codegen-request-body-name: request
   /toUserMentoringRequests:
     post:
       operationId: create-userMentoringRequest
@@ -2235,12 +2257,15 @@ components:
           type: string
         practiceMaterialInEachTopic:
           type: integer
+        testId:
+          type: string
         testSessionId:
           type: string
       required:
       - generateTopicsAmount
       - language
       - practiceMaterialInEachTopic
+      - testId
       - testSessionId
       type: object
     mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse:
@@ -2673,6 +2698,35 @@ components:
       required:
       - name
       - ownerId
+      type: object
+    mw-general-bff_internal_schemas.CreateQuestionResultRequest:
+      properties:
+        isOk:
+          type: boolean
+        language:
+          example: ru|en|ua
+          type: string
+        questionUuid:
+          type: string
+        resultDescription:
+          type: string
+        testSessionUuid:
+          type: string
+        testUuid:
+          type: string
+        userAnswer:
+          type: string
+        userUuid:
+          type: string
+      required:
+      - isOk
+      - language
+      - questionUuid
+      - resultDescription
+      - testSessionUuid
+      - testUuid
+      - userAnswer
+      - userUuid
       type: object
     mw-general-bff_internal_schemas.CreateToUserMentoringRequestPayload:
       properties:
@@ -4221,6 +4275,47 @@ components:
       - ownerId
       - users
       - ways
+      type: object
+    mw-general-bff_internal_schemas.QuestionResult:
+      example:
+        questionDescription: questionDescription
+        userAnswer: userAnswer
+        questionAnswer: questionAnswer
+        isOk: true
+        userUuid: userUuid
+        questionName: questionName
+        resultDescription: resultDescription
+        uuid: uuid
+        questionUuid: questionUuid
+      properties:
+        isOk:
+          type: boolean
+        questionAnswer:
+          type: string
+        questionDescription:
+          type: string
+        questionName:
+          type: string
+        questionUuid:
+          type: string
+        resultDescription:
+          type: string
+        userAnswer:
+          type: string
+        userUuid:
+          type: string
+        uuid:
+          type: string
+      required:
+      - isOk
+      - questionAnswer
+      - questionDescription
+      - questionName
+      - questionUuid
+      - resultDescription
+      - userAnswer
+      - userUuid
+      - uuid
       type: object
     mw-general-bff_internal_schemas.RefreshAccessTokenPayload:
       properties:

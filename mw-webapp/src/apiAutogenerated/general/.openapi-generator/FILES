@@ -17,6 +17,7 @@ apis/PlanApi.ts
 apis/PlanJobTagApi.ts
 apis/ProblemApi.ts
 apis/ProjectApi.ts
+apis/QuestionResultApi.ts
 apis/ToUserMentoringRequestApi.ts
 apis/UserApi.ts
 apis/UserContactApi.ts
@@ -70,6 +71,7 @@ models/MwGeneralBffInternalSchemasCreatePlanJobTagPayload.ts
 models/MwGeneralBffInternalSchemasCreatePlanPayload.ts
 models/MwGeneralBffInternalSchemasCreateProblemPayload.ts
 models/MwGeneralBffInternalSchemasCreateProjectPayload.ts
+models/MwGeneralBffInternalSchemasCreateQuestionResultRequest.ts
 models/MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload.ts
 models/MwGeneralBffInternalSchemasCreateUserProjectPayload.ts
 models/MwGeneralBffInternalSchemasCreateUserTagPayload.ts
@@ -104,6 +106,7 @@ models/MwGeneralBffInternalSchemasPlanPopulatedResponse.ts
 models/MwGeneralBffInternalSchemasProblemPopulatedResponse.ts
 models/MwGeneralBffInternalSchemasProjectPlainResponse.ts
 models/MwGeneralBffInternalSchemasProjectPopulatedResponse.ts
+models/MwGeneralBffInternalSchemasQuestionResult.ts
 models/MwGeneralBffInternalSchemasRefreshAccessTokenPayload.ts
 models/MwGeneralBffInternalSchemasRefreshAccessTokenResponse.ts
 models/MwGeneralBffInternalSchemasTimeSpentByDayPoint.ts

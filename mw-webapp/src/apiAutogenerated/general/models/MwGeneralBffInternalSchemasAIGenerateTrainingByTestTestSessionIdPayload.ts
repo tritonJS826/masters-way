@@ -42,6 +42,12 @@ export interface MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionI
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload
      */
+    testId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload
+     */
     testSessionId: string;
 }
 
@@ -55,6 +61,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGenerateTrainingByTestTes
     isInstance = isInstance && "generateTopicsAmount" in value;
     isInstance = isInstance && "language" in value;
     isInstance = isInstance && "practiceMaterialInEachTopic" in value;
+    isInstance = isInstance && "testId" in value;
     isInstance = isInstance && "testSessionId" in value;
 
     return isInstance;
@@ -76,6 +83,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionId
         'generateTopicsAmount': json['generateTopicsAmount'],
         'language': json['language'],
         'practiceMaterialInEachTopic': json['practiceMaterialInEachTopic'],
+        'testId': json['testId'],
         'testSessionId': json['testSessionId'],
     };
 }
@@ -93,6 +101,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionId
         'generateTopicsAmount': value.generateTopicsAmount,
         'language': value.language,
         'practiceMaterialInEachTopic': value.practiceMaterialInEachTopic,
+        'testId': value.testId,
         'testSessionId': value.testSessionId,
     };
 }

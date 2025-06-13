@@ -147,3 +147,16 @@ type GeneratedQuestion struct {
 type AIGenerateQuestionsForTestResponse struct {
 	Questions []GeneratedQuestion `json:"questions" validate:"required"`
 }
+
+type AIGenerateQuestionResultPayload struct {
+	QuestionName    string `json:"questionName" validate:"required"`
+	QuestionText    string `json:"questionText" validate:"required"`
+	AnswerByCreator string `json:"answerByCreator" validate:"required"`
+	AnswerFromUser  string `json:"answerFromUser" validate:"required"`
+	Language        string `json:"language" validate:"required" example:"ru|en|ua"`
+}
+
+type AIGenerateQuestionResultResponse struct {
+	IsOk              bool   `json:"isOk" validate:"required"`
+	ResultDescription string `json:"resultDescription" validate:"required"`
+}

@@ -137,6 +137,7 @@ Class | Method | HTTP request | Description
 *ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /projects/{projectId} | Delete project by id
 *ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
 *ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
+*QuestionResultAPI* | [**CreateAndCheckQuestionResult**](docs/QuestionResultAPI.md#createandcheckquestionresult) | **Post** /questionResult/createAndCheck | Create and check question result
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
@@ -208,6 +209,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasCreatePlanPayload](docs/MwGeneralBffInternalSchemasCreatePlanPayload.md)
  - [MwGeneralBffInternalSchemasCreateProblemPayload](docs/MwGeneralBffInternalSchemasCreateProblemPayload.md)
  - [MwGeneralBffInternalSchemasCreateProjectPayload](docs/MwGeneralBffInternalSchemasCreateProjectPayload.md)
+ - [MwGeneralBffInternalSchemasCreateQuestionResultRequest](docs/MwGeneralBffInternalSchemasCreateQuestionResultRequest.md)
  - [MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload](docs/MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload.md)
  - [MwGeneralBffInternalSchemasCreateUserProjectPayload](docs/MwGeneralBffInternalSchemasCreateUserProjectPayload.md)
  - [MwGeneralBffInternalSchemasCreateUserTagPayload](docs/MwGeneralBffInternalSchemasCreateUserTagPayload.md)
@@ -242,6 +244,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasProblemPopulatedResponse](docs/MwGeneralBffInternalSchemasProblemPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasProjectPlainResponse](docs/MwGeneralBffInternalSchemasProjectPlainResponse.md)
  - [MwGeneralBffInternalSchemasProjectPopulatedResponse](docs/MwGeneralBffInternalSchemasProjectPopulatedResponse.md)
+ - [MwGeneralBffInternalSchemasQuestionResult](docs/MwGeneralBffInternalSchemasQuestionResult.md)
  - [MwGeneralBffInternalSchemasRefreshAccessTokenPayload](docs/MwGeneralBffInternalSchemasRefreshAccessTokenPayload.md)
  - [MwGeneralBffInternalSchemasRefreshAccessTokenResponse](docs/MwGeneralBffInternalSchemasRefreshAccessTokenResponse.md)
  - [MwGeneralBffInternalSchemasTimeSpentByDayPoint](docs/MwGeneralBffInternalSchemasTimeSpentByDayPoint.md)

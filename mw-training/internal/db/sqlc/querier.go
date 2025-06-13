@@ -64,7 +64,6 @@ type Querier interface {
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	GetPublicTests(ctx context.Context, arg GetPublicTestsParams) ([]GetPublicTestsRow, error)
 	GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
-	GetQuestionForTaking(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionForTakingRow, error)
 	GetQuestionResultById(ctx context.Context, resultUuid pgtype.UUID) (GetQuestionResultByIdRow, error)
 	GetQuestionResultsBySessionUuid(ctx context.Context, testSessionUuid pgtype.UUID) ([]GetQuestionResultsBySessionUuidRow, error)
 	GetQuestionTestRelations(ctx context.Context, questionUuid pgtype.UUID) ([]TestsQuestion, error)

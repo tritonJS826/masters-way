@@ -36,25 +36,6 @@ SET
 WHERE questions.uuid = @question_uuid
 RETURNING *;
 
--- name: GetQuestionById :one
-SELECT
-    questions.uuid,
-    questions.name,
-    practice_type,
-    questions.test_uuid,
-    questions.question_text,
-    questions.question_order,
-    questions.time_to_answer,
-    questions.answer,
-    questions.is_active,
-    questions.is_private,
-    questions.created_at,
-    questions.updated_at
-FROM
-    questions
-WHERE
-    questions.uuid = @question_uuid;
-
 -- name: GetQuestionsByTestId :many
 SELECT
     questions.uuid,
@@ -102,24 +83,11 @@ ORDER BY
     questions.question_order ASC,
     questions.created_at ASC;
 
--- name: GetQuestionForTaking :one
+-- name: GetQuestionById :one
 SELECT
-    questions.uuid,
-    questions.name,
-    practice_type,
-    questions.test_uuid,
-    questions.question_text,
-    questions.question_order,
-    questions.time_to_answer,
-    questions.is_active,
-    questions.is_private,
-    questions.created_at,
-    questions.updated_at
-FROM
-    questions
-WHERE
-    questions.uuid = @question_uuid
-    AND questions.is_active = true;
+    *
+FROM questions
+WHERE questions.uuid = @question_uuid;
 
 -- name: CountQuestionsByTestId :one
 SELECT

@@ -65,6 +65,22 @@ func (ts *TrainingService) GetTestSessionResult(ctx context.Context, params *Get
 	return testSessionResult, nil
 }
 
+type GetQuestionByIdParams struct {
+	QuestionUuid string
+	UserUuid     string
+}
+
+func (ts *TrainingService) GetQuestionById(ctx context.Context, params *GetQuestionByIdParams) (*pb.Question, error) {
+	question, err := ts.questionGRPC.GetQuestionById(ctx, &pb.GetQuestionByIdRequest{
+		QuestionUuid: params.QuestionUuid,
+		UserUuid:     params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return question, nil
+}
+
 type GetQuestionResultsBySessionUuidParams struct {
 	SessionUuid string
 	UserUuid    string
@@ -74,6 +90,32 @@ func (ts *TrainingService) GetQuestionResultsBySessionUuid(ctx context.Context, 
 	questionResult, err := ts.questionResultsGRPC.GetQuestionResultsBySessionUuid(ctx, &pb.GetQuestionResultsBySessionUuidRequest{
 		SessionUuid: params.SessionUuid,
 		UserUuid:    params.UserUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return questionResult, nil
+}
+
+type CreateQuestionResultParams struct {
+	QuestionUuid      string
+	UserUuid          string
+	TestUuid          string
+	TestSessionUuid   string
+	IsOk              bool
+	ResultDescription string
+	UserAnswer        string
+}
+
+func (ts *TrainingService) CreateQuestionResult(ctx context.Context, params *CreateQuestionResultParams) (*pb.QuestionResult, error) {
+	questionResult, err := ts.questionResultsGRPC.CreateQuestionResult(ctx, &pb.CreateQuestionResultRequest{
+		QuestionUuid:      params.QuestionUuid,
+		UserUuid:          params.UserUuid,
+		TestUuid:          params.TestUuid,
+		TestSessionUuid:   params.TestSessionUuid,
+		IsOk:              params.IsOk,
+		ResultDescription: params.ResultDescription,
+		UserAnswer:        params.UserAnswer,
 	})
 	if err != nil {
 		return nil, err

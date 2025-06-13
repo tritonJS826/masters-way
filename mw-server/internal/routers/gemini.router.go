@@ -29,5 +29,6 @@ func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
 	router.POST("/trainings/practiceMaterial", gr.geminiController.GeneratePracticeMaterialForTopic)
 
 	router.POST("/test/questions", gr.geminiController.GenerateQuestionsForTest)
+	router.POST("/test/questionResult", gr.geminiController.AiGenerateQuestionResult)
 
 }

@@ -247,13 +247,15 @@ definitions:
         type: string
       practiceMaterialInEachTopic:
         type: integer
+      testId:
+        type: string
       testSessionId:
         type: string
     required:
     - generateTopicsAmount
     - language
     - practiceMaterialInEachTopic
-    - testSessionId
+    - testId
     - testSessionId
     type: object
   mw-general-bff_internal_schemas.AIGenerateTrainingByTestTestSessionIdResponse:
@@ -540,6 +542,35 @@ definitions:
     required:
     - name
     - ownerId
+    type: object
+  mw-general-bff_internal_schemas.CreateQuestionResultRequest:
+    properties:
+      isOk:
+        type: boolean
+      language:
+        example: ru|en|ua
+        type: string
+      questionUuid:
+        type: string
+      resultDescription:
+        type: string
+      testSessionUuid:
+        type: string
+      testUuid:
+        type: string
+      userAnswer:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - isOk
+    - language
+    - questionUuid
+    - resultDescription
+    - testSessionUuid
+    - testUuid
+    - userAnswer
+    - userUuid
     type: object
   mw-general-bff_internal_schemas.CreateToUserMentoringRequestPayload:
     properties:
@@ -1110,6 +1141,37 @@ definitions:
     - ownerId
     - users
     - ways
+    type: object
+  mw-general-bff_internal_schemas.QuestionResult:
+    properties:
+      isOk:
+        type: boolean
+      questionAnswer:
+        type: string
+      questionDescription:
+        type: string
+      questionName:
+        type: string
+      questionUuid:
+        type: string
+      resultDescription:
+        type: string
+      userAnswer:
+        type: string
+      userUuid:
+        type: string
+      uuid:
+        type: string
+    required:
+    - isOk
+    - questionAnswer
+    - questionDescription
+    - questionName
+    - questionUuid
+    - resultDescription
+    - userAnswer
+    - userUuid
+    - uuid
     type: object
   mw-general-bff_internal_schemas.RefreshAccessTokenPayload:
     properties:
@@ -2952,6 +3014,29 @@ paths:
       summary: Update project by id
       tags:
       - project
+  /questionResult/createAndCheck:
+    post:
+      consumes:
+      - application/json
+      description: Create and check question result
+      operationId: create-and-check-question-result
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.CreateQuestionResultRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.QuestionResult'
+      summary: Create and check question result
+      tags:
+      - questionResult
   /toUserMentoringRequests:
     post:
       consumes:

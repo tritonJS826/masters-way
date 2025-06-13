@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**AiEstimateIssue**](GeminiAPI.md#AiEstimateIssue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 [**AiPlansByMetrics**](GeminiAPI.md#AiPlansByMetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 [**AiPracticeMaterialForTopic**](GeminiAPI.md#AiPracticeMaterialForTopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+[**AiQuestionResult**](GeminiAPI.md#AiQuestionResult) | **Post** /gemini/test/questionResult | Generate questionResult
 [**AiQuestionsForTest**](GeminiAPI.md#AiQuestionsForTest) | **Post** /gemini/test/questions | Generate questions test
 [**AiTheoryMaterialForTopic**](GeminiAPI.md#AiTheoryMaterialForTopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 [**AiTopicForTraining**](GeminiAPI.md#AiTopicForTraining) | **Post** /gemini/trainings/topics | 
@@ -465,6 +466,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse**](MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiQuestionResult
+
+> MwServerInternalSchemasAIGenerateQuestionResultResponse AiQuestionResult(ctx).Request(request).Execute()
+
+Generate questionResult
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateQuestionResultPayload("AnswerByCreator_example", "AnswerFromUser_example", "ru|en|ua", "QuestionName_example", "QuestionText_example") // MwServerInternalSchemasAIGenerateQuestionResultPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiQuestionResult(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiQuestionResult``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiQuestionResult`: MwServerInternalSchemasAIGenerateQuestionResultResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiQuestionResult`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiQuestionResultRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateQuestionResultPayload**](MwServerInternalSchemasAIGenerateQuestionResultPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateQuestionResultResponse**](MwServerInternalSchemasAIGenerateQuestionResultResponse.md)
 
 ### Authorization
 

@@ -19,6 +19,7 @@ export * from './PlanApi';
 export * from './PlanJobTagApi';
 export * from './ProblemApi';
 export * from './ProjectApi';
+export * from './QuestionResultApi';
 export * from './ToUserMentoringRequestApi';
 export * from './UserApi';
 export * from './UserContactApi';

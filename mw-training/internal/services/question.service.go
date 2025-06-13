@@ -12,12 +12,7 @@ import (
 )
 
 type QuestionRepository interface {
-	// CreateTopicInTraining(ctx context.Context, params db.CreateTopicInTrainingParams) (db.Topic, error)
-	// UpdateTopic(ctx context.Context, params db.UpdateTopicParams) (db.Topic, error)
-	// DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (db.Topic, error)
-	// GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (db.GetTopicByUuidRow, error)
-	// GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]db.PracticeMaterial, error)
-	// GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]db.TheoryMaterial, error)
+	GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (db.Question, error)
 	CreateQuestion(ctx context.Context, params db.CreateQuestionParams) (db.Question, error)
 	UpdateQuestion(ctx context.Context, params db.UpdateQuestionParams) (db.Question, error)
 	DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) error
@@ -35,6 +30,30 @@ func NewQuestionService(pgxPool *pgxpool.Pool, questionRepository QuestionReposi
 		pgxPool:            pgxPool,
 		questionRepository: questionRepository,
 	}
+}
+
+type GetQuestionByIdParams struct {
+	QuestionUuid pgtype.UUID
+	UserUuid     pgtype.UUID
+}
+
+func (ts *QuestionService) GetQuestionById(ctx context.Context, params GetQuestionByIdParams) (*pb.Question, error) {
+	questionDb, err := ts.questionRepository.GetQuestionById(ctx, params.QuestionUuid)
+	if err != nil {
+		return &pb.Question{}, err
+	}
+
+	return &pb.Question{
+		Uuid:         *utils.MarshalPgUUID(questionDb.Uuid),
+		TestUuid:     *utils.MarshalPgUUID(questionDb.TestUuid),
+		QuestionText: questionDb.QuestionText,
+		Order:        questionDb.QuestionOrder,
+		TimeToAnswer: questionDb.TimeToAnswer,
+		Answer:       questionDb.Answer,
+		IsActive:     questionDb.IsActive,
+		CreatedAt:    questionDb.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:    questionDb.UpdatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
+	}, nil
 }
 
 func (ts *QuestionService) CreateQuestion(ctx context.Context, params db.CreateQuestionParams) (*pb.Question, error) {
