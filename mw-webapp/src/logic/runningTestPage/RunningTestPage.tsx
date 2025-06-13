@@ -128,6 +128,10 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
                   styles.questionShortBlock,
                   runningTestPageStore.activeQuestion.uuid === question.uuid && styles.active,
                 )}
+                onClick={() => {
+                  runningTestPageStore.setActiveQuestionOrder(question.order);
+                  runningTestPageStore.setActiveQuestion(question.uuid);
+                }}
               >
                 {question.name.trim() === ""
                   ? LanguageService.common.emptyMarkdown[language]

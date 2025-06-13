@@ -7,6 +7,7 @@ import {Question} from "src/model/businessModel/Test";
 export const questionDTOToQuestion = (questionDTO: MwTrainingBffInternalSchemasQuestion): Question => {
   return new Question({
     ...questionDTO,
+    name: questionDTO.name ?? "",
     createdAt: new Date(questionDTO.createdAt),
     updatedAt: new Date(questionDTO.updatedAt),
   });

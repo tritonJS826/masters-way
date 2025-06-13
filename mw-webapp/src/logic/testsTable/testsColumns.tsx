@@ -1,7 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import clsx from "clsx";
-import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -106,7 +104,7 @@ export const getTestsColumns = (language: Language) => [
         styles.cellWrapper,
       )}
       >
-        <Link path={pages.test.getPath({uuid: row.original.uuid})}>
+        <Link path={pages.lobbyTest.getPath({uuid: row.original.uuid})}>
           {row.original.name}
         </Link>
         <Tooltip
@@ -120,43 +118,43 @@ export const getTestsColumns = (language: Language) => [
       </VerticalContainer>
     ),
   }),
-  columnHelper.accessor("owner", {
+  // ColumnHelper.accessor("ownerUuid", {
 
-    /**
-     * Header
-     */
-    header: () => (<>
-      <Tooltip
-        position={PositionTooltip.TOP}
-        content={LanguageService.allTests.testsTable.columnTooltip.owner[language]}
-      >
-        {LanguageService.allTests.testsTable.columns.owner[language]}
-      </Tooltip>
-    </>
-    ),
+  //   /**
+  //    * Header
+  //    */
+  //   header: () => (<>
+  //     <Tooltip
+  //       position={PositionTooltip.TOP}
+  //       content={LanguageService.allTests.testsTable.columnTooltip.owner[language]}
+  //     >
+  //       {LanguageService.allTests.testsTable.columns.owner[language]}
+  //     </Tooltip>
+  //   </>
+  //   ),
 
-    /**
-     * Cell with test's owner
-     */
-    cell: ({row}) => {
-      return (
-        <HorizontalContainer className={clsx(
-          styles.cellWrapper,
-          styles.userBlock,
-        )}
-        >
-          <Avatar
-            alt={row.original.owner.name}
-            src={row.original.owner.imageUrl}
-            size={AvatarSize.MEDIUM}
-          />
-          <VerticalContainer>
-            <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
-              {row.original.owner.name}
-            </Link>
-          </VerticalContainer>
-        </HorizontalContainer>
-      );
-    },
-  }),
+  //   /**
+  //    * Cell with test's owner
+  //    */
+  //   cell: ({row}) => {
+  //     return (
+  //       <HorizontalContainer className={clsx(
+  //         styles.cellWrapper,
+  //         styles.userBlock,
+  //       )}
+  //       >
+  //         <Avatar
+  //           alt={row.original.owner.name}
+  //           src={row.original.owner.imageUrl}
+  //           size={AvatarSize.MEDIUM}
+  //         />
+  //         <VerticalContainer>
+  //           <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
+  //             {row.original.owner.name}
+  //           </Link>
+  //         </VerticalContainer>
+  //       </HorizontalContainer>
+  //     );
+  //   },
+  // }),
 ];

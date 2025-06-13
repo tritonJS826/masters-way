@@ -16,8 +16,10 @@ $labelMaxWidthBlock: 650px;
 
 .testDashboard {
   gap: $gapSmall;
-  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax($mediumWidthBlock,
-      3fr);
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
 
   @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
@@ -69,25 +71,15 @@ $labelMaxWidthBlock: 650px;
   padding: 0 $paddingSmall;
 }
 
-.peopleBlock {
-  @include regularContainer;
-  min-width: $minWidthBlock;
-  gap: $gapSmall;
-}
-
-.ownerBlock {
-  flex-wrap: wrap;
-}
-
 .questions {
   gap: $gapSmall;
 }
 
-.theoryMaterials,
-.practiceMaterials {
+.question {
   @include regularContainer;
   width: 100%;
   gap: $gapMedium;
+  scroll-margin-top: calc($headerHeight + $paddingBig);
 }
 
 .timeToAnswerBlock {
@@ -133,21 +125,6 @@ $labelMaxWidthBlock: 650px;
 
 .title {
   width: 100%;
-}
-
-.separator {
-  margin-top: $paddingMedium;
-}
-
-.practiceMaterialInput {
-  padding-block: $paddingSmall;
-}
-
-.timeToAnswerInput {
-  padding: none;
-  color: grey;
-  font-size: $fontSizeMedium;
-  font-style: italic;
 }
 
 .generateMaterialButtons {

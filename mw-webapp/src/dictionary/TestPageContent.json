@@ -181,6 +181,11 @@
             "ru": "Выберите, сколько вопросов хотите создать с помощью AI",
             "en": "Select how many questions you want to generate using AI",
             "ua": "Виберіть, скільки запитань ви хочете створити за допомогою ШІ AI"
+        },
+        "successGeneratedQuestions": {
+            "ru": "Вопросы успешно сгенерированы и сохранены!",
+            "en": "Questions successfully generated and saved!",
+            "ua": "Питання успішно згенеровані та збережені!"
         }
     }
 }

@@ -1,5 +1,4 @@
 import {useState} from "react";
-import {DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input, InputType} from "src/component/input/Input";
@@ -52,6 +51,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
   const [inputQuestionsAmount, setInputQuestionsAmount] = useState<number>(DEFAULT_QUESTIONS_AMOUNT);
   const [isGeneratingQuestions, setIsGeneratingQuestions] = useState<boolean>(false);
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
+  const [isButtonToGeneratePressed, setIsButtonToGeneratePressed] = useState<boolean>(false);
 
   /**
    * Generate AI questions
@@ -78,6 +78,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
 
   return (
     <VerticalContainer className={styles.topicsAiModalWrapper}>
+      {!isButtonToGeneratePressed &&
       <>
         <Title
           level={HeadingLevel.h2}
@@ -94,19 +95,26 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
           autoFocus={true}
           formatter={getFormattedValue}
         />
-        <DialogClose asChild>
-          <Button
-            value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
-            onClick={() => {
-              setIsErrorCatched(false);
-              setIsGeneratingQuestions(true);
-              generateAIQuestions();
-            }}
-          />
-        </DialogClose>
+        <Button
+          value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
+          onClick={() => {
+            setIsErrorCatched(false);
+            setIsGeneratingQuestions(true);
+            setIsButtonToGeneratePressed(true);
+            generateAIQuestions();
+          }}
+        />
       </>
+      }
       {isGeneratingQuestions && !isErrorCatched &&
         <Loader theme={theme} />
+      }
+      {isButtonToGeneratePressed && !isGeneratingQuestions &&
+        <Title
+          level={HeadingLevel.h2}
+          placeholder=""
+          text={LanguageService.test.aiButtons.successGeneratedQuestions[language]}
+        />
       }
       {isErrorCatched &&
         <Title

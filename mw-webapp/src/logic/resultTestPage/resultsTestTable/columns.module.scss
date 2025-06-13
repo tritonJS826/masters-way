@@ -27,12 +27,6 @@
   white-space: nowrap;
 }
 
-.compositeWay {
-  height: 100%;
-  // Need create a new token for composite way background
-  background: var(--attentionColor);
-}
-
 .status {
   text-align: center;
 }
@@ -42,11 +36,23 @@
 }
 
 .cellWrapper {
+  height: 100%;
   padding: $paddingSmall;
 }
 
-.abandonedWay {
-  height: 100%;
-  // Need create a new token for composite way background
-  background: var(--dangerColor);
+.iconCell {
+  align-items: center;
+  justify-content: center;
+}
+
+.answerIsOk {
+  border: $primaryBorder solid var(--attentionColor);
+  border-radius: $tertiaryBorderRadius;
+  stroke: var(--attentionColor);
+}
+
+.answerIsWrong {
+  border: $primaryBorder solid var(--dangerColor);
+  border-radius: $tertiaryBorderRadius;
+  stroke: var(--dangerColor);
 }

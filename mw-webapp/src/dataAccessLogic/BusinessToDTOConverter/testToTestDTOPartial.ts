@@ -12,6 +12,7 @@ export const testToTestDTOPartial = (
   const testPartialDTO: MwTrainingBffInternalSchemasUpdateTestRequest = {
     description: test.description,
     name: test.name,
+    isPrivate: test.isPrivate,
   };
 
   const preparedTestPartialDTO = deleteUndefinedFields(testPartialDTO);

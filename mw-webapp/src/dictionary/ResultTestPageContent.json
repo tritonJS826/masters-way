@@ -17,14 +17,14 @@
         },
         "column": {
             "question": {
+                "ru": "Название",
+                "en": "Name",
+                "ua": "Назва"
+            },
+            "description": {
                 "ru": "Вопрос",
                 "en": "Question",
                 "ua": "Питання"
-            },
-            "description": {
-                "ru": "Описание вопроса",
-                "en": "Question description",
-                "ua": "Опис питання"
             },
             "userAnswer": {
                 "ru": "Ответ пользователя",
