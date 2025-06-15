@@ -39,6 +39,7 @@ func (ts *TestSessionResultService) GetTestSessionResult(ctx context.Context, se
 		SessionUuid:       *utils.MarshalPgUUID(sessionUuid),
 		TestUuid:          *utils.MarshalPgUUID(testSessionResultDb.TestUuid),
 		ResultDescription: testSessionResultDb.ResultDescription,
+		SessionResultUuid: *utils.MarshalPgUUID(testSessionResultDb.Uuid),
 		CreatedAt:         testSessionResultDb.CreatedAt.Time.String(),
 	}, nil
 }

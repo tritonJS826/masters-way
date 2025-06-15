@@ -1726,6 +1726,9 @@ const docTemplate = `{
                 "resultDescription": {
                     "type": "string"
                 },
+                "sessionResultUUID": {
+                    "type": "string"
+                },
                 "sessionUuid": {
                     "type": "string"
                 },

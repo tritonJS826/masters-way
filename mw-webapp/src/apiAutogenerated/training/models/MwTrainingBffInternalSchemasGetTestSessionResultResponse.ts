@@ -36,6 +36,12 @@ export interface MwTrainingBffInternalSchemasGetTestSessionResultResponse {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasGetTestSessionResultResponse
      */
+    sessionResultUUID?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasGetTestSessionResultResponse
+     */
     sessionUuid: string;
     /**
      * 
@@ -75,6 +81,7 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON
         
         'createdAt': json['createdAt'],
         'resultDescription': json['resultDescription'],
+        'sessionResultUUID': !exists(json, 'sessionResultUUID') ? undefined : json['sessionResultUUID'],
         'sessionUuid': json['sessionUuid'],
         'testUuid': json['testUuid'],
     };
@@ -92,6 +99,7 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultResponseToJSON(v
         
         'createdAt': value.createdAt,
         'resultDescription': value.resultDescription,
+        'sessionResultUUID': value.sessionResultUUID,
         'sessionUuid': value.sessionUuid,
         'testUuid': value.testUuid,
     };

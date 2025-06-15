@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **string** |  | 
 **ResultDescription** | **string** |  | 
+**SessionResultUUID** | Pointer to **string** |  | [optional] 
 **SessionUuid** | **string** |  | 
 **TestUuid** | **string** |  | 
 
@@ -67,6 +68,31 @@ and a boolean to check if the value has been set.
 
 SetResultDescription sets ResultDescription field to given value.
 
+
+### GetSessionResultUUID
+
+`func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) GetSessionResultUUID() string`
+
+GetSessionResultUUID returns the SessionResultUUID field if non-nil, zero value otherwise.
+
+### GetSessionResultUUIDOk
+
+`func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) GetSessionResultUUIDOk() (*string, bool)`
+
+GetSessionResultUUIDOk returns a tuple with the SessionResultUUID field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSessionResultUUID
+
+`func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) SetSessionResultUUID(v string)`
+
+SetSessionResultUUID sets SessionResultUUID field to given value.
+
+### HasSessionResultUUID
+
+`func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) HasSessionResultUUID() bool`
+
+HasSessionResultUUID returns a boolean if a field has been set.
 
 ### GetSessionUuid
 

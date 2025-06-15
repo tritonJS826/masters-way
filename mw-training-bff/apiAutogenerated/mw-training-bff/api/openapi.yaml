@@ -1108,10 +1108,13 @@ components:
         sessionUuid: sessionUuid
         resultDescription: resultDescription
         testUuid: testUuid
+        sessionResultUUID: sessionResultUUID
       properties:
         createdAt:
           type: string
         resultDescription:
+          type: string
+        sessionResultUUID:
           type: string
         sessionUuid:
           type: string

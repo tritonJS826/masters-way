@@ -31,6 +31,7 @@ func (s *TestSessionResultsService) GetTestSessionResult(ctx context.Context, pa
 
 	return &schemas.GetTestSessionResultResponse{
 		SessionUUID:       testSessionResult.SessionUuid,
+		SessionResultUUID: testSessionResult.SessionResultUuid,
 		TestUUID:          testSessionResult.TestUuid,
 		ResultDescription: testSessionResult.ResultDescription,
 		CreatedAt:         testSessionResult.CreatedAt,

@@ -158,6 +158,8 @@ definitions:
         type: string
       resultDescription:
         type: string
+      sessionResultUUID:
+        type: string
       sessionUuid:
         type: string
       testUuid:

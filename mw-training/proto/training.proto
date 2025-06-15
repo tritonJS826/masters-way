@@ -523,9 +523,10 @@ message CreateTestSessionResultRequest {
 
 message GetTestSessionResultResponse {
   string session_uuid = 1;
-  string test_uuid = 2;
-  string result_description = 3;
-  string created_at = 4;
+  string session_result_uuid = 2;
+  string test_uuid = 3;
+  string result_description = 4;
+  string created_at = 5;
 }
 
 message MessageToAI {

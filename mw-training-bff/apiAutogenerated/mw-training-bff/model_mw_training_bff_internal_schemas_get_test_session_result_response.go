@@ -23,6 +23,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasGetTestSessionResultResponse
 type MwTrainingBffInternalSchemasGetTestSessionResultResponse struct {
 	CreatedAt string
 	ResultDescription string
+	SessionResultUUID *string
 	SessionUuid string
 	TestUuid string
 }
@@ -98,6 +99,38 @@ func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) SetResultDesc
 	o.ResultDescription = v
 }
 
+// GetSessionResultUUID returns the SessionResultUUID field value if set, zero value otherwise.
+func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) GetSessionResultUUID() string {
+	if o == nil || IsNil(o.SessionResultUUID) {
+		var ret string
+		return ret
+	}
+	return *o.SessionResultUUID
+}
+
+// GetSessionResultUUIDOk returns a tuple with the SessionResultUUID field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) GetSessionResultUUIDOk() (*string, bool) {
+	if o == nil || IsNil(o.SessionResultUUID) {
+		return nil, false
+	}
+	return o.SessionResultUUID, true
+}
+
+// HasSessionResultUUID returns a boolean if a field has been set.
+func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) HasSessionResultUUID() bool {
+	if o != nil && !IsNil(o.SessionResultUUID) {
+		return true
+	}
+
+	return false
+}
+
+// SetSessionResultUUID gets a reference to the given string and assigns it to the SessionResultUUID field.
+func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) SetSessionResultUUID(v string) {
+	o.SessionResultUUID = &v
+}
+
 // GetSessionUuid returns the SessionUuid field value
 func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) GetSessionUuid() string {
 	if o == nil {
@@ -158,6 +191,9 @@ func (o MwTrainingBffInternalSchemasGetTestSessionResultResponse) ToMap() (map[s
 	toSerialize := map[string]interface{}{}
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["resultDescription"] = o.ResultDescription
+	if !IsNil(o.SessionResultUUID) {
+		toSerialize["sessionResultUUID"] = o.SessionResultUUID
+	}
 	toSerialize["sessionUuid"] = o.SessionUuid
 	toSerialize["testUuid"] = o.TestUuid
 	return toSerialize, nil
