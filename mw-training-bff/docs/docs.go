@@ -1716,6 +1716,7 @@ const docTemplate = `{
             "required": [
                 "createdAt",
                 "resultDescription",
+                "sessionResultUUID",
                 "sessionUuid",
                 "testUuid"
             ],

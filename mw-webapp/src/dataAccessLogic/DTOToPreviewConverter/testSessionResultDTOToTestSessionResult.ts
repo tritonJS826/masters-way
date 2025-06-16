@@ -9,6 +9,7 @@ export const testSessionResultDTOToTestSessionResult = (
 ): TestSessionResult => {
   return new TestSessionResult({
     ...testSessionResultDTO,
+    uuid: testSessionResultDTO.sessionResultUUID,
     createdAt: new Date(testSessionResultDTO.createdAt),
   });
 };

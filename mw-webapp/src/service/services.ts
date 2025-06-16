@@ -222,3 +222,4 @@ export const questionService = new QuestionApi(trainingConfiguration);
 export const sessionService = new SessionsApi(trainingConfiguration);
 export const testSessionResultService = new TestSessionResultApi(trainingConfiguration);
 export const trainingTestService = new TrainingTestsApi(trainingConfiguration);
+

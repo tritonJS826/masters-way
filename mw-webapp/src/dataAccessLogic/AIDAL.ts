@@ -218,6 +218,43 @@ interface GeneratePracticeMaterialParams {
 }
 
 /**
+ * Generate training based on testSessionResult info
+ */
+interface GenerateTrainingByTestSessionResultParams {
+
+  /**
+   * Amount of topics
+   */
+  generateTopicsAmount: number;
+
+  /**
+   * The app language
+   */
+  language: Language;
+
+  /**
+   * Amount of practice materials in each topic
+   */
+  practiceMaterialInEachTopic: number;
+
+  /**
+   * Test Uuid
+   */
+  testId: string;
+
+  /**
+   * Test session Uuid
+   */
+  testSessionId: string;
+
+  /**
+   * Test session result Uuid
+   */
+  sessionResultId: string;
+
+}
+
+/**
  * Provides methods to interact with the comments
  */
 export class AIDAL {
@@ -382,6 +419,26 @@ export class AIDAL {
     const testQuestions = testQuestionsDTO.questions.map(questionDTOToQuestion);
 
     return testQuestions;
+  }
+
+  /**
+   * Generate training based on the testSessionResult
+   */
+  public static async aiCreateTrainingByTestSession(
+    params: GenerateTrainingByTestSessionResultParams,
+  ): Promise<string> {
+    const trainingId = await AIService.aiCreateTrainingByTestSession({
+      sessionResultId: params.sessionResultId,
+      request: {
+        generateTopicsAmount: params.generateTopicsAmount,
+        language: params.language,
+        practiceMaterialInEachTopic: params.practiceMaterialInEachTopic,
+        testId: params.testId,
+        testSessionId: params.testSessionId,
+      },
+    });
+
+    return trainingId.trainingId;
   }
 
 }

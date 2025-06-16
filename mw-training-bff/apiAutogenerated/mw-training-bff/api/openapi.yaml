@@ -1123,6 +1123,7 @@ components:
       required:
       - createdAt
       - resultDescription
+      - sessionResultUUID
       - sessionUuid
       - testUuid
       type: object

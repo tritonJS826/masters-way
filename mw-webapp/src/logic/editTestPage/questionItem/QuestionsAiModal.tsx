@@ -39,6 +39,11 @@ interface QuestionsAiModalProps {
    * Callback to add generated questions
    */
   addQuestions: (questions: Question[]) => void;
+
+  /**
+   * Callback triggered on close modal
+   */
+  onCloseModal: (isOk: boolean) => void;
 }
 
 /**
@@ -65,10 +70,11 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
       });
 
       props.addQuestions(questions);
+      props.onCloseModal(true);
 
     } catch (error) {
       setIsErrorCatched(true);
-
+      props.onCloseModal(false);
       //TODO: need manage error somehow
       throw error;
     } finally {
@@ -108,20 +114,6 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
       }
       {isGeneratingQuestions && !isErrorCatched &&
         <Loader theme={theme} />
-      }
-      {isButtonToGeneratePressed && !isGeneratingQuestions &&
-        <Title
-          level={HeadingLevel.h2}
-          placeholder=""
-          text={LanguageService.test.aiButtons.successGeneratedQuestions[language]}
-        />
-      }
-      {isErrorCatched &&
-        <Title
-          level={HeadingLevel.h2}
-          placeholder=""
-          text={LanguageService.error.onClickError[language]}
-        />
       }
 
     </VerticalContainer>

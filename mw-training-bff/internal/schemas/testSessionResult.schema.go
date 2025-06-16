@@ -4,7 +4,7 @@ type GetTestSessionResultResponse struct {
 	SessionUUID       string `json:"sessionUuid" validate:"required"`
 	TestUUID          string `json:"testUuid" validate:"required"`
 	ResultDescription string `json:"resultDescription" validate:"required"`
-	SessionResultUUID string `json:"sessionResultUUID" validate:"require"`
+	SessionResultUUID string `json:"sessionResultUUID" validate:"required"`
 	CreatedAt         string `json:"createdAt" validate:"required"`
 }
 
