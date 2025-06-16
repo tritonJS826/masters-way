@@ -161,49 +161,49 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
           isDisabled={props.isPrevButtonDisabled}
         />
 
+        {!props.isSavedAnswer &&
+          <Button
+            value={LanguageService.test.buttons.saveAnswer[language]}
+            onClick={async () => {
+              const questionResult = await AiQuestionResultDAL.createQuestionResult({
+                isOk: props.question.answer === inputValue,
+                questionUuid: props.question.uuid,
+                userAnswer: inputValue,
+                resultDescription: "",
+                testSessionUuid: props.testSessionUuid,
+                testUuid: props.question.testUuid,
+                userUuid: props.userUuid,
+                language,
+              });
+              props.saveUserAnswer(questionResult);
+            }}
+            buttonType={ButtonType.PRIMARY}
+          />
+        }
+
+        {props.isCreateSessionResultEnable &&
+          <Button
+            value={LanguageService.test.buttons.seeResults[language]}
+            onClick={async () => {
+              await TestSessionResultDAL.createTestSessionResult({
+                sessionUuid: props.testSessionUuid,
+                testUuid: props.question.testUuid,
+              });
+              navigate(pages.resultTest.getPath({
+                testUuid: props.question.testUuid,
+                sessionUuid: props.testSessionUuid,
+              }));
+            }}
+            buttonType={ButtonType.PRIMARY}
+          />
+        }
+
         <Button
           value={LanguageService.test.buttons.nextQuestion[language]}
           onClick={props.nextQuestion}
           buttonType={ButtonType.SECONDARY}
           isDisabled={props.isNextButtonDisabled}
         />
-
-        {!props.isSavedAnswer &&
-        <Button
-          value={LanguageService.test.buttons.saveAnswer[language]}
-          onClick={async () => {
-            const questionResult = await AiQuestionResultDAL.createQuestionResult({
-              isOk: props.question.answer === inputValue,
-              questionUuid: props.question.uuid,
-              userAnswer: inputValue,
-              resultDescription: "",
-              testSessionUuid: props.testSessionUuid,
-              testUuid: props.question.testUuid,
-              userUuid: props.userUuid,
-              language,
-            });
-            props.saveUserAnswer(questionResult);
-          }}
-          buttonType={ButtonType.PRIMARY}
-        />
-        }
-
-        {props.isCreateSessionResultEnable &&
-        <Button
-          value={LanguageService.test.buttons.seeResults[language]}
-          onClick={async () => {
-            await TestSessionResultDAL.createTestSessionResult({
-              sessionUuid: props.testSessionUuid,
-              testUuid: props.question.testUuid,
-            });
-            navigate(pages.resultTest.getPath({
-              testUuid: props.question.testUuid,
-              sessionUuid: props.testSessionUuid,
-            }));
-          }}
-          buttonType={ButtonType.PRIMARY}
-        />
-        }
       </HorizontalContainer>
     </VerticalContainer>
   );

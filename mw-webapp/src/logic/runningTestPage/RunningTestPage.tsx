@@ -1,7 +1,5 @@
-import {useState} from "react";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
-import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseModal";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -41,9 +39,6 @@ interface RunningTestPageProps {
  * Running Test page
  */
 export const RunningTestPage = observer((props: RunningTestPageProps) => {
-  //eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
-
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
@@ -69,24 +64,14 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
     );
   }
 
-  const isNextButtonDisabled = runningTestPageStore.activeOrder >=
+  const isLastQuestion = runningTestPageStore.activeOrder >=
     runningTestPageStore.test.questions.length - DEFAULT_QUESTION_VALUE;
-  const isPrevButtonDisabled = runningTestPageStore.activeOrder <= 0;
+  const isFirstQuestion = runningTestPageStore.activeOrder <= 0;
 
-  const isCreateSessionResultEnable = runningTestPageStore.questionResults.size === runningTestPageStore.test.questions.length;
-
-  // Const [inputValue, setInputValue] = useState<string>(runningTestPageStore.questionResults
-  //   .get(runningTestPageStore.activeQuestion.uuid)?.userAnswer ?? "");
+  const isAllQuestionAnswered = runningTestPageStore.questionResults.size === runningTestPageStore.test.questions.length;
 
   return (
     <VerticalContainer className={styles.container}>
-      {isErrorCatched &&
-      <ErrorPromiseModal
-        errorMessage={LanguageService.error.onClickError[language]}
-        isErrorCatched={isErrorCatched}
-        okText={LanguageService.modals.confirmModal.okButton[language]}
-      />
-      }
       <HorizontalGridContainer className={styles.testDashboard}>
         <VerticalContainer className={styles.testDashBoardLeft}>
           <VerticalContainer className={styles.testInfo}>
@@ -169,11 +154,11 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
               userUuid={user.uuid}
               isSavedAnswer={!!runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)}
               saveUserAnswer={runningTestPageStore.saveQuestionResult}
-              isNextButtonDisabled={isNextButtonDisabled}
-              isPrevButtonDisabled={isPrevButtonDisabled}
+              isNextButtonDisabled={isLastQuestion}
+              isPrevButtonDisabled={isFirstQuestion}
               nextQuestion={runningTestPageStore.nextQuestion}
               prevQuestion={runningTestPageStore.prevQuestion}
-              isCreateSessionResultEnable={isCreateSessionResultEnable}
+              isCreateSessionResultEnable={isAllQuestionAnswered}
             />
           </VerticalContainer>
         </VerticalContainer>

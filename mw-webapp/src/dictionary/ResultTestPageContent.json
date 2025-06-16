@@ -51,7 +51,7 @@
     "buttons": {
         "returnToLobby": {
             "ru": "Вернуться в лобби теста",
-            "en": "Return to the test lobby",
+            "en": "Back to the test lobby",
             "ua": "Повернутися до лобі тесту"
         },
         "generateTrainingWithAIButton": {
