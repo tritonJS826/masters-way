@@ -1,12 +1,15 @@
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -14,6 +17,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {ResultsTableBlock} from "src/logic/resultTestPage/resultsTestTable/ResultsTableBlock";
 import {ResultTestPageStore} from "src/logic/resultTestPage/ResultTestPageStore";
+import {TrainingAiModal} from "src/logic/resultTestPage/trainingAiModal/TrainingAiModal";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/resultTestPage/ResultTestPage.module.scss";
@@ -44,10 +48,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
-
-  if (!user) {
-    throw new Error("User is not defined");
-  }
+  const navigate = useNavigate();
+  const [isOpenGenerateTrainingModal, setIsOpenGenerateTrainingModal] = useState<boolean>(false);
 
   const resultTestPageStore = useStore<
   new (sessionId: string) => ResultTestPageStore,
@@ -106,14 +108,39 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
       </div>
 
       <HorizontalContainer className={styles.buttons}>
-        <Tooltip content={LanguageService.common.comingSoon[language]}>
-          <Button
-            value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
-            onClick={() => {}}
-            buttonType={ButtonType.PRIMARY}
-            className={styles.addMaterial}
-          />
-        </Tooltip>
+        {user &&
+        <Button
+          value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
+          onClick={() => setIsOpenGenerateTrainingModal(true)}
+          buttonType={ButtonType.PRIMARY}
+        />
+        }
+        {isOpenGenerateTrainingModal &&
+        <Modal
+          isOpen={isOpenGenerateTrainingModal}
+          close={() => setIsOpenGenerateTrainingModal(false)}
+          trigger={<></>}
+          content={
+            <TrainingAiModal
+              onGenerateTraining={(trainingUuid) => navigate(pages.training.getPath({uuid: trainingUuid}))}
+              testId={resultTestPageStore.sessionResult.testUuid}
+              sessionResultId={resultTestPageStore.sessionResult.uuid}
+              testSessionId={resultTestPageStore.sessionResult.sessionUuid}
+              onCloseModal={(isSucceed: boolean) => {
+                setIsOpenGenerateTrainingModal(false);
+                displayNotification({
+                  text: isSucceed
+                    ? LanguageService.resultTest.notification.successGeneratedTraining[language]
+                    : LanguageService.error.onClickError[language],
+                  type: NotificationType.INFO,
+                });
+              }
+              }
+            />
+          }
+          isFitContent={false}
+        />
+        }
       </HorizontalContainer>
 
     </VerticalContainer>

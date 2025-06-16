@@ -12,6 +12,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -106,6 +107,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
   const navigate = useNavigate();
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const {language} = languageStore;
   const {theme} = themeStore;
@@ -286,7 +288,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
               >
                 <AnchorLink path={question.name}>
                   {question.name.trim() === ""
-                    ? `${question.order}.${LanguageService.common.emptyMarkdown[language]}`
+                    ? `${question.order}. ${LanguageService.common.emptyMarkdown[language]}`
                     : <Text text={`${question.order}.${question.name}`} />
                   }
                 </AnchorLink>
@@ -349,22 +351,36 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                 onClick={() => addQuestion()}
                 className={styles.addMaterial}
               />
+              <Button
+                value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
+                onClick={() => setIsOpen(true)}
+                buttonType={ButtonType.PRIMARY}
+              />
+
+              {isOpen &&
               <Modal
-                trigger={
-                  <Button
-                    value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
-                    onClick={() => { }}
-                    buttonType={ButtonType.PRIMARY}
-                  />
-                }
+                isOpen={isOpen}
+                close={() => setIsOpen(false)}
+                trigger={<></>}
                 content={
                   <QuestionsAiModal
                     addQuestions={(questions) => questions.map(question => editTestPageStore.test.addQuestion(question))}
                     testId={editTestPageStore.test.uuid}
+                    onCloseModal={(isSucceed: boolean) => {
+                      setIsOpen(false);
+                      displayNotification({
+                        text: isSucceed
+                          ? LanguageService.test.aiButtons.successGeneratedQuestions[language]
+                          : LanguageService.error.onClickError[language],
+                        type: NotificationType.INFO,
+                      });
+                    }
+                    }
                   />
                 }
                 isFitContent={false}
               />
+              }
               <Button
                 value={LanguageService.test.questionsBlock.returnToLobby[language]}
                 onClick={() => navigate(pages.lobbyTest.getPath({uuid: editTestPageStore.test.uuid}))}

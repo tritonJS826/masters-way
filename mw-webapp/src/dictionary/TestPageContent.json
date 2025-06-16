@@ -55,9 +55,9 @@
             "ua": "Кількість питань:"
         },
         "timeToTest": {
-            "ru": "Время для прохождения:",
-            "en": "Time to complete:",
-            "ua": "Час для проходження:"
+            "ru": "Время для прохождения (минуты):",
+            "en": "Time to complete (minutes):",
+            "ua": "Час для проходження (хвилини):"
         }
     },
     "testActions": {
@@ -105,7 +105,7 @@
         },
         "returnToLobby": {
             "ru": "Вернуться в лобби теста",
-            "en": "Return to the test lobby",
+            "en": "Back to the test lobby",
             "ua": "Повернутися до лобі тесту"
         },
         "deleteQuestionQuestion": {
@@ -119,9 +119,9 @@
             "ua": "Видалити питання"
         },
         "timeToAnswerTitle": {
-            "ru": "Рекомендуемое время для ответа (минуты):",
-            "en": "Recommended time to answer (minutes):",
-            "ua": "Рекомендований час для відповіді (хвилини):"
+            "ru": "Ожидаемое время для ответа (минуты):",
+            "en": "Expected time to answer (minutes):",
+            "ua": "Очікуваний час для відповіді (хвилини):"
         },
         "description": {
             "ru": "Описание вопроса:",
@@ -180,7 +180,7 @@
         "chooseQuestionsAmountToGenerate": {
             "ru": "Выберите, сколько вопросов хотите создать с помощью AI",
             "en": "Select how many questions you want to generate using AI",
-            "ua": "Виберіть, скільки запитань ви хочете створити за допомогою ШІ AI"
+            "ua": "Виберіть, скільки запитань ви хочете створити за допомогою AI"
         },
         "successGeneratedQuestions": {
             "ru": "Вопросы успешно сгенерированы и сохранены!",

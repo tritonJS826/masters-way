@@ -15,8 +15,12 @@
 }
 
 .questionTitleAndOrder {
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+}
+
+.questionButtons {
+  justify-content: center;
 }
 
 .questionItem {

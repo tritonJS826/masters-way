@@ -1708,6 +1708,7 @@
             "required": [
                 "createdAt",
                 "resultDescription",
+                "sessionResultUUID",
                 "sessionUuid",
                 "testUuid"
             ],

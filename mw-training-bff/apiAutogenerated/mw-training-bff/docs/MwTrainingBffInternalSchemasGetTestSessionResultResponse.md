@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **string** |  | 
 **ResultDescription** | **string** |  | 
-**SessionResultUUID** | Pointer to **string** |  | [optional] 
+**SessionResultUUID** | **string** |  | 
 **SessionUuid** | **string** |  | 
 **TestUuid** | **string** |  | 
 
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasGetTestSessionResultResponse
 
-`func NewMwTrainingBffInternalSchemasGetTestSessionResultResponse(createdAt string, resultDescription string, sessionUuid string, testUuid string, ) *MwTrainingBffInternalSchemasGetTestSessionResultResponse`
+`func NewMwTrainingBffInternalSchemasGetTestSessionResultResponse(createdAt string, resultDescription string, sessionResultUUID string, sessionUuid string, testUuid string, ) *MwTrainingBffInternalSchemasGetTestSessionResultResponse`
 
 NewMwTrainingBffInternalSchemasGetTestSessionResultResponse instantiates a new MwTrainingBffInternalSchemasGetTestSessionResultResponse object
 This constructor will assign default values to properties that have it defined,
@@ -88,11 +88,6 @@ and a boolean to check if the value has been set.
 
 SetSessionResultUUID sets SessionResultUUID field to given value.
 
-### HasSessionResultUUID
-
-`func (o *MwTrainingBffInternalSchemasGetTestSessionResultResponse) HasSessionResultUUID() bool`
-
-HasSessionResultUUID returns a boolean if a field has been set.
 
 ### GetSessionUuid
 

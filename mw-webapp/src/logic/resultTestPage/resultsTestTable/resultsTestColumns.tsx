@@ -5,6 +5,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {Language} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/resultTestPage/resultsTestTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<QuestionResult>();
@@ -29,7 +30,7 @@ export const getResultsTestColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <VerticalContainer className={styles.cellWrapper}>
-        {row.original.questionName}
+        {renderMarkdown(row.original.questionName)}
       </VerticalContainer>
     ),
   }),
@@ -49,7 +50,7 @@ export const getResultsTestColumns = (language: Language) => [
     cell: ({row}) => {
       return (
         <VerticalContainer className={styles.cellWrapper}>
-          {row.original.questionDescription}
+          {renderMarkdown(row.original.questionDescription)}
         </VerticalContainer>
       );
     },
@@ -69,7 +70,7 @@ export const getResultsTestColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <VerticalContainer className={styles.cellWrapper}>
-        {row.original.questionAnswer}
+        {renderMarkdown(row.original.questionAnswer)}
       </VerticalContainer>
     ),
   }),
@@ -88,7 +89,7 @@ export const getResultsTestColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <VerticalContainer className={styles.cellWrapper}>
-        {row.original.userAnswer}
+        {renderMarkdown(row.original.userAnswer)}
       </VerticalContainer>
     ),
   }),
@@ -134,8 +135,7 @@ export const getResultsTestColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <VerticalContainer className={styles.cellWrapper}>
-
-        {row.original.resultDescription}
+        {renderMarkdown(row.original.resultDescription)}
       </VerticalContainer>
     ),
   }),

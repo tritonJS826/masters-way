@@ -36,7 +36,7 @@ export interface MwTrainingBffInternalSchemasGetTestSessionResultResponse {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasGetTestSessionResultResponse
      */
-    sessionResultUUID?: string;
+    sessionResultUUID: string;
     /**
      * 
      * @type {string}
@@ -60,6 +60,7 @@ export function instanceOfMwTrainingBffInternalSchemasGetTestSessionResultRespon
     let isInstance = true;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "resultDescription" in value;
+    isInstance = isInstance && "sessionResultUUID" in value;
     isInstance = isInstance && "sessionUuid" in value;
     isInstance = isInstance && "testUuid" in value;
 
@@ -81,7 +82,7 @@ export function MwTrainingBffInternalSchemasGetTestSessionResultResponseFromJSON
         
         'createdAt': json['createdAt'],
         'resultDescription': json['resultDescription'],
-        'sessionResultUUID': !exists(json, 'sessionResultUUID') ? undefined : json['sessionResultUUID'],
+        'sessionResultUUID': json['sessionResultUUID'],
         'sessionUuid': json['sessionUuid'],
         'testUuid': json['testUuid'],
     };
