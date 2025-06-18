@@ -30,6 +30,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/trainingPage/descriptionBlock/DescriptionBlock";
+import {downloadTrainingPdf} from "src/logic/trainingPage/renderTrainingToPdf/downloadTrainingPdf";
 import {TopicsBlock} from "src/logic/trainingPage/topicsBlock/TopicsBlock";
 import {TrainingPageStore} from "src/logic/trainingPage/TrainingPageStore";
 import {Training} from "src/model/businessModel/Training";
@@ -316,6 +317,18 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                           isPreventDefaultUsed: true,
                           value: renderDeleteTrainingDropdownItem,
                           isVisible: isOwner,
+                        },
+                        {
+                          id: "Download as pdf",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.training.trainingActions.downloadAsPdf[language],
+
+                          /**
+                           * Download training as pdf
+                           */
+                          onClick: async () => {
+                            await downloadTrainingPdf(trainingPageStore.training);
+                          },
                         },
                       ],
                     },
