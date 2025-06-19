@@ -49,7 +49,7 @@ func (ts *QuestionResultService) CreateQuestionResult(ctx context.Context, param
 		QuestionName:        questionResultDb.QuestionName.String,
 		QuestionDescription: questionResultDb.QuestionText,
 		QuestionAnswer:      questionResultDb.QuestionAnswer,
-		UserAnswer:          questionResultDb.QuestionAnswer,
+		UserAnswer:          params.UserAnswer,
 		IsOk:                questionResultDb.IsOk,
 		ResultDescription:   questionResultDb.ResultDescription,
 	}, nil
