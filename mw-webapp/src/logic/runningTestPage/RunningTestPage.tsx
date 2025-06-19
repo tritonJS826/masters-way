@@ -140,12 +140,14 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
         </VerticalContainer>
 
         <VerticalContainer className={styles.questions}>
-          <ProgressBar
-            value={runningTestPageStore.questionResults.size}
-            max={runningTestPageStore.test.questions.length}
-            textToLabel={LanguageService.test.questionsBlock.answersAccepted[language]}
-          />
-          <VerticalContainer className={styles.theoryMaterials}>
+          <div className={styles.progressContainer}>
+            <ProgressBar
+              value={runningTestPageStore.questionResults.size}
+              max={runningTestPageStore.test.questions.length}
+              textToLabel={LanguageService.test.questionsBlock.answersAccepted[language]}
+            />
+          </div>
+          <VerticalContainer className={styles.questionBlock}>
             <QuestionItem
               question={runningTestPageStore.activeQuestion}
               result={runningTestPageStore.questionResults.get(runningTestPageStore.activeQuestion.uuid)}

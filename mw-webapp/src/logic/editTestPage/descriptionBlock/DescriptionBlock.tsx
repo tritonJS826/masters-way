@@ -6,7 +6,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
-import styles from "src/logic/trainingPage/descriptionBlock/DescriptionBlock.module.scss";
+import styles from "src/logic/editTestPage/descriptionBlock/DescriptionBlock.module.scss";
 
 const MAX_TEST_DESCRIPTION_LENGTH = 4096;
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -15,6 +15,7 @@ import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {KeySymbols} from "src/utils/KeySymbols";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/runningTestPage/questionItem/QuestionItem.module.scss";
@@ -118,12 +119,27 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
   const [inputValue, setInputValue] = useState<string>(props.result?.userAnswer ?? "");
   const navigate = useNavigate();
 
+  const onSaveRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * Save user answer on press Enter
+   */
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER) {
+
+      /**
+       * Workaround to close Radix modal onEnter
+       */
+      onSaveRef.current?.click();
+    }
+  };
+
   useEffect(() => {
     setInputValue(props.answer);
   }, [props.question]);
 
   return (
-    <VerticalContainer className={styles.questionItem}>
+    <VerticalContainer className={styles.questionContainer}>
       <HorizontalContainer className={styles.questionTitleAndOrder}>
         <Title
           level={HeadingLevel.h3}
@@ -144,13 +160,14 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
       />
 
       <Input
+        key={props.question.uuid}
         value={inputValue}
         placeholder="Write answer"
         onChange={setInputValue}
         autoFocus={true}
         typeInput={InputType.Line}
         disabled={props.isSavedAnswer}
-        // ClassName={props.result?.isOk ? styles.isOk : styles.isWrong}
+        onKeyDown={handleEnter}
       />
 
       <HorizontalContainer className={styles.questionButtons}>
@@ -163,6 +180,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
 
         {!props.isSavedAnswer &&
           <Button
+            ref={onSaveRef}
             value={LanguageService.test.buttons.saveAnswer[language]}
             onClick={async () => {
               const questionResult = await AiQuestionResultDAL.createQuestionResult({
@@ -176,6 +194,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
                 language,
               });
               props.saveUserAnswer(questionResult);
+              props.nextQuestion();
             }}
             buttonType={ButtonType.PRIMARY}
           />

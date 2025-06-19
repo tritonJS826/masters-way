@@ -1,8 +1,5 @@
 @import "src/styles/variables";
 
-$iconContainerSize: 25px;
-$labelMaxWidthBlock: 650px;
-
 .container {
   width: 100%;
   max-width: $maxWidthContainer;
@@ -16,8 +13,10 @@ $labelMaxWidthBlock: 650px;
 
 .testDashboard {
   gap: $gapSmall;
-  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax($mediumWidthBlock,
-      3fr);
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
 
   @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
@@ -60,58 +59,15 @@ $labelMaxWidthBlock: 650px;
   }
 }
 
-.testActionButtons {
-  align-items: start;
-}
-
-.testActionsIcon {
-  height: 38px;
-  padding: 0 $paddingSmall;
-}
-
-.peopleBlock {
-  @include regularContainer;
-  min-width: $minWidthBlock;
-  gap: $gapSmall;
-}
-
-.ownerBlock {
-  flex-wrap: wrap;
-}
-
 .questions {
   gap: $gapSmall;
 }
 
-.theoryMaterials,
-.practiceMaterials {
+.progressContainer,
+.questionBlock {
   @include regularContainer;
   width: 100%;
-  gap: 20px;
-}
-
-.timeToAnswerBlock {
-  align-items: baseline;
-}
-
-.timeToAnswerTitle {
-  flex-shrink: 0;
-  color: grey;
-  font-size: $fontSizeMedium;
-  font-style: italic;
-}
-
-.questionContainer {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: stretch;
-  gap: $gapSmall;
-  scroll-margin-top: calc($headerHeight + $paddingBig);
-}
-
-.editableTextarea {
-  width: 100%;
+  gap: $gapMedium;
 }
 
 .questionShortBlock {
@@ -130,38 +86,8 @@ $labelMaxWidthBlock: 650px;
   color: var(--generalPrimaryColor);
 }
 
-.questionTitleAndActionsBlock {
-  align-items: center;
-  justify-content: space-between;
-}
-
-.title {
-  width: 100%;
-}
-
-.separator {
-  margin-top: $paddingMedium;
-}
-
-.practiceMaterialInput {
-  padding-block: $paddingSmall;
-}
-
-.timeToAnswerInput {
-  padding: none;
-  color: grey;
-  font-size: $fontSizeMedium;
-  font-style: italic;
-}
-
-
-.generateMaterialButtons {
-  align-items: center;
-  justify-content: center;
-}
-
 .shortQuestion {
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
