@@ -194,7 +194,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
                 language,
               });
               props.saveUserAnswer(questionResult);
-              props.nextQuestion();
+              !props.isNextButtonDisabled && props.nextQuestion();
             }}
             buttonType={ButtonType.PRIMARY}
           />
