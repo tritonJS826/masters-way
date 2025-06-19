@@ -1,8 +1,5 @@
 @import "src/styles/variables";
 
-$iconContainerSize: 25px;
-$labelMaxWidthBlock: 650px;
-
 .container {
   width: 100%;
   max-width: $maxWidthContainer;
@@ -16,8 +13,10 @@ $labelMaxWidthBlock: 650px;
 
 .lobbyDashboard {
   gap: $gapSmall;
-  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax($mediumWidthBlock,
-      3fr);
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
 
   @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
@@ -63,7 +62,7 @@ $labelMaxWidthBlock: 650px;
 .lobbyTestButtons {
   @include regularContainer;
   width: 100%;
-  gap: 20px;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 }

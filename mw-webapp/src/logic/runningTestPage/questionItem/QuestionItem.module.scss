@@ -9,11 +9,6 @@
   scroll-margin-top: calc($headerHeight + $paddingBig);
 }
 
-.questionTitleAndActionsBlock {
-  align-items: center;
-  justify-content: space-between;
-}
-
 .questionTitleAndOrder {
   align-items: center;
   justify-content: space-between;
@@ -25,12 +20,4 @@
 
 .questionItem {
   gap: $gapSmall;
-}
-
-.isOk {
-  border: 1px solid green;
-}
-
-.isWrong {
-  border: 1px solid red;
 }

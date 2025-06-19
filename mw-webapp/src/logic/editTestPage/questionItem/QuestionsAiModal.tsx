@@ -83,7 +83,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.topicsAiModalWrapper}>
+    <VerticalContainer className={styles.questionsAiModalWrapper}>
       {!isButtonToGeneratePressed &&
       <>
         <Title

@@ -1,27 +1,13 @@
 @import "src/styles/variables";
 
-$iconContainerSize: 25px;
-
 .descriptionSection {
   gap: $gapSmall;
 }
 
 .description {
   overflow-wrap: anywhere;
+
   textarea {
     width: 100%;
   }
-}
-
-.horizontalContainer {
-  align-items: flex-start;
-  gap: $gapExtraSmall;
-}
-
-.iconContainer {
-  width: $iconContainerSize;
-  height: $iconContainerSize;
-  border: none;
-  background: none;
-  cursor: pointer;
 }

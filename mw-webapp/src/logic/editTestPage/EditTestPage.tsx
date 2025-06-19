@@ -5,7 +5,6 @@ import {AnchorLink} from "src/component/anchorLink/AnchorLink";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
-import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseModal";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -105,8 +104,6 @@ interface EditTestPageProps {
  */
 export const EditTestPage = observer((props: EditTestPageProps) => {
   const navigate = useNavigate();
-  //eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const {language} = languageStore;
@@ -183,13 +180,6 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
 
   return (
     <VerticalContainer className={styles.container}>
-      {isErrorCatched &&
-      <ErrorPromiseModal
-        errorMessage={LanguageService.error.onClickError[language]}
-        isErrorCatched={isErrorCatched}
-        okText={LanguageService.modals.confirmModal.okButton[language]}
-      />
-      }
       <HorizontalGridContainer className={styles.testDashboard}>
         <VerticalContainer className={styles.testDashBoardLeft}>
           <VerticalContainer className={styles.testInfo}>
@@ -284,7 +274,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
             {editTestPageStore.test.questions.map((question) => (
               <HorizontalContainer
                 key={question.uuid}
-                className={styles.materialShortBlock}
+                className={styles.questionShortBlock}
               >
                 <AnchorLink path={question.name}>
                   {question.name.trim() === ""

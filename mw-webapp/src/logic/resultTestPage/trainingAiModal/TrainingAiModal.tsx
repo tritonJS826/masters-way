@@ -97,7 +97,7 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.topicsAiModalWrapper}>
+    <VerticalContainer className={styles.trainingAiModalWrapper}>
       {!isButtonToGeneratePressed &&
       <>
         <Title
