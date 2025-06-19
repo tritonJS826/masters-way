@@ -197,6 +197,11 @@
       "en": "Delete the training",
       "ua": "Видалити тренінг"
     },
+    "downloadAsPdf": {
+      "ru": "Скачать как pdf",
+      "en": "Download as pdf",
+      "ua": "Скачати як pdf"
+    },
     "deleteTrainingQuestion": {
       "ru": "Вы уверены, что хотите удалить тренинг",
       "en": "Are you sure you want to delete the training",
