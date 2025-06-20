@@ -42,6 +42,11 @@
             "en": "Start test",
             "ua": "Почати тест"
         },
+        "downloadAsPDF": {
+            "ru": "Скачать как PDF",
+            "en": "Download as PDF",
+            "ua": "Завантажте як PDF"
+        },
         "prevQuestion": {
             "ru": "Предыдущий вопрос",
             "en": "Previous question",

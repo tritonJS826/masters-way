@@ -68,6 +68,11 @@
             "ru": "Выберите, сколько практических заданий для каждой темы хотите создать c помощью AI",
             "en": "Select how many practice questions for each topic you want to generate using AI",
             "ua": "Виберіть, скільки практичних питань для кожної теми ви хочете створити за допомогою AI"
+        },
+        "downloadAsPDF": {
+            "ru": "Скачать как PDF",
+            "en": "Download as PDF",
+            "ua": "Завантажте як PDF"
         }
     },
     "notification": {

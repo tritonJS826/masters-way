@@ -13,6 +13,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {LobbyTestPageStore} from "src/logic/lobbyTestPage/LobbyTestPageStore";
+import {downloadTestAsPDF} from "src/logic/lobbyTestPage/renderTestAsPdf/downloadTestAsPDF";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -116,7 +117,11 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
             />
           }
 
-          {user &&
+          {user && <>
+            <Button
+              value={LanguageService.lobbyTest.buttons.downloadAsPDF[language]}
+              onClick={() => downloadTestAsPDF(lobbyTestPageStore.test, timeToTest)}
+            />
             <Button
               value={LanguageService.lobbyTest.buttons.startTest[language]}
               buttonType={ButtonType.PRIMARY}
@@ -125,6 +130,7 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
                 navigate(pages.runningTest.getPath({testUuid: lobbyTestPageStore.test.uuid, sessionUuid: testSession}));
               }}
             />
+          </>
           }
 
         </HorizontalContainer>
