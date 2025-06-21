@@ -64,7 +64,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
   const generateAIQuestions = async () => {
     try {
       const questions = await AIDAL.aiCreateTestQuestions({
-        generateAmount: 5,
+        generateAmount: inputQuestionsAmount,
         language,
         testId: props.testId,
       });
