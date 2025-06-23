@@ -9,6 +9,11 @@ const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
 const MARGIN_LARGE = 20;
 
+const RESULT = {
+  RIGHT: "Right",
+  WRONG: "Wrong",
+};
+
 pdfMake.fonts = {
   Roboto: {
     normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Regular.ttf",
@@ -29,7 +34,6 @@ const getTestName = async (testId: string): Promise<Content> => {
     style: "header",
     bold: true,
     fontSize: 20,
-    margin: [0, MARGIN_LARGE, 0, MARGIN_MEDIUM],
     alignment: "center",
   };
 };
@@ -37,17 +41,15 @@ const getTestName = async (testId: string): Promise<Content> => {
 /**
  * Render createdAt dates
  */
-const getCompletedAt = (createdAt: Date): ContentText => ({
-  text: `Test is completed at ${DateUtils.getShortISODateValue(createdAt)}`,
-  margin: [0, MARGIN_MEDIUM],
-});
+const getCompletedAt = (createdAt: Date): ContentText =>
+  ({text: `Test is completed at ${DateUtils.getShortISODateValue(createdAt)}`});
 
 /**
  * Render description
  */
 const getDescription = (description: string): ContentText => ({
   text: description,
-  margin: [0, MARGIN_MEDIUM],
+  margin: [0, 0, 0, MARGIN_MEDIUM],
 });
 
 /**
@@ -64,28 +66,30 @@ const getQuestionsResults = (results: QuestionResultProps[]): Content[] => {
       alignment: "center",
     },
     {
-      table: {
-        headerRows: 1,
-        widths: ["*", "*", "*", "*", "*", "*"],
-        body: [
-          [
-            {text: "Question", style: "tableHeader"},
-            {text: "Description", style: "tableHeader"},
-            {text: "Correct Answer", style: "tableHeader"},
-            {text: "Your Answer", style: "tableHeader"},
-            {text: "Result", style: "tableHeader"},
-            {text: "Result Description", style: "tableHeader"},
+      ol: results.map(result => [
+        {
+          text: [
+            {text: "Question: ", bold: true},
+            result.questionName,
+            "\n",
+            {text: "Description: ", bold: true},
+            result.questionDescription,
+            "\n",
+            {text: "Correct Answer: ", bold: true},
+            result.questionAnswer,
+            "\n",
+            {text: "Your Answer: ", bold: true},
+            result.userAnswer,
+            "\n",
+            {text: "Result: ", bold: true},
+            {text: result.isOk ? RESULT.RIGHT : RESULT.WRONG},
+            "\n",
+            {text: "Result Description: ", bold: true},
+            result.resultDescription,
           ],
-          ...results.map(result => [
-            {text: result.questionName, style: "tableCell"},
-            {text: result.questionDescription, style: "tableCell"},
-            {text: result.questionAnswer, style: "tableCell"},
-            {text: result.userAnswer, style: "tableCell"},
-            {text: result.isOk ? "Right" : "Wrong", style: "tableCell"},
-            {text: result.resultDescription, style: "tableCell"},
-          ]),
-        ],
-      },
+          margin: [0, MARGIN_SMALL, 0, MARGIN_SMALL],
+        },
+      ]),
       margin: [0, MARGIN_MEDIUM, 0, 0],
     },
   ];
@@ -105,7 +109,6 @@ export const downloadResultTestPdf = async (resultTest: ResultsParams) => {
   const testNameDefinition = await getTestName(resultTest.sessionResult.testUuid);
 
   const docDefinition: TDocumentDefinitions = {
-    pageOrientation: "landscape",
     content: [
       testNameDefinition,
       completedAtDefinition,
