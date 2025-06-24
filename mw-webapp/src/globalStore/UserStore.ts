@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {User, UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -13,9 +14,26 @@ class UserStore {
    */
   public user: User | null = null;
 
+  /**
+   * If true - loading user to store
+   * @default true
+   */
+  public isLoading: boolean = true;
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  /**
+   * Load user
+   */
+  public loadUser = async () => {
+    this.updateIsLoading(true);
+    const loadedUser = await AuthDAL.getAuthorizedUser();
+    this.updateIsLoading(false);
+
+    return loadedUser;
+  };
 
   /**
    * Set user
@@ -104,6 +122,13 @@ class UserStore {
       return updatedProject;
     });
 
+  };
+
+  /**
+   * Set has user store attempted load
+   */
+  private updateIsLoading = (isLoading: boolean) => {
+    this.isLoading = isLoading;
   };
 
 }

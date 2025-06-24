@@ -59,6 +59,18 @@
   }
 }
 
+.numberedListItem {
+  display: flex;
+  width: 100%;
+  gap: $gapSmall;
+}
+
+.questionsShortList {
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
+}
+
 .questions {
   gap: $gapSmall;
 }

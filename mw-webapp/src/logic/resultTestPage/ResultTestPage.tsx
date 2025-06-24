@@ -23,6 +23,7 @@ import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/resultTestPage/ResultTestPage.module.scss";
 
 const MAX_PERCENTAGE = 100;
+const PRECISION_PERCENTAGE_RESULT = 2;
 
 /**
  * RunningTestPage props
@@ -69,7 +70,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   }
 
   const rightAnswersAmount = resultTestPageStore.questionResults.filter(result => result.isOk).length;
-  const rightAnswersPercentages = rightAnswersAmount * MAX_PERCENTAGE / resultTestPageStore.questionResults.length;
+  const rightAnswersPercentages = (rightAnswersAmount * MAX_PERCENTAGE / resultTestPageStore.questionResults.length)
+    .toFixed(PRECISION_PERCENTAGE_RESULT);
 
   return (
     <VerticalContainer className={styles.resultsContainer}>

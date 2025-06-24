@@ -58,7 +58,6 @@ export const LabelLine = observer((props: LabelLineProps) => {
 
   return (
     <HorizontalContainer className={styles.labelLine}>
-      {/* <HorizontalContainer className={styles.x}> */}
       <div className={styles.labelContainer}>
         <Label
           label={props.label}
@@ -74,6 +73,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
             minLengthValidator(MIN_LENGTH_LABEL, LanguageService.way.notifications.labelMinLength[language]),
             maxLengthValidator(MAX_LENGTH_LABEL, LanguageService.way.notifications.labelMaxLength[language]),
           ]}
+          className={styles.editableLabel}
         />
       </div>
 
@@ -90,7 +90,6 @@ export const LabelLine = observer((props: LabelLineProps) => {
         className={styles.labelDescription}
         placeholder={LanguageService.common.emptyMarkdownAction[language]}
       />
-      {/* </HorizontalContainer> */}
 
       <HorizontalContainer className={styles.actionButtons}>
         <ColorPicker

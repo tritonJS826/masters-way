@@ -27,7 +27,7 @@ const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
  */
 export const InitializedApp = (props: PropsWithChildren) => {
   useErrorHandler();
-  const {user, setUser} = userStore;
+  const {user, loadUser, setUser} = userStore;
   const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -89,7 +89,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
     }
     // TODO: loadUser if some token exist
     try {
-      const loadedUser = await AuthDAL.getAuthorizedUser();
+      const loadedUser = await loadUser();
       setUser(loadedUser);
       const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);

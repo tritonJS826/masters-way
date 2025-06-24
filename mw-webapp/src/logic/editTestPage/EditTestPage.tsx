@@ -270,48 +270,59 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
               text={LanguageService.test.questionsBlock.questions[language]}
               placeholder=""
             />
+            <ol className={styles.questionsShortList}>
+              {editTestPageStore.test.questions.map((question) => (
+                <HorizontalContainer
+                  key={question.uuid}
+                  className={styles.questionShortBlock}
+                >
+                  <AnchorLink
+                    path={question.name}
+                    className={styles.questionAnchorLink}
+                  >
+                    <li className={styles.numberedListItem}>
+                      {`${question.order}.`}
+                      {question.name.trim() === ""
+                        ? LanguageService.common.emptyMarkdown[language]
+                        : <Text text={question.name} />
+                      }
+                    </li>
 
-            {editTestPageStore.test.questions.map((question) => (
-              <HorizontalContainer
-                key={question.uuid}
-                className={styles.questionShortBlock}
-              >
-                <AnchorLink path={question.name}>
-                  {question.name.trim() === ""
-                    ? `${question.order}. ${LanguageService.common.emptyMarkdown[language]}`
-                    : <Text text={`${question.order}.${question.name}`} />
-                  }
-                </AnchorLink>
+                    {/* {question.name.trim() === ""
+                      ? `${question.order}. ${LanguageService.common.emptyMarkdown[language]}`
+                      : <Text text={`${question.order}.${question.name}`} />
+                    } */}
+                  </AnchorLink>
 
-                <Tooltip content={LanguageService.test.questionsBlock.deleteQuestionTooltip[language]}>
-                  <Confirm
-                    trigger={
-                      <Button
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name="TrashIcon"
-                          />
-                        }
-                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => {}}
-                      />
-                    }
-                    content={<p>
-                      {renderMarkdown(
-                        `${LanguageService.test.questionsBlock.deleteQuestionQuestion[language]}
+                  <Tooltip content={LanguageService.test.questionsBlock.deleteQuestionTooltip[language]}>
+                    <Confirm
+                      trigger={
+                        <Button
+                          icon={
+                            <Icon
+                              size={IconSize.SMALL}
+                              name="TrashIcon"
+                            />
+                          }
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => {}}
+                        />
+                      }
+                      content={<p>
+                        {renderMarkdown(
+                          `${LanguageService.test.questionsBlock.deleteQuestionQuestion[language]}
                           "${question.questionText}"?`,
-                      )}
-                    </p>}
-                    onOk={() => deleteQuestion(question.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-              </HorizontalContainer>
-            ),
-            )}
-
+                        )}
+                      </p>}
+                      onOk={() => deleteQuestion(question.uuid)}
+                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    />
+                  </Tooltip>
+                </HorizontalContainer>
+              ),
+              )}
+            </ol>
           </VerticalContainer>
 
         </VerticalContainer>

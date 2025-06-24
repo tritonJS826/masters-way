@@ -1,6 +1,9 @@
 import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import {getFormattedValue} from "src/component/editableText/getFormattedValue";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input} from "src/component/input/Input";
 import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -85,6 +88,12 @@ interface EditableTextProps<T> {
    * Array of validator functions to be applied to the value
    */
   validators?: ValidatorValue[];
+
+  /**
+   * If true - edit button icon will add, if false - not
+   * @default false
+   */
+  isEditIconExist?: boolean;
 }
 
 /**
@@ -93,7 +102,9 @@ interface EditableTextProps<T> {
 export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(props.value);
+
   const isEmptyText = value.toString().trim() === "";
+  const isEditButtonVisible = props.isEditable && !isEditing;
 
   /**
    * HandleChangeFinish
@@ -127,17 +138,30 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Render input
    */
   const renderInput = () => (
-    <Input
-      dataCy={props.cy?.inputCy}
-      placeholder={props.cy?.placeholder ?? ""}
-      formatter={getFormattedValue}
-      type={props.type ?? "text"}
-      max={props.max}
-      min={props.min}
-      value={value}
-      autoFocus={true}
-      onChange={updateValue}
-    />
+    <HorizontalContainer className={styles.inputContainer}>
+      <Input
+        dataCy={props.cy?.inputCy}
+        placeholder={props.cy?.placeholder ?? ""}
+        formatter={getFormattedValue}
+        type={props.type ?? "text"}
+        max={props.max}
+        min={props.min}
+        value={value}
+        autoFocus={true}
+        onChange={updateValue}
+      />
+      <Button
+        icon={
+          <Icon
+            size={IconSize.SMALL}
+            name="CheckIcon"
+          />
+        }
+        onClick={handleChangeFinish}
+        buttonType={ButtonType.ICON_BUTTON}
+        className={styles.editButton}
+      />
+    </HorizontalContainer>
   );
 
   return (
@@ -155,6 +179,22 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
         ? renderInput()
         : <Text text={isEmptyText ? props.placeholder : value} />
       }
+      {props.isEditIconExist && isEditButtonVisible && (
+        <div className={styles.editButton}>
+          <Button
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="PenToolIcon"
+              />
+            }
+            onClick={() => {
+              setIsEditing(true);
+            }}
+            buttonType={ButtonType.ICON_BUTTON}
+          />
+        </div>
+      )}
     </div>
   );
 };

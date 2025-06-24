@@ -183,6 +183,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
             ref={onSaveRef}
             value={LanguageService.test.buttons.saveAnswer[language]}
             onClick={async () => {
+              !props.isNextButtonDisabled && props.nextQuestion();
               const questionResult = await AiQuestionResultDAL.createQuestionResult({
                 isOk: props.question.answer === inputValue,
                 questionUuid: props.question.uuid,
@@ -194,7 +195,6 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
                 language,
               });
               props.saveUserAnswer(questionResult);
-              !props.isNextButtonDisabled && props.nextQuestion();
             }}
             buttonType={ButtonType.PRIMARY}
           />
