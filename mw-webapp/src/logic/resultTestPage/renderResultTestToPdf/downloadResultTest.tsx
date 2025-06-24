@@ -53,54 +53,81 @@ const getDescription = (description: string): ContentText => ({
 });
 
 /**
+ * Convert asterisk patterns to ordered list items
+ */
+function convertAsterisksToOrderedList(text: string): string {
+  let counter = 0;
+
+  return text.replace(
+    /^(\*)\s*(.*)$/gm,
+    (_match: string, _star: string, content: string) => {
+      counter++;
+
+      return `${counter}. ${content}`;
+    },
+  );
+}
+
+/**
  * Render questions results
  */
 const getQuestionsResults = (results: QuestionResultProps[]): Content[] => {
+  const questionBlocks: Content[] = results.flatMap((result, index) => [
+    {
+      text: `Question ${++index}: ${result.questionName}`,
+      style: "header",
+      margin: [0, MARGIN_SMALL],
+    },
+    {
+      text: [
+        {text: "Description: ", bold: true},
+        {text: convertAsterisksToOrderedList(result.questionDescription)},
+      ],
+      margin: [0, MARGIN_SMALL],
+    },
+    {
+      text: [
+        {text: "Correct Answer: ", bold: true},
+        {text: result.questionAnswer},
+      ],
+      margin: [0, MARGIN_SMALL],
+    },
+    {
+      text: [
+        {text: "Your Answer: ", bold: true},
+        {text: result.userAnswer},
+      ],
+      margin: [0, MARGIN_SMALL],
+    },
+    {
+      text: [
+        {text: "Result: ", bold: true},
+        {text: result.isOk ? RESULT.RIGHT : RESULT.WRONG},
+      ],
+      margin: [0, MARGIN_SMALL],
+    },
+    {
+      text: [
+        {text: "Result Description: ", bold: true},
+        {text: result.resultDescription},
+      ],
+      margin: [0, MARGIN_SMALL],
+    },
+  ]);
+
   return [
     {
       text: "Test Results",
       style: "header",
-      bold: true,
-      fontSize: 18,
       margin: [0, MARGIN_LARGE, 0, MARGIN_MEDIUM],
       alignment: "center",
     },
-    {
-      ol: results.map(result => [
-        {
-          text: [
-            {text: "Question: ", bold: true},
-            result.questionName,
-            "\n",
-            {text: "Description: ", bold: true},
-            result.questionDescription,
-            "\n",
-            {text: "Correct Answer: ", bold: true},
-            result.questionAnswer,
-            "\n",
-            {text: "Your Answer: ", bold: true},
-            result.userAnswer,
-            "\n",
-            {text: "Result: ", bold: true},
-            {text: result.isOk ? RESULT.RIGHT : RESULT.WRONG},
-            "\n",
-            {text: "Result Description: ", bold: true},
-            result.resultDescription,
-          ],
-          margin: [0, MARGIN_SMALL, 0, MARGIN_SMALL],
-        },
-      ]),
-      margin: [0, MARGIN_MEDIUM, 0, 0],
-    },
+    ...questionBlocks,
   ];
 };
 
 /**
- *
- * Examples:
- * https://codepen.io/diguifi/pen/YdBbyz
- * https://brahmaputra1996.medium.com/
- * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
+ * Download result test to pdf
  */
 export const downloadResultTestPdf = async (resultTest: ResultsParams) => {
   const completedAtDefinition = getCompletedAt(resultTest.sessionResult.createdAt);
@@ -116,13 +143,9 @@ export const downloadResultTestPdf = async (resultTest: ResultsParams) => {
       questionsResultsDefinition,
     ],
     styles: {
-      tableHeader: {
+      header: {
+        fontSize: 14,
         bold: true,
-        fontSize: 12,
-      },
-      tableCell: {
-        fontSize: 10,
-        margin: [0, MARGIN_SMALL],
       },
     },
   };

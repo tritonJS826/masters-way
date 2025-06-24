@@ -18,6 +18,22 @@ pdfMake.fonts = {
 };
 
 /**
+ * Convert asterisk patterns to ordered list items
+ */
+function convertAsterisksToOrderedList(text: string): string {
+  let counter = 0;
+
+  return text.replace(
+    /^(\*)\s*(.*)$/gm,
+    (_match: string, _star: string, content: string) => {
+      counter++;
+
+      return `${counter}. ${content}`;
+    },
+  );
+}
+
+/**
  * Get test name
  */
 const getTestName = (test: Test): Content => {
@@ -69,7 +85,7 @@ const getQuestions = (questions: Question[]): Content[] => {
       margin: [0, MARGIN_MEDIUM, 0, MARGIN_SMALL],
     },
     {
-      text: question.questionText,
+      text: convertAsterisksToOrderedList(question.questionText),
       fontSize: 12,
       margin: [MARGIN_MEDIUM, 0, 0, MARGIN_SMALL],
     },
@@ -83,11 +99,7 @@ const getQuestions = (questions: Question[]): Content[] => {
 };
 
 /**
- *
- * Examples:
- * https://codepen.io/diguifi/pen/YdBbyz
- * https://brahmaputra1996.medium.com/
- * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
+ * Download test as pdf
  */
 export const downloadTestAsPDF = (test: Test, timeToTest: number) => {
   const descriptionDefinition = getDescription(test.description);

@@ -362,11 +362,7 @@ const getReports = async (way: Way): Promise<Content[]> => {
 };
 
 /**
- *
- * Examples:
- * https://codepen.io/diguifi/pen/YdBbyz
- * https://brahmaputra1996.medium.com/
- * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
+ * Download way as pdf
  */
 export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTriple) => {
   const headerDefinition = getHeader(way);
