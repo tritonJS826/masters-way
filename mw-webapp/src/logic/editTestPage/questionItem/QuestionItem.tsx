@@ -12,7 +12,6 @@ import {QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
-import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
@@ -175,32 +174,36 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
           : LanguageService.common.emptyMarkdown[language]}
       />
 
-      <Title
-        level={HeadingLevel.h3}
-        text={LanguageService.test.questionsBlock.timeToAnswerTitle[language]}
-        placeholder=""
-      />
-      <EditableText
-        value={props.question.timeToAnswer}
-        type="number"
-        min={0}
-        onChangeFinish={(timeToAnswer) => {
-          updateQuestion({
-            questionToUpdate: {
-              uuid: props.question.uuid,
-              timeToAnswer: DateUtils.getSecondsFromMinutes(timeToAnswer),
-            },
+      <HorizontalContainer className={styles.timeToAnswerContainer}>
+        <Title
+          level={HeadingLevel.h3}
+          text={LanguageService.test.questionsBlock.timeToAnswerTitle[language]}
+          placeholder=""
+          className={styles.timeToAnswerTitle}
+        />
+        <EditableText
+          value={props.question.timeToAnswer}
+          type="number"
+          min={0}
+          onChangeFinish={(timeToAnswer) => {
+            updateQuestion({
+              questionToUpdate: {
+                uuid: props.question.uuid,
+                timeToAnswer,
+              },
 
-            /**
-             * Update practiceMaterial's time to answer
-             */
-            setQuestion: () => props.question.updateTimeToAnswer(timeToAnswer),
-          });
-        }}
-        className={styles.timeToAnswerInput}
-        isEditable={props.isEditable}
-        placeholder=""
-      />
+              /**
+               * Update practiceMaterial's time to answer
+               */
+              setQuestion: () => props.question.updateTimeToAnswer(timeToAnswer),
+            });
+          }}
+          className={styles.timeToAnswerInput}
+          isEditable={props.isEditable}
+          placeholder=""
+          isEditIconExist={true}
+        />
+      </HorizontalContainer>
 
       <Title
         level={HeadingLevel.h3}

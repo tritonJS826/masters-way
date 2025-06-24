@@ -41,7 +41,16 @@ interface RunningTestPageProps {
 export const RunningTestPage = observer((props: RunningTestPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
-  const {user} = userStore;
+  const {user, isLoading} = userStore;
+
+  if (isLoading) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
+    );
+  }
 
   if (!user) {
     throw new Error("User is not defined");
@@ -104,37 +113,39 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
               placeholder=""
             />
 
-            {runningTestPageStore.test.questions.map((question) => (
-              <HorizontalContainer
-                key={question.uuid}
-                className={clsx(
-                  styles.questionShortBlock,
-                  runningTestPageStore.activeQuestion.uuid === question.uuid && styles.active,
-                )}
-                onClick={() => {
-                  runningTestPageStore.setActiveQuestionOrder(question.order);
-                  runningTestPageStore.setActiveQuestion(question.uuid);
-                }}
-              >
-                {question.name.trim() === ""
-                  ? LanguageService.common.emptyMarkdown[language]
-                  : (
-                    <HorizontalContainer className={styles.shortQuestion}>
-                      <Text text={`${question.order}. ${question.name}`} />
-                      {runningTestPageStore.questionResults.get(question.uuid) &&
-                      <Icon
-                        name="CheckIcon"
-                        size={IconSize.SMALL}
-                      />
-                      }
-                    </HorizontalContainer>
-                  )
-                }
-
-              </HorizontalContainer>
-            ),
-            )}
-
+            <ol className={styles.questionsShortList}>
+              {runningTestPageStore.test.questions.map((question) => (
+                <HorizontalContainer
+                  key={question.uuid}
+                  className={clsx(
+                    styles.questionShortBlock,
+                    runningTestPageStore.activeQuestion.uuid === question.uuid && styles.active,
+                  )}
+                  onClick={() => {
+                    runningTestPageStore.setActiveQuestionOrder(question.order);
+                    runningTestPageStore.setActiveQuestion(question.uuid);
+                  }}
+                >
+                  <li className={styles.numberedListItem}>
+                    {`${question.order}.`}
+                    {question.name.trim() === ""
+                      ? LanguageService.common.emptyMarkdown[language]
+                      : (
+                        <HorizontalContainer className={styles.shortQuestion}>
+                          <Text text={question.name} />
+                          {runningTestPageStore.questionResults.get(question.uuid) &&
+                          <Icon
+                            name="CheckIcon"
+                            size={IconSize.SMALL}
+                          />
+                          }
+                        </HorizontalContainer>
+                      )
+                    }
+                  </li>
+                </HorizontalContainer>
+              ))}
+            </ol>
           </VerticalContainer>
 
         </VerticalContainer>

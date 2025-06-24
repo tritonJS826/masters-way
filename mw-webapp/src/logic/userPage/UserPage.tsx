@@ -356,6 +356,70 @@ export const UserPage = observer((props: UserPageProps) => {
 
   const tabList: TabItemProps[] = [
     {
+      id: TabType.Tests,
+      tabTrigger: {
+        id: TabType.Tests,
+        value: LanguageService.user.tabs.tests[language],
+        dataCy: testsAccessIds.testsTab,
+      },
+      tabContent: {
+        id: TabType.Tests,
+        value: (
+          <TestTab
+            isPageOwner={isPageOwner}
+            userPageOwnerUuid={userPageOwner.uuid}
+            onClick={(testCollection: DefaultTestCollection) => {
+
+              updateUserPageSettings({testCollection});
+            }}
+            activeTestCollection={userPageSettings.testCollection}
+            view={userPageSettings.view}
+            setView={(view: View) => updateUserPageSettings({view})}
+          />
+        ),
+      },
+      value: TabType.Tests,
+
+      /**
+       * Save tests tab as opened
+       */
+      onClick: () => {
+        updateUserPageSettings({tab: TabType.Tests});
+      },
+    },
+    {
+      id: TabType.Trainings,
+      tabTrigger: {
+        id: TabType.Trainings,
+        value: LanguageService.user.tabs.trainings[language],
+        dataCy: trainingAccessIds.trainingsTab,
+      },
+      tabContent: {
+        id: TabType.Trainings,
+        value: (
+          <TrainingTab
+            isPageOwner={isPageOwner}
+            userPageOwnerUuid={userPageOwner.uuid}
+            onClick={(trainingCollection: DefaultTrainingCollection) => {
+
+              updateUserPageSettings({trainingCollection});
+            }}
+            activeTrainingCollection={userPageSettings.trainingCollection}
+            view={userPageSettings.view}
+            setView={(view: View) => updateUserPageSettings({view})}
+          />
+        ),
+      },
+      value: TabType.Trainings,
+
+      /**
+       * Save trainings tab as opened
+       */
+      onClick: () => {
+        updateUserPageSettings({tab: TabType.Trainings});
+      },
+    },
+    {
       id: TabType.Ways,
       tabTrigger: {
         id: TabType.Ways,
@@ -512,70 +576,7 @@ export const UserPage = observer((props: UserPageProps) => {
         updateUserPageSettings({tab: TabType.Projects});
       },
     },
-    {
-      id: TabType.Trainings,
-      tabTrigger: {
-        id: TabType.Trainings,
-        value: LanguageService.user.tabs.trainings[language],
-        dataCy: trainingAccessIds.trainingsTab,
-      },
-      tabContent: {
-        id: TabType.Trainings,
-        value: (
-          <TrainingTab
-            isPageOwner={isPageOwner}
-            userPageOwnerUuid={userPageOwner.uuid}
-            onClick={(trainingCollection: DefaultTrainingCollection) => {
 
-              updateUserPageSettings({trainingCollection});
-            }}
-            activeTrainingCollection={userPageSettings.trainingCollection}
-            view={userPageSettings.view}
-            setView={(view: View) => updateUserPageSettings({view})}
-          />
-        ),
-      },
-      value: TabType.Trainings,
-
-      /**
-       * Save trainings tab as opened
-       */
-      onClick: () => {
-        updateUserPageSettings({tab: TabType.Trainings});
-      },
-    },
-    {
-      id: TabType.Tests,
-      tabTrigger: {
-        id: TabType.Tests,
-        value: LanguageService.user.tabs.tests[language],
-        dataCy: testsAccessIds.testsTab,
-      },
-      tabContent: {
-        id: TabType.Tests,
-        value: (
-          <TestTab
-            isPageOwner={isPageOwner}
-            userPageOwnerUuid={userPageOwner.uuid}
-            onClick={(testCollection: DefaultTestCollection) => {
-
-              updateUserPageSettings({testCollection});
-            }}
-            activeTestCollection={userPageSettings.testCollection}
-            view={userPageSettings.view}
-            setView={(view: View) => updateUserPageSettings({view})}
-          />
-        ),
-      },
-      value: TabType.Tests,
-
-      /**
-       * Save tests tab as opened
-       */
-      onClick: () => {
-        updateUserPageSettings({tab: TabType.Tests});
-      },
-    },
   ];
 
   /**

@@ -4,10 +4,22 @@ $editableTextWidth: 100%;
 $editableTextMinWidth: 40px;
 
 .editableText {
+  display: flex;
   overflow: hidden;
   width: $editableTextWidth;
+  align-items: center;
+  // justify-content: space-between;
 
   input {
     min-width: $editableTextMinWidth;
   }
+}
+
+.inputContainer {
+  // justify-content: space-between;
+  width: $editableTextWidth;
+}
+
+.editButton {
+  margin: $marginSmall;
 }

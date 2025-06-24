@@ -40,7 +40,7 @@ interface LabelProps {
   /**
    * Array of validator functions to be applied to the value
    */
-    validators?: ValidatorValue[];
+  validators?: ValidatorValue[];
 }
 
 /**
@@ -50,7 +50,7 @@ export const Label = (props: LabelProps) => {
   return (
     <Tooltip content={props.label.name}>
       <div
-        style={{color: props.label.color, borderColor: props.label.color}}
+        style={{color: props.label.color, borderColor: !props.isEditable ? props.label.color : "none"}}
         className={clsx(styles.label, props.isSmall && styles.small, props.className)}
       >
         <EditableText

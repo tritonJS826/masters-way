@@ -44,6 +44,7 @@
 .editableTime {
   min-width: 46px;
   max-width: 46px;
+  justify-content: end;
   cursor: pointer;
   text-align: right;
 }
@@ -51,6 +52,7 @@
 .addTagButton {
   padding: 0;
   border: none;
+
   &:hover {
     background-color: transparent;
     color: var(--primaryTextColor);
