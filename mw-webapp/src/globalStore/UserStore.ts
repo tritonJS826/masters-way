@@ -30,7 +30,6 @@ class UserStore {
   public loadUser = async () => {
     this.updateIsLoading(true);
     const loadedUser = await AuthDAL.getAuthorizedUser();
-    this.updateIsLoading(false);
 
     return loadedUser;
   };
@@ -40,6 +39,7 @@ class UserStore {
    */
   public setUser = (user: User | null) => {
     this.user = user;
+    this.updateIsLoading(false);
   };
 
   /**
