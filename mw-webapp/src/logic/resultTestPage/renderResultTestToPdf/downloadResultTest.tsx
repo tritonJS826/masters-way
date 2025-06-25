@@ -3,6 +3,7 @@ import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {ResultsParams} from "src/logic/resultTestPage/ResultTestPageStore";
 import {QuestionResultProps} from "src/model/businessModel/QuestionResult";
+import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 import {DateUtils} from "src/utils/DateUtils";
 
 const MARGIN_SMALL = 5;
@@ -51,22 +52,6 @@ const getDescription = (description: string): ContentText => ({
   text: description,
   margin: [0, 0, 0, MARGIN_MEDIUM],
 });
-
-/**
- * Convert asterisk patterns to ordered list items
- */
-function convertAsterisksToOrderedList(text: string): string {
-  let counter = 0;
-
-  return text.replace(
-    /^(\*)\s*(.*)$/gm,
-    (_match: string, _star: string, content: string) => {
-      counter++;
-
-      return `${counter}. ${content}`;
-    },
-  );
-}
 
 /**
  * Render questions results

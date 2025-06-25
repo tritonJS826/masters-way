@@ -1,6 +1,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {Question, Test} from "src/model/businessModel/Test";
+import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -16,22 +17,6 @@ pdfMake.fonts = {
     bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-MediumItalic.ttf",
   },
 };
-
-/**
- * Convert asterisk patterns to ordered list items
- */
-function convertAsterisksToOrderedList(text: string): string {
-  let counter = 0;
-
-  return text.replace(
-    /^(\*)\s*(.*)$/gm,
-    (_match: string, _star: string, content: string) => {
-      counter++;
-
-      return `${counter}. ${content}`;
-    },
-  );
-}
 
 /**
  * Get test name
