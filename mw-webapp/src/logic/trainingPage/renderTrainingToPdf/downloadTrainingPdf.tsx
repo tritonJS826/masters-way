@@ -151,11 +151,7 @@ const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
 };
 
 /**
- *
- * Examples:
- * https://codepen.io/diguifi/pen/YdBbyz
- * https://brahmaputra1996.medium.com/
- * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
+ * Download training as pdf
  */
 export const downloadTrainingPdf = async (training: Training) => {
   const topicMaterials = await Promise.all(

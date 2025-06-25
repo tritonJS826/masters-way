@@ -15,6 +15,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
+import {downloadResultTestPdf} from "src/logic/resultTestPage/renderResultTestToPdf/downloadResultTest";
 import {ResultsTableBlock} from "src/logic/resultTestPage/resultsTestTable/ResultsTableBlock";
 import {ResultTestPageStore} from "src/logic/resultTestPage/ResultTestPageStore";
 import {TrainingAiModal} from "src/logic/resultTestPage/trainingAiModal/TrainingAiModal";
@@ -100,6 +101,13 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
           text={LanguageService.resultTest.resultTable.title[language]}
           placeholder=""
           classNameHeading={styles.headingLevelH2}
+        />
+      </HorizontalContainer>
+
+      <HorizontalContainer>
+        <Button
+          value={LanguageService.resultTest.buttons.downloadAsPDF[language]}
+          onClick={() => downloadResultTestPdf(resultTestPageStore)}
         />
       </HorizontalContainer>
 

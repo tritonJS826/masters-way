@@ -8,7 +8,7 @@ import {TestSessionResult} from "src/model/businessModel/TestSessionResult";
 /**
  * Test's results
  */
-interface ResultsParams {
+export interface ResultsParams {
 
   /**
    * Session result generated AI or mentor

@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 /**
  * Question result props
  */
-interface QuestionResultProps {
+export interface QuestionResultProps {
 
   /**
    * QuestionResult's UUID
