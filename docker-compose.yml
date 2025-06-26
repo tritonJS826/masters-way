@@ -13,8 +13,8 @@ services:
     networks:
       - app-network
 
-  # mw-general
   mw-server:
+    image: viktarveratsennikau/masters-way-mw-server:latest
     build:
       context: .
       dockerfile: ./mw-server/Dockerfile
@@ -26,6 +26,7 @@ services:
       - app-network
 
   mw-general-bff:
+    image: viktarveratsennikau/masters-way-mw-general-bff:latest
     build:
       context: .
       dockerfile: ./mw-general-bff/Dockerfile
@@ -51,6 +52,7 @@ services:
       - app-network
 
   mw-chat:
+    image: viktarveratsennikau/masters-way-mw-chat:latest
     build:
       context: .
       dockerfile: ./mw-chat/Dockerfile
@@ -62,6 +64,7 @@ services:
       - app-network
 
   mw-chat-bff:
+    image: viktarveratsennikau/masters-way-mw-chat-bff:latest
     build:
       context: .
       dockerfile: ./mw-chat-bff/Dockerfile
@@ -73,6 +76,7 @@ services:
       - app-network
 
   mw-chat-websocket:
+    image: viktarveratsennikau/masters-way-mw-chat-websocket:latest
     build:
       context: .
       dockerfile: ./mw-chat-websocket/Dockerfile
@@ -98,6 +102,7 @@ services:
       - app-network
 
   mw-training:
+    image: viktarveratsennikau/masters-way-mw-training:latest
     build:
       context: .
       dockerfile: ./mw-training/Dockerfile
@@ -109,6 +114,7 @@ services:
       - app-network
 
   mw-training-bff:
+    image: viktarveratsennikau/masters-way-mw-training-bff:latest
     build:
       context: .
       dockerfile: ./mw-training-bff/Dockerfile
@@ -134,6 +140,7 @@ services:
       - app-network
 
   mw-storage:
+    image: viktarveratsennikau/masters-way-mw-storage:latest
     build:
       context: .
       dockerfile: ./mw-storage/Dockerfile
@@ -157,8 +164,9 @@ services:
       - ./mw-mail/.env
     networks:
       - app-network
-  
+
   mw-mail:
+    image: viktarveratsennikau/masters-way-mw-mail:latest
     build:
       context: .
       dockerfile: ./mw-mail/Dockerfile
@@ -184,6 +192,7 @@ services:
       - app-network
 
   mw-survey:
+    image: viktarveratsennikau/masters-way-mw-survey:latest
     build:
       context: .
       dockerfile: ./mw-survey/Dockerfile
@@ -209,6 +218,7 @@ services:
       - app-network
 
   mw-notification-bff:
+    image: viktarveratsennikau/masters-way-mw-notification-bff:latest
     build:
       context: .
       dockerfile: ./mw-notification-bff/Dockerfile
@@ -220,6 +230,7 @@ services:
       - app-network
 
   mw-notification:
+    image: viktarveratsennikau/masters-way-mw-notification:latest
     build:
       context: .
       dockerfile: ./mw-notification/Dockerfile
@@ -231,6 +242,7 @@ services:
       - app-network
 
   mw-notification-websocket:
+    image: viktarveratsennikau/masters-way-mw-notification-websocket:latest
     build:
       context: .
       dockerfile: ./mw-notification-websocket/Dockerfile
@@ -242,6 +254,7 @@ services:
       - app-network
 
   # grafana:
+  #   image: viktarveratsennikau/masters-way-mw-grafana:latest
   #   build:
   #     context: .
   #     dockerfile: ./grafana/Dockerfile
