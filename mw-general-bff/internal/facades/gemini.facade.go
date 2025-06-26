@@ -299,7 +299,7 @@ func (gs *GeminiFacade) GenerateQuestionsForTest(ctx context.Context, payload *s
 		createdQuestion, err := gs.trainingService.CreateTestQuestion(ctx, services.CreateTestQuestionParams{
 			TestUuid:     payload.TestId,
 			UserUuid:     userId,
-			Name:         params.TestName,
+			Name:         questionRaw.Name,
 			QuestionText: &questionRaw.QuestionText,
 			TimeToAnswer: &questionRaw.TimeToAnswer,
 			Answer:       &questionRaw.Answer,
@@ -311,7 +311,7 @@ func (gs *GeminiFacade) GenerateQuestionsForTest(ctx context.Context, payload *s
 
 		question := &schemas.GeneratedQuestion{
 			UUID:         createdQuestion.Uuid,
-			Name:         &createdQuestion.Name,
+			Name:         createdQuestion.Name,
 			TestUUID:     createdQuestion.TestUuid,
 			QuestionText: createdQuestion.QuestionText,
 			Order:        createdQuestion.Order,

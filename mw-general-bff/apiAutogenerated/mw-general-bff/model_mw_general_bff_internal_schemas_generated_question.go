@@ -24,7 +24,7 @@ type MwGeneralBffInternalSchemasGeneratedQuestion struct {
 	Answer string
 	CreatedAt string
 	IsActive bool
-	Name *string
+	Name string
 	Order int32
 	QuestionText string
 	TestUuid string
@@ -39,11 +39,12 @@ type _MwGeneralBffInternalSchemasGeneratedQuestion MwGeneralBffInternalSchemasGe
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasGeneratedQuestion(answer string, createdAt string, isActive bool, order int32, questionText string, testUuid string, timeToAnswer int32, updatedAt string, uuid string) *MwGeneralBffInternalSchemasGeneratedQuestion {
+func NewMwGeneralBffInternalSchemasGeneratedQuestion(answer string, createdAt string, isActive bool, name string, order int32, questionText string, testUuid string, timeToAnswer int32, updatedAt string, uuid string) *MwGeneralBffInternalSchemasGeneratedQuestion {
 	this := MwGeneralBffInternalSchemasGeneratedQuestion{}
 	this.Answer = answer
 	this.CreatedAt = createdAt
 	this.IsActive = isActive
+	this.Name = name
 	this.Order = order
 	this.QuestionText = questionText
 	this.TestUuid = testUuid
@@ -133,36 +134,28 @@ func (o *MwGeneralBffInternalSchemasGeneratedQuestion) SetIsActive(v bool) {
 	o.IsActive = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *MwGeneralBffInternalSchemasGeneratedQuestion) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *MwGeneralBffInternalSchemasGeneratedQuestion) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *MwGeneralBffInternalSchemasGeneratedQuestion) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *MwGeneralBffInternalSchemasGeneratedQuestion) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
 // GetOrder returns the Order field value
@@ -322,9 +315,7 @@ func (o MwGeneralBffInternalSchemasGeneratedQuestion) ToMap() (map[string]interf
 	toSerialize["answer"] = o.Answer
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["is_active"] = o.IsActive
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
+	toSerialize["name"] = o.Name
 	toSerialize["order"] = o.Order
 	toSerialize["questionText"] = o.QuestionText
 	toSerialize["test_uuid"] = o.TestUuid
@@ -342,6 +333,7 @@ func (o *MwGeneralBffInternalSchemasGeneratedQuestion) UnmarshalJSON(data []byte
 		"answer",
 		"createdAt",
 		"is_active",
+		"name",
 		"order",
 		"questionText",
 		"test_uuid",

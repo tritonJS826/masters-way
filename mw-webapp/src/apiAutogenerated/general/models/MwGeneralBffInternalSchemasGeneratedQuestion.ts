@@ -42,7 +42,7 @@ export interface MwGeneralBffInternalSchemasGeneratedQuestion {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasGeneratedQuestion
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {number}
@@ -91,6 +91,7 @@ export function instanceOfMwGeneralBffInternalSchemasGeneratedQuestion(
     isInstance = isInstance && "answer" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "isActive" in value;
+    isInstance = isInstance && "name" in value;
     isInstance = isInstance && "order" in value;
     isInstance = isInstance && "questionText" in value;
     isInstance = isInstance && "testUuid" in value;
@@ -117,7 +118,7 @@ export function MwGeneralBffInternalSchemasGeneratedQuestionFromJSONTyped(
         'answer': json['answer'],
         'createdAt': json['createdAt'],
         'isActive': json['is_active'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'],
         'order': json['order'],
         'questionText': json['questionText'],
         'testUuid': json['test_uuid'],

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Answer** | **string** |  | 
 **CreatedAt** | **string** |  | 
 **IsActive** | **bool** |  | 
-**Name** | Pointer to **string** |  | [optional] 
+**Name** | **string** |  | 
 **Order** | **int32** |  | 
 **QuestionText** | **string** |  | 
 **TestUuid** | **string** |  | 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewMwGeneralBffInternalSchemasGeneratedQuestion
 
-`func NewMwGeneralBffInternalSchemasGeneratedQuestion(answer string, createdAt string, isActive bool, order int32, questionText string, testUuid string, timeToAnswer int32, updatedAt string, uuid string, ) *MwGeneralBffInternalSchemasGeneratedQuestion`
+`func NewMwGeneralBffInternalSchemasGeneratedQuestion(answer string, createdAt string, isActive bool, name string, order int32, questionText string, testUuid string, timeToAnswer int32, updatedAt string, uuid string, ) *MwGeneralBffInternalSchemasGeneratedQuestion`
 
 NewMwGeneralBffInternalSchemasGeneratedQuestion instantiates a new MwGeneralBffInternalSchemasGeneratedQuestion object
 This constructor will assign default values to properties that have it defined,
@@ -113,11 +113,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *MwGeneralBffInternalSchemasGeneratedQuestion) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetOrder
 

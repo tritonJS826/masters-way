@@ -65,6 +65,7 @@ func (ts *QuestionService) CreateQuestion(ctx context.Context, params db.CreateQ
 	return &pb.Question{
 		Uuid:         *utils.MarshalPgUUID(questionDb.Uuid),
 		TestUuid:     *utils.MarshalPgUUID(questionDb.TestUuid),
+		Name:         questionDb.Name.String,
 		QuestionText: questionDb.QuestionText,
 		Order:        questionDb.QuestionOrder,
 		TimeToAnswer: questionDb.TimeToAnswer,

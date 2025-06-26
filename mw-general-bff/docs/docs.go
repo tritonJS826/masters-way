@@ -4170,6 +4170,7 @@ const docTemplate = `{
                 "answer",
                 "createdAt",
                 "is_active",
+                "name",
                 "order",
                 "questionText",
                 "test_uuid",
