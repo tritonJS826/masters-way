@@ -43,6 +43,14 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   const {theme} = themeStore;
   const {user, isLoading} = userStore;
 
+  const runningTestPageStore = useStore<
+  new (testUuid: string) => RunningTestPageStore,
+  [string, string | null], RunningTestPageStore>({
+      storeForInitialize: RunningTestPageStore,
+      dataForInitialization: [props.testUuid],
+      dependency: [props.testUuid, user?.uuid ?? null],
+    });
+
   if (isLoading) {
     return (
       <Loader
@@ -55,14 +63,6 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   if (!user) {
     throw new Error("User is not defined");
   }
-
-  const runningTestPageStore = useStore<
-  new (testUuid: string, userUuid: string) => RunningTestPageStore,
-  [string, string], RunningTestPageStore>({
-      storeForInitialize: RunningTestPageStore,
-      dataForInitialization: [props.testUuid, props.sessionUuid],
-      dependency: [props.testUuid, user.uuid],
-    });
 
   if (!runningTestPageStore.isInitialized) {
     return (
