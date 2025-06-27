@@ -29,6 +29,7 @@ func (gs *QuestionResultFacade) CreateAndCheckQuestionResult(ctx context.Context
 		QuestionText:    question.QuestionText,
 		AnswerByCreator: question.Answer,
 		AnswerFromUser:  payload.UserAnswer,
+		Language:        payload.Language,
 	})
 	if err != nil {
 		return nil, err
