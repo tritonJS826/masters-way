@@ -4,7 +4,7 @@ WORKDIR /app
 COPY mw-webapp/package.json src/
 COPY mw-webapp/pnpm-lock.yaml src/
 RUN cd src && npm i -g pnpm@8.15.2
-RUN cd src && pnpm install --frozen-lockfile
+RUN cd src && pnpm install --frozen-lockfile --prod
 COPY mw-webapp src/
 RUN cd src && pnpm run build
 
