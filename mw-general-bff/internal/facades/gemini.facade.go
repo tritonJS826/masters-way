@@ -6,6 +6,7 @@ import (
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"strings"
+	"time"
 
 	"github.com/samber/lo"
 )
@@ -91,11 +92,47 @@ func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, pay
 		return nil, err
 	}
 
-	// TODO
-	// generate topics 1
-	// create topics (use existent method)
-	// ?? generate theory materials (bunch) maybe with practice material generation! in one request
-	// ?? generate practice material for each topic (use existent method) topics amount (max 30?)
+	rawTopics, err := gs.GenerateTopicsForTraining(ctx, &schemas.AIGenerateTopicsForTrainingPayload{
+		TopicsAmount:  payload.GenerateTopicsAmount,
+		TrainingId:    training.Uuid,
+		Language:      payload.Language,
+		ParentTopicId: nil,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// create and populate topics
+	for _, rawTopic := range rawTopics.Topics {
+		// gemini free limit is 10 RPM
+		// we have 3 requests here (multiplication coefficient)
+		// to provide ability to generate it for at least 2 users at the same time mean:
+		// 10 RPM for 1 user = 5RMP for 2 users = 1 request per 12 seconds
+		// with multiplication coefficient it is 1 request per 36 seconds
+
+		time.Sleep(36 * time.Second)
+
+		topicPreview, err := gs.trainingService.CreateTopic(ctx, &services.CreateTopicParams{
+			TopicName:    rawTopic.Name,
+			TrainingUuid: training.Uuid,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		gs.GenerateTheoryMaterialForTraining(ctx, &schemas.AIGenerateTheoryMaterialForTrainingPayload{
+			TrainingId: training.Uuid,
+			TopicId:    topicPreview.Uuid,
+			Language:   payload.Language,
+		})
+
+		gs.GeneratePracticeMaterialForTraining(ctx, &schemas.AIGeneratePracticeMaterialForTopicPayload{
+			TopicId:        topicPreview.Uuid,
+			TrainingId:     training.Uuid,
+			GenerateAmount: payload.PracticeMaterialInEachTopic,
+			Language:       payload.Language,
+		})
+	}
 
 	response := &schemas.AIGenerateTrainingByTestTestSessionIdResponse{
 		TrainingId: training.Uuid,

@@ -185,6 +185,22 @@ func (ts *TrainingService) GetTopicById(ctx context.Context, topicId string) (*p
 	return topic, nil
 }
 
+type CreateTopicParams struct {
+	TopicName    string
+	TrainingUuid string
+}
+
+func (ts *TrainingService) CreateTopic(ctx context.Context, params *CreateTopicParams) (*pb.TopicPreview, error) {
+	topic, err := ts.topicGRPC.CreateTopic(ctx, &pb.CreateTopicRequest{
+		Name:         params.TopicName,
+		TrainingUuid: params.TrainingUuid,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return topic, nil
+}
+
 type CreateTheoryMaterialPayload struct {
 	TopicUuid   string `json:"topicUuid" validate:"required"`
 	Name        string `json:"name" validate:"required"`
