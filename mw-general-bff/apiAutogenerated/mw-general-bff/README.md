@@ -109,7 +109,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiQuestionTest**](docs/GeminiAPI.md#aiquestiontest) | **Post** /gemini/test/questions | Generate questions for test
 *GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 *GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
-*GeminiAPI* | [**AiTrainingByTestSession**](docs/GeminiAPI.md#aitrainingbytestsession) | **Post** /gemini/training/topics/{sessionResultId} | Generate training by test test sessionId
+*GeminiAPI* | [**AiTrainingByTestSession**](docs/GeminiAPI.md#aitrainingbytestsession) | **Post** /gemini/training/testSession/{sessionResultId} | Generate training by test test sessionId
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone

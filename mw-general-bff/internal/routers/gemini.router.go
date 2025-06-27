@@ -30,7 +30,7 @@ func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
 		router.POST("/trainings/topics", gr.geminiController.GenerateTopicsForTraining)
 		router.POST("/trainings/theoryMaterial", gr.geminiController.GenerateTheoryMaterialForTraining)
 		router.POST("/trainings/practiceMaterial", gr.geminiController.GeneratePracticeMaterialForTraining)
-		router.POST("/training/topics/:sessionResultId", auth.HandleHeaders(gr.config), gr.geminiController.GenerateTrainingByTestSessionId)
+		router.POST("/training/testSession/:sessionResultId", auth.HandleHeaders(gr.config), gr.geminiController.GenerateTrainingByTestSessionId)
 
 		router.POST("/test/questions", auth.HandleHeaders(gr.config), gr.geminiController.GenerateQuestionsForTest)
 	}

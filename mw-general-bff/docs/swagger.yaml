@@ -2332,7 +2332,7 @@ paths:
       summary: Generate questions for test
       tags:
       - gemini
-  /gemini/training/topics/{sessionResultId}:
+  /gemini/training/testSession/{sessionResultId}:
     post:
       consumes:
       - application/json

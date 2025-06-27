@@ -1819,7 +1819,7 @@ func (a *GeminiAPIService) AiTrainingByTestSessionExecute(r ApiAiTrainingByTestS
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/gemini/training/topics/{sessionResultId}"
+	localVarPath := localBasePath + "/gemini/training/testSession/{sessionResultId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"sessionResultId"+"}", url.PathEscape(parameterValueToString(r.sessionResultId, "sessionResultId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1898,7 +1898,7 @@ func (a *GeminiAPIService) AiTrainingByTestSessionStreamExecute(r ApiAiTrainingB
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/gemini/training/topics/{sessionResultId}"
+	localVarPath := localBasePath + "/gemini/training/testSession/{sessionResultId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"sessionResultId"+"}", url.PathEscape(parameterValueToString(r.sessionResultId, "sessionResultId")), -1)
 
 	localVarHeaderParams := make(map[string]string)

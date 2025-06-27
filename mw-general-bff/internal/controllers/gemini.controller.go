@@ -233,7 +233,7 @@ func (cc *GeminiController) GeneratePracticeMaterialForTraining(ctx *gin.Context
 // @Param sessionResultId path string true "test session ID"
 // @Param request body schemas.AIGenerateTrainingByTestTestSessionIdPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateTrainingByTestTestSessionIdResponse
-// @Router /gemini/training/topics/{sessionResultId} [post]
+// @Router /gemini/training/testSession/{sessionResultId} [post]
 func (cc *GeminiController) GenerateTrainingByTestSessionId(ctx *gin.Context) {
 	var payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {

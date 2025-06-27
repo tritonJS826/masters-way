@@ -622,7 +622,7 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
-  /gemini/training/topics/{sessionResultId}:
+  /gemini/training/testSession/{sessionResultId}:
     post:
       description: Generate training by test sessionId
       operationId: ai-training-by-test-session

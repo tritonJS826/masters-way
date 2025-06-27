@@ -468,7 +468,7 @@ export class GeminiApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/gemini/training/topics/{sessionResultId}`.replace(`{${"sessionResultId"}}`, encodeURIComponent(String(requestParameters.sessionResultId))),
+            path: `/gemini/training/testSession/{sessionResultId}`.replace(`{${"sessionResultId"}}`, encodeURIComponent(String(requestParameters.sessionResultId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

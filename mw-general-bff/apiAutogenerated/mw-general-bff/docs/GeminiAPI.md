@@ -13,7 +13,7 @@ Method | HTTP request | Description
 [**AiQuestionTest**](GeminiAPI.md#AiQuestionTest) | **Post** /gemini/test/questions | Generate questions for test
 [**AiTheoryMaterialForTopic**](GeminiAPI.md#AiTheoryMaterialForTopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
 [**AiTopicForTraining**](GeminiAPI.md#AiTopicForTraining) | **Post** /gemini/trainings/topics | 
-[**AiTrainingByTestSession**](GeminiAPI.md#AiTrainingByTestSession) | **Post** /gemini/training/topics/{sessionResultId} | Generate training by test test sessionId
+[**AiTrainingByTestSession**](GeminiAPI.md#AiTrainingByTestSession) | **Post** /gemini/training/testSession/{sessionResultId} | Generate training by test test sessionId
 [**GenerateMetrics**](GeminiAPI.md#GenerateMetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 
 

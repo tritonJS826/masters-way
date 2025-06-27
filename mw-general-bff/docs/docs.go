@@ -995,7 +995,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/gemini/training/topics/{sessionResultId}": {
+        "/gemini/training/testSession/{sessionResultId}": {
             "post": {
                 "description": "Generate training by test sessionId",
                 "consumes": [
