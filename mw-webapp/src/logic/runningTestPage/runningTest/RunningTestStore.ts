@@ -5,9 +5,9 @@ import {QuestionResult} from "src/model/businessModel/QuestionResult";
 import {Question, Test} from "src/model/businessModel/Test";
 
 /**
- * RunningTestPageStore related methods
+ * RunningTestStore related methods
  */
-export class RunningTestPageStore {
+export class RunningTestStore {
 
   /**
    * Test value

@@ -1,0 +1,105 @@
+@import "src/styles/variables";
+
+.container {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  margin-top: $headerHeight;
+  gap: $gapSmall;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.testDashboard {
+  gap: $gapSmall;
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
+
+  @media (max-width: $mediaWidthTabletBig) {
+    grid-template-columns: minmax($minWidthBlock, 1fr);
+  }
+}
+
+.testInfo {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.testDashBoardLeft {
+  position: sticky;
+  top: $headerHeight;
+  max-height: calc(100vh - $headerHeight - $gapSmall);
+  gap: $gapSmall;
+  overflow-y: auto;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    position: static;
+    width: 100%;
+    max-height: none;
+  }
+}
+
+.testTitleBlock {
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.testName {
+  flex: 1;
+
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $marginMedium;
+    margin-bottom: $marginMedium;
+  }
+}
+
+.numberedListItem {
+  display: flex;
+  width: 100%;
+  gap: $gapSmall;
+}
+
+.questionsShortList {
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
+}
+
+.questions {
+  gap: $gapSmall;
+}
+
+.progressContainer,
+.questionBlock {
+  @include regularContainer;
+  width: 100%;
+  gap: $gapMedium;
+}
+
+.questionShortBlock {
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $paddingExtraSmall;
+  border-radius: $primaryBorderRadius;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
+}
+
+.active {
+  color: var(--generalPrimaryColor);
+}
+
+.shortQuestion {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
