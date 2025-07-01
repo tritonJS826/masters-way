@@ -191,14 +191,20 @@ type CreateTopicParams struct {
 }
 
 func (ts *TrainingService) CreateTopic(ctx context.Context, params *CreateTopicParams) (*pb.TopicPreview, error) {
-	topic, err := ts.topicGRPC.CreateTopic(ctx, &pb.CreateTopicRequest{
-		Name:         params.TopicName,
-		TrainingUuid: params.TrainingUuid,
+	topicsList := []*pb.CreateTopicRequest{
+		{
+			Name:         params.TopicName,
+			TrainingUuid: params.TrainingUuid,
+		},
+	}
+
+	topics, err := ts.topicGRPC.CreateTopics(ctx, &pb.CreateTopicsRequest{
+		CreateTopicRequest: topicsList,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return topic, nil
+	return topics.TopicsPreview[0], nil
 }
 
 type CreateTheoryMaterialPayload struct {
