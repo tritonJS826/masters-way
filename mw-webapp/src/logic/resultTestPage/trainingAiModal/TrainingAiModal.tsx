@@ -131,6 +131,9 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
           typeInput={InputType.Border}
           formatter={getFormattedValue}
         />
+        <div>
+          {LanguageService.resultTest.waitGenerateTopics[language]}
+        </div>
         <Button
           value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
           onClick={() => {

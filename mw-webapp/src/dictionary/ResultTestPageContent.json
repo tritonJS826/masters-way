@@ -81,5 +81,10 @@
             "en": "Training successfully generated!",
             "ua": "Тренінг успішно згенерован!"
         }
+    },
+    "waitGenerateTopics": {
+        "ru": "Генерация тренинга с темами, теретическими и практическими материалами будет происходить в течение нескольких минут. Пожалуйста, перезагрузите страницу с тренингом через 5-10 минут, чтобы увидеть созданные темы.",
+        "en": "Generation of training with topics, theoretical and practical materials will occur within a few minutes. Please reload the page with training in 5-10 minutes to see the created topics.",
+        "ua": "Генерація тренінгу з темами, теретичними та практичними матеріалами буде відбуватися протягом декількох хвилин. Будь ласка, перезавантажте сторінку з тренінгом через 5-10 хвилин, щоб побачити створені теми."
     }
 }
