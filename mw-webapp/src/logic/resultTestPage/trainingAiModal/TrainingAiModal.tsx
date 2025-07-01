@@ -15,6 +15,7 @@ const MIN_TOPICS_AMOUNT = 1;
 const MAX_TOPICS_AMOUNT = 50;
 const MIN_PRACTICE_MATERIALS_AMOUNT = 1;
 const MAX_PRACTICE_MATERIALS_AMOUNT = 20;
+const MINUTES_TO_GENERATE_TOPIC = 0.5;
 
 /**
  * Get an integer with mathematical rounding max value
@@ -96,6 +97,8 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
     }
   };
 
+  const generatedTopicsTime = (inputTopicsAmount * MINUTES_TO_GENERATE_TOPIC);
+
   return (
     <VerticalContainer className={styles.trainingAiModalWrapper}>
       {!isButtonToGeneratePressed &&
@@ -132,7 +135,7 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
           formatter={getFormattedValue}
         />
         <div>
-          {LanguageService.resultTest.waitGenerateTopics[language]}
+          {LanguageService.resultTest.waitGenerateTopics[language].replace("$trainingMinutes", `${generatedTopicsTime}`)}
         </div>
         <Button
           value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
@@ -146,7 +149,13 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
       </>
       }
       {isGeneratingTraining && !isErrorCatched &&
+      <>
         <Loader theme={theme} />
+        <div>
+          {LanguageService.resultTest.reloadPageAfterGenerateTopics[language]
+            .replace("$trainingMinutes", `${generatedTopicsTime}`)}
+        </div>
+      </>
       }
       {/* {isButtonToGeneratePressed && !isGeneratingTraining && !isErrorCatched &&
         <Title
