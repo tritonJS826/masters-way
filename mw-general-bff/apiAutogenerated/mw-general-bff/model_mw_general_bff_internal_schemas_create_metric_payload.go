@@ -21,12 +21,12 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateMetricPayload{}
 
 // MwGeneralBffInternalSchemasCreateMetricPayload struct for MwGeneralBffInternalSchemasCreateMetricPayload
 type MwGeneralBffInternalSchemasCreateMetricPayload struct {
-	Description string
-	DoneDate NullableString
-	EstimationTime int32
-	IsDone bool
-	ParentUuid NullableString
-	WayUuid string
+	Description string `json:"description"`
+	DoneDate NullableString `json:"doneDate"`
+	EstimationTime int32 `json:"estimationTime"`
+	IsDone bool `json:"isDone"`
+	ParentUuid NullableString `json:"parentUuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreateMetricPayload MwGeneralBffInternalSchemasCreateMetricPayload

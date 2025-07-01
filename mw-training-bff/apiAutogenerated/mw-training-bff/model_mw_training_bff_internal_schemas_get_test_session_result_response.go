@@ -21,11 +21,11 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasGetTestSessionResultResponse
 
 // MwTrainingBffInternalSchemasGetTestSessionResultResponse struct for MwTrainingBffInternalSchemasGetTestSessionResultResponse
 type MwTrainingBffInternalSchemasGetTestSessionResultResponse struct {
-	CreatedAt string
-	ResultDescription string
-	SessionResultUUID string
-	SessionUuid string
-	TestUuid string
+	CreatedAt string `json:"createdAt"`
+	ResultDescription string `json:"resultDescription"`
+	SessionResultUUID string `json:"sessionResultUUID"`
+	SessionUuid string `json:"sessionUuid"`
+	TestUuid string `json:"testUuid"`
 }
 
 type _MwTrainingBffInternalSchemasGetTestSessionResultResponse MwTrainingBffInternalSchemasGetTestSessionResultResponse

@@ -21,11 +21,11 @@ var _ MappedNullable = &MwServerInternalSchemasLabelInfo{}
 
 // MwServerInternalSchemasLabelInfo struct for MwServerInternalSchemasLabelInfo
 type MwServerInternalSchemasLabelInfo struct {
-	JobsAmount int32
-	JobsAmountPercentage int32
-	Label MwServerInternalSchemasLabel
-	Time int32
-	TimePercentage int32
+	JobsAmount int32 `json:"jobsAmount"`
+	JobsAmountPercentage int32 `json:"jobsAmountPercentage"`
+	Label MwServerInternalSchemasLabel `json:"label"`
+	Time int32 `json:"time"`
+	TimePercentage int32 `json:"timePercentage"`
 }
 
 type _MwServerInternalSchemasLabelInfo MwServerInternalSchemasLabelInfo

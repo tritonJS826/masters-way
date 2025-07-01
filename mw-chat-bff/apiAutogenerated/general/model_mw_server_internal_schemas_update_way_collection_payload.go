@@ -19,7 +19,7 @@ var _ MappedNullable = &MwServerInternalSchemasUpdateWayCollectionPayload{}
 
 // MwServerInternalSchemasUpdateWayCollectionPayload struct for MwServerInternalSchemasUpdateWayCollectionPayload
 type MwServerInternalSchemasUpdateWayCollectionPayload struct {
-	Name *string
+	Name *string `json:"name,omitempty"`
 }
 
 // NewMwServerInternalSchemasUpdateWayCollectionPayload instantiates a new MwServerInternalSchemasUpdateWayCollectionPayload object

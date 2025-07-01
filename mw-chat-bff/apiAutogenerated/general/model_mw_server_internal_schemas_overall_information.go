@@ -21,12 +21,12 @@ var _ MappedNullable = &MwServerInternalSchemasOverallInformation{}
 
 // MwServerInternalSchemasOverallInformation struct for MwServerInternalSchemasOverallInformation
 type MwServerInternalSchemasOverallInformation struct {
-	AverageJobTime int32
-	AverageTimePerCalendarDay int32
-	AverageTimePerWorkingDay int32
-	FinishedJobs int32
-	TotalReports int32
-	TotalTime int32
+	AverageJobTime int32 `json:"averageJobTime"`
+	AverageTimePerCalendarDay int32 `json:"averageTimePerCalendarDay"`
+	AverageTimePerWorkingDay int32 `json:"averageTimePerWorkingDay"`
+	FinishedJobs int32 `json:"finishedJobs"`
+	TotalReports int32 `json:"totalReports"`
+	TotalTime int32 `json:"totalTime"`
 }
 
 type _MwServerInternalSchemasOverallInformation MwServerInternalSchemasOverallInformation

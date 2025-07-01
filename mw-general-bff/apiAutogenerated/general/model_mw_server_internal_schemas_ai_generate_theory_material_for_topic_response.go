@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTheoryMaterialForTopicR
 
 // MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse struct for MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
 type MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse struct {
-	Description string
-	Name string
+	Description string `json:"description"`
+	Name string `json:"name"`
 }
 
 type _MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse

@@ -32,7 +32,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.UserPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CurrentUserResponse"
                         }
                     }
                 }
@@ -4043,6 +4043,98 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-server_internal_schemas.CurrentUserResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "customWayCollections",
+                "defaultWayCollections",
+                "description",
+                "email",
+                "favoriteForUsers",
+                "favoriteUsers",
+                "imageUrl",
+                "isMentor",
+                "name",
+                "profileSetting",
+                "projects",
+                "tags",
+                "userContacts",
+                "uuid",
+                "wayRequests"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "customWayCollections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
+                    }
+                },
+                "defaultWayCollections": {
+                    "$ref": "#/definitions/mw-server_internal_schemas.DefaultWayCollections"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "favoriteForUsers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "favoriteUsers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
+                    }
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isMentor": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profileSetting": {
+                    "$ref": "#/definitions/mw-server_internal_schemas.ProfileSetting"
+                },
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.ProjectPlainResponse"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
+                    }
+                },
+                "userContacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserContact"
+                    }
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayRequests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
         "mw-server_internal_schemas.DayReportsCompositionParticipants": {
             "type": "object",
             "required": [
@@ -4602,6 +4694,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.ProfileSetting": {
+            "type": "object",
+            "properties": {
+                "coins": {
+                    "type": "integer"
+                },
+                "expirationDate": {
+                    "type": "string"
+                },
+                "pricingPlan": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 }
             }

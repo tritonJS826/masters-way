@@ -21,25 +21,25 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasWayPopulatedResponse{}
 
 // MwGeneralBffInternalSchemasWayPopulatedResponse struct for MwGeneralBffInternalSchemasWayPopulatedResponse
 type MwGeneralBffInternalSchemasWayPopulatedResponse struct {
-	Children []MwGeneralBffInternalSchemasWayPopulatedResponse
-	CopiedFromWayUuid NullableString
-	CreatedAt string
-	EstimationTime int32
-	FavoriteForUsersAmount int32
-	FormerMentors []MwGeneralBffInternalSchemasUserPlainResponse
-	GoalDescription string
-	IsCompleted bool
-	IsPrivate bool
-	JobTags []MwGeneralBffInternalSchemasJobTagResponse
-	MentorRequests []MwGeneralBffInternalSchemasUserPlainResponse
-	Mentors []MwGeneralBffInternalSchemasUserPlainResponse
-	Metrics []MwGeneralBffInternalSchemasMetricTreeNode
-	Name string
-	Owner MwGeneralBffInternalSchemasUserPlainResponse
-	ProjectUuid NullableString
-	UpdatedAt string
-	Uuid string
-	WayTags []MwGeneralBffInternalSchemasWayTagResponse
+	Children []MwGeneralBffInternalSchemasWayPopulatedResponse `json:"children"`
+	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
+	CreatedAt string `json:"createdAt"`
+	EstimationTime int32 `json:"estimationTime"`
+	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
+	FormerMentors []MwGeneralBffInternalSchemasUserPlainResponse `json:"formerMentors"`
+	GoalDescription string `json:"goalDescription"`
+	IsCompleted bool `json:"isCompleted"`
+	IsPrivate bool `json:"isPrivate"`
+	JobTags []MwGeneralBffInternalSchemasJobTagResponse `json:"jobTags"`
+	MentorRequests []MwGeneralBffInternalSchemasUserPlainResponse `json:"mentorRequests"`
+	Mentors []MwGeneralBffInternalSchemasUserPlainResponse `json:"mentors"`
+	Metrics []MwGeneralBffInternalSchemasMetricTreeNode `json:"metrics"`
+	Name string `json:"name"`
+	Owner MwGeneralBffInternalSchemasUserPlainResponse `json:"owner"`
+	ProjectUuid NullableString `json:"projectUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	WayTags []MwGeneralBffInternalSchemasWayTagResponse `json:"wayTags"`
 }
 
 type _MwGeneralBffInternalSchemasWayPopulatedResponse MwGeneralBffInternalSchemasWayPopulatedResponse

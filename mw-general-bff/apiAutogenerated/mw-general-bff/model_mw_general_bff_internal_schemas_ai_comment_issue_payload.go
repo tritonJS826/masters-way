@@ -21,9 +21,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAICommentIssuePayload{}
 
 // MwGeneralBffInternalSchemasAICommentIssuePayload struct for MwGeneralBffInternalSchemasAICommentIssuePayload
 type MwGeneralBffInternalSchemasAICommentIssuePayload struct {
-	Goal string
-	Language string
-	Message string
+	Goal string `json:"goal"`
+	Language string `json:"language"`
+	Message string `json:"message"`
 }
 
 type _MwGeneralBffInternalSchemasAICommentIssuePayload MwGeneralBffInternalSchemasAICommentIssuePayload

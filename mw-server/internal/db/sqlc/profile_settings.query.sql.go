@@ -24,34 +24,78 @@ func (q *Queries) GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UU
 	return pricing_plan, err
 }
 
-const updatePricingPlanByUserId = `-- name: UpdatePricingPlanByUserId :one
-UPDATE
-    profile_settings
-SET
-    pricing_plan = $1,
-    expiration_date = $2,
-    updated_at = CURRENT_TIMESTAMP
-WHERE
-    owner_uuid = $3
-RETURNING uuid, pricing_plan, expiration_date, created_at, updated_at, owner_uuid
+const getProfileSettingUserId = `-- name: GetProfileSettingUserId :one
+SELECT 
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date
+FROM profile_settings
+WHERE owner_uuid = $1
 `
 
-type UpdatePricingPlanByUserIdParams struct {
+type GetProfileSettingUserIdRow struct {
+	Uuid           pgtype.UUID      `json:"uuid"`
 	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	Coins          int32            `json:"coins"`
 	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
-	UsersUuid      pgtype.UUID      `json:"users_uuid"`
 }
 
-func (q *Queries) UpdatePricingPlanByUserId(ctx context.Context, arg UpdatePricingPlanByUserIdParams) (ProfileSetting, error) {
-	row := q.db.QueryRow(ctx, updatePricingPlanByUserId, arg.PricingPlan, arg.ExpirationDate, arg.UsersUuid)
-	var i ProfileSetting
+func (q *Queries) GetProfileSettingUserId(ctx context.Context, userUuid pgtype.UUID) (GetProfileSettingUserIdRow, error) {
+	row := q.db.QueryRow(ctx, getProfileSettingUserId, userUuid)
+	var i GetProfileSettingUserIdRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.PricingPlan,
+		&i.Coins,
 		&i.ExpirationDate,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.OwnerUuid,
+	)
+	return i, err
+}
+
+const updateProfileSettingByUserId = `-- name: UpdateProfileSettingByUserId :one
+UPDATE
+    profile_settings
+SET
+    coins = coalesce($1, coins),
+    pricing_plan = coalesce($2, pricing_plan),
+    expiration_date = coalesce($3, expiration_date)
+WHERE
+    owner_uuid = $4
+RETURNING 
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date
+`
+
+type UpdateProfileSettingByUserIdParams struct {
+	Coins          pgtype.Int4         `json:"coins"`
+	PricingPlan    NullPricingPlanType `json:"pricing_plan"`
+	ExpirationDate pgtype.Timestamp    `json:"expiration_date"`
+	UserUuid       pgtype.UUID         `json:"user_uuid"`
+}
+
+type UpdateProfileSettingByUserIdRow struct {
+	Uuid           pgtype.UUID      `json:"uuid"`
+	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	Coins          int32            `json:"coins"`
+	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
+}
+
+func (q *Queries) UpdateProfileSettingByUserId(ctx context.Context, arg UpdateProfileSettingByUserIdParams) (UpdateProfileSettingByUserIdRow, error) {
+	row := q.db.QueryRow(ctx, updateProfileSettingByUserId,
+		arg.Coins,
+		arg.PricingPlan,
+		arg.ExpirationDate,
+		arg.UserUuid,
+	)
+	var i UpdateProfileSettingByUserIdRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.PricingPlan,
+		&i.Coins,
+		&i.ExpirationDate,
 	)
 	return i, err
 }

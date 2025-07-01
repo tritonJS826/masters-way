@@ -213,12 +213,20 @@ CREATE TABLE "users_user_tags"(
     CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid)
 );
 
-CREATE TYPE pricing_plan_type AS ENUM ('free', 'starter', 'pro');
+-- plan name  | features     | isWith mentor | price | base      | burn/regenerate
+-- free       |              |       n       | 0     | 150c      | 50c
+-- ai-starter |              |       n       | 10$   | 1500c     | 1500c
+-- starter    |              |       y       | 50$   | 2000c     | 2000c
+-- pro        | internship   |       y       | 100$  | 4000c     | 4000c
+-- b2b        | individually |  individually 
+
+CREATE TYPE pricing_plan_type AS ENUM ('free', 'ai-starter','starter', 'pro');
 
 -- only payments service can change profile_settings data (unidirectional)
 CREATE TABLE "profile_settings" (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "pricing_plan" pricing_plan_type NOT NULL,
+    "coins" INTEGER NOT NULL DEFAULT 0 CHECK (coins >= 0),
     "expiration_date" TIMESTAMP NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -235,12 +243,12 @@ CREATE TABLE "user_contacts" (
 );
 
 -- triggers
-
+-- adjust tables for new user
 CREATE OR REPLACE FUNCTION init_user()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO profile_settings (pricing_plan, expiration_date, owner_uuid)
-    VALUES ('free', NULL, NEW.uuid);
+    INSERT INTO profile_settings (pricing_plan, expiration_date, owner_uuid, coins)
+    VALUES ('free', NULL, NEW.uuid, 150);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

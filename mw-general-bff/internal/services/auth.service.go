@@ -54,12 +54,12 @@ func (as *AuthService) GetGoogleAccessTokenByUserID(ctx context.Context) (*opena
 	return googleToken, nil
 }
 
-func (as *AuthService) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasUserPopulatedResponse, error) {
-	userPopulated, response, err := as.generalAPI.AuthAPI.GetCurrentAuthorizedUser(ctx).Execute()
+func (as *AuthService) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasCurrentUserResponse, error) {
+	currentUser, response, err := as.generalAPI.AuthAPI.GetCurrentAuthorizedUser(ctx).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
-	return userPopulated, nil
+	return currentUser, nil
 }
 
 func (as *AuthService) Logout(ctx context.Context, provider string) error {

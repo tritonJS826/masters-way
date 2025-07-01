@@ -21,10 +21,10 @@ var _ MappedNullable = &MwServerInternalSchemasCreateJobTagPayload{}
 
 // MwServerInternalSchemasCreateJobTagPayload struct for MwServerInternalSchemasCreateJobTagPayload
 type MwServerInternalSchemasCreateJobTagPayload struct {
-	Color string
-	Description string
-	Name string
-	WayUuid string
+	Color string `json:"color"`
+	Description string `json:"description"`
+	Name string `json:"name"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwServerInternalSchemasCreateJobTagPayload MwServerInternalSchemasCreateJobTagPayload

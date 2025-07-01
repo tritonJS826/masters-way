@@ -21,11 +21,11 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasLabelInfo{}
 
 // MwGeneralBffInternalSchemasLabelInfo struct for MwGeneralBffInternalSchemasLabelInfo
 type MwGeneralBffInternalSchemasLabelInfo struct {
-	JobsAmount int32
-	JobsAmountPercentage int32
-	Label MwGeneralBffInternalSchemasLabel
-	Time int32
-	TimePercentage int32
+	JobsAmount int32 `json:"jobsAmount"`
+	JobsAmountPercentage int32 `json:"jobsAmountPercentage"`
+	Label MwGeneralBffInternalSchemasLabel `json:"label"`
+	Time int32 `json:"time"`
+	TimePercentage int32 `json:"timePercentage"`
 }
 
 type _MwGeneralBffInternalSchemasLabelInfo MwGeneralBffInternalSchemasLabelInfo

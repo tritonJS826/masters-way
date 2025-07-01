@@ -21,18 +21,18 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasTraining{}
 
 // MwTrainingBffInternalSchemasTraining struct for MwTrainingBffInternalSchemasTraining
 type MwTrainingBffInternalSchemasTraining struct {
-	CreatedAt string
-	Description string
-	FavoriteForUserUuids []string
-	IsPrivate bool
-	Mentors []MwTrainingBffInternalSchemasUser
-	Name string
-	Owner MwTrainingBffInternalSchemasUser
-	Students []MwTrainingBffInternalSchemasUser
-	TopicsTree []MwTrainingBffInternalSchemasTopicTreeNode
-	TrainingTags []MwTrainingBffInternalSchemasTrainingTag
-	UpdatedAt string
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	FavoriteForUserUuids []string `json:"favoriteForUserUuids"`
+	IsPrivate bool `json:"isPrivate"`
+	Mentors []MwTrainingBffInternalSchemasUser `json:"mentors"`
+	Name string `json:"name"`
+	Owner MwTrainingBffInternalSchemasUser `json:"owner"`
+	Students []MwTrainingBffInternalSchemasUser `json:"students"`
+	TopicsTree []MwTrainingBffInternalSchemasTopicTreeNode `json:"topicsTree"`
+	TrainingTags []MwTrainingBffInternalSchemasTrainingTag `json:"trainingTags"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwTrainingBffInternalSchemasTraining MwTrainingBffInternalSchemasTraining

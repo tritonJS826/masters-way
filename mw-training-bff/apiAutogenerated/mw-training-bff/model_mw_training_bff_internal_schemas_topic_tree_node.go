@@ -21,8 +21,8 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasTopicTreeNode{}
 
 // MwTrainingBffInternalSchemasTopicTreeNode struct for MwTrainingBffInternalSchemasTopicTreeNode
 type MwTrainingBffInternalSchemasTopicTreeNode struct {
-	Children []MwTrainingBffInternalSchemasTopicTreeNode
-	Topic MwTrainingBffInternalSchemasTopicPreview
+	Children []MwTrainingBffInternalSchemasTopicTreeNode `json:"children"`
+	Topic MwTrainingBffInternalSchemasTopicPreview `json:"topic"`
 }
 
 type _MwTrainingBffInternalSchemasTopicTreeNode MwTrainingBffInternalSchemasTopicTreeNode

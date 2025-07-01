@@ -21,13 +21,13 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUserPlainResponse{}
 
 // MwGeneralBffInternalSchemasUserPlainResponse struct for MwGeneralBffInternalSchemasUserPlainResponse
 type MwGeneralBffInternalSchemasUserPlainResponse struct {
-	CreatedAt string
-	Description string
-	Email string
-	ImageUrl string
-	IsMentor bool
-	Name string
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	Email string `json:"email"`
+	ImageUrl string `json:"imageUrl"`
+	IsMentor bool `json:"isMentor"`
+	Name string `json:"name"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasUserPlainResponse MwGeneralBffInternalSchemasUserPlainResponse

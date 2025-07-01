@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasListDayReportsResponse{}
 
 // MwGeneralBffInternalSchemasListDayReportsResponse struct for MwGeneralBffInternalSchemasListDayReportsResponse
 type MwGeneralBffInternalSchemasListDayReportsResponse struct {
-	DayReports []MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse
-	Size int32
+	DayReports []MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse `json:"dayReports"`
+	Size int32 `json:"size"`
 }
 
 type _MwGeneralBffInternalSchemasListDayReportsResponse MwGeneralBffInternalSchemasListDayReportsResponse

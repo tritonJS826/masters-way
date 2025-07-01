@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasTimeSpentByDayPoint{}
 
 // MwServerInternalSchemasTimeSpentByDayPoint struct for MwServerInternalSchemasTimeSpentByDayPoint
 type MwServerInternalSchemasTimeSpentByDayPoint struct {
-	Date string
-	Value int32
+	Date string `json:"date"`
+	Value int32 `json:"value"`
 }
 
 type _MwServerInternalSchemasTimeSpentByDayPoint MwServerInternalSchemasTimeSpentByDayPoint

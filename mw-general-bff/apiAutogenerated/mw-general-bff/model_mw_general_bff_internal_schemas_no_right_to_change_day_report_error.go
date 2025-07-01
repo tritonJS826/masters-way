@@ -19,7 +19,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasNoRightToChangeDayReportError
 
 // MwGeneralBffInternalSchemasNoRightToChangeDayReportError struct for MwGeneralBffInternalSchemasNoRightToChangeDayReportError
 type MwGeneralBffInternalSchemasNoRightToChangeDayReportError struct {
-	Message *string
+	Message *string `json:"message,omitempty"`
 }
 
 // NewMwGeneralBffInternalSchemasNoRightToChangeDayReportError instantiates a new MwGeneralBffInternalSchemasNoRightToChangeDayReportError object

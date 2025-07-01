@@ -21,14 +21,14 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateWayPayload{}
 
 // MwGeneralBffInternalSchemasCreateWayPayload struct for MwGeneralBffInternalSchemasCreateWayPayload
 type MwGeneralBffInternalSchemasCreateWayPayload struct {
-	CopiedFromWayId NullableString
-	EstimationTime int32
-	GoalDescription string
-	IsCompleted bool
-	IsPrivate bool
-	Name string
-	OwnerId string
-	ProjectId NullableString
+	CopiedFromWayId NullableString `json:"copiedFromWayId"`
+	EstimationTime int32 `json:"estimationTime"`
+	GoalDescription string `json:"goalDescription"`
+	IsCompleted bool `json:"isCompleted"`
+	IsPrivate bool `json:"isPrivate"`
+	Name string `json:"name"`
+	OwnerId string `json:"ownerId"`
+	ProjectId NullableString `json:"projectId"`
 }
 
 type _MwGeneralBffInternalSchemasCreateWayPayload MwGeneralBffInternalSchemasCreateWayPayload

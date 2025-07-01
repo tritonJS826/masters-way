@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasDeleteMentorUserWayPayload{}
 
 // MwServerInternalSchemasDeleteMentorUserWayPayload struct for MwServerInternalSchemasDeleteMentorUserWayPayload
 type MwServerInternalSchemasDeleteMentorUserWayPayload struct {
-	UserUuid string
-	WayUuid string
+	UserUuid string `json:"userUuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwServerInternalSchemasDeleteMentorUserWayPayload MwServerInternalSchemasDeleteMentorUserWayPayload

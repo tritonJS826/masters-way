@@ -21,7 +21,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasTestSession{}
 
 // MwTrainingBffInternalSchemasTestSession struct for MwTrainingBffInternalSchemasTestSession
 type MwTrainingBffInternalSchemasTestSession struct {
-	SessionUuid string
+	SessionUuid string `json:"sessionUuid"`
 }
 
 type _MwTrainingBffInternalSchemasTestSession MwTrainingBffInternalSchemasTestSession

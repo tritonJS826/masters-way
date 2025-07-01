@@ -21,15 +21,15 @@ var _ MappedNullable = &MwmailInternalSchemasSendMailResponse{}
 
 // MwmailInternalSchemasSendMailResponse struct for MwmailInternalSchemasSendMailResponse
 type MwmailInternalSchemasSendMailResponse struct {
-	Bcc []string
-	Cc []string
-	Id string
-	Message string
-	Recipients []string
-	ReplyTo []string
-	SenderMail string
-	SenderName *string
-	Subject string
+	Bcc []string `json:"bcc,omitempty"`
+	Cc []string `json:"cc,omitempty"`
+	Id string `json:"id"`
+	Message string `json:"message"`
+	Recipients []string `json:"recipients"`
+	ReplyTo []string `json:"reply_to,omitempty"`
+	SenderMail string `json:"senderMail"`
+	SenderName *string `json:"senderName,omitempty"`
+	Subject string `json:"subject"`
 }
 
 type _MwmailInternalSchemasSendMailResponse MwmailInternalSchemasSendMailResponse

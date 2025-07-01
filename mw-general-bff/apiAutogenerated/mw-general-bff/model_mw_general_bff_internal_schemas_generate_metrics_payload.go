@@ -21,10 +21,10 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasGenerateMetricsPayload{}
 
 // MwGeneralBffInternalSchemasGenerateMetricsPayload struct for MwGeneralBffInternalSchemasGenerateMetricsPayload
 type MwGeneralBffInternalSchemasGenerateMetricsPayload struct {
-	GoalDescription string
-	Language string
-	Metrics []string
-	WayName string
+	GoalDescription string `json:"goalDescription"`
+	Language string `json:"language"`
+	Metrics []string `json:"metrics"`
+	WayName string `json:"wayName"`
 }
 
 type _MwGeneralBffInternalSchemasGenerateMetricsPayload MwGeneralBffInternalSchemasGenerateMetricsPayload

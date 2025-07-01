@@ -21,7 +21,7 @@ var _ MappedNullable = &MwChatInternalSchemasUpdateMessageStatusPayload{}
 
 // MwChatInternalSchemasUpdateMessageStatusPayload struct for MwChatInternalSchemasUpdateMessageStatusPayload
 type MwChatInternalSchemasUpdateMessageStatusPayload struct {
-	IsRead bool
+	IsRead bool `json:"isRead"`
 }
 
 type _MwChatInternalSchemasUpdateMessageStatusPayload MwChatInternalSchemasUpdateMessageStatusPayload

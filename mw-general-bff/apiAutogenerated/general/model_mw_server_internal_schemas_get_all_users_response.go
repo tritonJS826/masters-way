@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasGetAllUsersResponse{}
 
 // MwServerInternalSchemasGetAllUsersResponse struct for MwServerInternalSchemasGetAllUsersResponse
 type MwServerInternalSchemasGetAllUsersResponse struct {
-	Size int32
-	Users []MwServerInternalSchemasUserPlainResponseWithInfo
+	Size int32 `json:"size"`
+	Users []MwServerInternalSchemasUserPlainResponseWithInfo `json:"users"`
 }
 
 type _MwServerInternalSchemasGetAllUsersResponse MwServerInternalSchemasGetAllUsersResponse

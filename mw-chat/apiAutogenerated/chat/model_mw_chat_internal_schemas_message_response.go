@@ -21,10 +21,10 @@ var _ MappedNullable = &MwChatInternalSchemasMessageResponse{}
 
 // MwChatInternalSchemasMessageResponse struct for MwChatInternalSchemasMessageResponse
 type MwChatInternalSchemasMessageResponse struct {
-	Message string
-	MessageId string
-	MessageReaders []MwChatInternalSchemasMessageReader
-	OwnerId string
+	Message string `json:"message"`
+	MessageId string `json:"messageId"`
+	MessageReaders []MwChatInternalSchemasMessageReader `json:"messageReaders"`
+	OwnerId string `json:"ownerId"`
 }
 
 type _MwChatInternalSchemasMessageResponse MwChatInternalSchemasMessageResponse

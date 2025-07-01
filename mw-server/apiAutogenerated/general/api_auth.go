@@ -214,7 +214,7 @@ type ApiGetCurrentAuthorizedUserRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
+func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwServerInternalSchemasCurrentUserResponse, *http.Response, error) {
 	return r.ApiService.GetCurrentAuthorizedUserExecute(r)
 }
 
@@ -232,13 +232,13 @@ func (a *AuthAPIService) GetCurrentAuthorizedUser(ctx context.Context) ApiGetCur
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasUserPopulatedResponse
-func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasCurrentUserResponse
+func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwServerInternalSchemasCurrentUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasCurrentUserResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -307,11 +307,11 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthoriz
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasUserPopulatedResponseStream
-func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasCurrentUserResponseStream
+func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasCurrentUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasCurrentUserResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")

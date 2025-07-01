@@ -21,21 +21,21 @@ var _ MappedNullable = &MwServerInternalSchemasUserPopulatedResponse{}
 
 // MwServerInternalSchemasUserPopulatedResponse struct for MwServerInternalSchemasUserPopulatedResponse
 type MwServerInternalSchemasUserPopulatedResponse struct {
-	CreatedAt string
-	CustomWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse
-	DefaultWayCollections MwServerInternalSchemasDefaultWayCollections
-	Description string
-	Email string
-	FavoriteForUsers []string
-	FavoriteUsers []MwServerInternalSchemasUserPlainResponse
-	ImageUrl string
-	IsMentor bool
-	Name string
-	Projects []MwServerInternalSchemasProjectPlainResponse
-	Tags []MwServerInternalSchemasUserTagResponse
-	UserContacts []MwServerInternalSchemasUserContact
-	Uuid string
-	WayRequests []MwServerInternalSchemasWayPlainResponse
+	CreatedAt string `json:"createdAt"`
+	CustomWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse `json:"customWayCollections"`
+	DefaultWayCollections MwServerInternalSchemasDefaultWayCollections `json:"defaultWayCollections"`
+	Description string `json:"description"`
+	Email string `json:"email"`
+	FavoriteForUsers []string `json:"favoriteForUsers"`
+	FavoriteUsers []MwServerInternalSchemasUserPlainResponse `json:"favoriteUsers"`
+	ImageUrl string `json:"imageUrl"`
+	IsMentor bool `json:"isMentor"`
+	Name string `json:"name"`
+	Projects []MwServerInternalSchemasProjectPlainResponse `json:"projects"`
+	Tags []MwServerInternalSchemasUserTagResponse `json:"tags"`
+	UserContacts []MwServerInternalSchemasUserContact `json:"userContacts"`
+	Uuid string `json:"uuid"`
+	WayRequests []MwServerInternalSchemasWayPlainResponse `json:"wayRequests"`
 }
 
 type _MwServerInternalSchemasUserPopulatedResponse MwServerInternalSchemasUserPopulatedResponse

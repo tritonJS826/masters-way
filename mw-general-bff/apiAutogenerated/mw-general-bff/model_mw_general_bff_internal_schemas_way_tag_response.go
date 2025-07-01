@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasWayTagResponse{}
 
 // MwGeneralBffInternalSchemasWayTagResponse struct for MwGeneralBffInternalSchemasWayTagResponse
 type MwGeneralBffInternalSchemasWayTagResponse struct {
-	Name string
-	Uuid string
+	Name string `json:"name"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasWayTagResponse MwGeneralBffInternalSchemasWayTagResponse

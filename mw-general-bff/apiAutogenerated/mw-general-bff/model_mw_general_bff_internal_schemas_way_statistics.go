@@ -21,9 +21,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasWayStatistics{}
 
 // MwGeneralBffInternalSchemasWayStatistics struct for MwGeneralBffInternalSchemasWayStatistics
 type MwGeneralBffInternalSchemasWayStatistics struct {
-	LabelStatistics MwGeneralBffInternalSchemasLabelStatistics
-	OverallInformation MwGeneralBffInternalSchemasOverallInformation
-	TimeSpentByDayChart []MwGeneralBffInternalSchemasTimeSpentByDayPoint
+	LabelStatistics MwGeneralBffInternalSchemasLabelStatistics `json:"labelStatistics"`
+	OverallInformation MwGeneralBffInternalSchemasOverallInformation `json:"overallInformation"`
+	TimeSpentByDayChart []MwGeneralBffInternalSchemasTimeSpentByDayPoint `json:"timeSpentByDayChart"`
 }
 
 type _MwGeneralBffInternalSchemasWayStatistics MwGeneralBffInternalSchemasWayStatistics

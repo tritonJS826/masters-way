@@ -21,12 +21,12 @@ var _ MappedNullable = &MwmailInternalSchemasMailRequest{}
 
 // MwmailInternalSchemasMailRequest struct for MwmailInternalSchemasMailRequest
 type MwmailInternalSchemasMailRequest struct {
-	Bcc []string
-	Cc []string
-	Message string
-	Recipients []string
-	Reply []string
-	Subject string
+	Bcc []string `json:"bcc,omitempty"`
+	Cc []string `json:"cc,omitempty"`
+	Message string `json:"message"`
+	Recipients []string `json:"recipients"`
+	Reply []string `json:"reply,omitempty"`
+	Subject string `json:"subject"`
 }
 
 type _MwmailInternalSchemasMailRequest MwmailInternalSchemasMailRequest

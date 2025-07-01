@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasFromUserMentoringRequestResponse{
 
 // MwServerInternalSchemasFromUserMentoringRequestResponse struct for MwServerInternalSchemasFromUserMentoringRequestResponse
 type MwServerInternalSchemasFromUserMentoringRequestResponse struct {
-	UserId string
-	WayId string
+	UserId string `json:"userId"`
+	WayId string `json:"wayId"`
 }
 
 type _MwServerInternalSchemasFromUserMentoringRequestResponse MwServerInternalSchemasFromUserMentoringRequestResponse

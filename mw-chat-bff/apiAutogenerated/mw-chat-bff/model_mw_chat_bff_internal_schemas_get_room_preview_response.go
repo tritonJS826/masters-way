@@ -21,7 +21,7 @@ var _ MappedNullable = &MwChatBffInternalSchemasGetRoomPreviewResponse{}
 
 // MwChatBffInternalSchemasGetRoomPreviewResponse struct for MwChatBffInternalSchemasGetRoomPreviewResponse
 type MwChatBffInternalSchemasGetRoomPreviewResponse struct {
-	UnreadMessagesAmount int32
+	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
 }
 
 type _MwChatBffInternalSchemasGetRoomPreviewResponse MwChatBffInternalSchemasGetRoomPreviewResponse

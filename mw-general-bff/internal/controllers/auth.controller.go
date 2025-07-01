@@ -75,7 +75,7 @@ func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 // @ID get-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} schemas.UserPopulatedResponse
+// @Success 200 {object} schemas.CurrentUserResponse
 // @Router /auth/current [get]
 func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	populatedUser, err := ac.authFacade.GetCurrentAuthorizedUserByToken(ctx)
@@ -167,7 +167,15 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 		},
 	}
 
-	response := schemas.UserPopulatedResponse{
+	profileSetting := schemas.ProfileSetting{
+		Uuid:           *populatedUser.ProfileSetting.Uuid,
+		PricingPlan:    *populatedUser.ProfileSetting.PricingPlan,
+		Coins:          *populatedUser.ProfileSetting.Coins,
+		ExpirationDate: *populatedUser.ProfileSetting.ExpirationDate,
+	}
+
+	response := schemas.CurrentUserResponse{
+		ProfileSetting:     profileSetting,
 		Uuid:               populatedUser.Uuid,
 		Name:               populatedUser.Name,
 		Email:              populatedUser.Email,

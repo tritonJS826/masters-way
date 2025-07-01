@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasMetricTreeNode{}
 
 // MwGeneralBffInternalSchemasMetricTreeNode struct for MwGeneralBffInternalSchemasMetricTreeNode
 type MwGeneralBffInternalSchemasMetricTreeNode struct {
-	Children []MwGeneralBffInternalSchemasMetricTreeNode
-	Metric MwGeneralBffInternalSchemasMetricResponse
+	Children []MwGeneralBffInternalSchemasMetricTreeNode `json:"children"`
+	Metric MwGeneralBffInternalSchemasMetricResponse `json:"metric"`
 }
 
 type _MwGeneralBffInternalSchemasMetricTreeNode MwGeneralBffInternalSchemasMetricTreeNode

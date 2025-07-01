@@ -21,12 +21,12 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTheoryMaterialForTopicP
 
 // MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload struct for MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload
 type MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload struct {
-	ExistentPracticeMaterials []string
-	ExistentTheoryMaterials []string
-	Language string
-	TopicName string
-	TrainingDescription string
-	TrainingName string
+	ExistentPracticeMaterials []string `json:"existentPracticeMaterials"`
+	ExistentTheoryMaterials []string `json:"existentTheoryMaterials"`
+	Language string `json:"language"`
+	TopicName string `json:"topicName"`
+	TrainingDescription string `json:"trainingDescription"`
+	TrainingName string `json:"trainingName"`
 }
 
 type _MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload

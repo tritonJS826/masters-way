@@ -21,11 +21,11 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTrainingDescriptionByTe
 
 // MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload struct for MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload
 type MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload struct {
-	Language string
-	TestDescription string
-	TestName string
-	TestQuestionResults []MwServerInternalSchemasQuestionResult
-	TestSessionResult string
+	Language string `json:"language"`
+	TestDescription string `json:"testDescription"`
+	TestName string `json:"testName"`
+	TestQuestionResults []MwServerInternalSchemasQuestionResult `json:"testQuestionResults"`
+	TestSessionResult string `json:"testSessionResult"`
 }
 
 type _MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload

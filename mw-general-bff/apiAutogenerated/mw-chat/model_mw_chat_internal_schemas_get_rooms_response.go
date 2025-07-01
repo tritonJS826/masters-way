@@ -21,8 +21,8 @@ var _ MappedNullable = &MwChatInternalSchemasGetRoomsResponse{}
 
 // MwChatInternalSchemasGetRoomsResponse struct for MwChatInternalSchemasGetRoomsResponse
 type MwChatInternalSchemasGetRoomsResponse struct {
-	Rooms []MwChatInternalSchemasRoomPreviewResponse
-	Size int32
+	Rooms []MwChatInternalSchemasRoomPreviewResponse `json:"rooms"`
+	Size int32 `json:"size"`
 }
 
 type _MwChatInternalSchemasGetRoomsResponse MwChatInternalSchemasGetRoomsResponse

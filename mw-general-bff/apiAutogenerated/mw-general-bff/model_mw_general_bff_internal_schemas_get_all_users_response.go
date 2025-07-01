@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasGetAllUsersResponse{}
 
 // MwGeneralBffInternalSchemasGetAllUsersResponse struct for MwGeneralBffInternalSchemasGetAllUsersResponse
 type MwGeneralBffInternalSchemasGetAllUsersResponse struct {
-	Size int32
-	Users []MwGeneralBffInternalSchemasUserPlainResponseWithInfo
+	Size int32 `json:"size"`
+	Users []MwGeneralBffInternalSchemasUserPlainResponseWithInfo `json:"users"`
 }
 
 type _MwGeneralBffInternalSchemasGetAllUsersResponse MwGeneralBffInternalSchemasGetAllUsersResponse

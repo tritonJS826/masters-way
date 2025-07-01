@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateQuestionResultResponse{
 
 // MwServerInternalSchemasAIGenerateQuestionResultResponse struct for MwServerInternalSchemasAIGenerateQuestionResultResponse
 type MwServerInternalSchemasAIGenerateQuestionResultResponse struct {
-	IsOk bool
-	ResultDescription string
+	IsOk bool `json:"isOk"`
+	ResultDescription string `json:"resultDescription"`
 }
 
 type _MwServerInternalSchemasAIGenerateQuestionResultResponse MwServerInternalSchemasAIGenerateQuestionResultResponse

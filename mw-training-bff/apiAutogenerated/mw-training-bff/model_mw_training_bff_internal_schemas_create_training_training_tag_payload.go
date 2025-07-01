@@ -21,7 +21,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateTrainingTrainingTagPay
 
 // MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload struct for MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload
 type MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload struct {
-	Name string
+	Name string `json:"name"`
 }
 
 type _MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload

@@ -21,10 +21,10 @@ var _ MappedNullable = &MwChatWebsocketInternalSchemasMessageReader{}
 
 // MwChatWebsocketInternalSchemasMessageReader struct for MwChatWebsocketInternalSchemasMessageReader
 type MwChatWebsocketInternalSchemasMessageReader struct {
-	ImageUrl string
-	Name string
-	ReadDate string
-	UserId string
+	ImageUrl string `json:"imageUrl"`
+	Name string `json:"name"`
+	ReadDate string `json:"readDate"`
+	UserId string `json:"userId"`
 }
 
 type _MwChatWebsocketInternalSchemasMessageReader MwChatWebsocketInternalSchemasMessageReader

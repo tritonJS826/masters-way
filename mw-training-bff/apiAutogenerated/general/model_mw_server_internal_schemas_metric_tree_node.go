@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasMetricTreeNode{}
 
 // MwServerInternalSchemasMetricTreeNode struct for MwServerInternalSchemasMetricTreeNode
 type MwServerInternalSchemasMetricTreeNode struct {
-	Children []MwServerInternalSchemasMetricTreeNode
-	Metric MwServerInternalSchemasMetricResponse
+	Children []MwServerInternalSchemasMetricTreeNode `json:"children"`
+	Metric MwServerInternalSchemasMetricResponse `json:"metric"`
 }
 
 type _MwServerInternalSchemasMetricTreeNode MwServerInternalSchemasMetricTreeNode

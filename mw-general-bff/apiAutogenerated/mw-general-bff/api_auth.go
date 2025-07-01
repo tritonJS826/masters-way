@@ -192,7 +192,7 @@ type ApiGetCurrentAuthorizedUserRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwGeneralBffInternalSchemasUserPopulatedResponse, *http.Response, error) {
+func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwGeneralBffInternalSchemasCurrentUserResponse, *http.Response, error) {
 	return r.ApiService.GetCurrentAuthorizedUserExecute(r)
 }
 
@@ -210,13 +210,13 @@ func (a *AuthAPIService) GetCurrentAuthorizedUser(ctx context.Context) ApiGetCur
 }
 
 // Execute executes the request
-//  @return MwGeneralBffInternalSchemasUserPopulatedResponse
-func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwGeneralBffInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwGeneralBffInternalSchemasCurrentUserResponse
+func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwGeneralBffInternalSchemasCurrentUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwGeneralBffInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwGeneralBffInternalSchemasCurrentUserResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -285,11 +285,11 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthoriz
 }
 
 // Execute executes the request
-//  @return MwGeneralBffInternalSchemasUserPopulatedResponseStream
-func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwGeneralBffInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwGeneralBffInternalSchemasCurrentUserResponseStream
+func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwGeneralBffInternalSchemasCurrentUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwGeneralBffInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwGeneralBffInternalSchemasCurrentUserResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")

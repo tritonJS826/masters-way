@@ -21,13 +21,13 @@ var _ MappedNullable = &MwChatWebsocketInternalSchemasRoomPopulatedResponse{}
 
 // MwChatWebsocketInternalSchemasRoomPopulatedResponse struct for MwChatWebsocketInternalSchemasRoomPopulatedResponse
 type MwChatWebsocketInternalSchemasRoomPopulatedResponse struct {
-	ImageUrl string
-	Messages []MwChatWebsocketInternalSchemasMessageResponse
-	Name string
-	RoomId string
-	RoomType string
-	UnreadMessagesAmount int32
-	Users []MwChatWebsocketInternalSchemasUserResponse
+	ImageUrl string `json:"imageUrl"`
+	Messages []MwChatWebsocketInternalSchemasMessageResponse `json:"messages"`
+	Name string `json:"name"`
+	RoomId string `json:"roomId"`
+	RoomType string `json:"roomType"`
+	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
+	Users []MwChatWebsocketInternalSchemasUserResponse `json:"users"`
 }
 
 type _MwChatWebsocketInternalSchemasRoomPopulatedResponse MwChatWebsocketInternalSchemasRoomPopulatedResponse

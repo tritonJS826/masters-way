@@ -19,8 +19,8 @@ var _ MappedNullable = &MwServerInternalSchemasUpdateJobDone{}
 
 // MwServerInternalSchemasUpdateJobDone struct for MwServerInternalSchemasUpdateJobDone
 type MwServerInternalSchemasUpdateJobDone struct {
-	Description *string
-	Time *int32
+	Description *string `json:"description,omitempty"`
+	Time *int32 `json:"time,omitempty"`
 }
 
 // NewMwServerInternalSchemasUpdateJobDone instantiates a new MwServerInternalSchemasUpdateJobDone object

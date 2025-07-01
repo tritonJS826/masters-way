@@ -21,8 +21,8 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasPracticeMaterials{}
 
 // MwTrainingBffInternalSchemasPracticeMaterials struct for MwTrainingBffInternalSchemasPracticeMaterials
 type MwTrainingBffInternalSchemasPracticeMaterials struct {
-	PracticeMaterials []MwTrainingBffInternalSchemasPracticeMaterial
-	Size int32
+	PracticeMaterials []MwTrainingBffInternalSchemasPracticeMaterial `json:"practiceMaterials"`
+	Size int32 `json:"size"`
 }
 
 type _MwTrainingBffInternalSchemasPracticeMaterials MwTrainingBffInternalSchemasPracticeMaterials

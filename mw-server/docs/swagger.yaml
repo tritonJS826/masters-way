@@ -688,6 +688,72 @@ definitions:
     - name
     - wayUuid
     type: object
+  mw-server_internal_schemas.CurrentUserResponse:
+    properties:
+      createdAt:
+        type: string
+      customWayCollections:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+        type: array
+      defaultWayCollections:
+        $ref: '#/definitions/mw-server_internal_schemas.DefaultWayCollections'
+      description:
+        type: string
+      email:
+        type: string
+      favoriteForUsers:
+        items:
+          type: string
+        type: array
+      favoriteUsers:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
+        type: array
+      imageUrl:
+        type: string
+      isMentor:
+        type: boolean
+      name:
+        type: string
+      profileSetting:
+        $ref: '#/definitions/mw-server_internal_schemas.ProfileSetting'
+      projects:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.ProjectPlainResponse'
+        type: array
+      tags:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
+        type: array
+      userContacts:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.UserContact'
+        type: array
+      uuid:
+        type: string
+      wayRequests:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
+        type: array
+    required:
+    - createdAt
+    - customWayCollections
+    - defaultWayCollections
+    - description
+    - email
+    - favoriteForUsers
+    - favoriteUsers
+    - imageUrl
+    - isMentor
+    - name
+    - profileSetting
+    - projects
+    - tags
+    - userContacts
+    - uuid
+    - wayRequests
+    type: object
   mw-server_internal_schemas.DayReportsCompositionParticipants:
     properties:
       dayReportId:
@@ -1079,6 +1145,17 @@ definitions:
     - uuid
     - wayName
     - wayUuid
+    type: object
+  mw-server_internal_schemas.ProfileSetting:
+    properties:
+      coins:
+        type: integer
+      expirationDate:
+        type: string
+      pricingPlan:
+        type: string
+      uuid:
+        type: string
     type: object
   mw-server_internal_schemas.ProjectPlainResponse:
     properties:
@@ -1754,7 +1831,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-server_internal_schemas.UserPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.CurrentUserResponse'
       summary: Get current authorized user
       tags:
       - auth

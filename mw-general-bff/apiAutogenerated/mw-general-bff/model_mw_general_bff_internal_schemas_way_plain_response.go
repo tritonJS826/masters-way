@@ -21,24 +21,24 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasWayPlainResponse{}
 
 // MwGeneralBffInternalSchemasWayPlainResponse struct for MwGeneralBffInternalSchemasWayPlainResponse
 type MwGeneralBffInternalSchemasWayPlainResponse struct {
-	ChildrenUuids []string
-	CopiedFromWayUuid NullableString
-	CreatedAt string
-	DayReportsAmount int32
-	EstimationTime int32
-	FavoriteForUsers int32
-	GoalDescription string
-	IsCompleted bool
-	IsPrivate bool
-	Mentors []MwGeneralBffInternalSchemasUserPlainResponse
-	MetricsDone int32
-	MetricsTotal int32
-	Name string
-	Owner MwGeneralBffInternalSchemasUserPlainResponse
-	ProjectUuid NullableString
-	UpdatedAt string
-	Uuid string
-	WayTags []MwGeneralBffInternalSchemasWayTagResponse
+	ChildrenUuids []string `json:"childrenUuids"`
+	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
+	CreatedAt string `json:"createdAt"`
+	DayReportsAmount int32 `json:"dayReportsAmount"`
+	EstimationTime int32 `json:"estimationTime"`
+	FavoriteForUsers int32 `json:"favoriteForUsers"`
+	GoalDescription string `json:"goalDescription"`
+	IsCompleted bool `json:"isCompleted"`
+	IsPrivate bool `json:"isPrivate"`
+	Mentors []MwGeneralBffInternalSchemasUserPlainResponse `json:"mentors"`
+	MetricsDone int32 `json:"metricsDone"`
+	MetricsTotal int32 `json:"metricsTotal"`
+	Name string `json:"name"`
+	Owner MwGeneralBffInternalSchemasUserPlainResponse `json:"owner"`
+	ProjectUuid NullableString `json:"projectUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	WayTags []MwGeneralBffInternalSchemasWayTagResponse `json:"wayTags"`
 }
 
 type _MwGeneralBffInternalSchemasWayPlainResponse MwGeneralBffInternalSchemasWayPlainResponse

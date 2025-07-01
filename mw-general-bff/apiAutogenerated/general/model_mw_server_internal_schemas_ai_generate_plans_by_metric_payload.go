@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasAIGeneratePlansByMetricPayload{}
 
 // MwServerInternalSchemasAIGeneratePlansByMetricPayload struct for MwServerInternalSchemasAIGeneratePlansByMetricPayload
 type MwServerInternalSchemasAIGeneratePlansByMetricPayload struct {
-	Goal string
-	Language string
-	Metric string
+	Goal string `json:"goal"`
+	Language string `json:"language"`
+	Metric string `json:"metric"`
 }
 
 type _MwServerInternalSchemasAIGeneratePlansByMetricPayload MwServerInternalSchemasAIGeneratePlansByMetricPayload

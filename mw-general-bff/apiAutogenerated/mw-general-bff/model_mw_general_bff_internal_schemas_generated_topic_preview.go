@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasGeneratedTopicPreview{}
 
 // MwGeneralBffInternalSchemasGeneratedTopicPreview struct for MwGeneralBffInternalSchemasGeneratedTopicPreview
 type MwGeneralBffInternalSchemasGeneratedTopicPreview struct {
-	Name string
+	Name string `json:"name"`
 }
 
 type _MwGeneralBffInternalSchemasGeneratedTopicPreview MwGeneralBffInternalSchemasGeneratedTopicPreview

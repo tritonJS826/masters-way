@@ -21,15 +21,15 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCommentPopulatedResponse{}
 
 // MwGeneralBffInternalSchemasCommentPopulatedResponse struct for MwGeneralBffInternalSchemasCommentPopulatedResponse
 type MwGeneralBffInternalSchemasCommentPopulatedResponse struct {
-	CreatedAt string
-	DayReportUuid string
-	Description string
-	OwnerName string
-	OwnerUuid string
-	UpdatedAt string
-	Uuid string
-	WayName string
-	WayUuid string
+	CreatedAt string `json:"createdAt"`
+	DayReportUuid string `json:"dayReportUuid"`
+	Description string `json:"description"`
+	OwnerName string `json:"ownerName"`
+	OwnerUuid string `json:"ownerUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	WayName string `json:"wayName"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCommentPopulatedResponse MwGeneralBffInternalSchemasCommentPopulatedResponse

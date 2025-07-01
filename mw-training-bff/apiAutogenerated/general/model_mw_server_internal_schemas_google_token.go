@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasGoogleToken{}
 
 // MwServerInternalSchemasGoogleToken struct for MwServerInternalSchemasGoogleToken
 type MwServerInternalSchemasGoogleToken struct {
-	AccessToken string
+	AccessToken string `json:"accessToken"`
 }
 
 type _MwServerInternalSchemasGoogleToken MwServerInternalSchemasGoogleToken

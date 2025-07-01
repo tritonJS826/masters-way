@@ -84,7 +84,7 @@ No authorization required
 
 ## GetCurrentAuthorizedUser
 
-> MwServerInternalSchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
+> MwServerInternalSchemasCurrentUserResponse GetCurrentAuthorizedUser(ctx).Execute()
 
 Get current authorized user
 
@@ -109,7 +109,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetCurrentAuthorizedUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCurrentAuthorizedUser`: MwServerInternalSchemasUserPopulatedResponse
+	// response from `GetCurrentAuthorizedUser`: MwServerInternalSchemasCurrentUserResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetCurrentAuthorizedUser`: %v\n", resp)
 }
 ```
@@ -125,7 +125,7 @@ Other parameters are passed through a pointer to a apiGetCurrentAuthorizedUserRe
 
 ### Return type
 
-[**MwServerInternalSchemasUserPopulatedResponse**](MwServerInternalSchemasUserPopulatedResponse.md)
+[**MwServerInternalSchemasCurrentUserResponse**](MwServerInternalSchemasCurrentUserResponse.md)
 
 ### Authorization
 

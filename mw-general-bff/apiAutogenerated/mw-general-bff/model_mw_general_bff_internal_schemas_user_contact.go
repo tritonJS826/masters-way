@@ -21,9 +21,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUserContact{}
 
 // MwGeneralBffInternalSchemasUserContact struct for MwGeneralBffInternalSchemasUserContact
 type MwGeneralBffInternalSchemasUserContact struct {
-	ContactLink string
-	Description string
-	Uuid string
+	ContactLink string `json:"contactLink"`
+	Description string `json:"description"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasUserContact MwGeneralBffInternalSchemasUserContact

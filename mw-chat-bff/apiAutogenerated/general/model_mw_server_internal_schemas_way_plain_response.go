@@ -21,24 +21,24 @@ var _ MappedNullable = &MwServerInternalSchemasWayPlainResponse{}
 
 // MwServerInternalSchemasWayPlainResponse struct for MwServerInternalSchemasWayPlainResponse
 type MwServerInternalSchemasWayPlainResponse struct {
-	ChildrenUuids []string
-	CopiedFromWayUuid NullableString
-	CreatedAt string
-	DayReportsAmount int32
-	EstimationTime int32
-	FavoriteForUsers int32
-	GoalDescription string
-	IsCompleted bool
-	IsPrivate bool
-	Mentors []MwServerInternalSchemasUserPlainResponse
-	MetricsDone int32
-	MetricsTotal int32
-	Name string
-	Owner MwServerInternalSchemasUserPlainResponse
-	ProjectUuid NullableString
-	UpdatedAt string
-	Uuid string
-	WayTags []MwServerInternalSchemasWayTagResponse
+	ChildrenUuids []string `json:"childrenUuids"`
+	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
+	CreatedAt string `json:"createdAt"`
+	DayReportsAmount int32 `json:"dayReportsAmount"`
+	EstimationTime int32 `json:"estimationTime"`
+	FavoriteForUsers int32 `json:"favoriteForUsers"`
+	GoalDescription string `json:"goalDescription"`
+	IsCompleted bool `json:"isCompleted"`
+	IsPrivate bool `json:"isPrivate"`
+	Mentors []MwServerInternalSchemasUserPlainResponse `json:"mentors"`
+	MetricsDone int32 `json:"metricsDone"`
+	MetricsTotal int32 `json:"metricsTotal"`
+	Name string `json:"name"`
+	Owner MwServerInternalSchemasUserPlainResponse `json:"owner"`
+	ProjectUuid NullableString `json:"projectUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	WayTags []MwServerInternalSchemasWayTagResponse `json:"wayTags"`
 }
 
 type _MwServerInternalSchemasWayPlainResponse MwServerInternalSchemasWayPlainResponse

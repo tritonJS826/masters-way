@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingRe
 
 // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse struct for MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse
 type MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse struct {
-	Topics []MwGeneralBffInternalSchemasGeneratedTopicPreview
+	Topics []MwGeneralBffInternalSchemasGeneratedTopicPreview `json:"topics"`
 }
 
 type _MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse

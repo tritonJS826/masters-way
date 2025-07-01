@@ -19,9 +19,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUpdatePlanPayload{}
 
 // MwGeneralBffInternalSchemasUpdatePlanPayload struct for MwGeneralBffInternalSchemasUpdatePlanPayload
 type MwGeneralBffInternalSchemasUpdatePlanPayload struct {
-	Description *string
-	IsDone *bool
-	Time *int32
+	Description *string `json:"description,omitempty"`
+	IsDone *bool `json:"isDone,omitempty"`
+	Time *int32 `json:"time,omitempty"`
 }
 
 // NewMwGeneralBffInternalSchemasUpdatePlanPayload instantiates a new MwGeneralBffInternalSchemasUpdatePlanPayload object

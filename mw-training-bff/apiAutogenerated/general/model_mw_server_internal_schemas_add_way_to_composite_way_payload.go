@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasAddWayToCompositeWayPayload{}
 
 // MwServerInternalSchemasAddWayToCompositeWayPayload struct for MwServerInternalSchemasAddWayToCompositeWayPayload
 type MwServerInternalSchemasAddWayToCompositeWayPayload struct {
-	ChildWayUuid string
-	ParentWayUuid string
+	ChildWayUuid string `json:"childWayUuid"`
+	ParentWayUuid string `json:"parentWayUuid"`
 }
 
 type _MwServerInternalSchemasAddWayToCompositeWayPayload MwServerInternalSchemasAddWayToCompositeWayPayload

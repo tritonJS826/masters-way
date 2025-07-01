@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTrainingDescriptionByTe
 
 // MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse struct for MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse
 type MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse struct {
-	TrainingDescription string
-	TrainingName string
+	TrainingDescription string `json:"trainingDescription"`
+	TrainingName string `json:"trainingName"`
 }
 
 type _MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse

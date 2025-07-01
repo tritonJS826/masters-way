@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasLabelStatistics{}
 
 // MwGeneralBffInternalSchemasLabelStatistics struct for MwGeneralBffInternalSchemasLabelStatistics
 type MwGeneralBffInternalSchemasLabelStatistics struct {
-	Labels []MwGeneralBffInternalSchemasLabelInfo
+	Labels []MwGeneralBffInternalSchemasLabelInfo `json:"labels"`
 }
 
 type _MwGeneralBffInternalSchemasLabelStatistics MwGeneralBffInternalSchemasLabelStatistics

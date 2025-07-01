@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateWayCollectionPayload{}
 
 // MwGeneralBffInternalSchemasCreateWayCollectionPayload struct for MwGeneralBffInternalSchemasCreateWayCollectionPayload
 type MwGeneralBffInternalSchemasCreateWayCollectionPayload struct {
-	Name string
-	OwnerUuid string
+	Name string `json:"name"`
+	OwnerUuid string `json:"ownerUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreateWayCollectionPayload MwGeneralBffInternalSchemasCreateWayCollectionPayload

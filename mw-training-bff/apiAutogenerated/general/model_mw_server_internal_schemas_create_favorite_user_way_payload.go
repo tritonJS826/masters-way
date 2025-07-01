@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasCreateFavoriteUserWayPayload{}
 
 // MwServerInternalSchemasCreateFavoriteUserWayPayload struct for MwServerInternalSchemasCreateFavoriteUserWayPayload
 type MwServerInternalSchemasCreateFavoriteUserWayPayload struct {
-	UserUuid string
-	WayUuid string
+	UserUuid string `json:"userUuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwServerInternalSchemasCreateFavoriteUserWayPayload MwServerInternalSchemasCreateFavoriteUserWayPayload

@@ -19,9 +19,9 @@ var _ MappedNullable = &MwServerInternalSchemasUpdateMetricPayload{}
 
 // MwServerInternalSchemasUpdateMetricPayload struct for MwServerInternalSchemasUpdateMetricPayload
 type MwServerInternalSchemasUpdateMetricPayload struct {
-	Description *string
-	EstimationTime *int32
-	IsDone *bool
+	Description *string `json:"description,omitempty"`
+	EstimationTime *int32 `json:"estimationTime,omitempty"`
+	IsDone *bool `json:"isDone,omitempty"`
 }
 
 // NewMwServerInternalSchemasUpdateMetricPayload instantiates a new MwServerInternalSchemasUpdateMetricPayload object

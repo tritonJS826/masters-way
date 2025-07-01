@@ -19,7 +19,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateTopicPayload{}
 
 // MwTrainingBffInternalSchemasCreateTopicPayload struct for MwTrainingBffInternalSchemasCreateTopicPayload
 type MwTrainingBffInternalSchemasCreateTopicPayload struct {
-	Name *string
+	Name *string `json:"name,omitempty"`
 }
 
 // NewMwTrainingBffInternalSchemasCreateTopicPayload instantiates a new MwTrainingBffInternalSchemasCreateTopicPayload object

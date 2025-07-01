@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateFavoriteUserPayload{}
 
 // MwGeneralBffInternalSchemasCreateFavoriteUserPayload struct for MwGeneralBffInternalSchemasCreateFavoriteUserPayload
 type MwGeneralBffInternalSchemasCreateFavoriteUserPayload struct {
-	AcceptorUserUuid string
-	DonorUserUuid string
+	AcceptorUserUuid string `json:"acceptorUserUuid"`
+	DonorUserUuid string `json:"donorUserUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreateFavoriteUserPayload MwGeneralBffInternalSchemasCreateFavoriteUserPayload

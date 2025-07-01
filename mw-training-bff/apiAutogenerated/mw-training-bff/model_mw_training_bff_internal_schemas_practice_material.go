@@ -21,16 +21,16 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasPracticeMaterial{}
 
 // MwTrainingBffInternalSchemasPracticeMaterial struct for MwTrainingBffInternalSchemasPracticeMaterial
 type MwTrainingBffInternalSchemasPracticeMaterial struct {
-	Answer string
-	CreatedAt string
-	Name string
-	Order int32
-	PracticeType string
-	TaskDescription string
-	TimeToAnswer int32
-	TopicUuid string
-	UpdatedAt string
-	Uuid string
+	Answer string `json:"answer"`
+	CreatedAt string `json:"createdAt"`
+	Name string `json:"name"`
+	Order int32 `json:"order"`
+	PracticeType string `json:"practiceType"`
+	TaskDescription string `json:"taskDescription"`
+	TimeToAnswer int32 `json:"timeToAnswer"`
+	TopicUuid string `json:"topicUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwTrainingBffInternalSchemasPracticeMaterial MwTrainingBffInternalSchemasPracticeMaterial

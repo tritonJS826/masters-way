@@ -21,13 +21,13 @@ var _ MappedNullable = &MwChatBffInternalSchemasRoomPreviewResponse{}
 
 // MwChatBffInternalSchemasRoomPreviewResponse struct for MwChatBffInternalSchemasRoomPreviewResponse
 type MwChatBffInternalSchemasRoomPreviewResponse struct {
-	ImageUrl string
-	IsBlocked bool
-	Name string
-	RoomId string
-	RoomType string
-	UnreadMessagesAmount int32
-	Users []MwChatBffInternalSchemasUserResponse
+	ImageUrl string `json:"imageUrl"`
+	IsBlocked bool `json:"isBlocked"`
+	Name string `json:"name"`
+	RoomId string `json:"roomId"`
+	RoomType string `json:"roomType"`
+	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
+	Users []MwChatBffInternalSchemasUserResponse `json:"users"`
 }
 
 type _MwChatBffInternalSchemasRoomPreviewResponse MwChatBffInternalSchemasRoomPreviewResponse

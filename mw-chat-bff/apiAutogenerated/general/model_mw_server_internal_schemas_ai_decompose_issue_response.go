@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIDecomposeIssueResponse{}
 
 // MwServerInternalSchemasAIDecomposeIssueResponse struct for MwServerInternalSchemasAIDecomposeIssueResponse
 type MwServerInternalSchemasAIDecomposeIssueResponse struct {
-	Plans []string
+	Plans []string `json:"plans"`
 }
 
 type _MwServerInternalSchemasAIDecomposeIssueResponse MwServerInternalSchemasAIDecomposeIssueResponse

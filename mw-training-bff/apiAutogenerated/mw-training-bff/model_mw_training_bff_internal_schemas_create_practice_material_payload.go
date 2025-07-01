@@ -21,12 +21,12 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreatePracticeMaterialPayloa
 
 // MwTrainingBffInternalSchemasCreatePracticeMaterialPayload struct for MwTrainingBffInternalSchemasCreatePracticeMaterialPayload
 type MwTrainingBffInternalSchemasCreatePracticeMaterialPayload struct {
-	Answer string
-	Name string
-	PracticeType string
-	TaskDescription string
-	TimeToAnswer int32
-	TopicUuid string
+	Answer string `json:"answer"`
+	Name string `json:"name"`
+	PracticeType string `json:"practiceType"`
+	TaskDescription string `json:"taskDescription"`
+	TimeToAnswer int32 `json:"timeToAnswer"`
+	TopicUuid string `json:"topicUuid"`
 }
 
 type _MwTrainingBffInternalSchemasCreatePracticeMaterialPayload MwTrainingBffInternalSchemasCreatePracticeMaterialPayload

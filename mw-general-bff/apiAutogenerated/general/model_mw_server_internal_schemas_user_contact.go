@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasUserContact{}
 
 // MwServerInternalSchemasUserContact struct for MwServerInternalSchemasUserContact
 type MwServerInternalSchemasUserContact struct {
-	ContactLink string
-	Description string
-	Uuid string
+	ContactLink string `json:"contactLink"`
+	Description string `json:"description"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwServerInternalSchemasUserContact MwServerInternalSchemasUserContact

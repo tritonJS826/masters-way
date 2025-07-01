@@ -21,11 +21,11 @@ var _ MappedNullable = &MwServerInternalSchemasCreatePlanPayload{}
 
 // MwServerInternalSchemasCreatePlanPayload struct for MwServerInternalSchemasCreatePlanPayload
 type MwServerInternalSchemasCreatePlanPayload struct {
-	DayReportUuid string
-	Description string
-	IsDone bool
-	OwnerUuid string
-	Time int32
+	DayReportUuid string `json:"dayReportUuid"`
+	Description string `json:"description"`
+	IsDone bool `json:"isDone"`
+	OwnerUuid string `json:"ownerUuid"`
+	Time int32 `json:"time"`
 }
 
 type _MwServerInternalSchemasCreatePlanPayload MwServerInternalSchemasCreatePlanPayload

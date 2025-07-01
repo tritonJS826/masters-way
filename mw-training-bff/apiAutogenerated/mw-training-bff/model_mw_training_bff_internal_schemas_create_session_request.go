@@ -21,7 +21,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateSessionRequest{}
 
 // MwTrainingBffInternalSchemasCreateSessionRequest struct for MwTrainingBffInternalSchemasCreateSessionRequest
 type MwTrainingBffInternalSchemasCreateSessionRequest struct {
-	UserUuid string
+	UserUuid string `json:"userUuid"`
 }
 
 type _MwTrainingBffInternalSchemasCreateSessionRequest MwTrainingBffInternalSchemasCreateSessionRequest

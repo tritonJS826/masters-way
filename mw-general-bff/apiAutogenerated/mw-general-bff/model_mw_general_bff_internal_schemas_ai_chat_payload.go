@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIChatPayload{}
 
 // MwGeneralBffInternalSchemasAIChatPayload struct for MwGeneralBffInternalSchemasAIChatPayload
 type MwGeneralBffInternalSchemasAIChatPayload struct {
-	Language string
-	Message string
+	Language string `json:"language"`
+	Message string `json:"message"`
 }
 
 type _MwGeneralBffInternalSchemasAIChatPayload MwGeneralBffInternalSchemasAIChatPayload

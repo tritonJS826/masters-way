@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalCustomErrorsNoRightToChangeDayReportErro
 
 // MwServerInternalCustomErrorsNoRightToChangeDayReportError struct for MwServerInternalCustomErrorsNoRightToChangeDayReportError
 type MwServerInternalCustomErrorsNoRightToChangeDayReportError struct {
-	Error string
-	ErrorId string
+	Error string `json:"error"`
+	ErrorId string `json:"errorId"`
 }
 
 type _MwServerInternalCustomErrorsNoRightToChangeDayReportError MwServerInternalCustomErrorsNoRightToChangeDayReportError

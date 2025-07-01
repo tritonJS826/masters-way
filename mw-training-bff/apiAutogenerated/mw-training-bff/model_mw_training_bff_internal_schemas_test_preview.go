@@ -21,12 +21,12 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasTestPreview{}
 
 // MwTrainingBffInternalSchemasTestPreview struct for MwTrainingBffInternalSchemasTestPreview
 type MwTrainingBffInternalSchemasTestPreview struct {
-	CreatedAt string
-	Description string
-	Name string
-	OwnerUuid string
-	UpdatedAt string
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	Name string `json:"name"`
+	OwnerUuid string `json:"ownerUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwTrainingBffInternalSchemasTestPreview MwTrainingBffInternalSchemasTestPreview

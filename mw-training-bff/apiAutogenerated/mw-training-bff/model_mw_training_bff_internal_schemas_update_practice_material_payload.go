@@ -19,12 +19,12 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUpdatePracticeMaterialPayloa
 
 // MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload struct for MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload
 type MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload struct {
-	Answer *string
-	Name *string
-	Order *int32
-	PracticeType *string
-	TaskDescription *string
-	TimeToAnswer *int32
+	Answer *string `json:"answer,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Order *int32 `json:"order,omitempty"`
+	PracticeType *string `json:"practiceType,omitempty"`
+	TaskDescription *string `json:"taskDescription,omitempty"`
+	TimeToAnswer *int32 `json:"timeToAnswer,omitempty"`
 }
 
 // NewMwTrainingBffInternalSchemasUpdatePracticeMaterialPayload instantiates a new MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload object

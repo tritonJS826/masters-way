@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasDayReportsCompositionParticipants
 
 // MwServerInternalSchemasDayReportsCompositionParticipants struct for MwServerInternalSchemasDayReportsCompositionParticipants
 type MwServerInternalSchemasDayReportsCompositionParticipants struct {
-	DayReportId string
-	WayId string
-	WayName string
+	DayReportId string `json:"dayReportId"`
+	WayId string `json:"wayId"`
+	WayName string `json:"wayName"`
 }
 
 type _MwServerInternalSchemasDayReportsCompositionParticipants MwServerInternalSchemasDayReportsCompositionParticipants

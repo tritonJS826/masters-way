@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasGetAuthCallbackFunctionResponse{}
 
 // MwServerInternalSchemasGetAuthCallbackFunctionResponse struct for MwServerInternalSchemasGetAuthCallbackFunctionResponse
 type MwServerInternalSchemasGetAuthCallbackFunctionResponse struct {
-	IsAlreadyCreated bool
-	Url string
+	IsAlreadyCreated bool `json:"isAlreadyCreated"`
+	Url string `json:"url"`
 }
 
 type _MwServerInternalSchemasGetAuthCallbackFunctionResponse MwServerInternalSchemasGetAuthCallbackFunctionResponse

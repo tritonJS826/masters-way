@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasDefaultWayCollections{}
 
 // MwServerInternalSchemasDefaultWayCollections struct for MwServerInternalSchemasDefaultWayCollections
 type MwServerInternalSchemasDefaultWayCollections struct {
-	Favorite MwServerInternalSchemasWayCollectionPopulatedResponse
-	Mentoring MwServerInternalSchemasWayCollectionPopulatedResponse
-	Own MwServerInternalSchemasWayCollectionPopulatedResponse
+	Favorite MwServerInternalSchemasWayCollectionPopulatedResponse `json:"favorite"`
+	Mentoring MwServerInternalSchemasWayCollectionPopulatedResponse `json:"mentoring"`
+	Own MwServerInternalSchemasWayCollectionPopulatedResponse `json:"own"`
 }
 
 type _MwServerInternalSchemasDefaultWayCollections MwServerInternalSchemasDefaultWayCollections

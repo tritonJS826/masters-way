@@ -21,13 +21,13 @@ var _ MappedNullable = &MwNotificationBffInternalSchemasNotificationResponse{}
 
 // MwNotificationBffInternalSchemasNotificationResponse struct for MwNotificationBffInternalSchemasNotificationResponse
 type MwNotificationBffInternalSchemasNotificationResponse struct {
-	CreatedAt string
-	Description string
-	IsRead bool
-	Nature string
-	Url string
-	UserUuid string
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	IsRead bool `json:"isRead"`
+	Nature string `json:"nature"`
+	Url string `json:"url"`
+	UserUuid string `json:"userUuid"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwNotificationBffInternalSchemasNotificationResponse MwNotificationBffInternalSchemasNotificationResponse

@@ -14,7 +14,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserPopulatedResponse'
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.CurrentUserResponse'
           description: OK
       summary: Get current authorized user
       tags:
@@ -2834,6 +2834,709 @@ components:
       - name
       - wayUuid
       type: object
+    mw-general-bff_internal_schemas.CurrentUserResponse:
+      example:
+        projects:
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
+        defaultWayCollections:
+          own:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          mentoring:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          favorite:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+        favoriteUsers:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        description: description
+        uuid: uuid
+        tags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        customWayCollections:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        createdAt: createdAt
+        profileSetting:
+          pricingPlan: pricingPlan
+          coins: 2
+          uuid: uuid
+          expirationDate: expirationDate
+        favoriteForUsers:
+        - favoriteForUsers
+        - favoriteForUsers
+        wayRequests:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        imageUrl: imageUrl
+        name: name
+        userContacts:
+        - contactLink: contactLink
+          description: description
+          uuid: uuid
+        - contactLink: contactLink
+          description: description
+          uuid: uuid
+        isMentor: true
+        email: email
+      properties:
+        createdAt:
+          type: string
+        customWayCollections:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.WayCollectionPopulatedResponse'
+          type: array
+        defaultWayCollections:
+          $ref: '#/components/schemas/mw-general-bff_internal_schemas.DefaultWayCollections'
+        description:
+          type: string
+        email:
+          type: string
+        favoriteForUsers:
+          items:
+            type: string
+          type: array
+        favoriteUsers:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserPlainResponse'
+          type: array
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+        profileSetting:
+          $ref: '#/components/schemas/mw-general-bff_internal_schemas.ProfileSetting'
+        projects:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.ProjectPlainResponse'
+          type: array
+        tags:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserTagResponse'
+          type: array
+        userContacts:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserContact'
+          type: array
+        uuid:
+          type: string
+        wayRequests:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.WayPlainResponse'
+          type: array
+      required:
+      - createdAt
+      - customWayCollections
+      - defaultWayCollections
+      - description
+      - email
+      - favoriteForUsers
+      - favoriteUsers
+      - imageUrl
+      - isMentor
+      - name
+      - profileSetting
+      - projects
+      - tags
+      - userContacts
+      - uuid
+      - wayRequests
+      type: object
     mw-general-bff_internal_schemas.DayReportsCompositionParticipants:
       example:
         wayId: wayId
@@ -4096,6 +4799,22 @@ components:
       - uuid
       - wayName
       - wayUuid
+      type: object
+    mw-general-bff_internal_schemas.ProfileSetting:
+      example:
+        pricingPlan: pricingPlan
+        coins: 2
+        uuid: uuid
+        expirationDate: expirationDate
+      properties:
+        coins:
+          type: integer
+        expirationDate:
+          type: string
+        pricingPlan:
+          type: string
+        uuid:
+          type: string
       type: object
     mw-general-bff_internal_schemas.ProjectPlainResponse:
       example:

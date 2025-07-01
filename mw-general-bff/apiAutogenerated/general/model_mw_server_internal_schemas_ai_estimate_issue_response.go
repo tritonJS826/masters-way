@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIEstimateIssueResponse{}
 
 // MwServerInternalSchemasAIEstimateIssueResponse struct for MwServerInternalSchemasAIEstimateIssueResponse
 type MwServerInternalSchemasAIEstimateIssueResponse struct {
-	Estimation string
+	Estimation string `json:"estimation"`
 }
 
 type _MwServerInternalSchemasAIEstimateIssueResponse MwServerInternalSchemasAIEstimateIssueResponse

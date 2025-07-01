@@ -21,10 +21,10 @@ var _ MappedNullable = &MwChatBffInternalSchemasMessageReader{}
 
 // MwChatBffInternalSchemasMessageReader struct for MwChatBffInternalSchemasMessageReader
 type MwChatBffInternalSchemasMessageReader struct {
-	OwnerImageUrl string
-	OwnerName string
-	ReadDate string
-	UserId string
+	OwnerImageUrl string `json:"ownerImageUrl"`
+	OwnerName string `json:"ownerName"`
+	ReadDate string `json:"readDate"`
+	UserId string `json:"userId"`
 }
 
 type _MwChatBffInternalSchemasMessageReader MwChatBffInternalSchemasMessageReader

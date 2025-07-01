@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateQuestionsForTestRespons
 
 // MwServerInternalSchemasAIGenerateQuestionsForTestResponse struct for MwServerInternalSchemasAIGenerateQuestionsForTestResponse
 type MwServerInternalSchemasAIGenerateQuestionsForTestResponse struct {
-	Questions []MwServerInternalSchemasGeneratedQuestion
+	Questions []MwServerInternalSchemasGeneratedQuestion `json:"questions"`
 }
 
 type _MwServerInternalSchemasAIGenerateQuestionsForTestResponse MwServerInternalSchemasAIGenerateQuestionsForTestResponse

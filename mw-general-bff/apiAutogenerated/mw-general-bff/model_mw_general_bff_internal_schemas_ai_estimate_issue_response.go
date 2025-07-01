@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIEstimateIssueResponse{}
 
 // MwGeneralBffInternalSchemasAIEstimateIssueResponse struct for MwGeneralBffInternalSchemasAIEstimateIssueResponse
 type MwGeneralBffInternalSchemasAIEstimateIssueResponse struct {
-	Estimation string
+	Estimation string `json:"estimation"`
 }
 
 type _MwGeneralBffInternalSchemasAIEstimateIssueResponse MwGeneralBffInternalSchemasAIEstimateIssueResponse

@@ -21,11 +21,11 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateQuestionResultPayload{}
 
 // MwServerInternalSchemasAIGenerateQuestionResultPayload struct for MwServerInternalSchemasAIGenerateQuestionResultPayload
 type MwServerInternalSchemasAIGenerateQuestionResultPayload struct {
-	AnswerByCreator string
-	AnswerFromUser string
-	Language string
-	QuestionName string
-	QuestionText string
+	AnswerByCreator string `json:"answerByCreator"`
+	AnswerFromUser string `json:"answerFromUser"`
+	Language string `json:"language"`
+	QuestionName string `json:"questionName"`
+	QuestionText string `json:"questionText"`
 }
 
 type _MwServerInternalSchemasAIGenerateQuestionResultPayload MwServerInternalSchemasAIGenerateQuestionResultPayload

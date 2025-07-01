@@ -21,21 +21,21 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUserPopulatedResponse{}
 
 // MwGeneralBffInternalSchemasUserPopulatedResponse struct for MwGeneralBffInternalSchemasUserPopulatedResponse
 type MwGeneralBffInternalSchemasUserPopulatedResponse struct {
-	CreatedAt string
-	CustomWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse
-	DefaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections
-	Description string
-	Email string
-	FavoriteForUsers []string
-	FavoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse
-	ImageUrl string
-	IsMentor bool
-	Name string
-	Projects []MwGeneralBffInternalSchemasProjectPlainResponse
-	Tags []MwGeneralBffInternalSchemasUserTagResponse
-	UserContacts []MwGeneralBffInternalSchemasUserContact
-	Uuid string
-	WayRequests []MwGeneralBffInternalSchemasWayPlainResponse
+	CreatedAt string `json:"createdAt"`
+	CustomWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse `json:"customWayCollections"`
+	DefaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections `json:"defaultWayCollections"`
+	Description string `json:"description"`
+	Email string `json:"email"`
+	FavoriteForUsers []string `json:"favoriteForUsers"`
+	FavoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse `json:"favoriteUsers"`
+	ImageUrl string `json:"imageUrl"`
+	IsMentor bool `json:"isMentor"`
+	Name string `json:"name"`
+	Projects []MwGeneralBffInternalSchemasProjectPlainResponse `json:"projects"`
+	Tags []MwGeneralBffInternalSchemasUserTagResponse `json:"tags"`
+	UserContacts []MwGeneralBffInternalSchemasUserContact `json:"userContacts"`
+	Uuid string `json:"uuid"`
+	WayRequests []MwGeneralBffInternalSchemasWayPlainResponse `json:"wayRequests"`
 }
 
 type _MwGeneralBffInternalSchemasUserPopulatedResponse MwGeneralBffInternalSchemasUserPopulatedResponse

@@ -12,16 +12,18 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type AuthController struct {
-	authService *services.AuthService
-	userService *services.UserService
-	config      *config.Config
+	authService           *services.AuthService
+	userService           *services.UserService
+	profileSettingService *services.ProfileSettingService
+	config                *config.Config
 }
 
-func NewAuthController(authService *services.AuthService, userService *services.UserService, config *config.Config) *AuthController {
-	return &AuthController{authService, userService, config}
+func NewAuthController(authService *services.AuthService, userService *services.UserService, profileSettingService *services.ProfileSettingService, config *config.Config) *AuthController {
+	return &AuthController{authService, userService, profileSettingService, config}
 }
 
 // Log in with google oAuth
@@ -100,7 +102,7 @@ func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 // @ID get-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} schemas.UserPopulatedResponse
+// @Success 200 {object} schemas.CurrentUserResponse
 // @Router /auth/current [get]
 func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
@@ -109,7 +111,29 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	populatedUser, err := ac.userService.GetPopulatedUserById(ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, populatedUser)
+	profileSetting, err := ac.profileSettingService.GetProfileSettingUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(userId), Valid: true})
+	util.HandleErrorGin(ctx, err)
+
+	currentUser := schemas.CurrentUserResponse{
+		ProfileSetting:     *profileSetting,
+		Uuid:               populatedUser.Uuid,
+		Name:               populatedUser.Name,
+		Email:              populatedUser.Email,
+		Description:        populatedUser.Description,
+		CreatedAt:          populatedUser.CreatedAt,
+		ImageUrl:           populatedUser.ImageUrl,
+		IsMentor:           populatedUser.IsMentor,
+		WayCollections:     populatedUser.WayCollections,
+		DefaultCollections: populatedUser.DefaultCollections,
+		FavoriteForUsers:   populatedUser.FavoriteForUsers,
+		FavoriteUsers:      populatedUser.FavoriteUsers,
+		Tags:               populatedUser.Tags,
+		WayRequests:        populatedUser.WayRequests,
+		Projects:           populatedUser.Projects,
+		UserContacts:       populatedUser.UserContacts,
+	}
+
+	ctx.JSON(http.StatusOK, currentUser)
 }
 
 // GetUserTokenByEmail handler

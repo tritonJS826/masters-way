@@ -21,9 +21,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasWayStatisticsTriplePeriod{}
 
 // MwGeneralBffInternalSchemasWayStatisticsTriplePeriod struct for MwGeneralBffInternalSchemasWayStatisticsTriplePeriod
 type MwGeneralBffInternalSchemasWayStatisticsTriplePeriod struct {
-	LastMonth MwGeneralBffInternalSchemasWayStatistics
-	LastWeek MwGeneralBffInternalSchemasWayStatistics
-	TotalTime MwGeneralBffInternalSchemasWayStatistics
+	LastMonth MwGeneralBffInternalSchemasWayStatistics `json:"lastMonth"`
+	LastWeek MwGeneralBffInternalSchemasWayStatistics `json:"lastWeek"`
+	TotalTime MwGeneralBffInternalSchemasWayStatistics `json:"totalTime"`
 }
 
 type _MwGeneralBffInternalSchemasWayStatisticsTriplePeriod MwGeneralBffInternalSchemasWayStatisticsTriplePeriod

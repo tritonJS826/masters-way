@@ -21,10 +21,10 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateTestRequest{}
 
 // MwTrainingBffInternalSchemasCreateTestRequest struct for MwTrainingBffInternalSchemasCreateTestRequest
 type MwTrainingBffInternalSchemasCreateTestRequest struct {
-	Description string
-	IsPrivate bool
-	Name string
-	OwnerUuid string
+	Description string `json:"description"`
+	IsPrivate bool `json:"isPrivate"`
+	Name string `json:"name"`
+	OwnerUuid string `json:"ownerUuid"`
 }
 
 type _MwTrainingBffInternalSchemasCreateTestRequest MwTrainingBffInternalSchemasCreateTestRequest

@@ -21,13 +21,13 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTr
 
 // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse struct for MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse
 type MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse struct {
-	CreatedAt string
-	Description string
-	Name string
-	Order int32
-	TopicUuid string
-	UpdatedAt string
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	Name string `json:"name"`
+	Order int32 `json:"order"`
+	TopicUuid string `json:"topicUuid"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse

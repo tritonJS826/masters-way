@@ -21,10 +21,10 @@ var _ MappedNullable = &MwServerInternalSchemasWayPlainForNotificationResponse{}
 
 // MwServerInternalSchemasWayPlainForNotificationResponse struct for MwServerInternalSchemasWayPlainForNotificationResponse
 type MwServerInternalSchemasWayPlainForNotificationResponse struct {
-	Mentors []MwServerInternalSchemasUserPlainResponse
-	Name string
-	Owner MwServerInternalSchemasUserPlainResponse
-	Uuid string
+	Mentors []MwServerInternalSchemasUserPlainResponse `json:"mentors"`
+	Name string `json:"name"`
+	Owner MwServerInternalSchemasUserPlainResponse `json:"owner"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwServerInternalSchemasWayPlainForNotificationResponse MwServerInternalSchemasWayPlainForNotificationResponse

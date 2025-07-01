@@ -21,10 +21,10 @@ var _ MappedNullable = &MwServerInternalSchemasShortUser{}
 
 // MwServerInternalSchemasShortUser struct for MwServerInternalSchemasShortUser
 type MwServerInternalSchemasShortUser struct {
-	Email string
-	ImageUrl string
-	Name string
-	UserId string
+	Email string `json:"email"`
+	ImageUrl string `json:"imageUrl"`
+	Name string `json:"name"`
+	UserId string `json:"userId"`
 }
 
 type _MwServerInternalSchemasShortUser MwServerInternalSchemasShortUser

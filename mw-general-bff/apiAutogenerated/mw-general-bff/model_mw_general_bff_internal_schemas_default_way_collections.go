@@ -21,9 +21,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasDefaultWayCollections{}
 
 // MwGeneralBffInternalSchemasDefaultWayCollections struct for MwGeneralBffInternalSchemasDefaultWayCollections
 type MwGeneralBffInternalSchemasDefaultWayCollections struct {
-	Favorite MwGeneralBffInternalSchemasWayCollectionPopulatedResponse
-	Mentoring MwGeneralBffInternalSchemasWayCollectionPopulatedResponse
-	Own MwGeneralBffInternalSchemasWayCollectionPopulatedResponse
+	Favorite MwGeneralBffInternalSchemasWayCollectionPopulatedResponse `json:"favorite"`
+	Mentoring MwGeneralBffInternalSchemasWayCollectionPopulatedResponse `json:"mentoring"`
+	Own MwGeneralBffInternalSchemasWayCollectionPopulatedResponse `json:"own"`
 }
 
 type _MwGeneralBffInternalSchemasDefaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections

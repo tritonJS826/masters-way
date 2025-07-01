@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasRefreshAccessTokenPayload{}
 
 // MwServerInternalSchemasRefreshAccessTokenPayload struct for MwServerInternalSchemasRefreshAccessTokenPayload
 type MwServerInternalSchemasRefreshAccessTokenPayload struct {
-	RefreshToken string
+	RefreshToken string `json:"refreshToken"`
 }
 
 type _MwServerInternalSchemasRefreshAccessTokenPayload MwServerInternalSchemasRefreshAccessTokenPayload

@@ -21,16 +21,16 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasGeneratedQuestion{}
 
 // MwGeneralBffInternalSchemasGeneratedQuestion struct for MwGeneralBffInternalSchemasGeneratedQuestion
 type MwGeneralBffInternalSchemasGeneratedQuestion struct {
-	Answer string
-	CreatedAt string
-	IsActive bool
-	Name string
-	Order int32
-	QuestionText string
-	TestUuid string
-	TimeToAnswer int32
-	UpdatedAt string
-	Uuid string
+	Answer string `json:"answer"`
+	CreatedAt string `json:"createdAt"`
+	IsActive bool `json:"is_active"`
+	Name string `json:"name"`
+	Order int32 `json:"order"`
+	QuestionText string `json:"questionText"`
+	TestUuid string `json:"test_uuid"`
+	TimeToAnswer int32 `json:"time_to_answer"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasGeneratedQuestion MwGeneralBffInternalSchemasGeneratedQuestion

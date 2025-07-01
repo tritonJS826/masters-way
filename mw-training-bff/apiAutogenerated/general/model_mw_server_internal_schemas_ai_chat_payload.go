@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasAIChatPayload{}
 
 // MwServerInternalSchemasAIChatPayload struct for MwServerInternalSchemasAIChatPayload
 type MwServerInternalSchemasAIChatPayload struct {
-	Language string
-	Message string
+	Language string `json:"language"`
+	Message string `json:"message"`
 }
 
 type _MwServerInternalSchemasAIChatPayload MwServerInternalSchemasAIChatPayload

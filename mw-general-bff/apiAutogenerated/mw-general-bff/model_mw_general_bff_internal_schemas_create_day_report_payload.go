@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateDayReportPayload{}
 
 // MwGeneralBffInternalSchemasCreateDayReportPayload struct for MwGeneralBffInternalSchemasCreateDayReportPayload
 type MwGeneralBffInternalSchemasCreateDayReportPayload struct {
-	WayId string
+	WayId string `json:"wayId"`
 }
 
 type _MwGeneralBffInternalSchemasCreateDayReportPayload MwGeneralBffInternalSchemasCreateDayReportPayload

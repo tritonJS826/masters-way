@@ -21,14 +21,14 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateQuestionResultRequest{}
 
 // MwGeneralBffInternalSchemasCreateQuestionResultRequest struct for MwGeneralBffInternalSchemasCreateQuestionResultRequest
 type MwGeneralBffInternalSchemasCreateQuestionResultRequest struct {
-	IsOk bool
-	Language string
-	QuestionUuid string
-	ResultDescription string
-	TestSessionUuid string
-	TestUuid string
-	UserAnswer string
-	UserUuid string
+	IsOk bool `json:"isOk"`
+	Language string `json:"language"`
+	QuestionUuid string `json:"questionUuid"`
+	ResultDescription string `json:"resultDescription"`
+	TestSessionUuid string `json:"testSessionUuid"`
+	TestUuid string `json:"testUuid"`
+	UserAnswer string `json:"userAnswer"`
+	UserUuid string `json:"userUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreateQuestionResultRequest MwGeneralBffInternalSchemasCreateQuestionResultRequest

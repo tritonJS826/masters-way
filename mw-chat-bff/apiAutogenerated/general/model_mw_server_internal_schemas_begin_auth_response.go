@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasBeginAuthResponse{}
 
 // MwServerInternalSchemasBeginAuthResponse struct for MwServerInternalSchemasBeginAuthResponse
 type MwServerInternalSchemasBeginAuthResponse struct {
-	Url string
+	Url string `json:"url"`
 }
 
 type _MwServerInternalSchemasBeginAuthResponse MwServerInternalSchemasBeginAuthResponse

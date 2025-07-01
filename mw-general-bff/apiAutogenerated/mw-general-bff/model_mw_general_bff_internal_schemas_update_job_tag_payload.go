@@ -19,9 +19,9 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUpdateJobTagPayload{}
 
 // MwGeneralBffInternalSchemasUpdateJobTagPayload struct for MwGeneralBffInternalSchemasUpdateJobTagPayload
 type MwGeneralBffInternalSchemasUpdateJobTagPayload struct {
-	Color *string
-	Description *string
-	Name *string
+	Color *string `json:"color,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // NewMwGeneralBffInternalSchemasUpdateJobTagPayload instantiates a new MwGeneralBffInternalSchemasUpdateJobTagPayload object

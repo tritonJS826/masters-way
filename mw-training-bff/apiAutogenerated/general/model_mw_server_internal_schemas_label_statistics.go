@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasLabelStatistics{}
 
 // MwServerInternalSchemasLabelStatistics struct for MwServerInternalSchemasLabelStatistics
 type MwServerInternalSchemasLabelStatistics struct {
-	Labels []MwServerInternalSchemasLabelInfo
+	Labels []MwServerInternalSchemasLabelInfo `json:"labels"`
 }
 
 type _MwServerInternalSchemasLabelStatistics MwServerInternalSchemasLabelStatistics

@@ -21,18 +21,18 @@ var _ MappedNullable = &MwServerInternalSchemasUserPlainResponseWithInfo{}
 
 // MwServerInternalSchemasUserPlainResponseWithInfo struct for MwServerInternalSchemasUserPlainResponseWithInfo
 type MwServerInternalSchemasUserPlainResponseWithInfo struct {
-	CreatedAt string
-	Description string
-	Email string
-	FavoriteForUsers int32
-	FavoriteWays int32
-	ImageUrl string
-	IsMentor bool
-	MentoringWays int32
-	Name string
-	OwnWays int32
-	Tags []MwServerInternalSchemasUserTagResponse
-	Uuid string
+	CreatedAt string `json:"createdAt"`
+	Description string `json:"description"`
+	Email string `json:"email"`
+	FavoriteForUsers int32 `json:"favoriteForUsers"`
+	FavoriteWays int32 `json:"favoriteWays"`
+	ImageUrl string `json:"imageUrl"`
+	IsMentor bool `json:"isMentor"`
+	MentoringWays int32 `json:"mentoringWays"`
+	Name string `json:"name"`
+	OwnWays int32 `json:"ownWays"`
+	Tags []MwServerInternalSchemasUserTagResponse `json:"tags"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwServerInternalSchemasUserPlainResponseWithInfo MwServerInternalSchemasUserPlainResponseWithInfo

@@ -21,9 +21,9 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUser{}
 
 // MwTrainingBffInternalSchemasUser struct for MwTrainingBffInternalSchemasUser
 type MwTrainingBffInternalSchemasUser struct {
-	ImageUrl string
-	Name string
-	Uuid string
+	ImageUrl string `json:"imageUrl"`
+	Name string `json:"name"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwTrainingBffInternalSchemasUser MwTrainingBffInternalSchemasUser

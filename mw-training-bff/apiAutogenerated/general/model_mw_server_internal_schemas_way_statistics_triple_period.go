@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasWayStatisticsTriplePeriod{}
 
 // MwServerInternalSchemasWayStatisticsTriplePeriod struct for MwServerInternalSchemasWayStatisticsTriplePeriod
 type MwServerInternalSchemasWayStatisticsTriplePeriod struct {
-	LastMonth MwServerInternalSchemasWayStatistics
-	LastWeek MwServerInternalSchemasWayStatistics
-	TotalTime MwServerInternalSchemasWayStatistics
+	LastMonth MwServerInternalSchemasWayStatistics `json:"lastMonth"`
+	LastWeek MwServerInternalSchemasWayStatistics `json:"lastWeek"`
+	TotalTime MwServerInternalSchemasWayStatistics `json:"totalTime"`
 }
 
 type _MwServerInternalSchemasWayStatisticsTriplePeriod MwServerInternalSchemasWayStatisticsTriplePeriod

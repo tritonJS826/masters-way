@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateToUserMentoringRequestP
 
 // MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload struct for MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload
 type MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload struct {
-	UserUuid string
-	WayUuid string
+	UserUuid string `json:"userUuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload MwGeneralBffInternalSchemasCreateToUserMentoringRequestPayload

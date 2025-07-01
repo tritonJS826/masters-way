@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateWayFromTrainingPayload{
 
 // MwGeneralBffInternalSchemasCreateWayFromTrainingPayload struct for MwGeneralBffInternalSchemasCreateWayFromTrainingPayload
 type MwGeneralBffInternalSchemasCreateWayFromTrainingPayload struct {
-	TrainingId string
+	TrainingId string `json:"trainingId"`
 }
 
 type _MwGeneralBffInternalSchemasCreateWayFromTrainingPayload MwGeneralBffInternalSchemasCreateWayFromTrainingPayload

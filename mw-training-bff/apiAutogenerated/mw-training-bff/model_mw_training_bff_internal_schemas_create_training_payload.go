@@ -21,9 +21,9 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateTrainingPayload{}
 
 // MwTrainingBffInternalSchemasCreateTrainingPayload struct for MwTrainingBffInternalSchemasCreateTrainingPayload
 type MwTrainingBffInternalSchemasCreateTrainingPayload struct {
-	Description string
-	IsPrivate bool
-	Name string
+	Description string `json:"description"`
+	IsPrivate bool `json:"isPrivate"`
+	Name string `json:"name"`
 }
 
 type _MwTrainingBffInternalSchemasCreateTrainingPayload MwTrainingBffInternalSchemasCreateTrainingPayload

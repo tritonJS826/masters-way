@@ -21,10 +21,10 @@ var _ MappedNullable = &MwsurveyInternalSchemasPostSurveyLookingForMentorPayload
 
 // MwsurveyInternalSchemasPostSurveyLookingForMentorPayload struct for MwsurveyInternalSchemasPostSurveyLookingForMentorPayload
 type MwsurveyInternalSchemasPostSurveyLookingForMentorPayload struct {
-	CurrentExperience string
-	MentorDescription string
-	SkillsToLearn string
-	UserEmail string
+	CurrentExperience string `json:"currentExperience"`
+	MentorDescription string `json:"mentorDescription"`
+	SkillsToLearn string `json:"skillsToLearn"`
+	UserEmail string `json:"userEmail"`
 }
 
 type _MwsurveyInternalSchemasPostSurveyLookingForMentorPayload MwsurveyInternalSchemasPostSurveyLookingForMentorPayload

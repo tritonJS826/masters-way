@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreatePlanJobTagPayload{}
 
 // MwGeneralBffInternalSchemasCreatePlanJobTagPayload struct for MwGeneralBffInternalSchemasCreatePlanJobTagPayload
 type MwGeneralBffInternalSchemasCreatePlanJobTagPayload struct {
-	JobTagUuid string
-	PlanUuid string
+	JobTagUuid string `json:"jobTagUuid"`
+	PlanUuid string `json:"planUuid"`
 }
 
 type _MwGeneralBffInternalSchemasCreatePlanJobTagPayload MwGeneralBffInternalSchemasCreatePlanJobTagPayload

@@ -21,8 +21,8 @@ var _ MappedNullable = &MwChatInternalSchemasFindOrCreateRoomResponse{}
 
 // MwChatInternalSchemasFindOrCreateRoomResponse struct for MwChatInternalSchemasFindOrCreateRoomResponse
 type MwChatInternalSchemasFindOrCreateRoomResponse struct {
-	IsAlreadyCreated bool
-	Room MwChatInternalSchemasRoomPopulatedResponse
+	IsAlreadyCreated bool `json:"isAlreadyCreated"`
+	Room MwChatInternalSchemasRoomPopulatedResponse `json:"room"`
 }
 
 type _MwChatInternalSchemasFindOrCreateRoomResponse MwChatInternalSchemasFindOrCreateRoomResponse

@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasCreateCommentPayload{}
 
 // MwServerInternalSchemasCreateCommentPayload struct for MwServerInternalSchemasCreateCommentPayload
 type MwServerInternalSchemasCreateCommentPayload struct {
-	DayReportUuid string
-	Description string
-	OwnerUuid string
+	DayReportUuid string `json:"dayReportUuid"`
+	Description string `json:"description"`
+	OwnerUuid string `json:"ownerUuid"`
 }
 
 type _MwServerInternalSchemasCreateCommentPayload MwServerInternalSchemasCreateCommentPayload

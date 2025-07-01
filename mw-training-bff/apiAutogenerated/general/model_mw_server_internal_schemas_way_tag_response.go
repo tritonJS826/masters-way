@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasWayTagResponse{}
 
 // MwServerInternalSchemasWayTagResponse struct for MwServerInternalSchemasWayTagResponse
 type MwServerInternalSchemasWayTagResponse struct {
-	Name string
-	Uuid string
+	Name string `json:"name"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwServerInternalSchemasWayTagResponse MwServerInternalSchemasWayTagResponse

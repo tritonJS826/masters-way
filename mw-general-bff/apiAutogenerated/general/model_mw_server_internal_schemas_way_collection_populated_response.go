@@ -21,14 +21,14 @@ var _ MappedNullable = &MwServerInternalSchemasWayCollectionPopulatedResponse{}
 
 // MwServerInternalSchemasWayCollectionPopulatedResponse struct for MwServerInternalSchemasWayCollectionPopulatedResponse
 type MwServerInternalSchemasWayCollectionPopulatedResponse struct {
-	CreatedAt string
-	Name string
-	OwnerUuid string
+	CreatedAt string `json:"createdAt"`
+	Name string `json:"name"`
+	OwnerUuid string `json:"ownerUuid"`
 	// should be removed after separation custom collections and default pseudocollections
-	Type string
-	UpdatedAt string
-	Uuid string
-	Ways []MwServerInternalSchemasWayPlainResponse
+	Type string `json:"type"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	Ways []MwServerInternalSchemasWayPlainResponse `json:"ways"`
 }
 
 type _MwServerInternalSchemasWayCollectionPopulatedResponse MwServerInternalSchemasWayCollectionPopulatedResponse

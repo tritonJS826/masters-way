@@ -171,7 +171,7 @@ func (af *AuthFacade) GetGoogleAccessTokenByUserID(ctx context.Context) (*openap
 	return af.authService.GetGoogleAccessTokenByUserID(ctx)
 }
 
-func (af *AuthFacade) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasUserPopulatedResponse, error) {
+func (af *AuthFacade) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasCurrentUserResponse, error) {
 	return af.authService.GetCurrentAuthorizedUserByToken(ctx)
 }
 

@@ -19,9 +19,9 @@ var _ MappedNullable = &MwServerInternalSchemasUpdateJobTagPayload{}
 
 // MwServerInternalSchemasUpdateJobTagPayload struct for MwServerInternalSchemasUpdateJobTagPayload
 type MwServerInternalSchemasUpdateJobTagPayload struct {
-	Color *string
-	Description *string
-	Name *string
+	Color *string `json:"color,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // NewMwServerInternalSchemasUpdateJobTagPayload instantiates a new MwServerInternalSchemasUpdateJobTagPayload object

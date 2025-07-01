@@ -19,9 +19,9 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUpdateTestRequest{}
 
 // MwTrainingBffInternalSchemasUpdateTestRequest struct for MwTrainingBffInternalSchemasUpdateTestRequest
 type MwTrainingBffInternalSchemasUpdateTestRequest struct {
-	Description NullableString
-	IsPrivate NullableBool
-	Name NullableString
+	Description NullableString `json:"description,omitempty"`
+	IsPrivate NullableBool `json:"isPrivate,omitempty"`
+	Name NullableString `json:"name,omitempty"`
 }
 
 // NewMwTrainingBffInternalSchemasUpdateTestRequest instantiates a new MwTrainingBffInternalSchemasUpdateTestRequest object

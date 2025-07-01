@@ -21,10 +21,10 @@ var _ MappedNullable = &MwServerInternalSchemasGeneratedPracticeMaterial{}
 
 // MwServerInternalSchemasGeneratedPracticeMaterial struct for MwServerInternalSchemasGeneratedPracticeMaterial
 type MwServerInternalSchemasGeneratedPracticeMaterial struct {
-	Answer string
-	Name string
-	TaskDescription string
-	TimeToAnswer int32
+	Answer string `json:"answer"`
+	Name string `json:"name"`
+	TaskDescription string `json:"taskDescription"`
+	TimeToAnswer int32 `json:"timeToAnswer"`
 }
 
 type _MwServerInternalSchemasGeneratedPracticeMaterial MwServerInternalSchemasGeneratedPracticeMaterial

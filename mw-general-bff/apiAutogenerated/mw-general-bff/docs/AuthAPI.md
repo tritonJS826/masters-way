@@ -82,7 +82,7 @@ No authorization required
 
 ## GetCurrentAuthorizedUser
 
-> MwGeneralBffInternalSchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
+> MwGeneralBffInternalSchemasCurrentUserResponse GetCurrentAuthorizedUser(ctx).Execute()
 
 Get current authorized user
 
@@ -107,7 +107,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetCurrentAuthorizedUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCurrentAuthorizedUser`: MwGeneralBffInternalSchemasUserPopulatedResponse
+	// response from `GetCurrentAuthorizedUser`: MwGeneralBffInternalSchemasCurrentUserResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetCurrentAuthorizedUser`: %v\n", resp)
 }
 ```
@@ -123,7 +123,7 @@ Other parameters are passed through a pointer to a apiGetCurrentAuthorizedUserRe
 
 ### Return type
 
-[**MwGeneralBffInternalSchemasUserPopulatedResponse**](MwGeneralBffInternalSchemasUserPopulatedResponse.md)
+[**MwGeneralBffInternalSchemasCurrentUserResponse**](MwGeneralBffInternalSchemasCurrentUserResponse.md)
 
 ### Authorization
 

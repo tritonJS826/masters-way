@@ -21,11 +21,11 @@ var _ MappedNullable = &MwChatBffInternalSchemasUploadFileResponse{}
 
 // MwChatBffInternalSchemasUploadFileResponse struct for MwChatBffInternalSchemasUploadFileResponse
 type MwChatBffInternalSchemasUploadFileResponse struct {
-	Id string
-	Name string
-	OwnerId string
-	PreviewUrl string
-	SrcUrl string
+	Id string `json:"id"`
+	Name string `json:"name"`
+	OwnerId string `json:"ownerId"`
+	PreviewUrl string `json:"previewUrl"`
+	SrcUrl string `json:"srcUrl"`
 }
 
 type _MwChatBffInternalSchemasUploadFileResponse MwChatBffInternalSchemasUploadFileResponse

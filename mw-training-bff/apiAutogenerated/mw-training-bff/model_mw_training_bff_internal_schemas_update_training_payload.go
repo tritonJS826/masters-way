@@ -19,9 +19,9 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUpdateTrainingPayload{}
 
 // MwTrainingBffInternalSchemasUpdateTrainingPayload struct for MwTrainingBffInternalSchemasUpdateTrainingPayload
 type MwTrainingBffInternalSchemasUpdateTrainingPayload struct {
-	Description NullableString
-	IsPrivate NullableBool
-	Name NullableString
+	Description NullableString `json:"description,omitempty"`
+	IsPrivate NullableBool `json:"isPrivate,omitempty"`
+	Name NullableString `json:"name,omitempty"`
 }
 
 // NewMwTrainingBffInternalSchemasUpdateTrainingPayload instantiates a new MwTrainingBffInternalSchemasUpdateTrainingPayload object

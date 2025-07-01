@@ -21,9 +21,9 @@ var _ MappedNullable = &MwNotificationBffInternalSchemasGetNotificationListRespo
 
 // MwNotificationBffInternalSchemasGetNotificationListResponse struct for MwNotificationBffInternalSchemasGetNotificationListResponse
 type MwNotificationBffInternalSchemasGetNotificationListResponse struct {
-	Notifications []MwNotificationBffInternalSchemasNotificationResponse
-	TotalSize int32
-	UnreadSize int32
+	Notifications []MwNotificationBffInternalSchemasNotificationResponse `json:"notifications"`
+	TotalSize int32 `json:"totalSize"`
+	UnreadSize int32 `json:"unreadSize"`
 }
 
 type _MwNotificationBffInternalSchemasGetNotificationListResponse MwNotificationBffInternalSchemasGetNotificationListResponse

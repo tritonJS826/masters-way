@@ -19,11 +19,11 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUpdateWayPayload{}
 
 // MwGeneralBffInternalSchemasUpdateWayPayload struct for MwGeneralBffInternalSchemasUpdateWayPayload
 type MwGeneralBffInternalSchemasUpdateWayPayload struct {
-	EstimationTime *int32
-	GoalDescription *string
-	IsCompleted *bool
-	IsPrivate *bool
-	Name *string
+	EstimationTime *int32 `json:"estimationTime,omitempty"`
+	GoalDescription *string `json:"goalDescription,omitempty"`
+	IsCompleted *bool `json:"isCompleted,omitempty"`
+	IsPrivate *bool `json:"isPrivate,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // NewMwGeneralBffInternalSchemasUpdateWayPayload instantiates a new MwGeneralBffInternalSchemasUpdateWayPayload object

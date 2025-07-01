@@ -21,8 +21,8 @@ var _ MappedNullable = &MwChatBffInternalSchemasCreateMessagePayload{}
 
 // MwChatBffInternalSchemasCreateMessagePayload struct for MwChatBffInternalSchemasCreateMessagePayload
 type MwChatBffInternalSchemasCreateMessagePayload struct {
-	Message string
-	RoomId string
+	Message string `json:"message"`
+	RoomId string `json:"roomId"`
 }
 
 type _MwChatBffInternalSchemasCreateMessagePayload MwChatBffInternalSchemasCreateMessagePayload

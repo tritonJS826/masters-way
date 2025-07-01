@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateProjectPayload{}
 
 // MwGeneralBffInternalSchemasCreateProjectPayload struct for MwGeneralBffInternalSchemasCreateProjectPayload
 type MwGeneralBffInternalSchemasCreateProjectPayload struct {
-	Name string
-	OwnerId string
+	Name string `json:"name"`
+	OwnerId string `json:"ownerId"`
 }
 
 type _MwGeneralBffInternalSchemasCreateProjectPayload MwGeneralBffInternalSchemasCreateProjectPayload

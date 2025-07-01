@@ -21,8 +21,8 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasCreateTrainingTestRequest{}
 
 // MwTrainingBffInternalSchemasCreateTrainingTestRequest struct for MwTrainingBffInternalSchemasCreateTrainingTestRequest
 type MwTrainingBffInternalSchemasCreateTrainingTestRequest struct {
-	TestUuid string
-	TrainingUuid string
+	TestUuid string `json:"testUuid"`
+	TrainingUuid string `json:"trainingUuid"`
 }
 
 type _MwTrainingBffInternalSchemasCreateTrainingTestRequest MwTrainingBffInternalSchemasCreateTrainingTestRequest

@@ -21,8 +21,8 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasTimeSpentByDayPoint{}
 
 // MwGeneralBffInternalSchemasTimeSpentByDayPoint struct for MwGeneralBffInternalSchemasTimeSpentByDayPoint
 type MwGeneralBffInternalSchemasTimeSpentByDayPoint struct {
-	Date string
-	Value int32
+	Date string `json:"date"`
+	Value int32 `json:"value"`
 }
 
 type _MwGeneralBffInternalSchemasTimeSpentByDayPoint MwGeneralBffInternalSchemasTimeSpentByDayPoint

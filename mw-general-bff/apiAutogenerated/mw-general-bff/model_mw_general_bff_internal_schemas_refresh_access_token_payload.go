@@ -21,7 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasRefreshAccessTokenPayload{}
 
 // MwGeneralBffInternalSchemasRefreshAccessTokenPayload struct for MwGeneralBffInternalSchemasRefreshAccessTokenPayload
 type MwGeneralBffInternalSchemasRefreshAccessTokenPayload struct {
-	RefreshToken string
+	RefreshToken string `json:"refreshToken"`
 }
 
 type _MwGeneralBffInternalSchemasRefreshAccessTokenPayload MwGeneralBffInternalSchemasRefreshAccessTokenPayload

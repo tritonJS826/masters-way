@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasCreateProjectPayload{}
 
 // MwServerInternalSchemasCreateProjectPayload struct for MwServerInternalSchemasCreateProjectPayload
 type MwServerInternalSchemasCreateProjectPayload struct {
-	Name string
-	OwnerId string
+	Name string `json:"name"`
+	OwnerId string `json:"ownerId"`
 }
 
 type _MwServerInternalSchemasCreateProjectPayload MwServerInternalSchemasCreateProjectPayload

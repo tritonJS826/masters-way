@@ -21,14 +21,14 @@ var _ MappedNullable = &MwsurveyInternalSchemasPostSurveyUserIntroPayload{}
 
 // MwsurveyInternalSchemasPostSurveyUserIntroPayload struct for MwsurveyInternalSchemasPostSurveyUserIntroPayload
 type MwsurveyInternalSchemasPostSurveyUserIntroPayload struct {
-	DeviceId string
-	PreferredInterfaceLanguage string
-	PromoCode string
-	Role string
-	Source string
-	StudentExperience string
-	StudentGoals string
-	WhyRegistered string
+	DeviceId string `json:"deviceId"`
+	PreferredInterfaceLanguage string `json:"preferredInterfaceLanguage"`
+	PromoCode string `json:"promoCode"`
+	Role string `json:"role"`
+	Source string `json:"source"`
+	StudentExperience string `json:"studentExperience"`
+	StudentGoals string `json:"studentGoals"`
+	WhyRegistered string `json:"whyRegistered"`
 }
 
 type _MwsurveyInternalSchemasPostSurveyUserIntroPayload MwsurveyInternalSchemasPostSurveyUserIntroPayload

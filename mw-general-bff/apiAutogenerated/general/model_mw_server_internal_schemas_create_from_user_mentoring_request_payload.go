@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasCreateFromUserMentoringRequestPay
 
 // MwServerInternalSchemasCreateFromUserMentoringRequestPayload struct for MwServerInternalSchemasCreateFromUserMentoringRequestPayload
 type MwServerInternalSchemasCreateFromUserMentoringRequestPayload struct {
-	UserUuid string
-	WayUuid string
+	UserUuid string `json:"userUuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _MwServerInternalSchemasCreateFromUserMentoringRequestPayload MwServerInternalSchemasCreateFromUserMentoringRequestPayload

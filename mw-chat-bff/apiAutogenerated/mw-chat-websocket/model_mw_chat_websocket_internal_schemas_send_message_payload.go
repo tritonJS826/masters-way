@@ -21,8 +21,8 @@ var _ MappedNullable = &MwChatWebsocketInternalSchemasSendMessagePayload{}
 
 // MwChatWebsocketInternalSchemasSendMessagePayload struct for MwChatWebsocketInternalSchemasSendMessagePayload
 type MwChatWebsocketInternalSchemasSendMessagePayload struct {
-	Message MwChatWebsocketInternalSchemasMessageResponse
-	Users []string
+	Message MwChatWebsocketInternalSchemasMessageResponse `json:"message"`
+	Users []string `json:"users"`
 }
 
 type _MwChatWebsocketInternalSchemasSendMessagePayload MwChatWebsocketInternalSchemasSendMessagePayload

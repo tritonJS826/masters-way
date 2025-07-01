@@ -21,8 +21,8 @@ var _ MappedNullable = &MwChatInternalSchemasMessageReader{}
 
 // MwChatInternalSchemasMessageReader struct for MwChatInternalSchemasMessageReader
 type MwChatInternalSchemasMessageReader struct {
-	ReadDate string
-	UserId string
+	ReadDate string `json:"readDate"`
+	UserId string `json:"userId"`
 }
 
 type _MwChatInternalSchemasMessageReader MwChatInternalSchemasMessageReader

@@ -21,9 +21,9 @@ var _ MappedNullable = &MwServerInternalSchemasWayStatistics{}
 
 // MwServerInternalSchemasWayStatistics struct for MwServerInternalSchemasWayStatistics
 type MwServerInternalSchemasWayStatistics struct {
-	LabelStatistics MwServerInternalSchemasLabelStatistics
-	OverallInformation MwServerInternalSchemasOverallInformation
-	TimeSpentByDayChart []MwServerInternalSchemasTimeSpentByDayPoint
+	LabelStatistics MwServerInternalSchemasLabelStatistics `json:"labelStatistics"`
+	OverallInformation MwServerInternalSchemasOverallInformation `json:"overallInformation"`
+	TimeSpentByDayChart []MwServerInternalSchemasTimeSpentByDayPoint `json:"timeSpentByDayChart"`
 }
 
 type _MwServerInternalSchemasWayStatistics MwServerInternalSchemasWayStatistics

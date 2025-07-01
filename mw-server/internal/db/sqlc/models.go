@@ -14,9 +14,10 @@ import (
 type PricingPlanType string
 
 const (
-	PricingPlanTypeFree    PricingPlanType = "free"
-	PricingPlanTypeStarter PricingPlanType = "starter"
-	PricingPlanTypePro     PricingPlanType = "pro"
+	PricingPlanTypeFree      PricingPlanType = "free"
+	PricingPlanTypeAiStarter PricingPlanType = "ai-starter"
+	PricingPlanTypeStarter   PricingPlanType = "starter"
+	PricingPlanTypePro       PricingPlanType = "pro"
 )
 
 func (e *PricingPlanType) Scan(src interface{}) error {
@@ -164,6 +165,7 @@ type Problem struct {
 type ProfileSetting struct {
 	Uuid           pgtype.UUID      `json:"uuid"`
 	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	Coins          int32            `json:"coins"`
 	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
 	CreatedAt      pgtype.Timestamp `json:"created_at"`
 	UpdatedAt      pgtype.Timestamp `json:"updated_at"`

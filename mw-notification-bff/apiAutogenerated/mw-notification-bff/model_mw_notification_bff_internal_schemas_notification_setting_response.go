@@ -21,11 +21,11 @@ var _ MappedNullable = &MwNotificationBffInternalSchemasNotificationSettingRespo
 
 // MwNotificationBffInternalSchemasNotificationSettingResponse struct for MwNotificationBffInternalSchemasNotificationSettingResponse
 type MwNotificationBffInternalSchemasNotificationSettingResponse struct {
-	Channel string
-	IsEnabled bool
-	Nature string
-	UserUuid string
-	Uuid string
+	Channel string `json:"channel"`
+	IsEnabled bool `json:"isEnabled"`
+	Nature string `json:"nature"`
+	UserUuid string `json:"userUuid"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwNotificationBffInternalSchemasNotificationSettingResponse MwNotificationBffInternalSchemasNotificationSettingResponse

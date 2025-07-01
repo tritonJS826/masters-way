@@ -21,12 +21,12 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasMetricResponse{}
 
 // MwGeneralBffInternalSchemasMetricResponse struct for MwGeneralBffInternalSchemasMetricResponse
 type MwGeneralBffInternalSchemasMetricResponse struct {
-	Description string
-	DoneDate NullableString
-	EstimationTime int32
-	IsDone bool
-	ParentUuid NullableString
-	Uuid string
+	Description string `json:"description"`
+	DoneDate NullableString `json:"doneDate"`
+	EstimationTime int32 `json:"estimationTime"`
+	IsDone bool `json:"isDone"`
+	ParentUuid NullableString `json:"parentUuid"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasMetricResponse MwGeneralBffInternalSchemasMetricResponse

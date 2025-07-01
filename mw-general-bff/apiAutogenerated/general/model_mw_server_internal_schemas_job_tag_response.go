@@ -21,10 +21,10 @@ var _ MappedNullable = &MwServerInternalSchemasJobTagResponse{}
 
 // MwServerInternalSchemasJobTagResponse struct for MwServerInternalSchemasJobTagResponse
 type MwServerInternalSchemasJobTagResponse struct {
-	Color string
-	Description string
-	Name string
-	Uuid string
+	Color string `json:"color"`
+	Description string `json:"description"`
+	Name string `json:"name"`
+	Uuid string `json:"uuid"`
 }
 
 type _MwServerInternalSchemasJobTagResponse MwServerInternalSchemasJobTagResponse

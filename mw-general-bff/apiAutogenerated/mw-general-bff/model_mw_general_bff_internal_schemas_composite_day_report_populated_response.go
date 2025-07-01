@@ -21,17 +21,17 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCompositeDayReportPopulatedRe
 
 // MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse struct for MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse
 type MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse struct {
-	Comments []MwGeneralBffInternalSchemasCommentPopulatedResponse
-	CompositionParticipants []MwGeneralBffInternalSchemasDayReportsCompositionParticipants
+	Comments []MwGeneralBffInternalSchemasCommentPopulatedResponse `json:"comments"`
+	CompositionParticipants []MwGeneralBffInternalSchemasDayReportsCompositionParticipants `json:"compositionParticipants"`
 	// Calculated by - just date
-	CreatedAt string
-	JobsDone []MwGeneralBffInternalSchemasJobDonePopulatedResponse
-	Plans []MwGeneralBffInternalSchemasPlanPopulatedResponse
-	Problems []MwGeneralBffInternalSchemasProblemPopulatedResponse
+	CreatedAt string `json:"createdAt"`
+	JobsDone []MwGeneralBffInternalSchemasJobDonePopulatedResponse `json:"jobsDone"`
+	Plans []MwGeneralBffInternalSchemasPlanPopulatedResponse `json:"plans"`
+	Problems []MwGeneralBffInternalSchemasProblemPopulatedResponse `json:"problems"`
 	// Calculated by - just last date
-	UpdatedAt string
+	UpdatedAt string `json:"updatedAt"`
 	// Always generated
-	Uuid string
+	Uuid string `json:"uuid"`
 }
 
 type _MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse
