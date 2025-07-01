@@ -140,19 +140,16 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
    * Save all selected topics
    */
   const applyAllSelectedTopicsPreview = async () => {
-    const checkedGeneratedTopicsPreview = generatedTopicsPreview.filter(topicPreview => topicPreview.isChecked);
+    const checkedGeneratedTopicsNames = generatedTopicsPreview
+      .filter(topicPreview => topicPreview.isChecked)
+      .map((topicPreview) => topicPreview.title);
 
-    const updateTopicsPromises = checkedGeneratedTopicsPreview.map(async (topicPreview) => {
-      const newTopic = await TopicDAL.createTopic({
-        trainingId: props.trainingId,
-        topicName: topicPreview.title,
-        topicParentId: props.topicParentUuid,
-      });
-
-      return newTopic;
+    const topics = await TopicDAL.createTopics({
+      trainingId: props.trainingId,
+      topicsParentId: props.topicParentUuid,
+      topicsName: checkedGeneratedTopicsNames,
     });
 
-    const topics = await Promise.all(updateTopicsPromises);
     topics.forEach(props.addTopic);
   };
 

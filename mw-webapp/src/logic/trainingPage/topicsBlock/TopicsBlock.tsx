@@ -3,7 +3,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CreateTopicParams, TopicDAL} from "src/dataAccessLogic/TopicDAL";
+import {CreateTopicsParams, TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicChildrenList} from "src/logic/trainingPage/topicsBlock/topicList/TopicList";
 import {TopicsAiModal} from "src/logic/trainingPage/topicsBlock/TopicsAiModal";
@@ -52,13 +52,14 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
   /**
    * Add topic
    */
-  const addTopic = async (params: CreateTopicParams) => {
-    const newTopic = await TopicDAL.createTopic({
+  const addTopic = async (params: CreateTopicsParams) => {
+    const newTopic = await TopicDAL.createTopics({
       trainingId: params.trainingId,
-      topicParentId: params.topicParentId,
-      topicName: params.topicName,
+      topicsParentId: params.topicsParentId,
+      topicsName: params.topicsName,
     });
-    props.addTopic(newTopic);
+
+    newTopic.forEach(props.addTopic);
   };
 
   /**
@@ -75,10 +76,10 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         level={0}
         topics={props.topics}
         isEditable={props.isEditable}
-        addTopic={(params: CreateTopicParams) => addTopic({
+        addTopic={(params: CreateTopicsParams) => addTopic({
           trainingId: params.trainingId,
-          topicName: params.topicName,
-          topicParentId: params.topicParentId,
+          topicsName: [""],
+          topicsParentId: params.topicsParentId,
         })}
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
       />
@@ -86,8 +87,10 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         <HorizontalContainer className={styles.generateTopicButtons}>
           <Button
             value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
-            // ErrorClickMessage={LanguageService.error.onClickError[language]}
-            onClick={() => addTopic({trainingId: props.trainingUuid})}
+            onClick={() => addTopic({
+              trainingId: props.trainingUuid,
+              topicsName: [""],
+            })}
           />
           <Modal
             trigger={

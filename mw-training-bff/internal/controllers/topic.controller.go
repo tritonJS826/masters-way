@@ -37,19 +37,19 @@ func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 
 }
 
-// @Summary Create topic
+// @Summary Create topics (bunch create)
 // @Description
 // @Tags topic
-// @ID create-topic
+// @ID create-topics
 // @Accept json
 // @Produce json
 // @Param trainingId path string true "training id"
-// @Param topicParentId query string false "Topic parent id"
-// @Param request body schemas.CreateTopicPayload true "query params"
-// @Success 200 {object} schemas.TopicPreview
+// @Param topicsParentId query string false "Topics parent id"
+// @Param request body schemas.CreateTopicsPayload true "query params"
+// @Success 200 {object} schemas.TopicsPreview
 // @Router /topics/{trainingId} [post]
-func (tc *TopicController) CreateTopic(ctx *gin.Context) {
-	var payload *schemas.CreateTopicPayload
+func (tc *TopicController) CreateTopics(ctx *gin.Context) {
+	var payload *schemas.CreateTopicsPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
@@ -65,23 +65,27 @@ func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 		topicParentId = &topicParentIdRaw
 	}
 
-	var topicName string
-	if payload.TopicName != nil {
-		topicName = *payload.TopicName
-	} else {
-		topicName = ""
+	var topicNames []string
+	for _, topic := range payload.TopicsPayload {
+		var topicName string
+		if topic.TopicName != nil {
+			topicName = *topic.TopicName
+		} else {
+			topicName = ""
+		}
+		topicNames = append(topicNames, topicName)
 	}
 
-	args := &services.CreateTopicParams{
+	args := &services.CreateTopicsParams{
 		TrainingUuid:    trainingId,
 		ParentTopicUuid: topicParentId,
-		Name:            topicName,
+		Names:           topicNames,
 	}
 
-	topic, err := tc.topicService.CreateTopic(ctx, args)
+	topics, err := tc.topicService.CreateTopics(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, topic)
+	ctx.JSON(http.StatusOK, topics)
 }
 
 // @Summary Update topic

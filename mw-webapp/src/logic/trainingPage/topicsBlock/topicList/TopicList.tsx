@@ -8,7 +8,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CreateTopicParams} from "src/dataAccessLogic/TopicDAL";
+import {CreateTopicsParams} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicsAiModal} from "src/logic/trainingPage/topicsBlock/TopicsAiModal";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
@@ -45,7 +45,7 @@ interface TopicChildrenListProps {
   /**
    * Add nested topic
    */
-  addTopic: (params: CreateTopicParams) => void;
+  addTopic: (params: CreateTopicsParams) => void;
 
 }
 
@@ -103,7 +103,8 @@ export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
                 onClick={() => {
                   props.addTopic({
                     trainingId: childTopic.trainingUuid,
-                    topicParentId: childTopic.uuid,
+                    topicsParentId: childTopic.uuid,
+                    topicsName: [""],
                   });
                 }}
               />
@@ -125,8 +126,8 @@ export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
                   <TopicsAiModal
                     addTopic={(topic: TopicPreview) => props.addTopic({
                       trainingId: topic.trainingUuid,
-                      topicParentId: childTopic.uuid,
-                      topicName: topic.name,
+                      topicsParentId: childTopic.uuid,
+                      topicsName: [topic.name],
                     })}
                     topicParentUuid={childTopic.uuid}
                     trainingId={childTopic.trainingUuid}

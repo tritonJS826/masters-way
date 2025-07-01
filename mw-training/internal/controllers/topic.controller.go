@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	db "mw-training/internal/db/sqlc"
 	services "mw-training/internal/services"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -21,32 +23,43 @@ func NewTopicController(topicService *services.TopicService) *TopicController {
 	return &TopicController{topicService: topicService}
 }
 
-func (tc *TopicController) CreateTopic(ctx context.Context, in *pb.CreateTopicRequest) (*pb.TopicPreview, error) {
-	trainingUuid := in.GetTrainingUuid()
-	name := in.GetName()
-	topicOrder := in.GetTopicOrder()
-	parentTopicUuidRaw := in.ParentTopicUuid
+func (tc *TopicController) CreateTopics(ctx context.Context, in *pb.CreateTopicsRequest) (*pb.TopicsPreview, error) {
+	createTopicsRequest := in.GetCreateTopicRequest()
 
-	var parentTopicUuid pgtype.UUID
-	if parentTopicUuidRaw != nil {
-		parentTopicUuid = pgtype.UUID{Bytes: uuid.MustParse(*parentTopicUuidRaw), Valid: true}
-	} else {
-		parentTopicUuid = pgtype.UUID{Valid: false}
+	topics := lo.Map(createTopicsRequest, func(topic *pb.CreateTopicRequest, _ int) *pb.TopicPreview {
+		name := topic.GetName()
+		trainingUuid := topic.GetTrainingUuid()
+		topicOrder := topic.GetTopicOrder()
+		parentTopicUuidRaw := topic.ParentTopicUuid
+
+		var parentTopicUuid pgtype.UUID
+		if parentTopicUuidRaw != nil {
+			parentTopicUuid = pgtype.UUID{Bytes: uuid.MustParse(*parentTopicUuidRaw), Valid: true}
+		} else {
+			parentTopicUuid = pgtype.UUID{Valid: false}
+		}
+
+		arg := db.CreateTopicInTrainingParams{
+			Name:         pgtype.Text{String: name, Valid: true},
+			TrainingUuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
+			TopicOrder:   topicOrder,
+			Parent:       parentTopicUuid,
+		}
+
+		topicResponse, err := tc.topicService.CreateTopic(ctx, arg)
+		if err != nil {
+			// TODO: handle error
+			fmt.Println("Ups, cant create topic!! " + err.Error())
+		}
+
+		return topicResponse
+	})
+
+	response := &pb.TopicsPreview{
+		TopicsPreview: topics,
 	}
 
-	arg := db.CreateTopicInTrainingParams{
-		TrainingUuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
-		Name:         pgtype.Text{String: name, Valid: true},
-		TopicOrder:   topicOrder,
-		Parent:       parentTopicUuid,
-	}
-
-	topic, err := tc.topicService.CreateTopic(ctx, arg)
-	if err != nil {
-		return nil, err
-	}
-
-	return topic, nil
+	return response, nil
 }
 
 func (tc *TopicController) GetTopicById(ctx context.Context, in *pb.GetTopicByIdRequest) (*pb.Topic, error) {

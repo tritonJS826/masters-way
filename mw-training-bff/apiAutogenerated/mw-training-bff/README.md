@@ -103,7 +103,7 @@ Class | Method | HTTP request | Description
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 *TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
 *TheoryMaterialAPI* | [**UpdateTheoryMaterial**](docs/TheoryMaterialAPI.md#updatetheorymaterial) | **Patch** /theoryMaterials/{theoryMaterialId} | Update theory material
-*TopicAPI* | [**CreateTopic**](docs/TopicAPI.md#createtopic) | **Post** /topics/{trainingId} | Create topic
+*TopicAPI* | [**CreateTopics**](docs/TopicAPI.md#createtopics) | **Post** /topics/{trainingId} | Create topics (bunch create)
 *TopicAPI* | [**DeleteTopic**](docs/TopicAPI.md#deletetopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
 *TopicAPI* | [**GetTopic**](docs/TopicAPI.md#gettopic) | **Get** /topics/{topicId} | Get topic by id
 *TopicAPI* | [**UpdateTopic**](docs/TopicAPI.md#updatetopic) | **Patch** /topics/{topicId} | Update topic
@@ -133,6 +133,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasCreateTestRequest](docs/MwTrainingBffInternalSchemasCreateTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasCreateTopicPayload](docs/MwTrainingBffInternalSchemasCreateTopicPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTopicsPayload](docs/MwTrainingBffInternalSchemasCreateTopicsPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingPayload](docs/MwTrainingBffInternalSchemasCreateTrainingPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTestRequest](docs/MwTrainingBffInternalSchemasCreateTrainingTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload](docs/MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload.md)
@@ -151,6 +152,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)
  - [MwTrainingBffInternalSchemasTopicPreview](docs/MwTrainingBffInternalSchemasTopicPreview.md)
  - [MwTrainingBffInternalSchemasTopicTreeNode](docs/MwTrainingBffInternalSchemasTopicTreeNode.md)
+ - [MwTrainingBffInternalSchemasTopicsPreview](docs/MwTrainingBffInternalSchemasTopicsPreview.md)
  - [MwTrainingBffInternalSchemasTraining](docs/MwTrainingBffInternalSchemasTraining.md)
  - [MwTrainingBffInternalSchemasTrainingList](docs/MwTrainingBffInternalSchemasTrainingList.md)
  - [MwTrainingBffInternalSchemasTrainingPreview](docs/MwTrainingBffInternalSchemasTrainingPreview.md)

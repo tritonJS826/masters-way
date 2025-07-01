@@ -3,6 +3,10 @@ package schemas
 type CreateTopicPayload struct {
 	TopicName *string `json:"name"`
 }
+
+type CreateTopicsPayload struct {
+	TopicsPayload []CreateTopicPayload `json:"topicsPayload" validate:"required"`
+}
 type UpdateTopicPayload struct {
 	Name string `json:"name" validate:"required"`
 }
@@ -16,6 +20,10 @@ type TopicPreview struct {
 	PracticeMaterialAmount int32   `json:"practiceMaterialAmount" validate:"required"`
 	ParentUuid             *string `json:"parentUuid" validate:"required" extensions:"x-nullable"`
 	CreatedAt              string  `json:"createdAt" validate:"required"`
+}
+
+type TopicsPreview struct {
+	Topics []*TopicPreview `json:"topics" validate:"required"`
 }
 
 type Topic struct {

@@ -6,9 +6,9 @@ import {TopicService} from "src/service/TopicService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
- * Create topic params
+ * Create topics params
  */
-export interface CreateTopicParams {
+export interface CreateTopicsParams {
 
   /**
    * Training uuid
@@ -18,12 +18,12 @@ export interface CreateTopicParams {
   /**
    * Topic's parent Id
    */
-  topicParentId?: string;
+  topicsParentId?: string;
 
   /**
-   * Topic's name
+   * Topic's names
    */
-  topicName?: string;
+  topicsName: string[];
 }
 
 /**
@@ -50,15 +50,16 @@ export class TopicDAL {
   /**
    * Create topic
    */
-  public static async createTopic(params: CreateTopicParams): Promise<TopicPreview> {
-    const topicPreviewDTO = await TopicService.createTopic({
-      request: {name: params.topicName},
+  public static async createTopics(params: CreateTopicsParams): Promise<TopicPreview[]> {
+    const topicsNames = params.topicsName.map((topicName) => ({name: topicName}));
+    const topicsPreviewDTO = await TopicService.createTopics({
+      request: {topicsPayload: topicsNames},
       trainingId: params.trainingId,
-      topicParentId: params.topicParentId,
+      topicsParentId: params.topicsParentId,
     });
-    const topicPreview = topicPreviewDTOToTopicPreview(topicPreviewDTO);
+    const topicsPreview = topicsPreviewDTO.topics.map(topicPreviewDTOToTopicPreview);
 
-    return topicPreview;
+    return topicsPreview;
   }
 
   /**

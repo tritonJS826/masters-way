@@ -17,7 +17,7 @@ func newTopicRouter(topicController *controllers.TopicController) *topicRouter {
 func (tr *topicRouter) setTopicRoutes(rg *gin.RouterGroup) {
 	topics := rg.Group("/topics")
 	topics.GET(":topicId", tr.topicController.GetTopicById)
-	topics.POST(":trainingId", tr.topicController.CreateTopic)
+	topics.POST(":trainingId", tr.topicController.CreateTopics)
 	topics.PATCH(":topicId", tr.topicController.UpdateTopic)
 	topics.DELETE(":topicId", tr.topicController.DeleteTopic)
 }
