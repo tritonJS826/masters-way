@@ -1,10 +1,10 @@
-import pdfMake from "pdfmake/build/pdfmake";
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {ResultsParams} from "src/logic/resultTestPage/ResultTestPageStore";
 import {QuestionResultProps} from "src/model/businessModel/QuestionResult";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 import {DateUtils} from "src/utils/DateUtils";
+import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -13,15 +13,6 @@ const MARGIN_LARGE = 20;
 const RESULT = {
   RIGHT: "Right",
   WRONG: "Wrong",
-};
-
-pdfMake.fonts = {
-  Roboto: {
-    normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Regular.ttf",
-    bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Medium.ttf",
-    italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Italic.ttf",
-    bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-MediumItalic.ttf",
-  },
 };
 
 /**
@@ -112,9 +103,10 @@ const getQuestionsResults = (results: QuestionResultProps[]): Content[] => {
 };
 
 /**
- * Download result test to pdf
+ * Pdfmake instance
  */
 export const downloadResultTestPdf = async (resultTest: ResultsParams) => {
+  const pdfMake = await pdfMakeLazyLoader();
   const completedAtDefinition = getCompletedAt(resultTest.sessionResult.createdAt);
   const descriptionDefinition = getDescription(resultTest.sessionResult.resultDescription);
   const questionsResultsDefinition = getQuestionsResults(resultTest.questionResults);

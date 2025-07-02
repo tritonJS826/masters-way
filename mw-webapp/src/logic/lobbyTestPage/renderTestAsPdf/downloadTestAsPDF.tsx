@@ -1,22 +1,13 @@
-import pdfMake from "pdfmake/build/pdfmake";
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {Question, Test} from "src/model/businessModel/Test";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
+import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
 const MARGIN_LARGE = 20;
 
 const QUESTION_INDEX_STEP = 1;
-
-pdfMake.fonts = {
-  Roboto: {
-    normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Regular.ttf",
-    bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Medium.ttf",
-    italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Italic.ttf",
-    bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-MediumItalic.ttf",
-  },
-};
 
 /**
  * Get test name
@@ -86,7 +77,8 @@ const getQuestions = (questions: Question[]): Content[] => {
 /**
  * Download test as pdf
  */
-export const downloadTestAsPDF = (test: Test, timeToTest: number) => {
+export const downloadTestAsPDF = async (test: Test, timeToTest: number) => {
+  const pdfMake = await pdfMakeLazyLoader();
   const descriptionDefinition = getDescription(test.description);
   const questionsDefinition = getQuestions(test.questions);
   const testNameDefinition = getTestName(test);
