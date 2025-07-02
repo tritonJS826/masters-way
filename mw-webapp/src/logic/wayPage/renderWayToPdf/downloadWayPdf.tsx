@@ -1,4 +1,3 @@
-import pdfMake from "pdfmake/build/pdfmake";
 import {Content, ContentColumns, ContentStack, ContentText, ContentUnorderedList, TDocumentDefinitions} from "pdfmake/interfaces";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -7,6 +6,7 @@ import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
+import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -21,15 +21,6 @@ const CHECKED_SVG =
   "<rect x=\"1\" y=\"1\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"black\"/>" +
   "<polyline points=\"3,7 6,10 9,3\" style=\"fill:none;stroke:black;stroke-width:2\"/>" +
   "</svg>";
-
-pdfMake.fonts = {
-  Roboto: {
-    normal: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Regular.ttf",
-    bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Medium.ttf",
-    italics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-Italic.ttf",
-    bolditalics: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.9/fonts/Roboto/Roboto-MediumItalic.ttf",
-  },
-};
 
 const REPORTS_PER_PAGE = 7;
 const DEFAULT_DAY_REPORTS_PAGINATION_VALUE = 1;
@@ -365,6 +356,7 @@ const getReports = async (way: Way): Promise<Content[]> => {
  * Download way as pdf
  */
 export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTriple) => {
+  const pdfMake = await pdfMakeLazyLoader();
   const headerDefinition = getHeader(way);
   const titleDefinition = getTitle(way.name);
   const ownerDefinition = getOwner(way.owner.name);
