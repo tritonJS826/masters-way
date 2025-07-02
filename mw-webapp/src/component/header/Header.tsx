@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
@@ -25,7 +26,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
-import {User} from "src/model/businessModel/User";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/header/Header.module.scss";
@@ -51,7 +52,7 @@ interface HeaderProps {
   /**
    * Current user
    */
-  user: User | null;
+  user: CurrentUser | null;
 
   /**
    * Clear user
@@ -104,6 +105,7 @@ interface HeaderProps {
  * Header component
  */
 export const Header = observer((props: HeaderProps) => {
+  const navigate = useNavigate();
   const menuItems: (MenuItemLink)[] = [
     {
       path: pages.home.getPath({}),
@@ -287,9 +289,9 @@ export const Header = observer((props: HeaderProps) => {
                 : styles.offlineIndicator)}
             />
             {!!props.unreadNotificationsAmount &&
-              <HorizontalContainer className={styles.unreadNotificationAmount}>
-                {props.unreadNotificationsAmount}
-              </HorizontalContainer>
+            <HorizontalContainer className={styles.unreadNotificationAmount}>
+              {props.unreadNotificationsAmount}
+            </HorizontalContainer>
             }
           </HorizontalContainer>
         }
@@ -319,6 +321,29 @@ export const Header = observer((props: HeaderProps) => {
             className={styles.selectLanguage}
             cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
           />
+          {props.user &&
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={LanguageService.header.coinsButtonTooltip[props.language]}
+          >
+            <HorizontalContainer className={styles.coinsContainer}>
+              <Button
+                onClick={() => navigate(pages.settings.getPath({}))}
+                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                className={styles.coinsButton}
+                value={<>
+                  <Icon
+                    name="HexagonIcon"
+                    size={IconSize.BIG}
+                  />
+                </>}
+              />
+              <HorizontalContainer className={styles.coinsAmount}>
+                {props.user.profileSetting.coins}
+              </HorizontalContainer>
+            </HorizontalContainer>
+          </Tooltip>
+          }
         </HorizontalContainer>
         <HorizontalContainer className={styles.headerSidebarBlock}>
           {props.user ?

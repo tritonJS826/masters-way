@@ -24,6 +24,7 @@ import {GiftIcon} from "src/assets/icons/GiftIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GooglePlayIcon} from "src/assets/icons/GooglePlayIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
+import {HexagonIcon} from "src/assets/icons/HexagonIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
 import {InfoIcon} from "src/assets/icons/InfoIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
@@ -323,6 +324,11 @@ export const IconDictionary = {
    * Test icon
    */
   TestIcon: (params: IconProps) => <TestIcon {...params} />,
+
+  /**
+   * Hexagon icon
+   */
+  HexagonIcon: (params: IconProps) => <HexagonIcon {...params} />,
 };
 
 /**

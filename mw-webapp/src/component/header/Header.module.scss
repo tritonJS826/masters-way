@@ -59,6 +59,19 @@ $iconSize: 32px;
   }
 }
 
+.coinsButton {
+  z-index: $mastercoinIconZIndex;
+  font-size: $fontSizeSmall;
+
+  &:hover:enabled {
+    background-color: var(--secondaryBgBtnColor);
+
+    svg {
+      stroke: var(--generalPrimaryColor);
+    }
+  }
+}
+
 .active {
   background-color: var(--secondaryBgColor);
 }
@@ -96,12 +109,30 @@ $iconSize: 32px;
   font-size: $fontSizeSmall;
 }
 
+.coinsContainer {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  align-self: center;
+  justify-content: center;
+}
+
+.coinsAmount {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-left: -48px;
+  font-size: $fontSizeSmall;
+}
+
 .headerThemeLanguageBlock {
   align-items: center;
   gap: $gapBig;
+
   @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
   }
+
   @media (max-width: $mediaWidthMobileBig) {
     gap: $gapSmall;
   }
@@ -114,6 +145,7 @@ $iconSize: 32px;
   @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
   }
+
   @media (max-width: $mediaWidthMobileBig) {
     gap: $gapSmall;
   }

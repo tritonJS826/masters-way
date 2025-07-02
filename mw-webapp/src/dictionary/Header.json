@@ -35,5 +35,10 @@
     "ru": "Выпадающий список выбора языка",
     "en": "Dropdown language selector",
     "ua": "Випадаючий список вибору мови"
+  },
+  "coinsButtonTooltip": {
+    "ru": "Количетсво оставшихся мастеркоинов",
+    "en": "Amount of mastercoins remaining",
+    "ua": "Кількість мастеркойнів, що залишилися"
   }
 }

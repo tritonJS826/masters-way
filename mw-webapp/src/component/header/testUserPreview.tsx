@@ -1,4 +1,5 @@
-import {User, WayCollection} from "src/model/businessModel/User";
+import {CurrentUser, PricingPlan, ProfileSettings} from "src/model/businessModel/CurrentUser";
+import {WayCollection} from "src/model/businessModel/User";
 
 const ownWayCollection = new WayCollection({
   createdAt: new Date(),
@@ -27,7 +28,7 @@ const favoriteWayCollection = new WayCollection({
   ways: [],
 });
 
-export const testUserPreview = new User({
+export const testUserPreview = new CurrentUser({
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Testerovich",
   email: "test.tester@gmail.com",
@@ -47,4 +48,10 @@ export const testUserPreview = new User({
     favorite: favoriteWayCollection,
     mentoring: mentoringWayCollection,
   },
+  profileSetting: new ProfileSettings({
+    coins: 15,
+    uuid: "0001",
+    pricingPlan: PricingPlan.FREE,
+    expirationDate: new Date(),
+  }),
 });
