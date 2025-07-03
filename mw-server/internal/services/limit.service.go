@@ -24,10 +24,10 @@ const (
 
 var limitMap = map[LimitNameType]map[db.PricingPlanType]uint16{
 	NotEnoughCoins: {
-		db.PricingPlanTypeFree:      0,
-		db.PricingPlanTypeAiStarter: 0,
-		db.PricingPlanTypeStarter:   0,
-		db.PricingPlanTypePro:       0,
+		db.PricingPlanTypeFree:      1,
+		db.PricingPlanTypeAiStarter: 1,
+		db.PricingPlanTypeStarter:   1,
+		db.PricingPlanTypePro:       1,
 	},
 	MaxOwnWays: {
 		db.PricingPlanTypeFree:      10,
@@ -104,9 +104,13 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, pa
 
 	switch params.LimitName {
 	case NotEnoughCoins:
-		var coinsCount int32
-		coinsCount, err = ls.limitRepository.GetCoinsCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
-		count = int64(coinsCount)
+		var coinsLeft int32
+		coinsLeft, err = ls.limitRepository.GetCoinsCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
+		if coinsLeft > 0 {
+			count = int64(0) // If coins count is more than 0, we consider it as limit not reached
+		} else {
+			count = int64(1) // If coins count is 0, we consider it as limit reached
+		}
 	case MaxOwnWays:
 		count, err = ls.limitRepository.GetOwnWaysCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxPrivateWays:
