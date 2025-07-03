@@ -28,13 +28,15 @@
 
 .settingsContainer {
   @include regularContainer;
-  width: $maxWidthBlock;
+  max-width: $maxWidthBlock;
+  width: 100%;
   background-color: var(--primaryBgColor);
 }
 
 .coinsContainer {
   @include regularContainer;
-  width: $maxWidthBlock;
+  max-width: $maxWidthBlock;
+  width: 100%;
   align-items: center;
   background-color: var(--primaryBgColor);
   gap: $gapMedium;
