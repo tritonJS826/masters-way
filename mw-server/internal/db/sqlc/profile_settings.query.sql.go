@@ -53,6 +53,44 @@ func (q *Queries) GetProfileSettingUserId(ctx context.Context, userUuid pgtype.U
 	return i, err
 }
 
+const reduceCoinsByUserId = `-- name: ReduceCoinsByUserId :one
+UPDATE
+    profile_settings
+SET
+    coins = profile_settings.coins - $1
+WHERE
+    profile_settings.owner_uuid = $2
+RETURNING
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date
+`
+
+type ReduceCoinsByUserIdParams struct {
+	Coins     int32       `json:"coins"`
+	OwnerUuid pgtype.UUID `json:"owner_uuid"`
+}
+
+type ReduceCoinsByUserIdRow struct {
+	Uuid           pgtype.UUID      `json:"uuid"`
+	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	Coins          int32            `json:"coins"`
+	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
+}
+
+func (q *Queries) ReduceCoinsByUserId(ctx context.Context, arg ReduceCoinsByUserIdParams) (ReduceCoinsByUserIdRow, error) {
+	row := q.db.QueryRow(ctx, reduceCoinsByUserId, arg.Coins, arg.OwnerUuid)
+	var i ReduceCoinsByUserIdRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.PricingPlan,
+		&i.Coins,
+		&i.ExpirationDate,
+	)
+	return i, err
+}
+
 const refillCoinsForAll = `-- name: RefillCoinsForAll :many
 UPDATE
     profile_settings

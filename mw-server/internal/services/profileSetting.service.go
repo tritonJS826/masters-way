@@ -18,6 +18,7 @@ type ProfileSettingRepository interface {
 	GetProfileSettingUserId(ctx context.Context, userUuid pgtype.UUID) (db.GetProfileSettingUserIdRow, error)
 	UpdateProfileSettingByUserId(ctx context.Context, arg db.UpdateProfileSettingByUserIdParams) (db.UpdateProfileSettingByUserIdRow, error)
 	RefillCoinsForAll(ctx context.Context) ([]db.RefillCoinsForAllRow, error)
+	ReduceCoinsByUserId(ctx context.Context, args db.ReduceCoinsByUserIdParams) (db.ReduceCoinsByUserIdRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -89,14 +90,14 @@ func (ps *ProfileSettingService) UpdateProfileSettingByUserId(ctx context.Contex
 	}, nil
 }
 
-type RefillCoinsForAllResponse struct {
+type RefillCoinsResponse struct {
 	Uuid           string
 	PricingPlan    string
 	Coins          int32
 	ExpirationDate string
 }
 
-func (ps *ProfileSettingService) RefillCoins(ctx context.Context) ([]RefillCoinsForAllResponse, error) {
+func (ps *ProfileSettingService) RefillCoins(ctx context.Context) ([]RefillCoinsResponse, error) {
 	tx, err := ps.pool.Begin(ctx)
 	if err != nil {
 		return nil, err
@@ -112,8 +113,8 @@ func (ps *ProfileSettingService) RefillCoins(ctx context.Context) ([]RefillCoins
 
 	tx.Commit(ctx)
 
-	refilledProfiles := lo.Map(refilledProfilesDb, func(profile db.RefillCoinsForAllRow, _ int) RefillCoinsForAllResponse {
-		return RefillCoinsForAllResponse{
+	refilledProfiles := lo.Map(refilledProfilesDb, func(profile db.RefillCoinsForAllRow, _ int) RefillCoinsResponse {
+		return RefillCoinsResponse{
 			Uuid:           util.ConvertPgUUIDToUUID(profile.Uuid).String(),
 			PricingPlan:    string(profile.PricingPlan),
 			Coins:          profile.Coins,
@@ -122,4 +123,38 @@ func (ps *ProfileSettingService) RefillCoins(ctx context.Context) ([]RefillCoins
 	})
 
 	return refilledProfiles, nil
+}
+
+type ReduceCoinsByUserIdParams struct {
+	UserUuid string
+	Coins    int32
+}
+
+func (ps *ProfileSettingService) ReduceCoinsByUserId(ctx context.Context, params ReduceCoinsByUserIdParams) (*RefillCoinsResponse, error) {
+	tx, err := ps.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
+
+	var profileSettingRepositoryTx ProfileSettingRepository = ps.profileSettingRepository.WithTx(tx)
+
+	refilledProfileDb, err := profileSettingRepositoryTx.ReduceCoinsByUserId(ctx, db.ReduceCoinsByUserIdParams{
+		OwnerUuid: pgtype.UUID{Bytes: uuid.MustParse(params.UserUuid), Valid: true},
+		Coins:     params.Coins,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	tx.Commit(ctx)
+
+	refilledProfile := &RefillCoinsResponse{
+		Uuid:           util.ConvertPgUUIDToUUID(refilledProfileDb.Uuid).String(),
+		PricingPlan:    string(refilledProfileDb.PricingPlan),
+		Coins:          refilledProfileDb.Coins,
+		ExpirationDate: refilledProfileDb.ExpirationDate.Time.Format(util.DEFAULT_STRING_LAYOUT),
+	}
+
+	return refilledProfile, nil
 }

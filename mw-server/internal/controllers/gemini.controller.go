@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-server/internal/auth"
 	"mw-server/internal/schemas"
 	"mw-server/internal/services"
 	"mw-server/pkg/util"
@@ -10,11 +11,12 @@ import (
 )
 
 type GeminiController struct {
-	geminiService *services.GeminiService
+	geminiService         *services.GeminiService
+	profileSettingService *services.ProfileSettingService
 }
 
-func NewGeminiController(geminiService *services.GeminiService) *GeminiController {
-	return &GeminiController{geminiService}
+func NewGeminiController(geminiService *services.GeminiService, profileSettingService *services.ProfileSettingService) *GeminiController {
+	return &GeminiController{geminiService, profileSettingService}
 }
 
 // Generate metrics handler
@@ -27,15 +29,23 @@ func NewGeminiController(geminiService *services.GeminiService) *GeminiControlle
 // @Param request body schemas.GenerateMetricsPayload true "Request payload"
 // @Success 200 {object} schemas.GenerateMetricsResponse
 // @Router /gemini/metrics [post]
-func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
+func (gc *GeminiController) GenerateMetrics(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.GenerateMetricsPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	metrics, err := cc.geminiService.GetMetricsByGoal(ctx, payload)
+	metrics, err := gc.geminiService.GetMetricsByGoal(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, schemas.GenerateMetricsResponse{Metrics: &metrics})
 }
@@ -50,15 +60,23 @@ func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 // @Param request body schemas.AIChatPayload true "Request payload"
 // @Success 200 {object} schemas.AIChatResponse
 // @Router /gemini/just-chat [post]
-func (cc *GeminiController) AIChat(ctx *gin.Context) {
+func (gc *GeminiController) AIChat(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIChatPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.geminiService.AIChat(ctx, payload)
+	response, err := gc.geminiService.AIChat(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -74,6 +92,9 @@ func (cc *GeminiController) AIChat(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGeneratePlansByMetricResponse
 // @Router /gemini/generate-plans-by-metric [post]
 func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGeneratePlansByMetricPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -82,6 +103,11 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GeneratePlansByMetric(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -97,6 +123,9 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 // @Success 200 {object} schemas.AICommentIssueResponse
 // @Router /gemini/comment-issue [post]
 func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AICommentIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -105,6 +134,11 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 
 	response, err := cc.geminiService.CommentIssue(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -120,6 +154,9 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIDecomposeIssueResponse
 // @Router /gemini/decompose-issue [post]
 func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIDecomposeIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -128,6 +165,11 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 
 	response, err := cc.geminiService.DecomposeIssue(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -143,6 +185,9 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIEstimateIssueResponse
 // @Router /gemini/estimate-issue [post]
 func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIEstimateIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -151,6 +196,11 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 
 	response, err := cc.geminiService.EstimateIssue(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -164,6 +214,9 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGenerateTrainingDescriptionByTestResultsResponse
 // @Router /gemini/trainings/description [post]
 func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGenerateTrainingDescriptionByTestResultsPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -172,6 +225,11 @@ func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Co
 
 	response, err := cc.geminiService.GenerateTrainingDescriptionByTestResults(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -186,6 +244,9 @@ func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Co
 // @Success 200 {object} schemas.AIGenerateTopicsForTrainingResponse
 // @Router /gemini/trainings/topics [post]
 func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGenerateTopicsForTrainingPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -194,6 +255,11 @@ func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GenerateTopicsForTraining(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -209,6 +275,9 @@ func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGenerateTheoryMaterialForTopicResponse
 // @Router /gemini/trainings/theoryMaterial [post]
 func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGenerateTheoryMaterialForTopicPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -217,6 +286,11 @@ func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GenerateTheoryMaterialForTopic(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -232,6 +306,9 @@ func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGeneratePracticeMaterialsForTopicResponse
 // @Router /gemini/trainings/practiceMaterial [post]
 func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGeneratePracticeMaterialForTopicPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -240,6 +317,11 @@ func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GeneratePracticeMaterialForTopic(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -255,6 +337,9 @@ func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGenerateQuestionsForTestResponse
 // @Router /gemini/test/questions [post]
 func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGenerateQuestionsForTestPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -263,6 +348,11 @@ func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GenerateQuestionsForTest(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -277,6 +367,9 @@ func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIGenerateQuestionResultResponse
 // @Router /gemini/test/questionResult [post]
 func (cc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
 	var payload *schemas.AIGenerateQuestionResultPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -285,6 +378,11 @@ func (cc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
 
 	response, err := cc.geminiService.GenerateQuestionResult(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+		UserUuid: userID,
+		Coins:    1,
+	})
 
 	ctx.JSON(http.StatusOK, response)
 }

@@ -47,3 +47,17 @@ RETURNING
     pricing_plan,
     coins,
     expiration_date;
+
+
+-- name: ReduceCoinsByUserId :one
+UPDATE
+    profile_settings
+SET
+    coins = profile_settings.coins - @coins
+WHERE
+    profile_settings.owner_uuid = @owner_uuid
+RETURNING
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date;

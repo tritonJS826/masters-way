@@ -74,7 +74,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		favoriteUserRouter:             newFavoriteUserRouter(controller.FavoriteUserController, config),
 		favoriteUserWayRouter:          newFavoriteUserWayRouter(controller.FavoriteUserWayController, config),
 		fromUserMentoringRequestRouter: newFromUserMentoringRequestRouter(controller.FromUserMentoringRequestController, config),
-		geminiRouter:                   newGeminiRouter(controller.GeminiController),
+		geminiRouter:                   newGeminiRouter(controller.GeminiController, config),
 		jobDoneRouter:                  newJobDoneRouter(controller.JobDoneController, config),
 		jobDoneJobTagRouter:            newJobDoneJobTagRouter(controller.JobDoneJobTagController, config),
 		jobTagRouter:                   newJobTagRouter(controller.JobTagController, config),

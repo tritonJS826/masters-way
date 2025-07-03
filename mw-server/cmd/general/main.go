@@ -79,7 +79,7 @@ func main() {
 
 	// Schedule the automatic coin refilling job
 	_, err = scheduler.NewJob(
-		gocron.DurationJob(6*time.Hour),
+		gocron.DurationJob(1*time.Hour),
 		gocron.NewTask(
 			func(logString string) {
 				log.Println(logString)
@@ -90,7 +90,7 @@ func main() {
 				if err != nil {
 					log.Printf("Error during automatic coin refilling: %v", err)
 				} else {
-					lo.ForEach(refilledProfiles, func(profile services.RefillCoinsForAllResponse, _ int) {
+					lo.ForEach(refilledProfiles, func(profile services.RefillCoinsResponse, _ int) {
 						log.Println(
 							"\nRefilled profile:", profile.Uuid,
 							"\nPricingPlan:", profile.PricingPlan,

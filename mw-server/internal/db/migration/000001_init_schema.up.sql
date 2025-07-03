@@ -248,7 +248,7 @@ CREATE OR REPLACE FUNCTION init_user()
 RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO profile_settings (pricing_plan, expiration_date, owner_uuid, coins)
-    VALUES ('free', NULL, NEW.uuid, 150);
+    VALUES ('free', CURRENT_DATE, NEW.uuid, 150);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
