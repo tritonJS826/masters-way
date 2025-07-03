@@ -11,6 +11,22 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const getCoinsCountByUserId = `-- name: GetCoinsCountByUserId :one
+SELECT
+    coins
+FROM
+    profile_settings
+WHERE
+    owner_uuid = $1
+`
+
+func (q *Queries) GetCoinsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int32, error) {
+	row := q.db.QueryRow(ctx, getCoinsCountByUserId, userUuid)
+	var coins int32
+	err := row.Scan(&coins)
+	return coins, err
+}
+
 const getPricingPlanByUserId = `-- name: GetPricingPlanByUserId :one
 SELECT pricing_plan
 FROM profile_settings

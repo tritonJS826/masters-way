@@ -63,6 +63,7 @@ type Querier interface {
 	DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error
 	DeleteWayFromCompositeWay(ctx context.Context, arg DeleteWayFromCompositeWayParams) error
 	DeleteWayTagFromWay(ctx context.Context, arg DeleteWayTagFromWayParams) error
+	GetCoinsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int32, error)
 	GetDayReportsByRankRange(ctx context.Context, arg GetDayReportsByRankRangeParams) ([]GetDayReportsByRankRangeRow, error)
 	GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)
 	GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)

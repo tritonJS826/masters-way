@@ -11,12 +11,13 @@ import (
 )
 
 type GeminiController struct {
+	limitService          *services.LimitService
 	geminiService         *services.GeminiService
 	profileSettingService *services.ProfileSettingService
 }
 
-func NewGeminiController(geminiService *services.GeminiService, profileSettingService *services.ProfileSettingService) *GeminiController {
-	return &GeminiController{geminiService, profileSettingService}
+func NewGeminiController(limitService *services.LimitService, geminiService *services.GeminiService, profileSettingService *services.ProfileSettingService) *GeminiController {
+	return &GeminiController{limitService, geminiService, profileSettingService}
 }
 
 // Generate metrics handler
@@ -38,6 +39,12 @@ func (gc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	metrics, err := gc.geminiService.GetMetricsByGoal(ctx, payload)
 	util.HandleErrorGin(ctx, err)
@@ -70,6 +77,12 @@ func (gc *GeminiController) AIChat(ctx *gin.Context) {
 		return
 	}
 
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
+	util.HandleErrorGin(ctx, err)
+
 	response, err := gc.geminiService.AIChat(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
@@ -91,7 +104,7 @@ func (gc *GeminiController) AIChat(ctx *gin.Context) {
 // @Param request body schemas.AIGeneratePlansByMetricPayload true "Request payload"
 // @Success 200 {object} schemas.AIGeneratePlansByMetricResponse
 // @Router /gemini/generate-plans-by-metric [post]
-func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
+func (gc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -101,10 +114,16 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GeneratePlansByMetric(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GeneratePlansByMetric(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -122,7 +141,7 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 // @Param request body schemas.AICommentIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AICommentIssueResponse
 // @Router /gemini/comment-issue [post]
-func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
+func (gc *GeminiController) CommentIssue(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -132,10 +151,16 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.CommentIssue(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.CommentIssue(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -153,7 +178,7 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 // @Param request body schemas.AIDecomposeIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AIDecomposeIssueResponse
 // @Router /gemini/decompose-issue [post]
-func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
+func (gc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -163,10 +188,16 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.DecomposeIssue(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.DecomposeIssue(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -184,7 +215,7 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 // @Param request body schemas.AIEstimateIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AIEstimateIssueResponse
 // @Router /gemini/estimate-issue [post]
-func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
+func (gc *GeminiController) EstimateIssue(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -194,10 +225,16 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.EstimateIssue(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.EstimateIssue(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -213,7 +250,7 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 // @Param request body schemas.AIGenerateTrainingDescriptionByTestResultsPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateTrainingDescriptionByTestResultsResponse
 // @Router /gemini/trainings/description [post]
-func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Context) {
+func (gc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -223,10 +260,16 @@ func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Co
 		return
 	}
 
-	response, err := cc.geminiService.GenerateTrainingDescriptionByTestResults(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GenerateTrainingDescriptionByTestResults(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -243,7 +286,7 @@ func (cc *GeminiController) GenerateTrainingDescriptionByTestResults(ctx *gin.Co
 // @Param request body schemas.AIGenerateTopicsForTrainingPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateTopicsForTrainingResponse
 // @Router /gemini/trainings/topics [post]
-func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
+func (gc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -253,10 +296,16 @@ func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GenerateTopicsForTraining(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GenerateTopicsForTraining(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -274,7 +323,7 @@ func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 // @Param request body schemas.AIGenerateTheoryMaterialForTopicPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateTheoryMaterialForTopicResponse
 // @Router /gemini/trainings/theoryMaterial [post]
-func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
+func (gc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -284,10 +333,16 @@ func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GenerateTheoryMaterialForTopic(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GenerateTheoryMaterialForTopic(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -305,7 +360,7 @@ func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
 // @Param request body schemas.AIGeneratePracticeMaterialForTopicPayload true "Request payload"
 // @Success 200 {object} schemas.AIGeneratePracticeMaterialsForTopicResponse
 // @Router /gemini/trainings/practiceMaterial [post]
-func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
+func (gc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -315,10 +370,16 @@ func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GeneratePracticeMaterialForTopic(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GeneratePracticeMaterialForTopic(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -336,7 +397,7 @@ func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
 // @Param request body schemas.AIGenerateQuestionsForTestPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateQuestionsForTestResponse
 // @Router /gemini/test/questions [post]
-func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
+func (gc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -346,10 +407,16 @@ func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GenerateQuestionsForTest(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GenerateQuestionsForTest(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})
@@ -366,7 +433,7 @@ func (cc *GeminiController) GenerateQuestionsForTest(ctx *gin.Context) {
 // @Param request body schemas.AIGenerateQuestionResultPayload true "Request payload"
 // @Success 200 {object} schemas.AIGenerateQuestionResultResponse
 // @Router /gemini/test/questionResult [post]
-func (cc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
+func (gc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
@@ -376,10 +443,16 @@ func (cc *GeminiController) AiGenerateQuestionResult(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GenerateQuestionResult(ctx, payload)
+	err := gc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+		LimitName: services.NotEnoughCoins,
+		UserID:    userID,
+	})
 	util.HandleErrorGin(ctx, err)
 
-	cc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
+	response, err := gc.geminiService.GenerateQuestionResult(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	gc.profileSettingService.ReduceCoinsByUserId(ctx, services.ReduceCoinsByUserIdParams{
 		UserUuid: userID,
 		Coins:    1,
 	})

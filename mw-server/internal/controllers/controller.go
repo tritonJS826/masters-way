@@ -46,7 +46,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		FavoriteUserController:             NewFavoriteUserController(services.FavoriteUserService),
 		FavoriteUserWayController:          NewFavoriteUserWayController(services.FavoriteUserWayService),
 		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.FromUserMentoringRequestService),
-		GeminiController:                   NewGeminiController(services.GeminiService, services.ProfileSettingService),
+		GeminiController:                   NewGeminiController(services.LimitService, services.GeminiService, services.ProfileSettingService),
 		JobDoneController:                  NewJobDoneController(services.PermissionService, services.JobDoneService, services.JobDoneJobTagService, services.JobTagService),
 		JobDoneJobTagController:            NewJobDoneJobTagController(services.JobDoneJobTagService),
 		JobTagController:                   NewJobTagController(services.JobTagService),

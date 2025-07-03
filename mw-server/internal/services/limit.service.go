@@ -12,6 +12,7 @@ import (
 type LimitNameType string
 
 const (
+	NotEnoughCoins       LimitNameType = "Not enough coins"
 	MaxOwnWays           LimitNameType = "Max own ways"
 	MaxPrivateWays       LimitNameType = "Max private ways"
 	MaxMentoringsWays    LimitNameType = "Max mentorings ways"
@@ -22,44 +23,58 @@ const (
 )
 
 var limitMap = map[LimitNameType]map[db.PricingPlanType]uint16{
+	NotEnoughCoins: {
+		db.PricingPlanTypeFree:      0,
+		db.PricingPlanTypeAiStarter: 0,
+		db.PricingPlanTypeStarter:   0,
+		db.PricingPlanTypePro:       0,
+	},
 	MaxOwnWays: {
-		db.PricingPlanTypeFree:    10,
-		db.PricingPlanTypeStarter: 20,
-		db.PricingPlanTypePro:     30,
+		db.PricingPlanTypeFree:      10,
+		db.PricingPlanTypeAiStarter: 20,
+		db.PricingPlanTypeStarter:   20,
+		db.PricingPlanTypePro:       30,
 	},
 	MaxPrivateWays: {
-		db.PricingPlanTypeFree:    1,
-		db.PricingPlanTypeStarter: 10,
-		db.PricingPlanTypePro:     10,
+		db.PricingPlanTypeFree:      1,
+		db.PricingPlanTypeAiStarter: 10,
+		db.PricingPlanTypeStarter:   10,
+		db.PricingPlanTypePro:       10,
 	},
 	MaxMentoringsWays: {
-		db.PricingPlanTypeFree:    3,
-		db.PricingPlanTypeStarter: 20,
-		db.PricingPlanTypePro:     300,
+		db.PricingPlanTypeFree:      3,
+		db.PricingPlanTypeAiStarter: 20,
+		db.PricingPlanTypeStarter:   20,
+		db.PricingPlanTypePro:       300,
 	},
 	MaxUserTags: {
-		db.PricingPlanTypeFree:    3,
-		db.PricingPlanTypeStarter: 5,
-		db.PricingPlanTypePro:     5,
+		db.PricingPlanTypeFree:      3,
+		db.PricingPlanTypeAiStarter: 5,
+		db.PricingPlanTypeStarter:   5,
+		db.PricingPlanTypePro:       5,
 	},
 	MaxCustomCollections: {
-		db.PricingPlanTypeFree:    4,
-		db.PricingPlanTypeStarter: 8,
-		db.PricingPlanTypePro:     10,
+		db.PricingPlanTypeFree:      4,
+		db.PricingPlanTypeAiStarter: 8,
+		db.PricingPlanTypeStarter:   8,
+		db.PricingPlanTypePro:       10,
 	},
 	MaxCompositeWayDeps: {
-		db.PricingPlanTypeFree:    2,
-		db.PricingPlanTypeStarter: 3,
-		db.PricingPlanTypePro:     3,
+		db.PricingPlanTypeFree:      2,
+		db.PricingPlanTypeAiStarter: 3,
+		db.PricingPlanTypeStarter:   3,
+		db.PricingPlanTypePro:       3,
 	},
 	MaxDayReports: {
-		db.PricingPlanTypeFree:    190,
-		db.PricingPlanTypeStarter: 360,
-		db.PricingPlanTypePro:     1000,
+		db.PricingPlanTypeFree:      190,
+		db.PricingPlanTypeAiStarter: 360,
+		db.PricingPlanTypeStarter:   360,
+		db.PricingPlanTypePro:       1000,
 	},
 }
 
 type ILimitRepository interface {
+	GetCoinsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int32, error)
 	GetOwnWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetMentoringWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
@@ -88,6 +103,10 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, pa
 	var err error
 
 	switch params.LimitName {
+	case NotEnoughCoins:
+		var coinsCount int32
+		coinsCount, err = ls.limitRepository.GetCoinsCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
+		count = int64(coinsCount)
 	case MaxOwnWays:
 		count, err = ls.limitRepository.GetOwnWaysCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxPrivateWays:

@@ -61,3 +61,11 @@ RETURNING
     pricing_plan,
     coins,
     expiration_date;
+
+-- name: GetCoinsCountByUserId :one
+SELECT
+    coins
+FROM
+    profile_settings
+WHERE
+    owner_uuid = @user_uuid;
