@@ -56,6 +56,28 @@
       "ua": "Системні сповіщення"
     }
   },
+  "coinsBlock": {
+    "title": {
+      "ru": "Мастеркоины",
+      "en": "Mastercoins",
+      "ua": "Майстеркоіни"
+    },
+    "description": {
+      "ru": "Мастеркоины — это внутренняя валюта платформы Master's Way, используемая для доступа к расширенным возможностям платформы, в том числе при работе с AI.",
+      "en": "Mastercoins are the internal currency of the Master's Way platform, used to access the advanced features of the platform, including working with AI.",
+      "ua": "Майстеркоіни - це внутрішня валюта платформи Master's Way, яка використовується для доступу до розширених можливостей платформи, у тому числі при роботі з AI."
+    },
+    "coinsProgressLabel": {
+      "ru": "мастеркоинов осталось",
+      "en": "mastercoins left",
+      "ua": "мастеркойнів залишилося"
+    },
+    "getMoreCoinsButton": {
+      "ru": "Получить мастеркоины",
+      "en": "Get mastercoins",
+      "ua": "Отримати мастеркойни"
+    }
+  },
   "comingSoon": {
     "ru": "В разработке!",
     "en": "Coming soon!",

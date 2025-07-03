@@ -1,6 +1,6 @@
-import {userDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
+import {currentUserDTOToCurrentUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/currentUserDTOToCurrentUser";
 import {tokenStore} from "src/globalStore/TokenStore";
-import {User} from "src/model/businessModel/User";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
 import {AuthService} from "src/service/AuthService";
 
 /**
@@ -18,9 +18,9 @@ export class AuthDAL {
   /**
    * Get authorized user
    */
-  public static async getAuthorizedUser(): Promise<User> {
+  public static async getAuthorizedUser(): Promise<CurrentUser> {
     const userDTO = await AuthService.getCurrentUser();
-    const user = userDTOToUserConverter(userDTO);
+    const user = currentUserDTOToCurrentUserConverter(userDTO);
 
     return user;
   }

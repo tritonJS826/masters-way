@@ -42,6 +42,7 @@ $elementHoverTransition: 650ms;
 $tertiaryTransitionDuration: 500ms;
 
 // z-index
+$mastercoinIconZIndex: 90;
 $titleOnBackgroundImageZIndex: 90;
 $sidebarZIndex: 100;
 $headerLandingZIndex: 100;
@@ -55,9 +56,7 @@ $tooltipZIndex: 130;
 $notificationZIndex: 130;
 $chatActionButton: 140;
 $supportModalContent: 140;
-$notificationBLockZIndex: 150;
 $progressIndicatorZIndex: -1;
-$errorPageBackgroundZIndex: -10;
 
 $marginBig: 24px;
 $marginMedium: 10px;
@@ -177,28 +176,22 @@ $blurLight: 2px;
   background-position: center right;
   background-repeat: no-repeat;
   background-size: contain;
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%);
   object-fit: contain;
   object-position: right;
   opacity: 0.1;
-  --webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  --webkit-mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%);
 }
 
 // animation
-@mixin animation(
-  $name: defaultAnimation,
+@mixin animation($name: defaultAnimation,
   $duration: 1s,
   $timing-function: ease,
-  $direction: forwards
-) {
+  $direction: forwards) {
   animation: $name $duration $timing-function $direction;
 }
 

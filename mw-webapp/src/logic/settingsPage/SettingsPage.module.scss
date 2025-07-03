@@ -1,10 +1,13 @@
 @import "src/styles/variables";
 
 .container {
+  @include regularContainer;
   width: 100%;
   max-width: $maxWidthContainer;
+  align-items: center;
   margin: 0 auto;
   margin-top: $headerHeight;
+  gap: $gapSmall;
 
   &::-webkit-scrollbar {
     display: none;
@@ -21,4 +24,23 @@
   max-width: $maxWidthBlock;
   align-items: center;
   justify-content: space-between;
+}
+
+.settingsContainer {
+  @include regularContainer;
+  width: $maxWidthBlock;
+  background-color: var(--primaryBgColor);
+}
+
+.coinsContainer {
+  @include regularContainer;
+  width: $maxWidthBlock;
+  align-items: center;
+  background-color: var(--primaryBgColor);
+  gap: $gapMedium;
+}
+
+.progressContainer {
+  width: 100%;
+  gap: $gapMedium;
 }

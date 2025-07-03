@@ -31,11 +31,12 @@ import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, 
 import {JobDoneLabels} from "src/logic/wayPage/reports/jobDoneLabels/JobDoneLabels";
 import {ModalContentLabels} from "src/logic/wayPage/reports/modalContentLabels/ModalContentLabels";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
-import {User, UserPlain} from "src/model/businessModel/User";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
@@ -70,7 +71,7 @@ interface PlanReportListProps {
   /**
    * Logged in user
    */
-  user: User | null;
+  user: CurrentUser | null;
 
   /**
    * Create new day report

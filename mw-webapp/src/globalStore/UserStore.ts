@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
-import {User, UserPlain} from "src/model/businessModel/User";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
+import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -9,10 +10,10 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 class UserStore {
 
   /**
-   * User value
+   * LoggedIn User value
    * @default null
    */
-  public user: User | null = null;
+  public user: CurrentUser | null = null;
 
   /**
    * If true - loading user to store
@@ -37,7 +38,7 @@ class UserStore {
   /**
    * Set user
    */
-  public setUser = (user: User | null) => {
+  public setUser = (user: CurrentUser | null) => {
     this.user = user;
     this.updateIsLoading(false);
   };

@@ -60,6 +60,7 @@ import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {pages} from "src/router/pages";
@@ -143,7 +144,7 @@ const userPageSettingsValidator = (props: UserPageSettingsValidatorParams) => {
  * Check is user in favorites
  */
 const getIsUserInFavorites = (
-  user: User | null,
+  user: CurrentUser | null,
   pageOwner: User,
 ) => ((user?.favoriteUsers ?? []).map(plainUser => plainUser.uuid)).includes(pageOwner.uuid);
 

@@ -21,9 +21,10 @@ import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/su
 import {getListNumberByIndex} from "src/logic/wayPage/reports/dayReports/reportsTable/reportsColumns/ReportsColumns";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
+import {CurrentUser} from "src/model/businessModel/CurrentUser";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
-import {User, UserPlain} from "src/model/businessModel/User";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -50,7 +51,7 @@ interface CommentReportListProps {
   /**
    * Logged in user
    */
-  user: User | null;
+  user: CurrentUser | null;
 
   /**
    * If true user can edit job done, if false - not
