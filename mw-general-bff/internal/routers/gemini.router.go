@@ -20,16 +20,16 @@ func newGeminiRouter(geminiController *controllers.GeminiController, config *con
 func (gr *geminiRouter) setGeminiRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("gemini")
 	{
-		router.POST("/metrics", gr.geminiController.GenerateMetrics)
-		router.POST("/just-chat", gr.geminiController.AIChat)
-		router.POST("/generate-plans-by-metric", gr.geminiController.GeneratePlansByMetric)
-		router.POST("/comment-issue", gr.geminiController.CommentIssue)
-		router.POST("/decompose-issue", gr.geminiController.DecomposeIssue)
-		router.POST("/estimate-issue", gr.geminiController.EstimateIssue)
+		router.POST("/metrics", auth.HandleHeaders(gr.config), gr.geminiController.GenerateMetrics)
+		router.POST("/just-chat", auth.HandleHeaders(gr.config), gr.geminiController.AIChat)
+		router.POST("/generate-plans-by-metric", auth.HandleHeaders(gr.config), gr.geminiController.GeneratePlansByMetric)
+		router.POST("/comment-issue", auth.HandleHeaders(gr.config), gr.geminiController.CommentIssue)
+		router.POST("/decompose-issue", auth.HandleHeaders(gr.config), gr.geminiController.DecomposeIssue)
+		router.POST("/estimate-issue", auth.HandleHeaders(gr.config), gr.geminiController.EstimateIssue)
 
-		router.POST("/trainings/topics", gr.geminiController.GenerateTopicsForTraining)
-		router.POST("/trainings/theoryMaterial", gr.geminiController.GenerateTheoryMaterialForTraining)
-		router.POST("/trainings/practiceMaterial", gr.geminiController.GeneratePracticeMaterialForTraining)
+		router.POST("/trainings/topics", auth.HandleHeaders(gr.config), gr.geminiController.GenerateTopicsForTraining)
+		router.POST("/trainings/theoryMaterial", auth.HandleHeaders(gr.config), gr.geminiController.GenerateTheoryMaterialForTraining)
+		router.POST("/trainings/practiceMaterial", auth.HandleHeaders(gr.config), gr.geminiController.GeneratePracticeMaterialForTraining)
 		router.POST("/training/testSession/:sessionResultId", auth.HandleHeaders(gr.config), gr.geminiController.GenerateTrainingByTestSessionId)
 
 		router.POST("/test/questions", auth.HandleHeaders(gr.config), gr.geminiController.GenerateQuestionsForTest)
