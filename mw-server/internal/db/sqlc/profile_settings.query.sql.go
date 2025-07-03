@@ -112,6 +112,10 @@ UPDATE
     profile_settings
 SET
     expiration_date = (CURRENT_DATE + INTERVAL '1 month'),
+    -- TODO: AFTER ADDING PAYMENTS
+    -- We should change coins to 50 for everyone with (expiration_date < CURRENT_DATE)
+    -- and also we should change pricing plan to free automatically
+    -- in this case payment system should change pricing plan and coins and expiration date by another query 
     coins = CASE
         WHEN pricing_plan = 'free' THEN 50
         WHEN pricing_plan = 'ai-starter' THEN 1500

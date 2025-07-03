@@ -8,6 +8,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {Question} from "src/model/businessModel/Test";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/editTestPage/questionItem/QuestionsAiModal.module.scss";
@@ -52,11 +53,16 @@ interface QuestionsAiModalProps {
 export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [inputQuestionsAmount, setInputQuestionsAmount] = useState<number>(DEFAULT_QUESTIONS_AMOUNT);
   const [isGeneratingQuestions, setIsGeneratingQuestions] = useState<boolean>(false);
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
   const [isButtonToGeneratePressed, setIsButtonToGeneratePressed] = useState<boolean>(false);
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Generate AI questions
@@ -70,6 +76,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
       });
 
       props.addQuestions(questions);
+      user.profileSetting.decreaseCoins(questions.length);
       props.onCloseModal(true);
 
     } catch (error) {
@@ -81,6 +88,8 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
       setIsGeneratingQuestions(false);
     }
   };
+
+  const hasEnoughCoins = inputQuestionsAmount < user.profileSetting.coins;
 
   return (
     <VerticalContainer className={styles.questionsAiModalWrapper}>
@@ -101,6 +110,11 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
           autoFocus={true}
           formatter={getFormattedValue}
         />
+        {!hasEnoughCoins &&
+        <div>
+          {LanguageService.common.coins.notEnoughCoins[language]}
+        </div>
+        }
         <Button
           value={LanguageService.test.aiButtons.generateQuestionsWithAIButton[language]}
           onClick={() => {
@@ -109,6 +123,7 @@ export const QuestionsAiModal = (props: QuestionsAiModalProps) => {
             setIsButtonToGeneratePressed(true);
             generateAIQuestions();
           }}
+          isDisabled={!hasEnoughCoins}
         />
       </>
       }

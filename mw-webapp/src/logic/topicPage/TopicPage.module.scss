@@ -53,6 +53,7 @@ $labelMaxWidthBlock: 650px;
 
 .topicName {
   flex: 1;
+
   input {
     width: $minWidthBlock;
     height: $heightH2;
@@ -154,4 +155,8 @@ $labelMaxWidthBlock: 650px;
 .generateMaterialButtons {
   align-items: center;
   justify-content: center;
+}
+
+.notVisibleTooltip {
+  display: none;
 }

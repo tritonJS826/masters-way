@@ -10,6 +10,7 @@ import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {Plan} from "src/model/businessModel/Plan";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -99,6 +100,11 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
   const [generatedPansPreview, setGeneratedPlansPreview] = useState<PlanPreview[]>([]);
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Decompose issue by using AI
@@ -114,7 +120,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
       description: planPreview,
       isChecked: false,
     }));
-
+    user.profileSetting.decreaseCoins(plansPreview.length);
     setGeneratedPlansPreview(plansPreview);
   };
 

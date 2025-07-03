@@ -8,6 +8,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/resultTestPage/trainingAiModal/TrainingAiModal.module.scss";
 
@@ -16,6 +17,8 @@ const MAX_TOPICS_AMOUNT = 50;
 const MIN_PRACTICE_MATERIALS_AMOUNT = 1;
 const MAX_PRACTICE_MATERIALS_AMOUNT = 20;
 const MINUTES_TO_GENERATE_TOPIC = 0.5;
+const DESCRIPTION_AMOUNT_TO_GENERATE = 1;
+const DEFAULT_THEORY_AMOUNT_TO_GENERATE = 1;
 
 /**
  * Get an integer with mathematical rounding max value
@@ -63,12 +66,17 @@ interface TrainingAiModalProps {
 export const TrainingAiModal = (props: TrainingAiModalProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [inputTopicsAmount, setInputTopicsAmount] = useState<number>(MIN_TOPICS_AMOUNT);
   const [inputPracticeMaterialsAmount, setInputPracticeMaterialsAmount] = useState<number>(MIN_PRACTICE_MATERIALS_AMOUNT);
   const [isGeneratingTraining, setIsGeneratingTraining] = useState<boolean>(false);
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
   const [isButtonToGeneratePressed, setIsButtonToGeneratePressed] = useState<boolean>(false);
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Generate AI training
@@ -84,6 +92,7 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
         testSessionId: props.testSessionId,
       });
 
+      user.profileSetting.decreaseCoins(inputTopicsAmount);
       props.onCloseModal(true);
       props.onGenerateTraining(trainingUuid);
 
@@ -98,6 +107,9 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
   };
 
   const generatedTopicsTime = (inputTopicsAmount * MINUTES_TO_GENERATE_TOPIC);
+  const coinsAmountToGenerateTraining = DESCRIPTION_AMOUNT_TO_GENERATE + inputTopicsAmount +
+    (inputTopicsAmount * DEFAULT_THEORY_AMOUNT_TO_GENERATE) + (inputPracticeMaterialsAmount * inputTopicsAmount);
+  const hasEnoughCoins = coinsAmountToGenerateTraining < user.profileSetting.coins;
 
   return (
     <VerticalContainer className={styles.trainingAiModalWrapper}>
@@ -135,8 +147,12 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
           formatter={getFormattedValue}
         />
         <div>
-          {LanguageService.resultTest.waitGenerateTopics[language].replace("$trainingMinutes", `${generatedTopicsTime}`)}
+          {hasEnoughCoins
+            ? LanguageService.resultTest.waitGenerateTopics[language].replace("$trainingMinutes", `${generatedTopicsTime}`)
+            : LanguageService.common.coins.notEnoughCoins[language]
+          }
         </div>
+
         <Button
           value={LanguageService.resultTest.buttons.generateTrainingWithAIButton[language]}
           onClick={() => {
@@ -145,6 +161,7 @@ export const TrainingAiModal = (props: TrainingAiModalProps) => {
             setIsButtonToGeneratePressed(true);
             generateAITraining();
           }}
+          isDisabled={!hasEnoughCoins}
         />
       </>
       }

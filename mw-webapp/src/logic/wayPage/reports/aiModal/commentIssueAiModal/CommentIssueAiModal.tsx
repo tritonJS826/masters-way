@@ -7,9 +7,12 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reports/aiModal/commentIssueAiModal/CommentIssueAiModal.module.scss";
+
+const DEFAULT_COMMENT_AMOUNT_TO_GENERATE = 1;
 
 /**
  * Comment issue Ai modal props
@@ -39,6 +42,11 @@ export const CommentIssueAiModal = (props: CommentIssueAiModalProps) => {
   const [generatedComment, setGeneratedComment] = useState<string>("");
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Comment issue by AI
@@ -49,7 +57,7 @@ export const CommentIssueAiModal = (props: CommentIssueAiModalProps) => {
       message: props.problemDescription,
       language,
     });
-
+    user.profileSetting.decreaseCoins(DEFAULT_COMMENT_AMOUNT_TO_GENERATE);
     setGeneratedComment(comment);
   };
 

@@ -7,9 +7,12 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reports/aiModal/estimateIssueAiModal/EstimateIssueAiModal.module.scss";
+
+const DEFAULT_ESTIMATE_AMOUNT_TO_GENERATE = 1;
 
 /**
  * Estimate issue Ai modal props
@@ -35,6 +38,11 @@ export const EstimateIssueAiModal = (props: EstimateIssueAiModalProps) => {
   const [generatedEstimateMessage, setGeneratedEstimateMessage] = useState<string>("");
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Estimate issue by using AI
@@ -45,7 +53,7 @@ export const EstimateIssueAiModal = (props: EstimateIssueAiModalProps) => {
       issue: props.issueDescription,
       language,
     });
-
+    user.profileSetting.decreaseCoins(DEFAULT_ESTIMATE_AMOUNT_TO_GENERATE);
     setGeneratedEstimateMessage(estimatedMessage);
   };
 

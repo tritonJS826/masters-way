@@ -7,8 +7,11 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/reports/aiModal/commentIssueAiModal/CommentIssueAiModal.module.scss";
+
+const DEFAULT_COMMENT_AMOUNT_TO_GENERATE = 1;
 
 /**
  * Chat Ai modal props
@@ -33,13 +36,18 @@ export const ChatAiModal = (props: ChatAiModalProps) => {
   const [generatedComment, setGeneratedComment] = useState<string>("");
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Comment issue by AI
    */
   const commentMessageAi = async () => {
     const comment = await AIDAL.aiChat(props.message, language);
-
+    user.profileSetting.decreaseCoins(DEFAULT_COMMENT_AMOUNT_TO_GENERATE);
     setGeneratedComment(comment);
   };
 

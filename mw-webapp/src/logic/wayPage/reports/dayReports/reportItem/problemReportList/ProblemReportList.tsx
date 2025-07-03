@@ -17,6 +17,7 @@ import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {CommentIssueAiModal} from "src/logic/wayPage/reports/aiModal/commentIssueAiModal/CommentIssueAiModal";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reports/aiModal/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from "src/logic/wayPage/reports/aiModal/estimateIssueAiModal/EstimateIssueAiModal";
@@ -74,6 +75,7 @@ interface ProblemReportListProps {
  */
 export const ProblemReportList = observer((props: ProblemReportListProps) => {
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
 
@@ -122,6 +124,8 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
     await ProblemDAL.deleteProblem(problemUuid);
   };
 
+  const hasEnoughCoins = user && user.profileSetting.coins > 0;
+
   return (
     <>
       <ol className={styles.numberedList}>
@@ -165,13 +169,17 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
                     trigger={
                       <Tooltip
                         position={PositionTooltip.TOP}
-                        content={LanguageService.way.reportsTable.decomposeIssueByAI[language]}
+                        content={hasEnoughCoins
+                          ? LanguageService.way.reportsTable.decomposeIssueByAI[language]
+                          : LanguageService.common.coins.notEnoughCoins[language]
+                        }
                       >
                         <Button
                           onClick={() => {}}
                           buttonType={ButtonType.ICON_BUTTON}
                           value="DE"
                           className={styles.aiButton}
+                          isDisabled={!hasEnoughCoins}
                         />
                       </Tooltip>
                     }
@@ -189,13 +197,17 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
                     trigger={
                       <Tooltip
                         position={PositionTooltip.TOP}
-                        content={LanguageService.way.reportsTable.estimateIssueByAI[language]}
+                        content={hasEnoughCoins
+                          ? LanguageService.way.reportsTable.estimateIssueByAI[language]
+                          : LanguageService.common.coins.notEnoughCoins[language]
+                        }
                       >
                         <Button
                           onClick={() => {}}
                           buttonType={ButtonType.ICON_BUTTON}
                           value="ES"
                           className={styles.aiButton}
+                          isDisabled={!hasEnoughCoins}
                         />
                       </Tooltip>
                     }
@@ -210,13 +222,17 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
                     trigger={
                       <Tooltip
                         position={PositionTooltip.TOP}
-                        content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                        content={hasEnoughCoins
+                          ? LanguageService.way.reportsTable.addRecommendationsByAI[language]
+                          : LanguageService.common.coins.notEnoughCoins[language]
+                        }
                       >
                         <Button
                           onClick={() => {}}
                           buttonType={ButtonType.ICON_BUTTON}
                           value="RE"
                           className={styles.aiButton}
+                          isDisabled={!hasEnoughCoins}
                         />
                       </Tooltip>
                     }

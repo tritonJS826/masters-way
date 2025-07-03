@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AnchorLink} from "src/component/anchorLink/AnchorLink";
@@ -45,6 +46,8 @@ const MIN_LENGTH_TOPIC_NAME = 1;
 const MAX_LENGTH_MATERIAL_NAME = 128;
 const MIN_LENGTH_MATERIAL_NAME = 1;
 const MAX_TRAINING_MATERIAL_LENGTH = 10000;
+const DEFAULT_THEORY_MATERIAL_AMOUNT_TO_GENERATE = 1;
+const DEFAULT_PRACTICE_MATERIAL_AMOUNT_TO_GENERATE = 1;
 
 /**
  * Update Topic params
@@ -193,6 +196,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
         language,
       });
       topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
+      !!user && user.profileSetting.decreaseCoins(DEFAULT_THEORY_MATERIAL_AMOUNT_TO_GENERATE);
     } catch (error) {
       setIsErrorCatched(true);
 
@@ -221,13 +225,14 @@ export const TopicPage = observer((props: TopicPageProps) => {
    */
   const generatePracticeMaterial = async (topicUuid: string) => {
     try {
-      const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
+      const newPracticeMaterials = await AIDAL.aiCreatePracticeMaterial({
         generateAmount: 2,
         topicId: topicUuid,
         trainingId: props.trainingUuid,
         language,
       });
-      newPracticeMaterial.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
+      newPracticeMaterials.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
+      !!user && user.profileSetting.decreaseCoins(newPracticeMaterials.length);
     } catch (error) {
       setIsErrorCatched(true);
 
@@ -281,6 +286,11 @@ export const TopicPage = observer((props: TopicPageProps) => {
       okText={LanguageService.modals.confirmModal.deleteButton[language]}
       cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
     />);
+
+  const hasEnoughCoinsToGenerateTheoryMaterial = user
+    && DEFAULT_THEORY_MATERIAL_AMOUNT_TO_GENERATE < user.profileSetting.coins;
+  const hasEnoughCoinsToGeneratePracticeMaterial = user
+    && DEFAULT_PRACTICE_MATERIAL_AMOUNT_TO_GENERATE < user.profileSetting.coins;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -591,14 +601,21 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
                 onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
               />
-              <Button
-                value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
-                onClick={() => {
-                  setIsErrorCatched(false);
-                  generateTheoryMaterial(topicPageStore.topic.uuid);
-                }}
-                buttonType={ButtonType.PRIMARY}
-              />
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={!hasEnoughCoinsToGenerateTheoryMaterial}
+                className={clsx(hasEnoughCoinsToGenerateTheoryMaterial && styles.notVisibleTooltip)}
+              >
+                <Button
+                  value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
+                  onClick={() => {
+                    setIsErrorCatched(false);
+                    generateTheoryMaterial(topicPageStore.topic.uuid);
+                  }}
+                  buttonType={ButtonType.PRIMARY}
+                  isDisabled={!hasEnoughCoinsToGenerateTheoryMaterial}
+                />
+              </Tooltip>
             </HorizontalContainer>
             }
 
@@ -790,14 +807,21 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
                 className={styles.addMaterial}
               />
-              <Button
-                value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
-                onClick={() => {
-                  setIsErrorCatched(false);
-                  generatePracticeMaterial(topicPageStore.topic.uuid);
-                }}
-                buttonType={ButtonType.PRIMARY}
-              />
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={!hasEnoughCoinsToGeneratePracticeMaterial}
+                className={clsx(hasEnoughCoinsToGeneratePracticeMaterial && styles.notVisibleTooltip)}
+              >
+                <Button
+                  value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
+                  onClick={() => {
+                    setIsErrorCatched(false);
+                    generatePracticeMaterial(topicPageStore.topic.uuid);
+                  }}
+                  buttonType={ButtonType.PRIMARY}
+                  isDisabled={!hasEnoughCoinsToGeneratePracticeMaterial}
+                />
+              </Tooltip>
             </HorizontalContainer>
             }
           </VerticalContainer>

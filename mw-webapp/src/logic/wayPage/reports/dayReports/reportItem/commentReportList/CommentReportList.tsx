@@ -15,6 +15,7 @@ import {Trash} from "src/component/trash/Trash";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {ChatAiModal} from "src/logic/wayPage/reports/aiModal/chatAiModal/ChatAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorStore";
 import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection";
@@ -70,6 +71,7 @@ interface CommentReportListProps {
  */
 export const CommentReportList = observer((props: CommentReportListProps) => {
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
 
@@ -118,6 +120,8 @@ export const CommentReportList = observer((props: CommentReportListProps) => {
     await CommentDAL.deleteComment(commentUuid);
   };
 
+  const hasEnoughCoins = user && user.profileSetting.coins > 0;
+
   return (
     <>
       <ol className={styles.numberedList}>
@@ -161,13 +165,17 @@ export const CommentReportList = observer((props: CommentReportListProps) => {
                     trigger={
                       <Tooltip
                         position={PositionTooltip.TOP}
-                        content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                        content={hasEnoughCoins
+                          ? LanguageService.way.reportsTable.addRecommendationsByAI[language]
+                          : LanguageService.common.coins.notEnoughCoins[language]
+                        }
                       >
                         <Button
                           onClick={() => { }}
                           buttonType={ButtonType.ICON_BUTTON}
                           value="RE"
                           className={styles.aiButton}
+                          isDisabled={!hasEnoughCoins}
                         />
                       </Tooltip>
                     }

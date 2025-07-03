@@ -20,6 +20,7 @@ import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanLabelDAL} from "src/dataAccessLogic/PlanLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reports/aiModal/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from "src/logic/wayPage/reports/aiModal/estimateIssueAiModal/EstimateIssueAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorStore";
@@ -100,6 +101,7 @@ interface PlanReportListProps {
  */
 export const PlanReportList = observer((props: PlanReportListProps) => {
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
 
@@ -224,6 +226,8 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
     await copyToJobDone(plan, currentDayReport, ownerUuid);
   };
 
+  const hasEnoughCoins = user && user.profileSetting.coins > 0;
+
   return (
     <>
       <ol className={styles.numberedList}>
@@ -268,13 +272,17 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                       trigger={
                         <Tooltip
                           position={PositionTooltip.TOP}
-                          content={LanguageService.way.reportsTable.decomposeIssueByAI[language]}
+                          content={hasEnoughCoins
+                            ? LanguageService.way.reportsTable.decomposeIssueByAI[language]
+                            : LanguageService.common.coins.notEnoughCoins[language]
+                          }
                         >
                           <Button
                             onClick={() => { }}
                             buttonType={ButtonType.ICON_BUTTON}
                             value="DE"
                             className={styles.aiButton}
+                            isDisabled={!hasEnoughCoins}
                           />
                         </Tooltip>
                       }
@@ -291,13 +299,17 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                       trigger={
                         <Tooltip
                           position={PositionTooltip.TOP}
-                          content={LanguageService.way.reportsTable.estimateIssueByAI[language]}
+                          content={hasEnoughCoins
+                            ? LanguageService.way.reportsTable.estimateIssueByAI[language]
+                            : LanguageService.common.coins.notEnoughCoins[language]
+                          }
                         >
                           <Button
                             onClick={() => { }}
                             buttonType={ButtonType.ICON_BUTTON}
                             value="ES"
                             className={styles.aiButton}
+                            isDisabled={!hasEnoughCoins}
                           />
                         </Tooltip>
                       }
