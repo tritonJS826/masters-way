@@ -13,6 +13,7 @@ import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/trainingPage/topicsBlock/TopicsAiModal.module.scss";
@@ -104,10 +105,15 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
   const [generatedTopicsPreview, setGeneratedTopicsPreview] = useState<GeneratedTopicPreview[]>([]);
   const {theme} = themeStore;
   const {language} = languageStore;
+  const {user} = userStore;
 
   const [inputTopicsAmount, setInputTopicsAmount] = useState<number>(DEFAULT_TOPICS_AMOUNT);
   const [isGeneratingTopics, setIsGeneratingTopics] = useState<boolean>(false);
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   /**
    * Generate AI topics
@@ -126,6 +132,7 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
         isChecked: false,
       }));
       setGeneratedTopicsPreview(topicsPreview);
+      user.profileSetting.decreaseCoins(topicsPreview.length);
     } catch (error) {
       setIsErrorCatched(true);
 
@@ -153,6 +160,8 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
     topics.forEach(props.addTopic);
   };
 
+  const hasEnoughCoins = inputTopicsAmount < user.profileSetting.coins;
+
   return (
     <VerticalContainer className={styles.topicsAiModalWrapper}>
       {generatedTopicsPreview.length === 0 &&
@@ -172,6 +181,11 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
             autoFocus={true}
             formatter={getFormattedValue}
           />
+          {!hasEnoughCoins &&
+          <div>
+            {LanguageService.common.coins.notEnoughCoins[language]}
+          </div>
+          }
           <Button
             value={LanguageService.training.aiButtons.generateTopicWithAIButton[language]}
             onClick={() => {
@@ -179,6 +193,7 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
               setIsGeneratingTopics(true);
               generateAITopics();
             }}
+            isDisabled={!hasEnoughCoins}
           />
         </>
       }

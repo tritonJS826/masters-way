@@ -9,11 +9,14 @@ import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {GeneratePlansByMetricAiModal} from
   "src/logic/wayPage/reports/aiModal/generatePlansByMetricAiModal/GeneratePlansByMetricAiModal";
 import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {Metric} from "src/model/businessModel/Metric";
 import {Plan} from "src/model/businessModel/Plan";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection.module.scss";
 
 const SINGLE_PARTICIPANT_AMOUNT = 1;
@@ -95,7 +98,11 @@ interface SummarySectionProps {
  * Summary Section
  */
 export const SummarySection = (props: SummarySectionProps) => {
+  const {user} = userStore;
+  const {language} = languageStore;
   const [chosenWays, setChosenWays] = useState<DayReportCompositionParticipant[]>([]);
+
+  const hasEnoughCoins = user && user.profileSetting.coins > 0;
 
   return (
     <div className={styles.summarySection}>
@@ -125,13 +132,17 @@ export const SummarySection = (props: SummarySectionProps) => {
                   trigger={
                     <Tooltip
                       position={PositionTooltip.TOP}
-                      content={props.generatePlanTooltip}
+                      content={hasEnoughCoins
+                        ? props.generatePlanTooltip
+                        : LanguageService.common.coins.notEnoughCoins[language]
+                      }
                     >
                       <Button
                         onClick={() => { }}
                         buttonType={ButtonType.ICON_BUTTON}
                         value="GE"
                         className={styles.aiButton}
+                        isDisabled={!hasEnoughCoins}
                       />
                     </Tooltip>
                   }

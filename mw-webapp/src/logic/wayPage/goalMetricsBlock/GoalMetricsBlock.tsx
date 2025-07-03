@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
@@ -8,9 +9,12 @@ import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {MetricChildrenList} from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList";
 import {MetricsAiModal} from "src/logic/wayPage/goalMetricsBlock/MetricsAiModal";
 import {Metric} from "src/model/businessModel/Metric";
@@ -75,6 +79,7 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
   const {language} = languageStore;
+  const {user} = userStore;
 
   /**
    * Add metric
@@ -114,6 +119,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
   const flattenedMetrics = flattenMetrics(props.goalMetrics);
   const doneMetricsCount = flattenedMetrics.filter((metric) => metric.isDone).length;
   const totalMetricsCount = flattenedMetrics.length;
+  const hasEnoughCoins = user && user.profileSetting.coins > 0;
 
   return (
     <VerticalContainer>
@@ -181,12 +187,19 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
                 />
                 <Modal
                   trigger={
-                    <Button
-                      value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
-                      onClick={() => {}}
-                      className={styles.addMetricButton}
-                      dataCy={wayMetricsAccessIds.metricButtons.generateNewMetricsAiButton}
-                    />
+                    <Tooltip
+                      position={PositionTooltip.BOTTOM}
+                      content={!hasEnoughCoins}
+                      className={clsx(hasEnoughCoins && styles.notVisibleTooltip)}
+                    >
+                      <Button
+                        value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
+                        onClick={() => {}}
+                        className={styles.addMetricButton}
+                        dataCy={wayMetricsAccessIds.metricButtons.generateNewMetricsAiButton}
+                        isDisabled={!hasEnoughCoins}
+                      />
+                    </Tooltip>
                   }
                   content={
                     <MetricsAiModal

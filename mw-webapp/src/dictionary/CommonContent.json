@@ -155,5 +155,12 @@
       "en": "We thank you for your interest!\n\nYou can support the Master's Way project through [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n For any questions, please contact victorveretennikov58@gmail.com!",
       "ua": "Ми дякуємо вам за виявлений інтерес!\n\nВи можете підтримати проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)!\n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n З усіх питань пишіть на victorveretennikov58@gmail.com!"
     }
+  },
+  "coins": {
+    "notEnoughCoins": {
+      "ru": "Недостаточно мастеркоинов. Перейдите в Настройки, чтобы получить больше мастеркоинов или напишите письмо на почту victorveretennikov58@gmail.com (с темой - 'Mastersway:mastercoins')",
+      "en": "Not enough mastercoins. Go to the Settings to get more mastercoins or write an email to victorveretennikov58@gmail.com (with the subject - 'Mastersway:mastercoins')",
+      "ua": "Недостатньо мастеркойнів. Перейдіть до розділу «Налаштування», щоб отримати більше мастеркойнів, або напишіть електронного листа на адресу victorveretennikov58@gmail.com (з темою листа — 'Mastersway:mastercoins')"
+    }
   }
 }

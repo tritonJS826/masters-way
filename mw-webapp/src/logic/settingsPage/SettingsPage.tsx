@@ -64,7 +64,7 @@ export const SettingsPage = observer(() => {
           <div className={styles.progressContainer}>
             <ProgressBar
               value={user?.profileSetting.coins}
-              max={1000}
+              max={4000}
               textToLabel={LanguageService.settings.coinsBlock.coinsProgressLabel[language]}
             />
           </div>

@@ -4706,6 +4706,12 @@ const docTemplate = `{
         },
         "mw-general-bff_internal_schemas.ProfileSetting": {
             "type": "object",
+            "required": [
+                "coins",
+                "expirationDate",
+                "pricingPlan",
+                "uuid"
+            ],
             "properties": {
                 "coins": {
                     "type": "integer"

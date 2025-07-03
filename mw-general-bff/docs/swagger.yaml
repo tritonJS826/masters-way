@@ -1175,6 +1175,11 @@ definitions:
         type: string
       uuid:
         type: string
+    required:
+    - coins
+    - expirationDate
+    - pricingPlan
+    - uuid
     type: object
   mw-general-bff_internal_schemas.ProjectPlainResponse:
     properties:
