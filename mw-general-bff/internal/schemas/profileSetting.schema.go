@@ -1,8 +1,8 @@
 package schemas
 
 type ProfileSetting struct {
-	Uuid           string
-	PricingPlan    string
-	Coins          int32
-	ExpirationDate string
+	Uuid           string `json:"uuid" validate:"required"`
+	PricingPlan    string `json:"pricingPlan" validate:"required"`
+	Coins          int32  `json:"coins" validate:"required"`
+	ExpirationDate string `json:"expirationDate" validate:"required"`
 }
