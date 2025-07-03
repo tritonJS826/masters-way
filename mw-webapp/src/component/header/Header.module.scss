@@ -118,10 +118,11 @@ $iconSize: 32px;
 }
 
 .coinsAmount {
+  position: absolute;
   width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
-  margin-left: -48px;
   font-size: $fontSizeSmall;
 }
 

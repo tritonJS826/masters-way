@@ -10,11 +10,15 @@ export const profileSettingsDTOToProfileSettings = (
 ): ProfileSettings => {
   return new ProfileSettings({
     ...profileSettingsDTO,
+    // ! TODO: remove ?? after updated optional properties in the interface on back
     coins: profileSettingsDTO.coins ?? 0,
+    // ! TODO: remove ?? after updated optional properties in the interface on back
     expirationDate: profileSettingsDTO.expirationDate ? new Date(profileSettingsDTO.expirationDate) : new Date(),
+    // ! TODO: remove ?? after updated optional properties in the interface on back
     pricingPlan: profileSettingsDTO.pricingPlan
       ? convertPricingPlanStringToEnum(profileSettingsDTO.pricingPlan)
       : PricingPlan.FREE,
+    // ! TODO: remove ?? after updated optional properties in the interface on back
     uuid: profileSettingsDTO.uuid ?? "",
   });
 };

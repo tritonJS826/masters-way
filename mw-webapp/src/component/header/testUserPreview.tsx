@@ -50,7 +50,7 @@ export const testUserPreview = new CurrentUser({
   },
   profileSetting: new ProfileSettings({
     coins: 15,
-    uuid: "0001",
+    uuid: "696c5403-625f-4233-a0d1-a998666ebdf8",
     pricingPlan: PricingPlan.FREE,
     expirationDate: new Date(),
   }),
