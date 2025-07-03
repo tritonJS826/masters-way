@@ -53,6 +53,59 @@ func (q *Queries) GetProfileSettingUserId(ctx context.Context, userUuid pgtype.U
 	return i, err
 }
 
+const refillCoinsForAll = `-- name: RefillCoinsForAll :many
+UPDATE
+    profile_settings
+SET
+    expiration_date = (CURRENT_DATE + INTERVAL '1 month'),
+    coins = CASE
+        WHEN pricing_plan = 'free' THEN 50
+        WHEN pricing_plan = 'ai-starter' THEN 1500
+        WHEN pricing_plan = 'starter' THEN 2000
+        WHEN pricing_plan = 'pro' THEN 4000
+        ELSE coins
+    END
+WHERE
+    expiration_date < CURRENT_DATE
+RETURNING
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date
+`
+
+type RefillCoinsForAllRow struct {
+	Uuid           pgtype.UUID      `json:"uuid"`
+	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	Coins          int32            `json:"coins"`
+	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
+}
+
+func (q *Queries) RefillCoinsForAll(ctx context.Context) ([]RefillCoinsForAllRow, error) {
+	rows, err := q.db.Query(ctx, refillCoinsForAll)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []RefillCoinsForAllRow{}
+	for rows.Next() {
+		var i RefillCoinsForAllRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.PricingPlan,
+			&i.Coins,
+			&i.ExpirationDate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateProfileSettingByUserId = `-- name: UpdateProfileSettingByUserId :one
 UPDATE
     profile_settings

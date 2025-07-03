@@ -11,11 +11,13 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/samber/lo"
 )
 
 type ProfileSettingRepository interface {
 	GetProfileSettingUserId(ctx context.Context, userUuid pgtype.UUID) (db.GetProfileSettingUserIdRow, error)
 	UpdateProfileSettingByUserId(ctx context.Context, arg db.UpdateProfileSettingByUserIdParams) (db.UpdateProfileSettingByUserIdRow, error)
+	RefillCoinsForAll(ctx context.Context) ([]db.RefillCoinsForAllRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -85,4 +87,39 @@ func (ps *ProfileSettingService) UpdateProfileSettingByUserId(ctx context.Contex
 		Coins:          profileSetting.Coins,
 		ExpirationDate: profileSetting.ExpirationDate.Time.Format(util.DEFAULT_STRING_LAYOUT),
 	}, nil
+}
+
+type RefillCoinsForAllResponse struct {
+	Uuid           string
+	PricingPlan    string
+	Coins          int32
+	ExpirationDate string
+}
+
+func (ps *ProfileSettingService) RefillCoins(ctx context.Context) ([]RefillCoinsForAllResponse, error) {
+	tx, err := ps.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
+
+	var profileSettingRepositoryTx ProfileSettingRepository = ps.profileSettingRepository.WithTx(tx)
+
+	refilledProfilesDb, err := profileSettingRepositoryTx.RefillCoinsForAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	tx.Commit(ctx)
+
+	refilledProfiles := lo.Map(refilledProfilesDb, func(profile db.RefillCoinsForAllRow, _ int) RefillCoinsForAllResponse {
+		return RefillCoinsForAllResponse{
+			Uuid:           util.ConvertPgUUIDToUUID(profile.Uuid).String(),
+			PricingPlan:    string(profile.PricingPlan),
+			Coins:          profile.Coins,
+			ExpirationDate: profile.ExpirationDate.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		}
+	})
+
+	return refilledProfiles, nil
 }

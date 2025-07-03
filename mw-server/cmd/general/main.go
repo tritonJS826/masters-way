@@ -16,7 +16,9 @@ import (
 	"mw-server/internal/routers"
 	"mw-server/internal/services"
 
+	"github.com/go-co-op/gocron/v2"
 	"github.com/google/generative-ai-go/genai"
+	"github.com/samber/lo"
 	"google.golang.org/api/option"
 )
 
@@ -69,6 +71,43 @@ func main() {
 		}
 	}()
 	log.Println("Server started successfully")
+
+	scheduler, err := gocron.NewScheduler()
+	if err != nil {
+		log.Println("Ups, scheduler does not created!")
+	}
+
+	// Schedule the automatic coin refilling job
+	_, err = scheduler.NewJob(
+		gocron.DurationJob(6*time.Hour),
+		gocron.NewTask(
+			func(logString string) {
+				log.Println(logString)
+
+				ctx := context.Background()
+
+				refilledProfiles, err := newService.ProfileSettingService.RefillCoins(ctx)
+				if err != nil {
+					log.Printf("Error during automatic coin refilling: %v", err)
+				} else {
+					lo.ForEach(refilledProfiles, func(profile services.RefillCoinsForAllResponse, _ int) {
+						log.Println(
+							"\nRefilled profile:", profile.Uuid,
+							"\nPricingPlan:", profile.PricingPlan,
+							"\nCoins:", profile.Coins,
+							"\nExpirationDate:", profile.ExpirationDate,
+						)
+					})
+				}
+			},
+			"gocron: automatic coin refilling for users...",
+		),
+	)
+	if err != nil {
+		log.Println("Ups, job does not created!")
+	}
+
+	scheduler.Start()
 
 	// Set up signal catching
 	quit := make(chan os.Signal, 1)

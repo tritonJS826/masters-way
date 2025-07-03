@@ -26,3 +26,24 @@ RETURNING
     pricing_plan,
     coins,
     expiration_date;
+
+
+-- name: RefillCoinsForAll :many
+UPDATE
+    profile_settings
+SET
+    expiration_date = (CURRENT_DATE + INTERVAL '1 month'),
+    coins = CASE
+        WHEN pricing_plan = 'free' THEN 50
+        WHEN pricing_plan = 'ai-starter' THEN 1500
+        WHEN pricing_plan = 'starter' THEN 2000
+        WHEN pricing_plan = 'pro' THEN 4000
+        ELSE coins
+    END
+WHERE
+    expiration_date < CURRENT_DATE
+RETURNING
+    uuid,
+    pricing_plan,
+    coins,
+    expiration_date;

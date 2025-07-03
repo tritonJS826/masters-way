@@ -137,6 +137,7 @@ type Querier interface {
 	// TODO add filter by project (by project name with LIKE '%')
 	// TODO exclude ways from private for user projects
 	ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error)
+	RefillCoinsForAll(ctx context.Context) ([]RefillCoinsForAllRow, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
