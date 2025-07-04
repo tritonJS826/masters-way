@@ -89,7 +89,7 @@ export const StudentsWithMentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithMentorsLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w400"
           reviewerName={LanguageService.studentsWithMentorsLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithMentorsLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -101,7 +101,7 @@ export const StudentsWithMentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithMentorsLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w400"
           reviewerName={LanguageService.studentsWithMentorsLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithMentorsLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -113,7 +113,7 @@ export const StudentsWithMentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithMentorsLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w400"
           reviewerName={LanguageService.studentsWithMentorsLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithMentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />

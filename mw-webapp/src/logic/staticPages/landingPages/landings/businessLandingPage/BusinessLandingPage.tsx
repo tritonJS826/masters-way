@@ -88,7 +88,7 @@ export const BusinessLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.businessLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w400"
           reviewerName={LanguageService.businessLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.businessLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -100,7 +100,7 @@ export const BusinessLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.businessLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w400"
           reviewerName={LanguageService.businessLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.businessLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -112,7 +112,7 @@ export const BusinessLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.businessLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w400"
           reviewerName={LanguageService.businessLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.businessLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />
@@ -161,7 +161,7 @@ export const BusinessLandingPage = observer(() => {
         <VerticalContainer className={styles.imageBlock}>
           <Image
             alt="desktopImage"
-            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
+            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w400"
             className={styles.mainBlockImage}
           />
         </VerticalContainer>
@@ -217,18 +217,18 @@ export const BusinessLandingPage = observer(() => {
             <ProblemItem
               title={LanguageService.businessLanding.solutions.timeSaving.title[language]}
               description={LanguageService.businessLanding.solutions.timeSaving.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w400"
             />
             <ProblemItem
               title={LanguageService.businessLanding.solutions.progressMonitoring.title[language]}
               description={LanguageService.businessLanding.solutions.progressMonitoring.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w400"
               isReversed
             />
             <ProblemItem
               title={LanguageService.businessLanding.solutions.focusOnResults.title[language]}
               description={LanguageService.businessLanding.solutions.focusOnResults.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w400"
             />
           </VerticalContainer>
         </div>

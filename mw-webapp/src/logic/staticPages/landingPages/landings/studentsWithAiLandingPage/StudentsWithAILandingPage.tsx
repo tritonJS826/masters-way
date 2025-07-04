@@ -88,7 +88,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithAiLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w400"
           reviewerName={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -100,7 +100,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithAiLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w400"
           reviewerName={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -112,7 +112,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w400"
           reviewerName={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />
@@ -161,7 +161,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <VerticalContainer className={styles.imageBlock}>
           <Image
             alt="desktopImage"
-            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
+            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w400"
             className={styles.mainBlockImage}
           />
         </VerticalContainer>
@@ -217,18 +217,18 @@ export const StudentsWithAILandingPage = observer(() => {
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.timeSaving.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.timeSaving.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w400"
             />
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w400"
               isReversed
             />
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.focusOnResults.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.focusOnResults.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w400"
             />
           </VerticalContainer>
         </div>
