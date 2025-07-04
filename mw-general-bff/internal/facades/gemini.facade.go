@@ -3,6 +3,7 @@ package facades
 import (
 	"context"
 	"fmt"
+	"log"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"strings"
@@ -104,36 +105,45 @@ func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, pay
 		return nil, err
 	}
 
+	topics := lo.Map(rawTopics.Topics, func(topicRaw schemas.GeneratedTopicPreview, i int) *pbTraining.TopicPreview {
+		topic, err := gs.trainingService.CreateTopic(ctx, &services.CreateTopicParams{
+			TopicName:    topicRaw.Name,
+			TrainingUuid: training.Uuid,
+		})
+		if err != nil {
+			fmt.Printf("Error creating topic background - skipped: %v\n", err)
+		}
+
+		return topic
+	})
+
 	response := &schemas.AIGenerateTrainingByTestTestSessionIdResponse{
 		TrainingId: training.Uuid,
 	}
 
 	// process topics in background after sending response
 	go func(ctx context.Context, rawTopics *schemas.AIGenerateTopicsForTrainingResponse, training *pbTraining.Training, payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload) {
-		for _, rawTopic := range rawTopics.Topics {
+		for _, topic := range topics {
 			time.Sleep(25 * time.Second)
 
-			topicPreview, err := gs.trainingService.CreateTopic(ctx, &services.CreateTopicParams{
-				TopicName:    rawTopic.Name,
-				TrainingUuid: training.Uuid,
-			})
-			if err != nil {
-				fmt.Printf("Error creating topic in background - skipped: %v\n", err)
-				continue
-			}
-
-			_, _ = gs.GenerateTheoryMaterialForTraining(ctx, &schemas.AIGenerateTheoryMaterialForTrainingPayload{
+			_, err = gs.GenerateTheoryMaterialForTraining(ctx, &schemas.AIGenerateTheoryMaterialForTrainingPayload{
 				TrainingId: training.Uuid,
-				TopicId:    topicPreview.Uuid,
+				TopicId:    topic.Uuid,
 				Language:   payload.Language,
 			})
+			if err != nil {
+				log.Printf("Error generating theory material for topic %s: %v", topic.Uuid, err)
+			}
 
-			_, _ = gs.GeneratePracticeMaterialForTraining(ctx, &schemas.AIGeneratePracticeMaterialForTopicPayload{
-				TopicId:        topicPreview.Uuid,
+			_, err = gs.GeneratePracticeMaterialForTraining(ctx, &schemas.AIGeneratePracticeMaterialForTopicPayload{
+				TopicId:        topic.Uuid,
 				TrainingId:     training.Uuid,
 				GenerateAmount: payload.PracticeMaterialInEachTopic,
 				Language:       payload.Language,
 			})
+			if err != nil {
+				log.Printf("Error generating practice material for topic %s: %v", topic.Uuid, err)
+			}
 		}
 	}(context.Background(), rawTopics, training, payload)
 
