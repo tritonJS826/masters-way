@@ -133,10 +133,6 @@ func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, pay
 		auth.ContextKeyUserID:        userID,
 	}
 
-	fmt.Println("userID:", userID)
-	fmt.Println("authorization:", authorization)
-
-	fmt.Println("headers:", headers)
 	backContext := context.WithValue(context.Background(), "headers", headers)
 
 	// process topics in background after sending response

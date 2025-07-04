@@ -117,7 +117,7 @@ func (pmc *PracticeMaterialController) UpdatePracticeMaterial(ctx *gin.Context) 
 // @Success 200
 // @Router /practiceMaterials/{practiceMaterialId} [delete]
 func (pmc *PracticeMaterialController) DeletePracticeMaterial(ctx *gin.Context) {
-	practiceMaterialId := ctx.Param("theoryMaterialId")
+	practiceMaterialId := ctx.Param("practiceMaterialId")
 
 	err := pmc.practiceMaterialService.DeletePracticeMaterial(ctx, practiceMaterialId)
 	util.HandleErrorGin(ctx, err)
