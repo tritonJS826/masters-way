@@ -111,7 +111,7 @@ export const LoremLandingPage = observer(() => {
     {
       title: LanguageService.loremLanding.solutions.userInterests.title[language],
       description: LanguageService.loremLanding.solutions.userInterests.description[language],
-      imageSrc: "https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000",
+      imageSrc: "https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w500",
       isReversed: false,
       buttonValue: LanguageService.loremLanding.solutions.userInterests.callToActionButton[language],
 
@@ -123,7 +123,7 @@ export const LoremLandingPage = observer(() => {
     {
       title: LanguageService.loremLanding.solutions.mentoringSupport.title[language],
       description: LanguageService.loremLanding.solutions.mentoringSupport.description[language],
-      imageSrc: "https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000",
+      imageSrc: "https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w500",
       isReversed: true,
       buttonValue: LanguageService.loremLanding.solutions.mentoringSupport.callToActionButton[language],
 
@@ -135,7 +135,7 @@ export const LoremLandingPage = observer(() => {
     {
       title: LanguageService.loremLanding.solutions.progressMonitoring.title[language],
       description: LanguageService.loremLanding.solutions.progressMonitoring.description[language],
-      imageSrc: "https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000",
+      imageSrc: "https://drive.google.com/thumbnail?id=1cKQvsA0hlBPSJ3sGRXYKPQsBYzjBsom6&sz=w500",
       isReversed: false,
       buttonValue: LanguageService.loremLanding.solutions.progressMonitoring.callToActionButton[language],
 
@@ -153,7 +153,7 @@ export const LoremLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.loremLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=&sz=w4000"
           reviewerName={LanguageService.loremLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.loremLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -165,7 +165,7 @@ export const LoremLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.loremLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w4000"
           reviewerName={LanguageService.loremLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.loremLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -177,7 +177,7 @@ export const LoremLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.loremLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w4000"
           reviewerName={LanguageService.loremLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.loremLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />

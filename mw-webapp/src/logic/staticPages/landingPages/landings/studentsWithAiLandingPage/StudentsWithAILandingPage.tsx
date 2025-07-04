@@ -217,18 +217,18 @@ export const StudentsWithAILandingPage = observer(() => {
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.timeSaving.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.timeSaving.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1nTTtnLsX3mCFOKdua6aSlG6WL61vN49o&sz=w500"
             />
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1bZryfMCG_JwdaBPoaGN8KqRDTwP3cda7&sz=w500"
               isReversed
             />
             <ProblemItem
               title={LanguageService.studentsWithAiLanding.solutions.focusOnResults.title[language]}
               description={LanguageService.studentsWithAiLanding.solutions.focusOnResults.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1cKQvsA0hlBPSJ3sGRXYKPQsBYzjBsom6&sz=w500"
             />
           </VerticalContainer>
         </div>

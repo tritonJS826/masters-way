@@ -88,7 +88,7 @@ export const MentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.mentorsLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w400"
           reviewerName={LanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -100,7 +100,7 @@ export const MentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.mentorsLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w400"
           reviewerName={LanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -112,7 +112,7 @@ export const MentorsLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w400"
           reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />
@@ -161,7 +161,7 @@ export const MentorsLandingPage = observer(() => {
         <VerticalContainer className={styles.imageBlock}>
           <Image
             alt="desktopImage"
-            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
+            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w500"
             className={styles.mainBlockImage}
           />
         </VerticalContainer>
@@ -217,18 +217,18 @@ export const MentorsLandingPage = observer(() => {
             <ProblemItem
               title={LanguageService.mentorsLanding.solutions.timeSaving.title[language]}
               description={LanguageService.mentorsLanding.solutions.timeSaving.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1nTTtnLsX3mCFOKdua6aSlG6WL61vN49o&sz=w500"
             />
             <ProblemItem
               title={LanguageService.mentorsLanding.solutions.progressMonitoring.title[language]}
               description={LanguageService.mentorsLanding.solutions.progressMonitoring.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1bZryfMCG_JwdaBPoaGN8KqRDTwP3cda7&sz=w500"
               isReversed
             />
             <ProblemItem
               title={LanguageService.mentorsLanding.solutions.focusOnResults.title[language]}
               description={LanguageService.mentorsLanding.solutions.focusOnResults.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
+              imageSrc="https://drive.google.com/thumbnail?id=1cKQvsA0hlBPSJ3sGRXYKPQsBYzjBsom6&sz=w500"
             />
           </VerticalContainer>
         </div>

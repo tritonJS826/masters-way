@@ -217,18 +217,18 @@ export const BusinessLandingPage = observer(() => {
             <ProblemItem
               title={LanguageService.businessLanding.solutions.timeSaving.title[language]}
               description={LanguageService.businessLanding.solutions.timeSaving.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1nTTtnLsX3mCFOKdua6aSlG6WL61vN49o&sz=w400"
             />
             <ProblemItem
               title={LanguageService.businessLanding.solutions.progressMonitoring.title[language]}
               description={LanguageService.businessLanding.solutions.progressMonitoring.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1bZryfMCG_JwdaBPoaGN8KqRDTwP3cda7&sz=w400"
               isReversed
             />
             <ProblemItem
               title={LanguageService.businessLanding.solutions.focusOnResults.title[language]}
               description={LanguageService.businessLanding.solutions.focusOnResults.description[language]}
-              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w400"
+              imageSrc="https://drive.google.com/thumbnail?id=1cKQvsA0hlBPSJ3sGRXYKPQsBYzjBsom6&sz=w400"
             />
           </VerticalContainer>
         </div>
