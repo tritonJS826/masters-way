@@ -142,8 +142,6 @@ func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, pay
 	// process topics in background after sending response
 	go func(backContext context.Context, rawTopics *schemas.AIGenerateTopicsForTrainingResponse, training *pbTraining.Training, payload *schemas.AIGenerateTrainingByTestTestSessionIdPayload) {
 		for _, topic := range topics {
-			time.Sleep(1 * time.Second)
-
 			_, err = gs.GenerateTheoryMaterialForTraining(ctx, &schemas.AIGenerateTheoryMaterialForTrainingPayload{
 				TrainingId: training.Uuid,
 				TopicId:    topic.Uuid,
@@ -162,6 +160,8 @@ func (gs *GeminiFacade) GenerateTrainingByTestSessionId(ctx context.Context, pay
 			if err != nil {
 				log.Printf("Error generating practice material for topic %s: %v", topic.Uuid, err)
 			}
+
+			time.Sleep(24 * time.Second)
 		}
 	}(backContext, rawTopics, training, payload)
 
