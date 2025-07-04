@@ -1,12 +1,15 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
+import {Language} from "src/globalStore/LanguageStore";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {Topic} from "src/model/businessModel/Topic";
 import {Training} from "src/model/businessModel/Training";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
+import {LazyLoader} from "src/utils/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -144,8 +147,7 @@ const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
 /**
  * Download training as pdf
  */
-export const downloadTrainingPdf = async (training: Training) => {
-  const pdfMake = await pdfMakeLazyLoader();
+export const downloadTrainingPdf = async (training: Training, language: Language) => {
 
   const topicMaterials = await Promise.all(
     training.topics.map(topicPreview =>
@@ -173,6 +175,11 @@ export const downloadTrainingPdf = async (training: Training) => {
     ],
   };
 
-  const pdf = pdfMake.createPdf(docDefinition);
+  const pdf = (await LazyLoader.getPDFMake()).createPdf(docDefinition);
   pdf.download(`${training.name}.pdf`);
+
+  displayNotification({
+    text: LanguageService.common.notifications.pdfDownloaded[language],
+    type: NotificationType.INFO,
+  });
 };

@@ -327,7 +327,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                            * Download training as pdf
                            */
                           onClick: async () => {
-                            await downloadTrainingPdf(trainingPageStore.training);
+                            await downloadTrainingPdf(trainingPageStore.training, language);
                           },
                         },
                       ],

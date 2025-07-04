@@ -130,6 +130,11 @@
       "ru": "Уведомления",
       "en": "Notifications",
       "ua": "Сповіщення"
+    },
+    "pdfDownloaded": {
+      "ru": "PDF файл скачан",
+      "en": "PDF file downloaded",
+      "ua": "PDF файл завантажено"
     }
   },
   "button": {

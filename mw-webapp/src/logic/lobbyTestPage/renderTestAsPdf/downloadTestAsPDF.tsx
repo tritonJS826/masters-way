@@ -1,7 +1,10 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Language} from "src/globalStore/LanguageStore";
 import {Question, Test} from "src/model/businessModel/Test";
+import {LanguageService} from "src/service/LanguageService";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
-import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
+import {LazyLoader} from "src/utils/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -77,8 +80,8 @@ const getQuestions = (questions: Question[]): Content[] => {
 /**
  * Download test as pdf
  */
-export const downloadTestAsPDF = async (test: Test, timeToTest: number) => {
-  const pdfMake = await pdfMakeLazyLoader();
+export const downloadTestAsPDF = async (test: Test, timeToTest: number, language: Language) => {
+
   const descriptionDefinition = getDescription(test.description);
   const questionsDefinition = getQuestions(test.questions);
   const testNameDefinition = getTestName(test);
@@ -98,6 +101,11 @@ export const downloadTestAsPDF = async (test: Test, timeToTest: number) => {
 
   };
 
-  const pdf = pdfMake.createPdf(docDefinition);
+  const pdf = (await LazyLoader.getPDFMake()).createPdf(docDefinition);
   pdf.download(`${test.name}.pdf`);
+
+  displayNotification({
+    text: LanguageService.common.notifications.pdfDownloaded[language],
+    type: NotificationType.INFO,
+  });
 };
