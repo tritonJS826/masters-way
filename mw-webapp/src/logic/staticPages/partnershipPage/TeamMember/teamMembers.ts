@@ -6,13 +6,13 @@ export const teamMembers: TeamMemberType[] = [
     id: 0,
     name: "Viktar Veratsennikau",
     description: "Founder",
-    imageUrl: "https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000",
+    imageUrl: "https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000",
   },
   {
     id: 1,
     name: "Ekaterina Veretennikova",
     description: "Front-end lead",
-    imageUrl: "https://drive.google.com/thumbnail?id=1XTHKtc-5_TEK823s5wGVj9TYjvmvW4GW&sz=w1000",
+    imageUrl: "https://drive.google.com/thumbnail?id=11NfwiFJ8QjS9YA2A2QTjj7c4xb6fHQpg&sz=w1000",
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ export const teamMembers: TeamMemberType[] = [
     id: 3,
     name: "Kirill Smirnov",
     description: "Back-end developer",
-    imageUrl: "https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000",
+    imageUrl: "https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000",
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ export const teamMembers: TeamMemberType[] = [
     id: 5,
     name: "Ekaterina Sokolova",
     description: "AQA Engineer",
-    imageUrl: "https://drive.google.com/thumbnail?id=1SC7y2CUX7jRYR6VVWoy4polIO0UZZ-i8&sz=w1000",
+    imageUrl: "https://drive.google.com/thumbnail?id=12Mns-qpyhL1KFIIFSlhnSwzyAUanblAt&sz=w1000",
   },
   {
     id: 6,
@@ -60,6 +60,6 @@ export const teamMembers: TeamMemberType[] = [
     id: 9,
     name: "Yuliya Demidyuk",
     description: "Marketer/Content-maker",
-    imageUrl: "https://drive.google.com/thumbnail?id=1X2V57H2VaX7K80tUI1tb1Vgzq-359T5w&sz=w1000",
+    imageUrl: "https://drive.google.com/thumbnail?id=1vBokegIhuNjOwdfD3JNTG9pPZI-CFya3&sz=w1000",
   },
 ];

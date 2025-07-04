@@ -379,7 +379,7 @@ export const Header = observer((props: HeaderProps) => {
                 <HorizontalContainer className={styles.loginContainer}>
                   <Image
                     alt="Login image"
-                    src="https://drive.google.com/thumbnail?id=1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH&sz=w1000"
+                    src="https://drive.google.com/thumbnail?id=1QzcyNH0fOgdHjMtx35ZUJl89PPB4Ly0O&sz=w1000"
                     className={styles.loginImage}
                   />
                   <VerticalContainer className={styles.loginContent}>

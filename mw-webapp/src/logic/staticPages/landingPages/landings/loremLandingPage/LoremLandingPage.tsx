@@ -153,7 +153,7 @@ export const LoremLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.loremLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
           reviewerName={LanguageService.loremLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.loremLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -165,7 +165,7 @@ export const LoremLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.loremLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
           reviewerName={LanguageService.loremLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.loremLanding.reviews.viktarReview.mentorProfession[language]}
         />

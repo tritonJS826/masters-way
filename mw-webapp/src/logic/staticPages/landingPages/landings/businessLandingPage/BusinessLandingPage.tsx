@@ -88,7 +88,7 @@ export const BusinessLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.businessLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
           reviewerName={LanguageService.businessLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.businessLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -100,7 +100,7 @@ export const BusinessLandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.businessLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
           reviewerName={LanguageService.businessLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.businessLanding.reviews.viktarReview.mentorProfession[language]}
         />

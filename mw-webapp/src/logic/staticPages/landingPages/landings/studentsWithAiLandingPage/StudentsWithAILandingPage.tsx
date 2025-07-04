@@ -88,7 +88,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithAiLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w1000"
           reviewerName={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -100,7 +100,7 @@ export const StudentsWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.studentsWithAiLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w1000"
           reviewerName={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorProfession[language]}
         />

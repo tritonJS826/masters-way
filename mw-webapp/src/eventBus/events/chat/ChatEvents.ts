@@ -56,7 +56,7 @@ export type ChatMessageReceivedPayload = {
 
   /**
    * Message owner image url
-   * example: "https://lh3.google.com/u/0/d/18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr=w1919-h1079-iv2"
+   * example: "https://lh3.google.com/u/0/d/1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK=w1919-h1079-iv2"
    */
   ownerImageUrl: string;
 
