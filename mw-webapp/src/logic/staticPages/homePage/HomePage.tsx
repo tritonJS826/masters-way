@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {NavigateFunction, useNavigate} from "react-router-dom";
+import {Unity, useUnityContext} from "react-unity-webgl";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackHomePage} from "src/analytics/homeAnalytics";
@@ -48,6 +49,13 @@ export const HomePage = observer(() => {
   const navigate = useNavigate();
 
   const [videoUrl, setVideoUrl] = useState<string>(VIDEO_FOR_STUDENT_URL);
+
+  const {unityProvider} = useUnityContext({
+    loaderUrl: "sol/build/Build/build.loader.js",
+    dataUrl: "sol/build/Build/build.data",
+    frameworkUrl: "sol/build/Build/build.framework.js",
+    codeUrl: "sol/build/Build/build.wasm",
+  });
 
   const tabList: TabItemProps[] = [
     {
@@ -146,6 +154,10 @@ export const HomePage = observer(() => {
           </VerticalContainer>
         </HorizontalGridContainer>
       </div>
+
+      <VerticalContainer className={styles.advantagesBlock}>
+        <Unity unityProvider={unityProvider} />
+      </VerticalContainer>
 
       <VerticalContainer className={styles.advantagesBlock}>
         <Title
