@@ -1,0 +1,388 @@
+{
+  "navigation": {
+    "video": {
+      "ru": "С чего начать?",
+      "en": "What to start with?",
+      "ua": "З чого почати?"
+    },
+    "advantages": {
+      "ru": "Преимущества",
+      "en": "Advantages",
+      "ua": "Переваги"
+    },
+    "solutions": {
+      "ru": "Решения",
+      "en": "Solutions",
+      "ua": "Рішення"
+    },
+    "reviews": {
+      "ru": "Отзывы",
+      "en": "Reviews",
+      "ua": "Відгуки"
+    },
+    "pricing": {
+      "ru": "Тарифы",
+      "en": "Pricing",
+      "ua": "Тарифи"
+    },
+    "questions": {
+      "ru": "Вопросы",
+      "en": "Questions",
+      "ua": "Питання"
+    }
+  },
+  "callToActionButton": {
+    "ru": "Попробовать бесплатно",
+    "en": "Try for free",
+    "ua": "Спробувати безкоштовно"
+  },
+  "main": {
+    "title": {
+      "ru": "Учись тому, что нужно тебе.",
+      "en": "Learn what you need.",
+      "ua": "Учись тому, що тобі потрібно."
+    },
+    "grow": {
+      "ru": "Создай персональный курс с AI",
+      "en": "Create a personal course with AI",
+      "ua": "Створіть персональний курс з AI"
+    },
+    "description": {
+      "ru": "Просто опишите тему, а наш AI сгенерирует тест, проанализирует результаты и предложит персональный план обучения.",
+      "en": "Describe your interests and goals. AI will build your personalized training.\nAnd our team will guide you to success.",
+      "ua": "Опишіть свої інтереси та цілі. AI розробить для тебе персоналізоване навчання.\nА наша команда приведе тебе до успіху."
+    },
+    "backgroundImageAlt": {
+      "ru": "Пример пути",
+      "en": "Way's example",
+      "ua": "Приклад шляху"
+    }
+  },
+  "videoBlock": {
+    "title": {
+      "ru": "С чего начать?",
+      "en": "What to start with?",
+      "ua": "З чого почати?"
+    },
+    "description": {
+      "ru": "Посмотри 2-минутное видео, как создать персонализированный курс.",
+      "en": "Watch the 2-minute video to learn how to create a personalized course.",
+      "ua": "Подивися 2-хвилинне відео про те, як створити персоналізований курс."
+    },
+    "videoPath": {
+      "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
+      "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+      "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
+    },
+    "callToActionButton": {
+      "ru": "Начать сейчас",
+      "en": "Start now",
+      "ua": "Почати зараз"
+    }
+  },
+  "advantages": {
+    "title": {
+      "ru": "Почему стоит выбрать обучение на основе AI?",
+      "en": "Why сhoose AI-powered learning?",
+      "ua": "Чому варто вибрати навчання на основі AI?"
+    },
+    "structuredPlan": {
+      "title": {
+        "ru": "Структурированный путь к цели",
+        "en": "Structured path to your goal",
+        "ua": "Структурований шлях до мети"
+      },
+      "description": {
+        "ru": "Получи четкий, пошаговый план действий. AI выстраивает логическую последовательность тем и задач, ведущую тебя от текущего уровня к желаемой цели эффективно и без пробелов.",
+        "en": "Get a clear, step-by-step action plan. AI builds a logical sequence of topics and tasks that leads you from your current level to your desired goal efficiently and without gaps.",
+        "ua": "Отримай чіткий покроковий план дій. AI вибудовує логічну послідовність тем і завдань, що веде тебе від поточного рівня до бажаної мети ефективно та без пробілів."
+      }
+    },
+    "adaptability": {
+      "title": {
+        "ru": "Адаптивность под твой уровень",
+        "en": "Adaptability to your level",
+        "ua": "Адаптивність під твій рівень"
+      },
+      "description": {
+        "ru": "Курс строится с учетом твоего имеющегося опыта и предпочтений. AI определяет, с чего начать и как подать материал, чтобы обучение было не слишком простым и не слишком сложным, поддерживая твою мотивацию и вовлеченность.",
+        "en": "The course is built based on your existing experience and preferences. AI determines where to start and how to present the material so that the learning is not too easy and not too difficult, keeping you motivated and engaged.",
+        "ua": "Курс будується з урахуванням твого наявного досвіду та переваг. AI визначає, з чого почати і як подати матеріал, щоб навчання було не надто простим і не надто складним, підтримуючи твою мотивацію та залученість."
+      }
+    },
+    "saveTime": {
+      "title": {
+        "ru": "Экономия времени и усилий",
+        "en": "Save time and effort",
+        "ua": "Економія часу та зусиль"
+      },
+      "description": {
+        "ru": "Больше не нужно тратить часы на поиск подходящих курсов, отсеивание лишней информации и попытки собрать всё в единую систему. AI делает всю эту работу за считанные минуты.",
+        "en": "No more spending hours searching for suitable courses, sifting through unnecessary information and trying to put everything together into a single system. AI does all this work in minutes.",
+        "ua": "Більше не потрібно витрачати години на пошук потрібних курсів, відсіювання зайвої інформації та спроби зібрати все в єдину систему. AI робить всю цю роботу за лічені хвилини."
+      }
+    }
+  },
+  "amountBlock": {
+    "trainings": {
+      "ru": "Уникальных тренингов, созданных пользователями.",
+      "en": "Unique  trainings created by users.",
+      "ua": "Унікальних тренінгів, створених користувачами."
+    },
+    "activeStudents": {
+      "ru": "Активных пользователей на пути к целям.",
+      "en": "Active users on the way to goals.",
+      "ua": "Aктивних користувачів на шляху до цілей."
+    },
+    "mentors": {
+      "ru": "Менторов, сопровождающих обучение.",
+      "en": "Mentors supporting the training.",
+      "ua": "Наставників, які супроводжують навчання."
+    }
+  },
+  "solutions": {
+    "title": {
+      "ru": "Мы решаем проблемы обучения",
+      "en": "We solve learning problems",
+      "ua": "Ми вирішуємо проблеми навчання"
+    },
+    "description": {
+      "ru": "Посмотри, какие проблемы мешают прогрессу, и как Master's Way делает твое обучение по-настоящему результативным.",
+      "en": "See what problems are holding you back from progress and how the Master's Way makes your learning truly effective.",
+      "ua": "Подивися, які проблеми заважають прогресу, і як Master's Way робить твоє навчання по-справжньому результативним."
+    },
+    "userInterests": {
+      "title": {
+        "ru": "Курсы не учитывают твой опыт и интересы?",
+        "en": "Courses don't take into account your experience and interests?",
+        "ua": "Курси не враховують твій досвід та інтереси?"
+      },
+      "description": {
+        "ru": "Master's Way с помощью AI анализирует твой текущий уровень, смежные навыки, опыт и даже предпочтения в стиле подачи материалов. На основе этого анализа платформа мгновенно создает уникальный план обучения, который стартует с нужной тебе точки, эффективно использует твои сильные стороны и максимально адаптирован именно под тебя.",
+        "en": "Master's Way uses AI to analyze your current level, related skills, experience, and even preferences in the style of presentation of materials. Based on this analysis, the platform instantly creates a unique training plan that starts from the point you need, effectively uses your strengths, and is maximally adapted to you.",
+        "ua": "Master's Way за допомогою AI аналізує твій поточний рівень, суміжні навички, досвід та навіть переваги у стилі подачі матеріалів. На основі цього аналізу платформа миттєво створює унікальний план навчання, який стартує з потрібної тобі точки, ефективно використовує твої сильні сторони та максимально адаптований саме під тебе."
+      },
+      "callToActionButton": {
+        "ru": "Создать индивидуальный курс",
+        "en": "Create a custom course",
+        "ua": "Створити індивідуальний курс"
+      }
+    },
+    "mentoringSupport": {
+      "title": {
+        "ru": "Трудно найти опытного наставника или просто бадди для совместной работы?",
+        "en": "Having trouble finding an experienced mentor or just a buddy to work with?",
+        "ua": "Важко знайти досвідченого наставника чи просто бадді для спільної роботи?"
+      },
+      "description": {
+        "ru": "Master's Way подберет для тебя опытного ментора, который поделится знаниями и направит. Также ты можешь найти себе бадди - человека с похожими целями, чтобы вместе учиться и поддерживать друг друга на пути к успеху.",
+        "en": "Master's Way will match you with an experienced mentor who will share knowledge and guide you. You can also find yourself a buddy - a person with similar goals, so that you can learn together and support each other on the path to success.",
+        "ua": "Master's Way підбере тобі досвідченого ментора, який поділиться знаннями та направить. Також ти можеш знайти собі бадді - людину зі схожими цілями, щоб разом навчатися та підтримувати один одного на шляху до успіху."
+      },
+      "callToActionButton": {
+        "ru": "Найти ментора",
+        "en": "Find a mentor",
+        "ua": "Знайти ментора"
+      }
+    },
+    "progressMonitoring": {
+      "title": {
+        "ru": "Сложно отследить свой прогресс и понять, насколько приблизился к цели?",
+        "en": "Is it difficult to track your progress and understand how close you are to your goal?",
+        "ua": "Складно відстежити свій прогрес та зрозуміти, наскільки наблизився до мети?"
+      },
+      "description": {
+        "ru": "Master's Way предоставляет наглядную панель прогресса. Ты видишь свой путь не только в виде пошагового плана, но и через детальные метрики и графики. Эти визуальные отчеты четко показывают, что уже пройдено, сколько времени затрачено, какие темы освоены, и насколько ты приблизился к завершению курса и достижению своей цели.",
+        "en": "Master's Way provides a visual progress dashboard. You see your path not only through a step-by-step plan, but also through detailed metrics and graphs. These visual reports clearly show what has been covered, how much time has been spent, what topics have been covered, and how close you are to completing the course and achieving your goal.",
+        "ua": "Master's Way надає панель прогресу. Ти бачиш свій шлях не лише у вигляді покрокового плану, а й через детальні метрики та графіки. Ці візуальні звіти чітко показують, що вже пройдено, скільки часу витрачено, які теми освоєно, і наскільки ти наблизився до завершення курсу та досягнення своєї мети."
+      },
+      "callToActionButton": {
+        "ru": "Начать отслеживать прогресс",
+        "en": "Start tracking progress",
+        "ua": "Почати відстежувати прогрес"
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Что говорят наши пользователи",
+      "en": "What our users say",
+      "ua": "Що кажуть наші користувачі"
+    },
+    "kirillReview": {
+      "review": {
+        "ru": "Я долго не могла найти подходящий курс — все было либо слишком общим. На платформе Master's Way всего за пару минут я смогла создать план, который идеально соответствует моим целям и опыту. Это настоящая магия! Учиться сразу стало намного проще и интереснее.",
+        "en": "For a long time, I couldn't find a suitable course — everything was either too general. On the Master's Way platform, in just a couple of minutes I was able to create a plan that perfectly matches my goals and experience. It's real magic! Studying immediately became much easier and more interesting.",
+        "ua": "Я довго не могла знайти підходящий курс — все було або надто загальним. На платформі Master's Way всього за пару хвилин я змогла створити план, який ідеально відповідає моїм цілям та досвіду. Це справжня магія! Вчитися одразу стало набагато простіше та цікавіше."
+      },
+      "mentorName": {
+        "ru": "Anna",
+        "en": "Anna",
+        "ua": "Anna"
+      },
+      "mentorProfession": {
+        "ru": "учу back-end, Golang",
+        "en": "learning back-end, Golang",
+        "ua": "навчаю back-end, Golang"
+      }
+    },
+    "viktarReview": {
+      "review": {
+        "ru": "Главная проблема онлайн-обучения для меня — это отсутствие четкой структуры. С Master's Way я получил пошаговый план, и теперь я знаю, куда двигаться. Я вижу свой прогресс, и это очень мотивирует. Впервые чувствую, что действительно иду к своей цели, а не просто читаю разрозненные материалы.",
+        "en": "The main problem with online learning for me is the lack of a clear structure. With Master's Way I got a step-by-step plan, and now I know where to go. I can see my progress, and it's very motivating. For the first time, I feel like I'm really moving towards my goal, and not just reading disparate materials.",
+        "ua": "Головна проблема онлайн-навчання для мене – це відсутність чіткої структури. З Master's Way я отримав покроковий план і тепер я знаю, куди рухатися. Я бачу свій прогрес і це дуже мотивує. Вперше відчуваю, що справді йду до своєї мети, а не просто читаю розрізнені матеріали."
+      },
+      "mentorName": {
+        "ru": "Pavel",
+        "en": "Pavel",
+        "ua": "Pavel"
+      },
+      "mentorProfession": {
+        "ru": "учу React, TS",
+        "en": "learning React, TS",
+        "ua": "навчаю React, TS"
+      }
+    },
+    "viktoryiaReview": {
+      "review": {
+        "ru": "Создание курса заняло минимум времени, но дало максимум пользы. Информация актуальная, есть и теория, и практические задания. А когда возникают вопросы, знаю, что в любое время могу обратиться к ментору. Это совсем другой уровень поддержки по сравнению с обычными курсами.",
+        "en": "The course took a minimum of time to create, but it was very useful. The information is up-to-date, there is both theory and practical tasks. And when questions arise, I know that I can contact the mentor at any time. This is a completely different level of support compared to regular courses.",
+        "ua": "Створення курсу зайняло мінімум часу, але дало максимум користі. Інформація є актуальною, є і теорія, і практичні завдання. А коли виникають питання, знаю, що будь-коли можу звернутися до ментора. Це зовсім інший рівень підтримки, порівняно зі звичайними курсами."
+      },
+      "mentorName": {
+        "ru": "Elithabeth",
+        "en": "Elithabeth",
+        "ua": "Elithabeth"
+      },
+      "mentorProfession": {
+        "ru": "учу QA",
+        "en": "learning QA",
+        "ua": "навчаю QA"
+      }
+    }
+  },
+  "pricing": {
+    "title": {
+      "ru": "Ознакомьтесь с нашими тарифами",
+      "en": "Check out our rates",
+      "ua": "Ознайомтеся з нашими тарифами"
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Часто задаваемые вопросы",
+      "en": "Frequently Asked Questions",
+      "ua": "Часті питання"
+    },
+    "accordion": [
+      {
+        "id": 0,
+        "question": {
+          "ru": "Сколько стоит Master's Way?",
+          "en": "How much does Master's Way cost?",
+          "ua": "Скільки коштує Master's Way?"
+        },
+        "answer": {
+          "ru": "Master's Way предлагает различные тарифные планы для удовлетворения различных потребностей. Посетите наш веб-сайт, чтобы получить подробную информацию о ценах и найти план, который подходит именно вам.",
+          "en": "Master's Way offers various pricing plans to suit different needs. Visit our website for detailed pricing information and to find the plan that's right for you.",
+          "ua": "Master's Way пропонує різні тарифні плани відповідно до різних потреб. Відвідайте наш веб-сайт, щоб отримати детальну інформацію про ціни та знайти план, який підходить саме вам."
+        }
+      },
+      {
+        "id": 1,
+        "question": {
+          "ru": "Могу ли я попробовать Master's Way, прежде чем совершить сделку?",
+          "en": "Can I try Master's Way before I commit?",
+          "ua": "Чи можу я спробувати Master's Way, перш ніж взяти на себе зобов'язання?"
+        },
+        "answer": {
+          "ru": "Да, мы предлагаем бесплатный план, чтобы вы могли лично ощутить преимущества Master's Way. Подпишитесь на бесплатный план на нашем веб-сайте, чтобы изучить платформу и посмотреть, как она может изменить ваш опыт наставничества.",
+          "en": "Yes, we offer a free plan so you can experience the benefits of Master's Way firsthand. Sign up for a free plan on our website to explore the platform and see how it can transform your mentoring experience.",
+          "ua": "Так, ми пропонуємо безкоштовний план, щоб ви могли на власні очі відчути переваги Master's Way. Підпишіться на безкоштовний план на нашому веб-сайті, щоб дослідити платформу та побачити, як вона може змінити ваш досвід наставництва."
+        }
+      },
+      {
+        "id": 2,
+        "question": {
+          "ru": "Как начать работу с приложением?",
+          "en": "How do I get started with Master's Way?",
+          "ua": "Як розпочати роботу з додатком?"
+        },
+        "answer": {
+          "ru": "Это просто! Просто посетите наш сайт и создайте учетную запись. Мы предоставляем комплексные инструкции и поддержку, которые помогут вам ориентироваться на платформе и начать эффективно использовать Master's Way.",
+          "en": "It's easy to get started! Simply visit our website and create an account. We provide comprehensive tutorials and support to help you navigate the platform and start using Master's Way effectively.",
+          "ua": "Почати легко! Просто відвідайте наш сайт та створіть обліковий запис. Ми надаємо комплексні інструкції та підтримку, які допоможуть вам орієнтуватися на платформі та почати ефективно використовувати Master's Way."
+        }
+      },
+      {
+        "id": 3,
+        "question": {
+          "ru": "Что такое асинхронное обучение и какую пользу оно принесет мне как ментору?",
+          "en": "What is asynchronous learning, and how does it benefit me as a mentor?",
+          "ua": "Що таке асинхронне навчання і яку користь воно принесе мені як ментору?"
+        },
+        "answer": {
+          "ru": "Асинхронное обучение позволяет вам взаимодействовать со своими учениками вне встреч в режиме реального времени. Это означает, что вы можете оставлять отзывы, проводить уроки и отслеживать прогресс в удобное для вас время, освобождая свое время и позволяя работать со студентами в разных часовых поясах.",
+          "en": "Asynchronous learning allows you to interact with your students outside of real-time meetings. This means you can provide feedback, deliver lessons, and track progress at your convenience, freeing up your time and allowing you to work with students across different time zones.",
+          "ua": "Асинхронне навчання дозволяє вам спілкуватися зі своїми учнями поза межами зустрічей у реальному часі. Це означає, що ви можете надавати відгуки, проводити уроки та відстежувати прогрес у зручний для вас час, звільняючи час і дозволяючи вам працювати зі студентами в різних часових поясах."
+        }
+      },
+      {
+        "id": 4,
+        "question": {
+          "ru": "Как Master's Way помогает мне отслеживать прогресс учащихся?",
+          "en": "How does Master's Way help me track student progress?",
+          "ua": "Як Master's Way допомагає мені відстежувати прогрес студента?"
+        },
+        "answer": {
+          "ru": "Master's Way предоставляет подробные отчеты о деятельности учащихся, включая время, потраченное на уроки, выполненные тесты и сданные задания. Эти данные помогут вам определить области, где учащимся нужна дополнительная поддержка, и отметить их достижения.",
+          "en": "Master's Way provides detailed reports on student activity, including time spent on lessons, tests completed, and assignments submitted. This data helps you identify areas where students need extra support and celebrate their achievements.",
+          "ua": "Master's Way надає докладні звіти про діяльність студентів, включаючи час, витрачений на уроки, виконані тести та подані завдання. Ці дані допомагають визначити сфери, де студентам потрібна додаткова підтримка, і відзначити їхні досягнення."
+        }
+      },
+      {
+        "id": 5,
+        "question": {
+          "ru": "Могу ли я адаптировать свой подход к наставничеству с помощью Master's Way?",
+          "en": "Can I customize my mentoring approach with Master's Way?",
+          "ua": "Чи можу я налаштувати свій наставницький підхід за допомогою Master's Way?"
+        },
+        "answer": {
+          "ru": "Абсолютно! Master's Way предлагает гибкую платформу, которая позволяет вам адаптировать свой стиль наставничества. Вы можете создавать индивидуальные уроки, ставить цели и предоставлять персонализированную обратную связь для удовлетворения уникальных потребностей каждого учащегося.",
+          "en": "Absolutely! Master's Way offers a flexible platform that allows you to tailor your mentoring style. You can create custom lessons, set goals, and provide personalized feedback to meet the unique needs of each student.",
+          "ua": "Абсолютно! Master's Way пропонує гнучку платформу, яка дозволяє вам адаптувати свій стиль наставництва. Ви можете створювати спеціальні уроки, встановлювати цілі та надавати індивідуальні відгуки, щоб задовольнити унікальні потреби кожного учня."
+        }
+      },
+      {
+        "id": 6,
+        "question": {
+          "ru": "Как Master's Way помогает мне управлять несколькими студентами?",
+          "en": "How does Master's Way help me manage multiple students?",
+          "ua": "Як Master's Way допомагає мені керувати кількома студентами?"
+        },
+        "answer": {
+          "ru": "Master's Way позволяет легко управлять несколькими студентами благодаря интуитивно понятному интерфейсу и организованной панели управления. Вы можете отслеживать прогресс, общаться с учащимися и эффективно предоставлять обратную связь даже в большой группе.",
+          "en": "Master's Way makes it easy to manage multiple students with its intuitive interface and organized dashboard. You can track progress, communicate with students, and provide feedback efficiently, even with a large group.",
+          "ua": "Master's Way дозволяє легко керувати кількома студентами завдяки інтуїтивно зрозумілому інтерфейсу та організованій інформаційній панелі. Ви можете відстежувати прогрес, спілкуватися зі студентами та ефективно надавати зворотній зв’язок навіть у великій групі."
+        }
+      }
+    ]
+  },
+  "aboutApp": {
+    "title": {
+      "ru": "Готовы оптимизировать свое обучение с помощью AI в Masters Way?",
+      "en": "Ready to optimize your learning with AI using Masters Way?",
+      "ua": "Готові оптимізувати своє навчання за допомогою AI з Masters Way?"
+    },
+    "tryOurApp": {
+      "ru": "Попробуйте наше веб-приложение бесплатно и узнайте, как AI может улучшить ваш процесс обучения, ускорить достижения и сделать его более персонализированным. Мы предлагаем инновационный подход к самообучению.",
+      "en": "Try our web app for free and see how AI can enhance your learning process, accelerate your progress, and make it more personalized. We offer an innovative approach to self-directed learning.",
+      "ua": "Спробуйте наш веб-додаток безкоштовно і дізнайтеся, як AI може покращити ваш процес навчання, прискорити досягнення та зробити його більш персоналізованим. Ми пропонуємо інноваційний підхід до самостійного навчання."
+    },
+    "ourAppIs": {
+      "ru": "Наша платформа использует AI для персонализированного обучения, позволяя вам контролировать свой прогресс, получать детализированные отчеты и оптимизировать процесс обучения. Доступная по цене, она подходит для самостоятельного обучения, предлагает интеграцию с GitHub и помогает вам достигать лучших результатов благодаря интеллектуальному анализу данных и рекомендациям.",
+      "en": "Our platform uses AI for personalized learning, allowing you to control your progress, receive detailed reports, and optimize your learning process. Affordable and designed for self-directed learning, it offers GitHub integration and helps you achieve better results through intelligent data analysis and recommendations.",
+      "ua": "Наша платформа використовує AI для персоналізованого навчання, дозволяючи вам контролювати свій прогрес, отримувати детальні звіти та оптимізувати процес навчання. Доступна за ціною та призначена для самостійного навчання, вона пропонує інтеграцію з GitHub і допомагає досягати кращих результатів завдяки інтелектуальному аналізу даних та рекомендаціям."
+    }
+  }
+}

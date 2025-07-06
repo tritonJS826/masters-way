@@ -234,6 +234,22 @@ const TrainingWithAILandingPage = () => (<>
   <TrainingWithAILandingPageLazy />
 </>);
 
+const TestWithAILandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/testWithAiLandingPage/TestWithAILandingPage"
+)
+  .then((module) => ({default: module.TestWithAILandingPage})));
+const TestWithAILandingPage = () => (<>
+  <TestWithAILandingPageLazy />
+</>);
+
+const UserFlowWithAILandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/userFlowWithAiLandingPage/UserFlowWithAILandingPage"
+)
+  .then((module) => ({default: module.UserFlowWithAILandingPage})));
+const UserFlowWithAILandingPage = () => (<>
+  <UserFlowWithAILandingPageLazy />
+</>);
+
 const LoremLandingPageLazy = React.lazy(() => import(
   "src/logic/staticPages/landingPages/landings/loremLandingPage/LoremLandingPage"
 )
@@ -375,6 +391,18 @@ export const pages = {
     getPath: () => "/land/trainingWithAI",
     // TODO
     getPageComponent: () => suspended(<TrainingWithAILandingPage />),
+    urlParams: {},
+  } as PageParams,
+  landingTestWithAI: {
+    getPath: () => "/land/testWithAI",
+    // TODO
+    getPageComponent: () => suspended(<TestWithAILandingPage />),
+    urlParams: {},
+  } as PageParams,
+  landingUserFlowWithAI: {
+    getPath: () => "/land/userFlowWithAI",
+    // TODO
+    getPageComponent: () => suspended(<UserFlowWithAILandingPage />),
     urlParams: {},
   } as PageParams,
   landingLorem: {

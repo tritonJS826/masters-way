@@ -46,6 +46,12 @@ export const LandingsPage = observer(() => {
         <Link path={pages.landingTrainingWithAI.getPath({})}>
           Landing page for create training with AI
         </Link>
+        <Link path={pages.landingTestWithAI.getPath({})}>
+          Landing page for create test with AI
+        </Link>
+        <Link path={pages.landingUserFlowWithAI.getPath({})}>
+          Landing page for user flow with AI
+        </Link>
         <Link path={pages.landingLorem.getPath({})}>
           Landing page for lorem with AI
         </Link>
