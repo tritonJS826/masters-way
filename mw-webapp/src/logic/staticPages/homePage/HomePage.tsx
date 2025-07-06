@@ -1,6 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
+import {useState} from "react";
 import {NavigateFunction, useNavigate} from "react-router-dom";
-import {Unity, useUnityContext} from "react-unity-webgl";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackHomePage} from "src/analytics/homeAnalytics";
@@ -49,42 +48,6 @@ export const HomePage = observer(() => {
   const navigate = useNavigate();
 
   const [videoUrl, setVideoUrl] = useState<string>(VIDEO_FOR_STUDENT_URL);
-
-  // Start unity test
-
-  const [isGameOverReact, setIsGameOver] = useState(false);
-  const [userNameReact, setUserName] = useState<string>("def");
-  const [scoreReact, setScore] = useState<string>("def");
-  const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
-    loaderUrl: "sol/build/Build/build.loader.js",
-    dataUrl: "sol/build/Build/build.data",
-    frameworkUrl: "sol/build/Build/build.framework.js",
-    codeUrl: "sol/build/Build/build.wasm",
-  });
-
-  const handleGameOver = useCallback((userNameA: unknown, scoreA: unknown) => {
-    setIsGameOver(true);
-    setUserName(userNameA as React.SetStateAction<string>);
-    setScore(scoreA as React.SetStateAction<string>);
-  }, []);
-
-  useEffect(() => {
-    addEventListener("GameOver", handleGameOver);
-
-    return () => {
-      removeEventListener("GameOver", handleGameOver);
-    };
-  }, [addEventListener, removeEventListener, handleGameOver]);
-
-  const someParam: number = 100;
-
-  /**
-   * Experimantal button to interact with unity from react
-   */
-  function handleClickSpawnEnemies() {
-    sendMessage("GameController", "SpawnEnemies", someParam);
-  }
-  // End unity test
 
   const tabList: TabItemProps[] = [
     {
@@ -183,37 +146,6 @@ export const HomePage = observer(() => {
           </VerticalContainer>
         </HorizontalGridContainer>
       </div>
-
-      <VerticalContainer className={styles.advantagesBlock}>
-        <Button
-          onClick={handleClickSpawnEnemies}
-          value="spawn"
-          buttonType={ButtonType.SECONDARY}
-        />
-
-        <Title
-          level={HeadingLevel.h3}
-          text={isGameOverReact ? "game over" : "game in progress"}
-          placeholder=""
-          isEditable={false}
-        />
-        <Title
-          level={HeadingLevel.h3}
-          text={userNameReact}
-          placeholder=""
-          isEditable={false}
-        />
-        <Title
-          level={HeadingLevel.h3}
-          text={scoreReact}
-          placeholder=""
-          isEditable={false}
-        />
-        <Unity
-          unityProvider={unityProvider}
-          style={{width: 1920, height: 1080}}
-        />
-      </VerticalContainer>
 
       <VerticalContainer className={styles.advantagesBlock}>
         <Title
