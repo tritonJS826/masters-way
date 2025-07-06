@@ -83,6 +83,9 @@ dependencies:
   react-router-dom:
     specifier: 6.22.0
     version: 6.22.0(react-dom@18.2.0)(react@18.2.0)
+  react-unity-webgl:
+    specifier: 9.9.0
+    version: 9.9.0(react@18.2.0)
   remark-gfm:
     specifier: 4.0.0
     version: 4.0.0
@@ -10668,6 +10671,14 @@ packages:
       get-nonce: 1.0.1
       react: 18.2.0
       tslib: 2.8.1
+
+  /react-unity-webgl@9.9.0(react@18.2.0):
+    resolution: {integrity: sha512-oxjSiVlOkyj85p+Qq3DBQXgnEfadSHRfX1YrKn3k7/yIAraVFv3vSd9v4P2t3/pK5ZH8qMwVcGWAyHgFo3tk+A==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
