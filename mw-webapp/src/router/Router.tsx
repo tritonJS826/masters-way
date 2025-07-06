@@ -76,6 +76,10 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.gameTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid"})}
+          element={<WithValidatedParams paramsSchema={pages.gameTest} />}
+        />
+        <Route
           path={pages.editTest.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.editTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
@@ -106,10 +110,6 @@ export const router = createBrowserRouter(
         <Route
           path={pages.pricing.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.pricing} />}
-        />
-        <Route
-          path={pages.game.getPath({})}
-          element={<WithValidatedParams paramsSchema={pages.game} />}
         />
       </Route>
 

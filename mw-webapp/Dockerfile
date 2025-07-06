@@ -5,7 +5,7 @@ RUN apk add --no-cache bash
 COPY mw-webapp/package.json .
 COPY mw-webapp/pnpm-lock.yaml .
 RUN npm i -g pnpm@8.15.2
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile
 COPY mw-webapp .
 RUN chmod +x deploy/addSolToBuild.sh
 RUN pnpm run build

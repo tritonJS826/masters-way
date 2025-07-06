@@ -3,22 +3,27 @@ import {Unity, useUnityContext} from "react-unity-webgl";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
+import {Loader} from "src/component/loader/Loader";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
+import {RunningTestPageProps} from "src/logic/runningTestPage/RunningTestPageProps";
 import styles from "src/logic/gamePage/GamePage.module.scss";
 
 /**
  * Game page
+ * TODO: probably it should not be separate page, but should be placed in runningTestPage as just one of possible views
  */
-export const GamePage = observer(() => {
+export const GamePage = observer((props: RunningTestPageProps) => {
   const {language} = languageStore;
-
-  // Start unity test
+  const {theme} = themeStore;
+  const {user, isLoading} = userStore;
 
   const [isGameOverReact, setIsGameOver] = useState(false);
-  const [userNameReact, setUserName] = useState<string>("def");
-  const [scoreReact, setScore] = useState<string>("def");
+  const [userNameReact, setUserName] = useState<string>(props.sessionUuid + props.testUuid);
+  const [scoreReact, setScore] = useState<string>("");
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
     loaderUrl: "sol/build/Build/build.loader.js",
     dataUrl: "sol/build/Build/build.data",
@@ -32,11 +37,23 @@ export const GamePage = observer(() => {
     setScore(scoreA as React.SetStateAction<string>);
   }, []);
 
+  const handleUserAnsweredQuestion = useCallback(() => {
+  }, []);
+
+  const handleGameStarted = useCallback(() => {
+    // Load questions sdata here
+    // sendMessage("GameController", "SpawnEnemies", someParam);
+  }, []);
+
   useEffect(() => {
     addEventListener("GameOver", handleGameOver);
+    addEventListener("GameStarted", handleUserAnsweredQuestion);
+    addEventListener("UserAnsweredQuestion", handleGameStarted);
 
     return () => {
       removeEventListener("GameOver", handleGameOver);
+      removeEventListener("UserAnsweredQuestion", handleUserAnsweredQuestion);
+      removeEventListener("GameStarted", handleGameStarted);
     };
   }, [addEventListener, removeEventListener, handleGameOver]);
 
@@ -48,7 +65,19 @@ export const GamePage = observer(() => {
   function handleClickSpawnEnemies() {
     sendMessage("GameController", "SpawnEnemies", someParam);
   }
-  // End unity test
+
+  if (isLoading) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
+    );
+  }
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   return (
     <VerticalContainer className={styles.gamePageWrapper}>
