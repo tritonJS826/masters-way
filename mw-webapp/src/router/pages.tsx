@@ -1,6 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
-// Import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -80,6 +79,12 @@ const HomePageLazy = React.lazy(() => import("src/logic/staticPages/homePage/Hom
   .then((module) => ({default: module.HomePage})));
 const HomePage = () => (<>
   <HomePageLazy />
+</>);
+
+const GamePageLazy = React.lazy(() => import("src/logic/gamePage/GamePage")
+  .then((module) => ({default: module.GamePage})));
+const GamePage = () => (<>
+  <GamePageLazy />
 </>);
 
 const PricingPageLazy = React.lazy(() => import("src/logic/staticPages/pricingPage/PricingPage")
@@ -257,6 +262,11 @@ export const pages = {
   home: {
     getPath: () => "/",
     getPageComponent: () => suspended(<HomePage />),
+    urlParams: {},
+  } as PageParams,
+  game: {
+    getPath: () => "/game",
+    getPageComponent: () => suspended(<GamePage />),
     urlParams: {},
   } as PageParams,
   partnership: {

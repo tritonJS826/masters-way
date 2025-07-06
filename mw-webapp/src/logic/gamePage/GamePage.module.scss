@@ -1,0 +1,23 @@
+@import "src/styles/variables";
+
+.gamePageWrapper {
+  width: 100%;
+  margin-top: $headerHeight;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.gameBlock {
+  width: 100%;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  gap: $gapBig;
+  background-color: var(--tertiaryBgColor);
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
+}
