@@ -12,7 +12,9 @@ import loremLanding from "src/dictionary/landing/LoremLandingContent.json";
 import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
+import testWithAiLanding from "src/dictionary/landing/TestWithAILandingContent.json";
 import trainingWithAiLanding from "src/dictionary/landing/TrainingWithAILandingContent.json";
+import userFlowWithAiLanding from "src/dictionary/landing/UserFlowWithAILandingContent.json";
 import lobbyTestPageContent from "src/dictionary/LobbyTestPageContent.json";
 import modals from "src/dictionary/Modals.json";
 import notificationBlockContent from "src/dictionary/NotificationBLockContent.json";
@@ -214,6 +216,20 @@ export class LanguageService {
    */
   public static get trainingWithAiLanding() {
     return trainingWithAiLanding;
+  }
+
+  /**
+   * Test with AI landing content
+   */
+  public static get testWithAiLanding() {
+    return testWithAiLanding;
+  }
+
+  /**
+   * User flow with AI landing content
+   */
+  public static get userFlowWithAiLanding() {
+    return userFlowWithAiLanding;
   }
 
   /**

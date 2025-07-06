@@ -145,6 +145,16 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.landingTestWithAI.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingTestWithAI} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.landingUserFlowWithAI.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingUserFlowWithAI} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
           path={pages.landingLorem.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.landingLorem} />}
           errorElement={pages.errorPage.getPageComponent({})}
