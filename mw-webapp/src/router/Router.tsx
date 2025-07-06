@@ -111,6 +111,10 @@ export const router = createBrowserRouter(
           path={pages.pricing.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.pricing} />}
         />
+        <Route
+          path={pages.game.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.game} />}
+        />
       </Route>
 
       <Route

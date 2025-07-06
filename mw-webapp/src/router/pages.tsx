@@ -286,6 +286,11 @@ export const pages = {
     getPageComponent: () => suspended(<HomePage />),
     urlParams: {},
   } as PageParams,
+  game: {
+    getPath: () => "/game",
+    getPageComponent: () => suspended(<GamePage />),
+    urlParams: {},
+  } as PageParams,
   partnership: {
     getPath: () => "/partnership",
     getPageComponent: () => suspended(<PartnershipPage />),
