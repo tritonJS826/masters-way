@@ -43,6 +43,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - grpcurl ([golang package](https://github.com/fullstorydev/grpcurl))
 - docker 27.2.0
 - docker-compose 2.20.3
+- zip (should be installed automatically by mw-webapp/deploy/addSolToBuild.sh during build process)
+- curl (should be installed automatically by mw-webapp/deploy/addSolToBuild.sh during build process)
+
 
 ### Modules
 

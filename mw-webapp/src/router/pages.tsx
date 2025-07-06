@@ -1,6 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
-// Import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -67,6 +66,12 @@ const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: strin
   `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
 
 /**
+ * Create url with appropriate params for @GameTestPage
+ */
+const getPathForGameTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
+  `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
+
+/**
  * Create url with appropriate params for @ResultTestPage
  */
 const getPathForResultTestPage = (params: { testUuid: string; sessionUuid: string }): string =>
@@ -80,6 +85,12 @@ const HomePageLazy = React.lazy(() => import("src/logic/staticPages/homePage/Hom
   .then((module) => ({default: module.HomePage})));
 const HomePage = () => (<>
   <HomePageLazy />
+</>);
+
+const GamePageLazy = React.lazy(() => import("src/logic/gamePage/GamePage")
+  .then((module) => ({default: module.GamePage})));
+const GamePage = (params: {testUuid: string; sessionUuid: string}) => (<>
+  <GamePageLazy {...params} />
 </>);
 
 const PricingPageLazy = React.lazy(() => import("src/logic/staticPages/pricingPage/PricingPage")
@@ -338,6 +349,11 @@ export const pages = {
   runningTest: {
     getPath: (params): string => getPathForRunningTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
     getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
+    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{testUuid: string; sessionUuid: string}>,
+  gameTest: {
+    getPath: (params): string => getPathForGameTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
+    getPageComponent: (params) => suspended(<GamePage {...params} />),
     urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
   } as PageParams<{testUuid: string; sessionUuid: string}>,
   resultTest: {

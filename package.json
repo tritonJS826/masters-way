@@ -13,6 +13,7 @@
     "web:cypress:component:run": "pnpm --filter mw-webapp cypress:component:run",
     "web:cypress:e2e:run": "pnpm --filter mw-webapp cypress:e2e:run",
     "web:test": "pnpm --filter mw-webapp test",
+    "web:sol:clean": "pnpm --filter 'mw-webapp' sol:clear",
     "server:start": "pnpm --filter 'mw-server' start",
     "server:build": "pnpm --filter 'mw-server' build",
     "server:test": "pnpm --filter 'mw-server' test:integration",

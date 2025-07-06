@@ -4,23 +4,8 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {RunningTest} from "src/logic/runningTestPage/runningTest/RunningTest";
+import {RunningTestPageProps} from "src/logic/runningTestPage/RunningTestPageProps";
 import styles from "src/logic/runningTestPage/RunningTestPage.module.scss";
-
-/**
- * RunningTestPage props
- */
-interface RunningTestPageProps {
-
-  /**
-   * Test's Uuid
-   */
-  testUuid: string;
-
-  /**
-   * Session's Uuid
-   */
-  sessionUuid: string;
-}
 
 /**
  * Running Test page

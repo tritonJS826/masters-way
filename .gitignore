@@ -162,3 +162,5 @@ storybook-static/
 # logs file
 migration-logs/
 .aider*
+
+mw-webapp/public/sol
