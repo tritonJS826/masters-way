@@ -25,10 +25,10 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   const [userNameReact, setUserName] = useState<string>(props.sessionUuid + props.testUuid);
   const [scoreReact, setScore] = useState<string>("");
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
-    loaderUrl: "sol/build/Build/build.loader.js",
-    dataUrl: "sol/build/Build/build.data",
-    frameworkUrl: "sol/build/Build/build.framework.js",
-    codeUrl: "sol/build/Build/build.wasm",
+    loaderUrl: "/sol/build/Build/build.loader.js",
+    dataUrl: "/sol/build/Build/build.data.unityweb",
+    frameworkUrl: "/sol/build/Build/build.framework.js.unityweb",
+    codeUrl: "/sol/build/Build/build.wasm.unityweb",
   });
 
   const handleGameOver = useCallback((userNameA: unknown, scoreA: unknown) => {
@@ -108,7 +108,7 @@ export const GamePage = observer((props: RunningTestPageProps) => {
         />
         <Unity
           unityProvider={unityProvider}
-          style={{width: 1920, height: 1080}}
+          style={{width: "100%"}}
         />
       </VerticalContainer>
 

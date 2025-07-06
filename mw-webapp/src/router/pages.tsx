@@ -69,7 +69,7 @@ const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: strin
  * Create url with appropriate params for @GameTestPage
  */
 const getPathForGameTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
-  `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
+  `/gameTest/${params.testUuid}/session/${params.sessionUuid}`;
 
 /**
  * Create url with appropriate params for @ResultTestPage
