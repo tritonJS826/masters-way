@@ -98,18 +98,18 @@ export const UserFlowWithAILandingPage = observer(() => {
 
   const advantagesList: AdvantageItemProps[] = [
     {
-      title: LanguageService.userFlowWithAiLanding.advantages.saveTime.title[language],
-      description: LanguageService.userFlowWithAiLanding.advantages.saveTime.description[language],
+      title: LanguageService.userFlowWithAiLanding.advantages.collaboration.title[language],
+      description: LanguageService.userFlowWithAiLanding.advantages.collaboration.description[language],
       iconName: "ClockIcon",
     },
     {
-      title: LanguageService.userFlowWithAiLanding.advantages.adaptability.title[language],
-      description: LanguageService.userFlowWithAiLanding.advantages.adaptability.description[language],
+      title: LanguageService.userFlowWithAiLanding.advantages.assessingProgress.title[language],
+      description: LanguageService.userFlowWithAiLanding.advantages.assessingProgress.description[language],
       iconName: "TrendingUpIcon",
     },
     {
-      title: LanguageService.userFlowWithAiLanding.advantages.structuredPlan.title[language],
-      description: LanguageService.userFlowWithAiLanding.advantages.structuredPlan.description[language],
+      title: LanguageService.userFlowWithAiLanding.advantages.personalization.title[language],
+      description: LanguageService.userFlowWithAiLanding.advantages.personalization.description[language],
       iconName: "ActivityIcon",
     },
   ];

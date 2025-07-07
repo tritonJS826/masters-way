@@ -38,19 +38,19 @@
   },
   "main": {
     "title": {
-      "ru": "Учись тому, что нужно тебе.",
-      "en": "Learn what you need.",
-      "ua": "Учись тому, що тобі потрібно."
+      "ru": "Учись, проверяй, расти",
+      "en": "Learn, test, grow",
+      "ua": "Вчися, перевіряй, рости"
     },
     "grow": {
-      "ru": "Создай персональный курс с AI",
-      "en": "Create a personal course with AI",
-      "ua": "Створіть персональний курс з AI"
+      "ru": "с AI и личным наставником",
+      "en": "with AI and personal mentor",
+      "ua": "з AI та особистим наставником"
     },
     "description": {
-      "ru": "Просто опишите тему, а наш AI сгенерирует тест, проанализирует результаты и предложит персональный план обучения.",
-      "en": "Describe your interests and goals. AI will build your personalized training.\nAnd our team will guide you to success.",
-      "ua": "Опишіть свої інтереси та цілі. AI розробить для тебе персоналізоване навчання.\nА наша команда приведе тебе до успіху."
+      "ru": "Платформа на базе AI, где можно протестировать текущие знания,\nполучить персональный курс и постоянную поддержку наставника",
+      "en": "An AI-driven platform where you can test your knowledge,\nget a personal course and constant support from a mentor",
+      "ua": "Платформа на базі AI, де можна протестувати знання, отримати персональний курс і постійну підтримку наставника"
     },
     "backgroundImageAlt": {
       "ru": "Пример пути",
@@ -65,9 +65,9 @@
       "ua": "З чого почати?"
     },
     "description": {
-      "ru": "Посмотри 2-минутное видео, как создать персонализированный курс.",
-      "en": "Watch the 2-minute video to learn how to create a personalized course.",
-      "ua": "Подивися 2-хвилинне відео про те, як створити персоналізований курс."
+      "ru": "Посмотри 2-минутное видео  и узнай, как работает платформа, чтобы упростить обучение",
+      "en": "Watch the 2-minute video and learn how the platform works to make your learning easier",
+      "ua": "Подивися 2-хвилинне відео та дізнайся, як працює платформа, щоб спростити навчання"
     },
     "videoPath": {
       "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
@@ -82,62 +82,62 @@
   },
   "advantages": {
     "title": {
-      "ru": "Почему стоит выбрать обучение на основе AI?",
-      "en": "Why сhoose AI-powered learning?",
-      "ua": "Чому варто вибрати навчання на основі AI?"
+      "ru": "Преимущества обучения на платформе Master's Way",
+      "en": "Benefits of learning on the Master's Way platform",
+      "ua": "Переваги навчання на платформі Master's Way"
     },
-    "structuredPlan": {
+    "collaboration": {
       "title": {
-        "ru": "Структурированный путь к цели",
-        "en": "Structured path to your goal",
-        "ua": "Структурований шлях до мети"
+        "ru": "Коллаборация AI и экспертов",
+        "en": "Collaboration of AI and experts",
+        "ua": "Колаборація AI та експертів"
       },
       "description": {
-        "ru": "Получи четкий, пошаговый план действий. AI выстраивает логическую последовательность тем и задач, ведущую тебя от текущего уровня к желаемой цели эффективно и без пробелов.",
-        "en": "Get a clear, step-by-step action plan. AI builds a logical sequence of topics and tasks that leads you from your current level to your desired goal efficiently and without gaps.",
-        "ua": "Отримай чіткий покроковий план дій. AI вибудовує логічну послідовність тем і завдань, що веде тебе від поточного рівня до бажаної мети ефективно та без пробілів."
+        "ru": "AI составляет план обучения и дает рекомендации, оставаясь доступным 24/7. А личный наставник корректирует вектор обучения, делится практическими знаниями и мотивирует на достижение реальных целей.",
+        "en": "AI creates a learning plan and gives recommendations, remaining available 24/7. And a personal mentor adjusts the learning vector, shares practical knowledge and motivates to achieve real goals.",
+        "ua": "AI складає план навчання та дає рекомендації, залишаючись доступним 24/7. А особистий наставник коригує вектор навчання, ділиться практичними знаннями та мотивує досягнення реальних цілей."
       }
     },
-    "adaptability": {
+    "personalization": {
       "title": {
-        "ru": "Адаптивность под твой уровень",
-        "en": "Adaptability to your level",
-        "ua": "Адаптивність під твій рівень"
+        "ru": "Персонализация по интересам и уровню",
+        "en": "Personalization by interests and level",
+        "ua": "Персоналізація за інтересами та рівнем"
       },
       "description": {
-        "ru": "Курс строится с учетом твоего имеющегося опыта и предпочтений. AI определяет, с чего начать и как подать материал, чтобы обучение было не слишком простым и не слишком сложным, поддерживая твою мотивацию и вовлеченность.",
-        "en": "The course is built based on your existing experience and preferences. AI determines where to start and how to present the material so that the learning is not too easy and not too difficult, keeping you motivated and engaged.",
-        "ua": "Курс будується з урахуванням твого наявного досвіду та переваг. AI визначає, з чого почати і як подати матеріал, щоб навчання було не надто простим і не надто складним, підтримуючи твою мотивацію та залученість."
+        "ru": "Платформа позволяет создать уникальный и динамичный план обучения, адаптированный под текущий уровень знаний, сферу интересов, личный темп и стиль обучения.",
+        "en": "The platform allows you to create a unique and dynamic learning plan, adapted to your current level of knowledge, area of ​​interest, personal pace and learning style.",
+        "ua": "Платформа дозволяє створити унікальний та динамічний план навчання, адаптований під поточний рівень знань, сферу інтересів, особистий темп та стиль навчання."
       }
     },
-    "saveTime": {
+    "assessingProgress": {
       "title": {
-        "ru": "Экономия времени и усилий",
-        "en": "Save time and effort",
-        "ua": "Економія часу та зусиль"
+        "ru": "Оценка прогресса",
+        "en": "Assessing progress",
+        "ua": "Оцінка прогресу"
       },
       "description": {
-        "ru": "Больше не нужно тратить часы на поиск подходящих курсов, отсеивание лишней информации и попытки собрать всё в единую систему. AI делает всю эту работу за считанные минуты.",
-        "en": "No more spending hours searching for suitable courses, sifting through unnecessary information and trying to put everything together into a single system. AI does all this work in minutes.",
-        "ua": "Більше не потрібно витрачати години на пошук потрібних курсів, відсіювання зайвої інформації та спроби зібрати все в єдину систему. AI робить всю цю роботу за лічені хвилини."
+        "ru": "Система AI-тестирования и анализ статистики предоставляет мониторинг процесса обучения, позволяя наглядно видеть свой рост, точечно корректировать стратегию и уверенно достигать результатов.",
+        "en": "The AI ​​testing system and statistics analysis provide  monitoring of the learning process, allowing you to clearly see your growth, accurately adjust your strategy and confidently achieve results.",
+        "ua": "Система AI-тестування та аналіз статистики надає моніторинг процесу навчання, дозволяючи наочно бачити своє зростання, точково коригувати стратегію та впевнено досягати результатів."
       }
     }
   },
   "amountBlock": {
     "trainings": {
-      "ru": "Уникальных тренингов, созданных пользователями.",
-      "en": "Unique  trainings created by users.",
-      "ua": "Унікальних тренінгів, створених користувачами."
+      "ru": "Уникальных тренингов, созданных пользователями",
+      "en": "Unique  trainings created by users",
+      "ua": "Унікальних тренінгів, створених користувачами"
     },
     "activeStudents": {
-      "ru": "Активных пользователей на пути к целям.",
-      "en": "Active users on the way to goals.",
-      "ua": "Aктивних користувачів на шляху до цілей."
+      "ru": "Активных пользователей на пути к целям",
+      "en": "Active users on the way to goals",
+      "ua": "Aктивних користувачів на шляху до цілей"
     },
     "mentors": {
-      "ru": "Менторов, сопровождающих обучение.",
-      "en": "Mentors supporting the training.",
-      "ua": "Наставників, які супроводжують навчання."
+      "ru": "Менторов, сопровождающих обучение",
+      "en": "Mentors supporting the training",
+      "ua": "Наставників, які супроводжують навчання"
     }
   },
   "solutions": {
@@ -187,19 +187,19 @@
     },
     "progressMonitoring": {
       "title": {
-        "ru": "Сложно отследить свой прогресс и понять, насколько приблизился к цели?",
-        "en": "Is it difficult to track your progress and understand how close you are to your goal?",
-        "ua": "Складно відстежити свій прогрес та зрозуміти, наскільки наблизився до мети?"
+        "ru": "Сложно отследить текущий уровень и определить вектор обучения?",
+        "en": "Is it difficult to track your current level and determine your learning vector?",
+        "ua": "Важко відстежити поточний рівень та визначити вектор навчання?"
       },
       "description": {
-        "ru": "Master's Way предоставляет наглядную панель прогресса. Ты видишь свой путь не только в виде пошагового плана, но и через детальные метрики и графики. Эти визуальные отчеты четко показывают, что уже пройдено, сколько времени затрачено, какие темы освоены, и насколько ты приблизился к завершению курса и достижению своей цели.",
-        "en": "Master's Way provides a visual progress dashboard. You see your path not only through a step-by-step plan, but also through detailed metrics and graphs. These visual reports clearly show what has been covered, how much time has been spent, what topics have been covered, and how close you are to completing the course and achieving your goal.",
-        "ua": "Master's Way надає панель прогресу. Ти бачиш свій шлях не лише у вигляді покрокового плану, а й через детальні метрики та графіки. Ці візуальні звіти чітко показують, що вже пройдено, скільки часу витрачено, які теми освоєно, і наскільки ти наблизився до завершення курсу та досягнення своєї мети."
+        "ru": "Master's Way предоставляет возможность генерировать персональные тесты, что идеально подходит для оценки знаний и прогресса обучения. Также это отличная возможность попрактиковаться в прохождении интервью или подготовке к экзаменам.",
+        "en": "Master's Way provides the ability to generate personalized tests, which is ideal for assessing knowledge and learning progress. It is also a great way to practice interviews or exam preparation.",
+        "ua": "Master's Way надає можливість генерувати персональні тести, що ідеально підходить для оцінки знань та прогресу навчання. Також це чудова можливість попрактикуватися у проходженні інтерв'ю чи підготовці до іспитів."
       },
       "callToActionButton": {
-        "ru": "Начать отслеживать прогресс",
-        "en": "Start tracking progress",
-        "ua": "Почати відстежувати прогрес"
+        "ru": "Проверить себя",
+        "en": "Check yourself",
+        "ua": "Перевірити себе"
       }
     }
   },
@@ -216,9 +216,9 @@
         "ua": "Я довго не могла знайти підходящий курс — все було або надто загальним. На платформі Master's Way всього за пару хвилин я змогла створити план, який ідеально відповідає моїм цілям та досвіду. Це справжня магія! Вчитися одразу стало набагато простіше та цікавіше."
       },
       "mentorName": {
-        "ru": "Anna",
+        "ru": "Анна",
         "en": "Anna",
-        "ua": "Anna"
+        "ua": "Анна"
       },
       "mentorProfession": {
         "ru": "учу back-end, Golang",
@@ -233,9 +233,9 @@
         "ua": "Головна проблема онлайн-навчання для мене – це відсутність чіткої структури. З Master's Way я отримав покроковий план і тепер я знаю, куди рухатися. Я бачу свій прогрес і це дуже мотивує. Вперше відчуваю, що справді йду до своєї мети, а не просто читаю розрізнені матеріали."
       },
       "mentorName": {
-        "ru": "Pavel",
+        "ru": "Павел",
         "en": "Pavel",
-        "ua": "Pavel"
+        "ua": "Павло"
       },
       "mentorProfession": {
         "ru": "учу React, TS",
@@ -250,9 +250,9 @@
         "ua": "Створення курсу зайняло мінімум часу, але дало максимум користі. Інформація є актуальною, є і теорія, і практичні завдання. А коли виникають питання, знаю, що будь-коли можу звернутися до ментора. Це зовсім інший рівень підтримки, порівняно зі звичайними курсами."
       },
       "mentorName": {
-        "ru": "Elithabeth",
+        "ru": "Елизавета",
         "en": "Elithabeth",
-        "ua": "Elithabeth"
+        "ua": "Єлизавета"
       },
       "mentorProfession": {
         "ru": "учу QA",
