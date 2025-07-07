@@ -23,7 +23,7 @@ export const GamePage = observer((props: RunningTestPageProps) => {
 
   const [isGameOverReact, setIsGameOver] = useState(false);
   const [userNameReact, setUserName] = useState<string>(props.sessionUuid + props.testUuid);
-  const [scoreReact, setScore] = useState<string>("");
+  const [scoreReact, setScore] = useState<string>("0");
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
     loaderUrl: "/sol/build/Build/build.loader.js",
     dataUrl: "/sol/build/Build/build.data.unityweb",
@@ -35,36 +35,35 @@ export const GamePage = observer((props: RunningTestPageProps) => {
     setIsGameOver(true);
     setUserName(userNameA as React.SetStateAction<string>);
     setScore(scoreA as React.SetStateAction<string>);
-  }, []);
+  }, [sendMessage]);
 
   const handleUserAnsweredQuestion = useCallback(() => {
-  }, []);
+  }, [sendMessage]);
 
-  const handleGameStarted = useCallback(() => {
-    // Load questions sdata here
-    // sendMessage("GameController", "SpawnEnemies", someParam);
-  }, []);
+  const handleGameStart = useCallback((a: unknown, b: unknown) => {
+    // eslint-disable-next-line no-console
+    console.log(b);
+    setUserName("handleGameStarted catched" as React.SetStateAction<string>);
+    setScore("100" as React.SetStateAction<string>);
+    // SendMessage("GameController", "SpawnEnemies", someParam);
+  }, [sendMessage]);
 
   useEffect(() => {
     addEventListener("GameOver", handleGameOver);
-    addEventListener("GameStarted", handleUserAnsweredQuestion);
-    addEventListener("UserAnsweredQuestion", handleGameStarted);
+    addEventListener("GameStart", handleGameStart);
+    addEventListener("UserAnsweredQuestion", handleUserAnsweredQuestion);
 
     return () => {
       removeEventListener("GameOver", handleGameOver);
+      removeEventListener("GameStart", handleGameStart);
       removeEventListener("UserAnsweredQuestion", handleUserAnsweredQuestion);
-      removeEventListener("GameStarted", handleGameStarted);
     };
-  }, [addEventListener, removeEventListener, handleGameOver]);
+  }, [addEventListener, removeEventListener, handleGameOver, sendMessage]);
 
-  const someParam: number = 100;
-
-  /**
-   * Experimantal button to interact with unity from react
-   */
-  function handleClickSpawnEnemies() {
-    sendMessage("GameController", "SpawnEnemies", someParam);
-  }
+  const sendCallUiTest = useCallback(() => {
+    // SendMessage(answer question)
+    sendMessage("Canvas", "Test", "dudli-didly");
+  }, []);
 
   if (isLoading) {
     return (
@@ -83,8 +82,20 @@ export const GamePage = observer((props: RunningTestPageProps) => {
     <VerticalContainer className={styles.gamePageWrapper}>
       <VerticalContainer className={styles.gameBlock}>
         <Button
-          onClick={handleClickSpawnEnemies}
-          value="spawn"
+          onClick={sendCallUiTest}
+          value="spawn it does not work"
+          buttonType={ButtonType.SECONDARY}
+        />
+
+        <Button
+          onClick={() => sendMessage("Canvas", "JsonTest", "dudli-didly")}
+          value="send message array message! It works"
+          buttonType={ButtonType.SECONDARY}
+        />
+
+        <Button
+          onClick={() => sendMessage("Canvas", "Test", JSON.stringify([{a: 1, b: 2}, {a: 3, b: 4}]))}
+          value="sednd json! It works"
           buttonType={ButtonType.SECONDARY}
         />
 
