@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Unity, useUnityContext} from "react-unity-webgl";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -13,6 +13,25 @@ import {RunningTestPageProps} from "src/logic/runningTestPage/RunningTestPagePro
 import styles from "src/logic/gamePage/GamePage.module.scss";
 
 /**
+ * Event names used to send from Unity to React.
+ */
+enum UnityToReactEvents {
+  GameFinished = "GameFinished",
+  // TODO: replace with "GameStarted"
+  GameStarted = "GameStart",
+  UserAnsweredQuestion = "UserAnsweredQuestion",
+  UserCapturedTarget = "UserCapturedTarget",
+}
+
+/**
+ * Event names used to send from React to Unity.
+ */
+enum ReactToUnityEvents {
+  QuestionListReceived = "QuestionListReceived",
+  UserAnswerHandledByServer = "UserAnswerHandledByServer"
+}
+
+/**
  * Game page
  * TODO: probably it should not be separate page, but should be placed in runningTestPage as just one of possible views
  */
@@ -22,8 +41,7 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   const {user, isLoading} = userStore;
 
   const [isGameOverReact, setIsGameOver] = useState(false);
-  const [userNameReact, setUserName] = useState<string>(props.sessionUuid + props.testUuid);
-  const [scoreReact, setScore] = useState<string>("0");
+  const [scoreReact, setScore] = useState<string>(props.sessionUuid + props.testUuid);
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
     loaderUrl: "/sol/build/Build/build.loader.js",
     dataUrl: "/sol/build/Build/build.data.unityweb",
@@ -31,39 +49,84 @@ export const GamePage = observer((props: RunningTestPageProps) => {
     codeUrl: "/sol/build/Build/build.wasm.unityweb",
   });
 
-  const handleGameOver = useCallback((userNameA: unknown, scoreA: unknown) => {
+  /**
+   * TODO: remove this example
+   */
+  const sendCallUiTest = () => {
+    // SendMessage(answer question)
+    sendMessage("Canvas", "JsonTest", "dudli-didly");
+  };
+
+  /**
+   * Send questions list to unity
+   */
+  const sendQuestionListReceived = () => {
+    // TODO Place question list from server according the schema
+    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, "dudli-didly");
+  };
+
+  /**
+   * Send handled user answer to unity
+   */
+  const sendUserAnswerHandledByServer = () => {
+    // SendMessage(answer question)
+    sendMessage("Canvas", ReactToUnityEvents.UserAnswerHandledByServer, "dudli-didly");
+  };
+
+  /**
+   * Handle event game finished
+   */
+  const handleGameFinished = (userNameA: unknown, scoreA: unknown) => {
+    // Request gemini.getGameResult
+    // Redirect to question results page
+
+    // TODO: remove Example
     setIsGameOver(true);
-    setUserName(userNameA as React.SetStateAction<string>);
     setScore(scoreA as React.SetStateAction<string>);
-  }, [sendMessage]);
+  };
 
-  const handleUserAnsweredQuestion = useCallback(() => {
-  }, [sendMessage]);
+  /**
+   * Handle event user answered question
+   */
+  const handleUserAnsweredQuestion = () => {
+    // Request gemini.checkAndGenerateAnswer
+    sendUserAnswerHandledByServer(/**put result from server JSON here */);
+  };
 
-  const handleGameStart = useCallback((a: unknown, b: unknown) => {
-    // eslint-disable-next-line no-console
-    console.log(b);
-    setUserName("handleGameStarted catched" as React.SetStateAction<string>);
-    setScore("100" as React.SetStateAction<string>);
-    // SendMessage("GameController", "SpawnEnemies", someParam);
-  }, [sendMessage]);
+  /**
+   * Handle event game started
+   */
+  const handleGameStarted = (a: unknown, b: unknown) => {
+    // Request gemini.getQuestionList or load them from other source
+    // Trigger QuestionListReceived
+    sendQuestionListReceived(/**put questions list JSON here */);
+    // TODO: remove Example
+    alert("Game started");
+    setScore(b as React.SetStateAction<string>);
+  };
+
+  /**
+   * Handle event user captured another target
+   * TODO: skipped for single player
+   * TODO: use debounce logic here (1 second)
+   */
+  const handleUserCapturedTarget = () => {
+    // Skip for now
+  };
 
   useEffect(() => {
-    addEventListener("GameOver", handleGameOver);
-    addEventListener("GameStart", handleGameStart);
-    addEventListener("UserAnsweredQuestion", handleUserAnsweredQuestion);
+    addEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
+    addEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
+    addEventListener(UnityToReactEvents.UserAnsweredQuestion, handleUserAnsweredQuestion);
+    addEventListener(UnityToReactEvents.UserCapturedTarget, handleUserCapturedTarget);
 
     return () => {
-      removeEventListener("GameOver", handleGameOver);
-      removeEventListener("GameStart", handleGameStart);
-      removeEventListener("UserAnsweredQuestion", handleUserAnsweredQuestion);
+      removeEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
+      removeEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
+      removeEventListener(UnityToReactEvents.UserAnsweredQuestion, handleUserAnsweredQuestion);
+      removeEventListener(UnityToReactEvents.UserCapturedTarget, handleUserCapturedTarget);
     };
-  }, [addEventListener, removeEventListener, handleGameOver, sendMessage]);
-
-  const sendCallUiTest = useCallback(() => {
-    // SendMessage(answer question)
-    sendMessage("Canvas", "Test", "dudli-didly");
-  }, []);
+  }, [addEventListener, removeEventListener, sendMessage]);
 
   if (isLoading) {
     return (
@@ -81,36 +144,28 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   return (
     <VerticalContainer className={styles.gamePageWrapper}>
       <VerticalContainer className={styles.gameBlock}>
+        {/* Remove this example */}
         <Button
           onClick={sendCallUiTest}
           value="spawn it does not work"
           buttonType={ButtonType.SECONDARY}
         />
 
-        <Button
-          onClick={() => sendMessage("Canvas", "JsonTest", "dudli-didly")}
-          value="send message array message! It works"
-          buttonType={ButtonType.SECONDARY}
-        />
-
+        {/* Remove this example */}
         <Button
           onClick={() => sendMessage("Canvas", "Test", JSON.stringify([{a: 1, b: 2}, {a: 3, b: 4}]))}
           value="sednd json! It works"
           buttonType={ButtonType.SECONDARY}
         />
 
+        {/* Remove this example */}
         <Title
           level={HeadingLevel.h3}
           text={isGameOverReact ? "game over" : "game in progress"}
           placeholder=""
           isEditable={false}
         />
-        <Title
-          level={HeadingLevel.h3}
-          text={userNameReact}
-          placeholder=""
-          isEditable={false}
-        />
+        {/* Remove this example */}
         <Title
           level={HeadingLevel.h3}
           text={scoreReact}
