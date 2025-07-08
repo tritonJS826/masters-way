@@ -62,14 +62,14 @@ const getPathForEditTestPage = (params: {uuid: string}): string => `/editTest/${
 /**
  * Create url with appropriate params for @RunningTestPage
  */
-const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
+const getPathForRunningTestPage = (params: {testUuid: string; sessionUuid: string; isGameMode: boolean}): string =>
   `/runningTest/${params.testUuid}/session/${params.sessionUuid}`;
 
-/**
- * Create url with appropriate params for @GameTestPage
- */
-const getPathForGameTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
-  `/gameTest/${params.testUuid}/session/${params.sessionUuid}`;
+// /**
+//  * Create url with appropriate params for @GameTestPage
+//  */
+// const getPathForGameTestPage = (params: {testUuid: string; sessionUuid: string}): string =>
+//   `/gameTest/${params.testUuid}/session/${params.sessionUuid}`;
 
 /**
  * Create url with appropriate params for @ResultTestPage
@@ -87,11 +87,11 @@ const HomePage = () => (<>
   <HomePageLazy />
 </>);
 
-const GamePageLazy = React.lazy(() => import("src/logic/gamePage/GamePage")
-  .then((module) => ({default: module.GamePage})));
-const GamePage = (params: {testUuid: string; sessionUuid: string}) => (<>
-  <GamePageLazy {...params} />
-</>);
+// Const GamePageLazy = React.lazy(() => import("src/logic/gamePage/GamePage")
+//   .then((module) => ({default: module.GamePage})));
+// const GamePage = (params: {testUuid: string; sessionUuid: string; isGameMode: boolean}) => (<>
+//   <GamePageLazy {...params} />
+// </>);
 
 const PricingPageLazy = React.lazy(() => import("src/logic/staticPages/pricingPage/PricingPage")
   .then((module) => ({default: module.PricingPage})));
@@ -161,7 +161,7 @@ const EditTestPage = (params: {uuid: string}) => (<>
 
 const RunningTestPageLazy = React.lazy(() => import("src/logic/runningTestPage/RunningTestPage")
   .then((module) => ({default: module.RunningTestPage})));
-const RunningTestPage = (params: {testUuid: string; sessionUuid: string}) => (<>
+const RunningTestPage = (params: {testUuid: string; sessionUuid: string; isGameMode: boolean}) => (<>
   <RunningTestPageLazy {...params} />
 </>);
 
@@ -347,15 +347,19 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   runningTest: {
-    getPath: (params): string => getPathForRunningTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
+    getPath: (params): string => getPathForRunningTestPage({
+      testUuid: params.testUuid,
+      sessionUuid: params.sessionUuid,
+      isGameMode: params.isGameMode,
+    }),
     getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
     urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
-  } as PageParams<{testUuid: string; sessionUuid: string}>,
-  gameTest: {
-    getPath: (params): string => getPathForGameTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
-    getPageComponent: (params) => suspended(<GamePage {...params} />),
-    urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
-  } as PageParams<{testUuid: string; sessionUuid: string}>,
+  } as PageParams<{testUuid: string; sessionUuid: string; isGameMode: boolean}>,
+  // GameTest: {
+  //   getPath: (params): string => getPathForGameTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
+  //   getPageComponent: (params) => suspended(<GamePage {...params} />),
+  //   urlParams: {testUuid: UrlParamsType.UUID, sessionUuid: UrlParamsType.UUID} as const,
+  // } as PageParams<{testUuid: string; sessionUuid: string}>,
   resultTest: {
     getPath: (params): string => getPathForResultTestPage({testUuid: params.testUuid, sessionUuid: params.sessionUuid}),
     getPageComponent: (params) => suspended(<ResultTestPage {...params} />),

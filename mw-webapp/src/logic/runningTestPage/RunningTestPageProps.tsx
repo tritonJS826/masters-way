@@ -16,4 +16,9 @@ export interface RunningTestPageProps {
    * Session's Uuid
    */
   sessionUuid: string;
+
+  /**
+   * If true - test loading in game mode, if false - usual test
+   */
+  isGameMode: boolean;
 }

@@ -42,6 +42,11 @@
             "en": "Start test",
             "ua": "Почати тест"
         },
+        "startGame": {
+            "ru": "Начать игру",
+            "en": "Start game",
+            "ua": "Почати гру"
+        },
         "downloadAsPDF": {
             "ru": "Скачать как PDF",
             "en": "Download as PDF",

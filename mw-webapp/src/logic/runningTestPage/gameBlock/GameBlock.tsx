@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Unity, useUnityContext} from "react-unity-webgl";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -9,8 +10,11 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {RunningTestPageProps} from "src/logic/runningTestPage/RunningTestPageProps";
-import styles from "src/logic/gamePage/GamePage.module.scss";
+import {useStore} from "src/hooks/useStore";
+import {RunningGameStore} from "src/logic/runningTestPage/gameBlock/RunningGameStore";
+import {QuestionUnity} from "src/model/businessModel/QuestionUnity";
+import {pages} from "src/router/pages";
+import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
 
 /**
  * Event names used to send from Unity to React.
@@ -32,13 +36,52 @@ enum ReactToUnityEvents {
 }
 
 /**
- * Game page
+ * Parameters for test game
+ */
+interface GameBlockProps {
+
+  /**
+   * Test's Uuid
+   */
+  testUuid: string;
+
+  /**
+   * Session's Uuid
+   */
+  sessionUuid: string;
+
+  /**
+   * User's uuid
+   */
+  userUuid: string;
+}
+
+/**
+ * Game block
  * TODO: probably it should not be separate page, but should be placed in runningTestPage as just one of possible views
  */
-export const GamePage = observer((props: RunningTestPageProps) => {
+export const GameBlock = observer((props: GameBlockProps) => {
+  const navigate = useNavigate();
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user, isLoading} = userStore;
+
+  const runningGameStore = useStore<
+  new (testUuid: string) => RunningGameStore,
+  [string, string], RunningGameStore>({
+      storeForInitialize: RunningGameStore,
+      dataForInitialization: [props.testUuid],
+      dependency: [props.testUuid, props.userUuid],
+    });
+
+  if (!runningGameStore.isInitialized) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
+    );
+  }
 
   const [isGameOverReact, setIsGameOver] = useState(false);
   const [scoreReact, setScore] = useState<string>(props.sessionUuid + props.testUuid);
@@ -60,9 +103,9 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   /**
    * Send questions list to unity
    */
-  const sendQuestionListReceived = () => {
+  const sendQuestionListReceived = (questionsUnityList: QuestionUnity) => {
     // TODO Place question list from server according the schema
-    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, "dudli-didly");
+    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, questionsUnityList);
   };
 
   /**
@@ -79,6 +122,7 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   const handleGameFinished = (userNameA: unknown, scoreA: unknown) => {
     // Request gemini.getGameResult
     // Redirect to question results page
+    navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid}));
 
     // TODO: remove Example
     setIsGameOver(true);
@@ -99,7 +143,15 @@ export const GamePage = observer((props: RunningTestPageProps) => {
   const handleGameStarted = (a: unknown, b: unknown) => {
     // Request gemini.getQuestionList or load them from other source
     // Trigger QuestionListReceived
-    sendQuestionListReceived(/**put questions list JSON here */);
+    const questionsUnityList = runningGameStore.test.questions.map((question) => new QuestionUnity({
+      name: question.name,
+      answer: question.answer,
+      order: question.order,
+      questionText: question.questionText,
+      uuid: question.uuid,
+      timeToAnswer: question.timeToAnswer,
+    }));
+    sendQuestionListReceived(questionsUnityList);
     // TODO: remove Example
     alert("Game started");
     setScore(b as React.SetStateAction<string>);

@@ -127,7 +127,23 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
               buttonType={ButtonType.PRIMARY}
               onClick={async () => {
                 const testSession = await SessionDAL.createSession({userUuid: user.uuid});
-                navigate(pages.runningTest.getPath({testUuid: lobbyTestPageStore.test.uuid, sessionUuid: testSession}));
+                navigate(pages.runningTest.getPath({
+                  testUuid: lobbyTestPageStore.test.uuid,
+                  sessionUuid: testSession,
+                  isGameMode: false,
+                }));
+              }}
+            />
+            <Button
+              value={LanguageService.lobbyTest.buttons.startGame[language]}
+              buttonType={ButtonType.SECONDARY}
+              onClick={async () => {
+                const testSession = await SessionDAL.createSession({userUuid: user.uuid});
+                navigate(pages.runningTest.getPath({
+                  testUuid: lobbyTestPageStore.test.uuid,
+                  sessionUuid: testSession,
+                  isGameMode: true,
+                }));
               }}
             />
           </>
