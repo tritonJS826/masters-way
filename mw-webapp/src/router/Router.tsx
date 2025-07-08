@@ -71,13 +71,9 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
-          path={pages.runningTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid"})}
+          path={pages.runningTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid", isGameMode: ":isGameMode"})}
           element={<WithValidatedParams paramsSchema={pages.runningTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
-        />
-        <Route
-          path={pages.gameTest.getPath({testUuid: ":testUuid", sessionUuid: ":sessionUuid"})}
-          element={<WithValidatedParams paramsSchema={pages.gameTest} />}
         />
         <Route
           path={pages.editTest.getPath({uuid: ":uuid"})}

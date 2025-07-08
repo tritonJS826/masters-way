@@ -7,6 +7,7 @@ import {Footer} from "src/component/footer/Footer";
 import {Loader} from "src/component/loader/Loader";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
+import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -33,8 +34,8 @@ const UnityListenerName = "ReactEventHandler" as const;
  * Event names used to send from React to Unity.
  */
 enum ReactToUnityEvents {
-  QuestionListReceived = "QuestionListReceived",
-  UserAnswerHandledByServer = "UserAnswerHandledByServer"
+  QuestionListReceived = "HandleQuestionListReceived",
+  UserAnswerHandledByServer = "HandleUserAnswerHandledByServer"
 }
 
 /**
@@ -94,15 +95,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
       dependency: [props.testUuid, props.userUuid],
     });
 
-  if (!runningGameStore.isInitialized) {
-    return (
-      <Loader
-        theme={theme}
-        isAbsolute
-      />
-    );
-  }
-
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
     loaderUrl: "/sol/build/Build/build.loader.js",
     dataUrl: "/sol/build/Build/build.data.unityweb",
@@ -128,7 +120,11 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event game finished
    */
   const handleGameFinished = () => {
-    navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid}));
+    TestSessionResultDAL.createTestSessionResult({
+      sessionUuid: props.sessionUuid,
+      testUuid: props.testUuid,
+    })
+      .then(() => navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid})));
   };
 
   /**
@@ -145,7 +141,9 @@ export const GameBlock = observer((props: GameBlockProps) => {
       testUuid: props.testUuid,
       userUuid: props.userUuid,
       language,
-    }).then(JSON.stringify).then(sendUserAnswerHandledByServer);
+    })
+      .then(JSON.stringify)
+      .then(sendUserAnswerHandledByServer);
   };
 
   /**
@@ -179,6 +177,15 @@ export const GameBlock = observer((props: GameBlockProps) => {
     };
   }, [addEventListener, removeEventListener, sendMessage]);
 
+  if (!runningGameStore.isInitialized) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
+    );
+  }
+
   if (isLoading) {
     return (
       <Loader
@@ -209,7 +216,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
           onClick={sendQuestionsToUnity}
           value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading..."}
           isDisabled={!runningGameStore.isInitialized}
-          buttonType={ButtonType.SECONDARY}
+          buttonType={ButtonType.PRIMARY}
         />
 
         <Unity

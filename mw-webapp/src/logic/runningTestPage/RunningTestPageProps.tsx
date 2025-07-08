@@ -3,7 +3,7 @@
  */
 
 /**
- * Parameters for test
+ * URL Parameters for test
  */
 export interface RunningTestPageProps {
 
@@ -20,5 +20,5 @@ export interface RunningTestPageProps {
   /**
    * If true - test loading in game mode, if false - usual test
    */
-  isGameMode: boolean;
+  isGameMode: string;
 }

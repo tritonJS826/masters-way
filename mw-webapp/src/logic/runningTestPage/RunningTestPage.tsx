@@ -30,7 +30,8 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
 
   return (
     <VerticalContainer className={styles.container}>
-      {props.isGameMode ?
+      {/* TODO parse url param normal way */}
+      {props.isGameMode === "false" ?
         <RunningTest
           userUuid={user.uuid}
           testUuid={props.testUuid}
