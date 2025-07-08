@@ -63,13 +63,14 @@ interface GameBlockProps {
  * Converter Question to QuestionUnity
  */
 const questionToQuestionUnity = (question: Question) => {
+  const DEFAULT_TIME_TO_ANSWER_UNITY = question.timeToAnswer;
   const questionUnity = new QuestionUnity({
     name: question.name,
     answer: question.answer,
     order: question.order,
     questionText: question.questionText,
     uuid: question.uuid,
-    timeToAnswer: question.timeToAnswer,
+    timeToAnswer: question.timeToAnswer >= 0 ? question.timeToAnswer : DEFAULT_TIME_TO_ANSWER_UNITY,
   });
 
   return questionUnity;
@@ -120,6 +121,8 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event game finished
    */
   const handleGameFinished = () => {
+    // TODO: minus token if it is AI request
+
     TestSessionResultDAL.createTestSessionResult({
       sessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
@@ -131,6 +134,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event user answered question
    */
   const handleUserAnsweredQuestion = (questionUuid: unknown, userAnswer: unknown) => {
+    // TODO: minus token if it is AI request
     AiQuestionResultDAL.createQuestionResult({
       // TODO: do we need to send this isOk field?
       isOk: runningGameStore.activeQuestion.answer === "inputValue",
