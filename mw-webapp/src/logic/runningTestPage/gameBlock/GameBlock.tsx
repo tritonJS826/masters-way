@@ -7,6 +7,7 @@ import {Footer} from "src/component/footer/Footer";
 import {Loader} from "src/component/loader/Loader";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -103,17 +104,17 @@ export const GameBlock = observer((props: GameBlockProps) => {
   /**
    * Send questions list to unity
    */
-  const sendQuestionListReceived = (questionsUnityList: QuestionUnity) => {
+  const sendQuestionListReceived = (questionsUnityListJSON: string) => {
     // TODO Place question list from server according the schema
-    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, questionsUnityList);
+    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, questionsUnityListJSON);
   };
 
   /**
    * Send handled user answer to unity
    */
-  const sendUserAnswerHandledByServer = () => {
+  const sendUserAnswerHandledByServer = (questionResultJSON: string) => {
     // SendMessage(answer question)
-    sendMessage("Canvas", ReactToUnityEvents.UserAnswerHandledByServer, "dudli-didly");
+    sendMessage("Canvas", ReactToUnityEvents.UserAnswerHandledByServer, questionResultJSON);
   };
 
   /**
@@ -132,9 +133,23 @@ export const GameBlock = observer((props: GameBlockProps) => {
   /**
    * Handle event user answered question
    */
-  const handleUserAnsweredQuestion = () => {
+  const handleUserAnsweredQuestion = async () => {
     // Request gemini.checkAndGenerateAnswer
-    sendUserAnswerHandledByServer(/**put result from server JSON here */);
+    const questionResult = await AiQuestionResultDAL.createQuestionResult({
+      //* InputValue is userAnswer from input or any other option to choose *//
+      isOk: runningGameStore.activeQuestion.answer === "inputValue",
+      questionUuid: runningGameStore.activeQuestion.uuid,
+      //* InputValue is userAnswer from input or any other option to choose *//
+      userAnswer: "inputValue",
+      resultDescription: "",
+      testSessionUuid: props.sessionUuid,
+      testUuid: props.testUuid,
+      userUuid: props.userUuid,
+      language,
+    });
+
+    const questionResultJSON = JSON.stringify(questionResult);
+    sendUserAnswerHandledByServer(questionResultJSON);
   };
 
   /**
@@ -151,7 +166,8 @@ export const GameBlock = observer((props: GameBlockProps) => {
       uuid: question.uuid,
       timeToAnswer: question.timeToAnswer,
     }));
-    sendQuestionListReceived(questionsUnityList);
+    const questionsUnityListJSON = JSON.stringify(questionsUnityList);
+    sendQuestionListReceived(questionsUnityListJSON);
     // TODO: remove Example
     alert("Game started");
     setScore(b as React.SetStateAction<string>);
