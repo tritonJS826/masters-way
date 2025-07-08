@@ -11,6 +11,7 @@
 
 .gameBlock {
   width: 100%;
+  max-width: 1280px;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
