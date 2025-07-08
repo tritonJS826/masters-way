@@ -27,6 +27,7 @@ export class RunningGameStore {
 
   /**
    * QuestionResults for manage running questions and answers
+   * Key is question uuid
    */
   public questionResults!: Map<string, QuestionResult>;
 

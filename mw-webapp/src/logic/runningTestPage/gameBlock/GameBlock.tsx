@@ -5,7 +5,6 @@ import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
 import {Loader} from "src/component/loader/Loader";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -14,6 +13,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {RunningGameStore} from "src/logic/runningTestPage/gameBlock/RunningGameStore";
 import {QuestionUnity} from "src/model/businessModel/QuestionUnity";
+import {Question} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
 import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
 
@@ -22,11 +22,12 @@ import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
  */
 enum UnityToReactEvents {
   GameFinished = "GameFinished",
-  // TODO: replace with "GameStarted"
-  GameStarted = "GameStart",
+  GameStarted = "GameStarted",
   UserAnsweredQuestion = "UserAnsweredQuestion",
   UserCapturedTarget = "UserCapturedTarget",
 }
+
+const UnityListenerName = "ReactEventHandler" as const;
 
 /**
  * Event names used to send from React to Unity.
@@ -58,6 +59,22 @@ interface GameBlockProps {
 }
 
 /**
+ * Converter Question to QuestionUnity
+ */
+const questionToQuestionUnity = (question: Question) => {
+  const questionUnity = new QuestionUnity({
+    name: question.name,
+    answer: question.answer,
+    order: question.order,
+    questionText: question.questionText,
+    uuid: question.uuid,
+    timeToAnswer: question.timeToAnswer,
+  });
+
+  return questionUnity;
+};
+
+/**
  * Game block
  * TODO: probably it should not be separate page, but should be placed in runningTestPage as just one of possible views
  */
@@ -66,6 +83,8 @@ export const GameBlock = observer((props: GameBlockProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user, isLoading} = userStore;
+
+  const [isUnityDownloaded, setIsUnityDownloaded] = useState<boolean>(false);
 
   const runningGameStore = useStore<
   new (testUuid: string) => RunningGameStore,
@@ -84,8 +103,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
     );
   }
 
-  const [isGameOverReact, setIsGameOver] = useState(false);
-  const [scoreReact, setScore] = useState<string>(props.sessionUuid + props.testUuid);
   const {unityProvider, sendMessage, addEventListener, removeEventListener} = useUnityContext({
     loaderUrl: "/sol/build/Build/build.loader.js",
     dataUrl: "/sol/build/Build/build.data.unityweb",
@@ -94,83 +111,49 @@ export const GameBlock = observer((props: GameBlockProps) => {
   });
 
   /**
-   * TODO: remove this example
-   */
-  const sendCallUiTest = () => {
-    // SendMessage(answer question)
-    sendMessage("Canvas", "JsonTest", "dudli-didly");
-  };
-
-  /**
    * Send questions list to unity
    */
   const sendQuestionListReceived = (questionsUnityListJSON: string) => {
-    // TODO Place question list from server according the schema
-    sendMessage("Canvas", ReactToUnityEvents.QuestionListReceived, questionsUnityListJSON);
+    sendMessage(UnityListenerName, ReactToUnityEvents.QuestionListReceived, questionsUnityListJSON);
   };
 
   /**
    * Send handled user answer to unity
    */
   const sendUserAnswerHandledByServer = (questionResultJSON: string) => {
-    // SendMessage(answer question)
-    sendMessage("Canvas", ReactToUnityEvents.UserAnswerHandledByServer, questionResultJSON);
+    sendMessage(UnityListenerName, ReactToUnityEvents.UserAnswerHandledByServer, questionResultJSON);
   };
 
   /**
    * Handle event game finished
    */
-  const handleGameFinished = (userNameA: unknown, scoreA: unknown) => {
-    // Request gemini.getGameResult
-    // Redirect to question results page
+  const handleGameFinished = () => {
     navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid}));
-
-    // TODO: remove Example
-    setIsGameOver(true);
-    setScore(scoreA as React.SetStateAction<string>);
   };
 
   /**
    * Handle event user answered question
    */
-  const handleUserAnsweredQuestion = async () => {
-    // Request gemini.checkAndGenerateAnswer
-    const questionResult = await AiQuestionResultDAL.createQuestionResult({
-      //* InputValue is userAnswer from input or any other option to choose *//
+  const handleUserAnsweredQuestion = (questionUuid: unknown, userAnswer: unknown) => {
+    AiQuestionResultDAL.createQuestionResult({
+      // TODO: do we need to send this isOk field?
       isOk: runningGameStore.activeQuestion.answer === "inputValue",
-      questionUuid: runningGameStore.activeQuestion.uuid,
-      //* InputValue is userAnswer from input or any other option to choose *//
-      userAnswer: "inputValue",
+      questionUuid: questionUuid as string,
+      userAnswer: userAnswer as string,
       resultDescription: "",
       testSessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
       userUuid: props.userUuid,
       language,
-    });
-
-    const questionResultJSON = JSON.stringify(questionResult);
-    sendUserAnswerHandledByServer(questionResultJSON);
+    }).then(JSON.stringify).then(sendUserAnswerHandledByServer);
   };
 
   /**
    * Handle event game started
    */
-  const handleGameStarted = (a: unknown, b: unknown) => {
-    // Request gemini.getQuestionList or load them from other source
-    // Trigger QuestionListReceived
-    const questionsUnityList = runningGameStore.test.questions.map((question) => new QuestionUnity({
-      name: question.name,
-      answer: question.answer,
-      order: question.order,
-      questionText: question.questionText,
-      uuid: question.uuid,
-      timeToAnswer: question.timeToAnswer,
-    }));
-    const questionsUnityListJSON = JSON.stringify(questionsUnityList);
-    sendQuestionListReceived(questionsUnityListJSON);
-    // TODO: remove Example
-    alert("Game started");
-    setScore(b as React.SetStateAction<string>);
+  const handleGameStarted = () => {
+    // TODO: dangerous. If test was not loaded before unity the whole pipeline wil be broken
+    setIsUnityDownloaded(true);
   };
 
   /**
@@ -209,37 +192,26 @@ export const GameBlock = observer((props: GameBlockProps) => {
     throw new Error("User is not defined");
   }
 
+  /**
+   * Send questions to unity
+   */
+  const sendQuestionsToUnity = () => {
+    const questionsUnityList = runningGameStore.test.questions.map(questionToQuestionUnity);
+
+    const questionsUnityListJSON = JSON.stringify({questions: questionsUnityList});
+    sendQuestionListReceived(questionsUnityListJSON);
+  };
+
   return (
     <VerticalContainer className={styles.gamePageWrapper}>
       <VerticalContainer className={styles.gameBlock}>
-        {/* Remove this example */}
         <Button
-          onClick={sendCallUiTest}
-          value="spawn it does not work"
+          onClick={sendQuestionsToUnity}
+          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading..."}
+          isDisabled={!runningGameStore.isInitialized}
           buttonType={ButtonType.SECONDARY}
         />
 
-        {/* Remove this example */}
-        <Button
-          onClick={() => sendMessage("Canvas", "Test", JSON.stringify([{a: 1, b: 2}, {a: 3, b: 4}]))}
-          value="sednd json! It works"
-          buttonType={ButtonType.SECONDARY}
-        />
-
-        {/* Remove this example */}
-        <Title
-          level={HeadingLevel.h3}
-          text={isGameOverReact ? "game over" : "game in progress"}
-          placeholder=""
-          isEditable={false}
-        />
-        {/* Remove this example */}
-        <Title
-          level={HeadingLevel.h3}
-          text={scoreReact}
-          placeholder=""
-          isEditable={false}
-        />
         <Unity
           unityProvider={unityProvider}
           style={{width: "100%"}}
