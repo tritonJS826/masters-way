@@ -1,8 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {load} from "src/hooks/useLoad";
-import {QuestionResult} from "src/model/businessModel/QuestionResult";
-import {Question, Test} from "src/model/businessModel/Test";
+import {Test} from "src/model/businessModel/Test";
 
 /**
  * RunningGameStore related methods
@@ -16,22 +15,6 @@ export class RunningGameStore {
   public test!: Test;
 
   /**
-   * Active question uuid
-   */
-  public activeQuestion!: Question;
-
-  /**
-   * Active order
-   */
-  public activeOrder: number = 0;
-
-  /**
-   * QuestionResults for manage running questions and answers
-   * Key is question uuid
-   */
-  public questionResults!: Map<string, QuestionResult>;
-
-  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
@@ -42,53 +25,22 @@ export class RunningGameStore {
   }
 
   /**
-   * Make next question active
+   * Quick check is answer right
    */
-  public nextQuestion = () => {
-    this.activeOrder++;
-    this.activeQuestion = this.test.questions[this.activeOrder];
-  };
-
-  /**
-   * Make previous question active
-   */
-  public prevQuestion = () => {
-    this.activeOrder--;
-    this.activeQuestion = this.test.questions[this.activeOrder];
-  };
-
-  /**
-   * Save question result after user save answer
-   */
-  public saveQuestionResult = (questionResult: QuestionResult) => {
-    this.questionResults.set(questionResult.questionUuid, questionResult);
-  };
-
-  /**
-   * Set active question order
-   */
-  public setActiveQuestionOrder = (questionOrder: number) => {
-    this.activeOrder = questionOrder;
-  };
-
-  /**
-   * Set active question
-   */
-  public setActiveQuestion = (questionUuid: string) => {
-    const foundQuestion = this.test.questions.find(question => question.uuid === questionUuid);
-    if (!foundQuestion) {
-      throw Error("Question with this Uuid is not exist");
+  public getIsRightAnswerByQuestionUuid(questionUuid: string, answer: string) {
+    const searchedQuestion = this.test.questions.find(question => question.uuid === questionUuid);
+    if (!searchedQuestion) {
+      throw new Error(`Question uuid ${questionUuid} not found`);
     }
-    this.activeQuestion = foundQuestion;
-  };
+
+    return searchedQuestion.answer === answer;
+  }
 
   /**
    * Set test
    */
   private setLoadedData = (loadedData: Test) => {
     this.test = loadedData;
-    this.activeQuestion = this.test.questions[0];
-    this.questionResults = new Map<string, QuestionResult>;
   };
 
   /**
