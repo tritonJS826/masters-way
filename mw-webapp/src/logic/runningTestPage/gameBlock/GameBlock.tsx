@@ -12,31 +12,13 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
+import {ReactToUnity} from "src/logic/runningTestPage/gameBlock/ReactToUnity";
 import {RunningGameStore} from "src/logic/runningTestPage/gameBlock/RunningGameStore";
-import {QuestionUnity} from "src/model/businessModel/QuestionUnity";
+import {UnityToReactEvents} from "src/logic/runningTestPage/gameBlock/UnityToReact";
 import {Question} from "src/model/businessModel/Test";
+import {QuestionUnity} from "src/model/unity/QuestionUnity";
 import {pages} from "src/router/pages";
 import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
-
-/**
- * Event names used to send from Unity to React.
- */
-enum UnityToReactEvents {
-  GameFinished = "GameFinished",
-  GameStarted = "GameStarted",
-  UserAnsweredQuestion = "UserAnsweredQuestion",
-  UserCapturedTarget = "UserCapturedTarget",
-}
-
-const UnityListenerName = "ReactEventHandler" as const;
-
-/**
- * Event names used to send from React to Unity.
- */
-enum ReactToUnityEvents {
-  QuestionListReceived = "HandleQuestionListReceived",
-  UserAnswerHandledByServer = "HandleUserAnswerHandledByServer"
-}
 
 /**
  * Parameters for test game
@@ -63,13 +45,14 @@ interface GameBlockProps {
  * Converter Question to QuestionUnity
  */
 const questionToQuestionUnity = (question: Question) => {
+  const DEFAULT_TIME_TO_ANSWER_UNITY = question.timeToAnswer;
   const questionUnity = new QuestionUnity({
     name: question.name,
     answer: question.answer,
     order: question.order,
     questionText: question.questionText,
     uuid: question.uuid,
-    timeToAnswer: question.timeToAnswer,
+    timeToAnswer: question.timeToAnswer >= 0 ? question.timeToAnswer : DEFAULT_TIME_TO_ANSWER_UNITY,
   });
 
   return questionUnity;
@@ -103,23 +86,11 @@ export const GameBlock = observer((props: GameBlockProps) => {
   });
 
   /**
-   * Send questions list to unity
-   */
-  const sendQuestionListReceived = (questionsUnityListJSON: string) => {
-    sendMessage(UnityListenerName, ReactToUnityEvents.QuestionListReceived, questionsUnityListJSON);
-  };
-
-  /**
-   * Send handled user answer to unity
-   */
-  const sendUserAnswerHandledByServer = (questionResultJSON: string) => {
-    sendMessage(UnityListenerName, ReactToUnityEvents.UserAnswerHandledByServer, questionResultJSON);
-  };
-
-  /**
    * Handle event game finished
    */
   const handleGameFinished = () => {
+    // TODO: minus token if it is AI request
+
     TestSessionResultDAL.createTestSessionResult({
       sessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
@@ -131,9 +102,10 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event user answered question
    */
   const handleUserAnsweredQuestion = (questionUuid: unknown, userAnswer: unknown) => {
+    // TODO: minus token if it is AI request
     AiQuestionResultDAL.createQuestionResult({
       // TODO: do we need to send this isOk field?
-      isOk: runningGameStore.activeQuestion.answer === "inputValue",
+      isOk: runningGameStore.getIsRightAnswerByQuestionUuid(questionUuid as string, userAnswer as string),
       questionUuid: questionUuid as string,
       userAnswer: userAnswer as string,
       resultDescription: "",
@@ -142,27 +114,36 @@ export const GameBlock = observer((props: GameBlockProps) => {
       userUuid: props.userUuid,
       language,
     })
-      .then(JSON.stringify)
-      .then(sendUserAnswerHandledByServer);
+      // TODO: Probably wi should do it after receiving event from sol websocket
+      .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
+        isOk: answer.isOk,
+        questionAnswer: answer.questionAnswer,
+        questionDescription: answer.questionDescription,
+        questionName: answer.questionName,
+        questionUuid: answer.uuid,
+        resultDescription: answer.resultDescription,
+        userAnswer: answer.userAnswer,
+        userUuid: answer.userUuid,
+        uuid: answer.uuid,
+      }));
   };
 
   /**
    * Handle event game started
    */
   const handleGameStarted = () => {
-    // TODO: dangerous. If test was not loaded before unity the whole pipeline wil be broken
     setIsUnityDownloaded(true);
   };
 
   /**
    * Handle event user captured another target
-   * TODO: skipped for single player
-   * TODO: use debounce logic here (1 second)
+   * TODO: use debounce logic here maybe?
    */
   const handleUserCapturedTarget = () => {
-    // Skip for now
+    // TODO: will be implemented for multiplayer
   };
 
+  // Set unity to react listeners
   useEffect(() => {
     addEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
     addEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
@@ -204,9 +185,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
    */
   const sendQuestionsToUnity = () => {
     const questionsUnityList = runningGameStore.test.questions.map(questionToQuestionUnity);
-
-    const questionsUnityListJSON = JSON.stringify({questions: questionsUnityList});
-    sendQuestionListReceived(questionsUnityListJSON);
+    ReactToUnity.sendQuestionListReceived(sendMessage)({questions: questionsUnityList});
   };
 
   return (
