@@ -130,7 +130,7 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
                 navigate(pages.runningTest.getPath({
                   testUuid: lobbyTestPageStore.test.uuid,
                   sessionUuid: testSession,
-                  isGameMode: false,
+                  isGameMode: "false",
                 }));
               }}
             />
@@ -142,7 +142,7 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
                 navigate(pages.runningTest.getPath({
                   testUuid: lobbyTestPageStore.test.uuid,
                   sessionUuid: testSession,
-                  isGameMode: true,
+                  isGameMode: "true",
                 }));
               }}
             />
