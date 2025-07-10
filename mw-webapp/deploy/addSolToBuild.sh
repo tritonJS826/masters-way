@@ -24,6 +24,13 @@ install_packages() {
                 apk add "$pkg"
             fi
         done
+    elif command_exists brew; then
+        brew update
+        for pkg in "$@"; do
+            if ! command_exists "$pkg"; then
+                brew install "$pkg"
+            fi
+        done
     else
         echo "Error: Neither apt-get nor apk found. Please install packages manually."
         exit 1
