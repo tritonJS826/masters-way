@@ -12,6 +12,7 @@ const testSources = {
   [Theme.DARK]: logoLight,
   [Theme.LIGHT]: logo,
   [Theme.OBSIDIAN]: logoLight,
+  [Theme.NEW]: logo,
 };
 
 const sourcesMap = getMapThemeSources(testSources);

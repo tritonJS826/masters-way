@@ -47,6 +47,7 @@ export const EMOJI_PICKER_THEME_MAP: Map<Theme, EmojiPickerTheme> = new Map([
   [Theme.DARK, EmojiPickerTheme.DARK],
   [Theme.LIGHT, EmojiPickerTheme.LIGHT],
   [Theme.OBSIDIAN, EmojiPickerTheme.DARK],
+  [Theme.NEW, EmojiPickerTheme.LIGHT],
 ]);
 
 /**

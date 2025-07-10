@@ -44,6 +44,7 @@ export const Loader = (props: LoaderProps) => {
             [Theme.DARK]: logoLight,
             [Theme.LIGHT]: logo,
             [Theme.OBSIDIAN]: logoLight,
+            [Theme.NEW]: logo,
           })}
           theme={props.theme}
           name={LOGO_TEXT}
@@ -59,6 +60,7 @@ export const Loader = (props: LoaderProps) => {
             [Theme.DARK]: logoLight,
             [Theme.LIGHT]: logo,
             [Theme.OBSIDIAN]: logoLight,
+            [Theme.NEW]: logo,
           })}
           theme={props.theme}
           name={LOGO_TEXT}
