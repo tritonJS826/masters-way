@@ -1,13 +1,11 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {ResultsParams} from "src/logic/resultTestPage/ResultTestPageStore";
 import {QuestionResultProps} from "src/model/businessModel/QuestionResult";
-import {LanguageService} from "src/service/LanguageService";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 import {DateUtils} from "src/utils/DateUtils";
-import {LazyLoader} from "src/utils/lazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -129,11 +127,5 @@ export const downloadResultTestPdf = async (resultTest: ResultsParams, language:
     },
   };
 
-  const pdf = (await LazyLoader.getPDFMake()).createPdf(docDefinition);
-  pdf.download("test-result.pdf");
-
-  displayNotification({
-    text: LanguageService.common.notifications.pdfDownloaded[language],
-    type: NotificationType.INFO,
-  });
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, "test-result.pdf");
 };

@@ -1,10 +1,8 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Language} from "src/globalStore/LanguageStore";
 import {Question, Test} from "src/model/businessModel/Test";
-import {LanguageService} from "src/service/LanguageService";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
-import {LazyLoader} from "src/utils/lazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -101,11 +99,5 @@ export const downloadTestAsPDF = async (test: Test, timeToTest: number, language
 
   };
 
-  const pdf = (await LazyLoader.getPDFMake()).createPdf(docDefinition);
-  pdf.download(`${test.name}.pdf`);
-
-  displayNotification({
-    text: LanguageService.common.notifications.pdfDownloaded[language],
-    type: NotificationType.INFO,
-  });
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, `${test.name}.pdf`);
 };

@@ -1,5 +1,4 @@
 import {Content, ContentColumns, ContentStack, ContentText, ContentUnorderedList, TDocumentDefinitions} from "pdfmake/interfaces";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -7,9 +6,8 @@ import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
-import {LanguageService} from "src/service/LanguageService";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
-import {LazyLoader} from "src/utils/lazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -389,11 +387,5 @@ export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTr
     ],
   };
 
-  const pdf = (await LazyLoader.getPDFMake()).createPdf(docDefinition);
-  pdf.download(`${way.name}.pdf`);
-
-  displayNotification({
-    text: LanguageService.common.notifications.pdfDownloaded[language],
-    type: NotificationType.INFO,
-  });
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, `${way.name}.pdf`);
 };
