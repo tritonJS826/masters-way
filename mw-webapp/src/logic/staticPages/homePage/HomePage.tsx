@@ -239,6 +239,7 @@ export const HomePage = observer(() => {
               [Theme.DARK]: logoLight,
               [Theme.LIGHT]: logo,
               [Theme.OBSIDIAN]: logoLight,
+              [Theme.NEW]: logo,
             })}
             theme={theme}
             name={LOGO_TEXT}

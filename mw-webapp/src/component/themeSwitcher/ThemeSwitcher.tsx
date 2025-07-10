@@ -13,10 +13,13 @@ import styles from "src/component/themeSwitcher/ThemeSwitcher.module.scss";
 export const getNextSwitchTheme = (theme: Theme) => {
   switch (theme) {
     case Theme.DARK: {
-      return Theme.LIGHT;
+      return Theme.NEW;
     }
     case Theme.LIGHT: {
       return Theme.OBSIDIAN;
+    }
+    case Theme.NEW: {
+      return Theme.LIGHT;
     }
     case Theme.OBSIDIAN:
     default: {
@@ -34,11 +37,23 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 /**
  * Get icon for theme
  */
-const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK
-  ? "SunIcon"
-  : theme === Theme.LIGHT
-    ? "MoonIcon"
-    : "SunsetIcon";
+const getIconForNextTheme = (theme: Theme) => {
+  switch (theme) {
+    case Theme.DARK: {
+      return "GiftIcon";
+    }
+    case Theme.LIGHT: {
+      return "MoonIcon";
+    }
+    case Theme.NEW: {
+      return "SunIcon";
+    }
+    case Theme.OBSIDIAN:
+    default: {
+      return "SunsetIcon";
+    }
+  }
+};
 
 /**
  * ThemeSwitcher props

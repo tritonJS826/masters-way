@@ -261,6 +261,7 @@ export const Header = observer((props: HeaderProps) => {
               [Theme.DARK]: logoLight,
               [Theme.LIGHT]: logo,
               [Theme.OBSIDIAN]: logoLight,
+              [Theme.NEW]: logo,
             })}
             theme={props.theme}
             name={LOGO_TEXT}

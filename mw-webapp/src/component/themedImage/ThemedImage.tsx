@@ -17,10 +17,15 @@ interface ThemeSourcesMap {
    */
   [Theme.LIGHT]: string;
 
-    /**
-     * Theme obsidian source
-     */
-    [Theme.OBSIDIAN]: string;
+  /**
+   * Theme obsidian source
+   */
+  [Theme.OBSIDIAN]: string;
+
+  /**
+   * Theme new source
+   */
+  [Theme.NEW]: string;
 }
 
 /**
@@ -31,6 +36,7 @@ export const getMapThemeSources = (sources: ThemeSourcesMap): Map<Theme, string>
     [Theme.DARK, sources[Theme.DARK]],
     [Theme.LIGHT, sources[Theme.LIGHT]],
     [Theme.OBSIDIAN, sources[Theme.OBSIDIAN]],
+    [Theme.NEW, sources[Theme.NEW]],
   ]);
 };
 

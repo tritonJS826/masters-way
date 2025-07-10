@@ -20,6 +20,7 @@ const logoSources = getMapThemeSources({
   [Theme.DARK]: mastersWayLogo,
   [Theme.LIGHT]: mastersWayLogoLight,
   [Theme.OBSIDIAN]: mastersWayLogo,
+  [Theme.NEW]: mastersWayLogoLight,
 });
 
 // Theme decorators

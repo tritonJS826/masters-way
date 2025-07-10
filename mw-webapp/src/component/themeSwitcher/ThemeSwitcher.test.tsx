@@ -1,7 +1,7 @@
 import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
+import {getNextSwitchTheme, ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {vi} from "vitest";
@@ -42,6 +42,6 @@ describe("ThemeSwitcher component", () => {
       await user.click(themeSwitcher);
     });
 
-    expect(mockOnClick).toHaveBeenCalledWith(Theme.LIGHT);
+    expect(mockOnClick).toHaveBeenCalledWith(getNextSwitchTheme(Theme.DARK));
   });
 });
