@@ -8,6 +8,16 @@ import {Loader} from "src/component/loader/Loader";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {TestEventId} from "src/eventBus/events/test/TestEventDict";
+import {
+  UserAnsweredQuestionPayload,
+  UserAnswerHandledByServerPayload,
+  UserCapturedTargetPayload,
+  UserJoinedSessionPayload,
+  UserReadyToStartPlayPayload,
+} from "src/eventBus/events/test/TestEvents";
+import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -18,6 +28,7 @@ import {UnityToReactEvents} from "src/logic/runningTestPage/gameBlock/UnityToRea
 import {Question} from "src/model/businessModel/Test";
 import {QuestionUnity} from "src/model/unity/QuestionUnity";
 import {pages} from "src/router/pages";
+import {connectTestSocket} from "src/service/socket/TestSocket";
 import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
 
 /**
@@ -114,7 +125,9 @@ export const GameBlock = observer((props: GameBlockProps) => {
       userUuid: props.userUuid,
       language,
     })
-      // TODO: Probably wi should do it after receiving event from sol websocket
+      // TODO: Probably we should do it after receiving event from sol websocket
+      // Event listener already added
+      // just remove next line after adding multiplayer mode
       .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
         isOk: answer.isOk,
         questionAnswer: answer.questionAnswer,
@@ -130,6 +143,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
 
   /**
    * Handle event game started
+   * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
     setIsUnityDownloaded(true);
@@ -142,6 +156,14 @@ export const GameBlock = observer((props: GameBlockProps) => {
   const handleUserCapturedTarget = () => {
     // TODO: will be implemented for multiplayer
   };
+
+  useEffect(() => {
+    const socket = connectTestSocket();
+
+    return () => {
+      socket.close();
+    };
+  }, [user?.uuid]);
 
   // Set unity to react listeners
   useEffect(() => {
@@ -158,16 +180,26 @@ export const GameBlock = observer((props: GameBlockProps) => {
     };
   }, [addEventListener, removeEventListener, sendMessage]);
 
-  if (!runningGameStore.isInitialized) {
-    return (
-      <Loader
-        theme={theme}
-        isAbsolute
-      />
-    );
-  }
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
+    ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_READY_TO_START_PLAY, (payload: UserReadyToStartPlayPayload) => {
+    ReactToUnity.sendUserReadyToStartPlay(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, () => {
+    ReactToUnity.sendHostStartedGame(sendMessage)();
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_CAPTURED_TARGET, (payload: UserCapturedTargetPayload) => {
+    ReactToUnity.sendUserCapturedTarget(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWERED_QUESTION, (payload: UserAnsweredQuestionPayload) => {
+    ReactToUnity.sendUserAnsweredQuestion(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWER_HANDLED_BY_SERVER, (payload: UserAnswerHandledByServerPayload) => {
+    ReactToUnity.sendUserAnswerHandledByServer(sendMessage)(payload);
+  });
 
-  if (isLoading) {
+  if (isLoading || !runningGameStore.isInitialized) {
     return (
       <Loader
         theme={theme}
@@ -193,7 +225,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
       <VerticalContainer className={styles.gameBlock}>
         <Button
           onClick={sendQuestionsToUnity}
-          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading..."}
+          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading... (I should be in the unity)"}
           isDisabled={!runningGameStore.isInitialized}
           buttonType={ButtonType.PRIMARY}
         />

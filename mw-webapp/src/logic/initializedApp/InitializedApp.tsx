@@ -41,11 +41,9 @@ export const InitializedApp = (props: PropsWithChildren) => {
     }
 
     const socket = connectChatSocket();
-    // Const notificationSocket = connectNotificationSocket();
 
     return () => {
       socket.close();
-      // NotificationSocket.close();
     };
   }, [user?.uuid]);
 

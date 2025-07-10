@@ -1,0 +1,5 @@
+export const BASE_RECONNECT_INTERVAL = 3000;
+// 10 minutes
+export const MAX_RECONNECT_INTERVAL = 600000;
+export const MULTIPLICAND = 2;
+export const HTTP_AUTHENTICATION_FAILED_CODE = 1006;

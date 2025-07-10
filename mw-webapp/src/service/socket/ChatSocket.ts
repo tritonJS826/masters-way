@@ -15,16 +15,14 @@ import {
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
+import {
+  BASE_RECONNECT_INTERVAL,
+  HTTP_AUTHENTICATION_FAILED_CODE,
+  MAX_RECONNECT_INTERVAL, MULTIPLICAND,
+} from "src/service/socket/SocketConfig";
 import {env} from "src/utils/env/env";
 
-const BASE_RECONNECT_INTERVAL = 3000;
-// 10 minutes
-const MAX_RECONNECT_INTERVAL = 600_000;
-
 let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
-const MULTIPLICAND = 2;
-
-const HTTP_AUTHENTICATION_FAILED_CODE = 1006;
 
 /**
  * Connect to mw-chat-websocket
