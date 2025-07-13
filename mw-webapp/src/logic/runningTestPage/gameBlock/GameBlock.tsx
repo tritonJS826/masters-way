@@ -102,7 +102,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
   const handleGameFinished = () => {
     // TODO: minus token if it is AI request
     // TODO: only host user should create test session results
-    console.log("handleGameFinished");
     TestSessionResultDAL.createTestSessionResult({
       sessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
@@ -114,8 +113,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event user answered question
    */
   const handleUserAnsweredQuestion = (questionUuid: unknown, userAnswer: unknown) => {
-    console.log("handleUserAnsweredQuestion");
-
     // TODO: minus token if it is AI request
     AiQuestionResultDAL.createQuestionResult({
       // TODO: do we need to send this isOk field?
@@ -149,7 +146,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
-    console.log("handleGameStarted");
     setIsUnityDownloaded(true);
   };
 
@@ -158,8 +154,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * TODO: use debounce logic here maybe?
    */
   const handleUserCapturedTarget = () => {
-    console.log("handleUserCapturedTarget");
-
     // TODO: will be implemented for multiplayer
   };
 

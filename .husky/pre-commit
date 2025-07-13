@@ -15,6 +15,7 @@ NOTIFICATION_BFF="mw-notification-bff/"
 NOTIFICATION_WEBSOCKET="mw-notification-websocket/"
 TRAINING="mw-training/"
 TRAINING_BFF="mw-training-bff/"
+TEST_WEBSOCKEt="mw-test-websocket"
 
 generateSwaggerDocs () {
   pnpm swag
@@ -164,6 +165,15 @@ runTrainingBffIfChanged () {
   fi
 }
 
+runTestWebsocketIfChanged () {
+  if git diff --name-only --cached | grep "$TEST_WEBSOCKEt"
+  then
+    echo "mw-test-websocket changed. checking..."
+    pnpm test-websocket:build
+    pnpm server:test
+  fi
+}
+
 
 
 runE2E () {
@@ -175,7 +185,7 @@ generateDbSchemas
 
 preventUncommitedChanges
 
-# integrational and module tests
+# integration and module tests
 runWebappIfChanged
 runServerIfChanged
 runChatIfChanged
@@ -189,6 +199,7 @@ runNotificationBffIfChanged
 runNotificationWebsocketIfChanged
 runTrainingIfChanged
 runTrainingBffIfChanged
+runTestWebsocketIfChanged
 
 # e2e tests
 runE2E
