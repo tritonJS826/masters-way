@@ -101,18 +101,21 @@ export const GameBlock = observer((props: GameBlockProps) => {
    */
   const handleGameFinished = () => {
     // TODO: minus token if it is AI request
-
+    // TODO: only host user should create test session results
+    console.log("handleGameFinished");
     TestSessionResultDAL.createTestSessionResult({
       sessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
     })
-      .then(() => navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid})));
+      .then(() => navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.sessionUuid})));
   };
 
   /**
    * Handle event user answered question
    */
   const handleUserAnsweredQuestion = (questionUuid: unknown, userAnswer: unknown) => {
+    console.log("handleUserAnsweredQuestion");
+
     // TODO: minus token if it is AI request
     AiQuestionResultDAL.createQuestionResult({
       // TODO: do we need to send this isOk field?
@@ -133,7 +136,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
         questionAnswer: answer.questionAnswer,
         questionDescription: answer.questionDescription,
         questionName: answer.questionName,
-        questionUuid: answer.uuid,
+        questionUuid: answer.questionUuid,
         resultDescription: answer.resultDescription,
         userAnswer: answer.userAnswer,
         userUuid: answer.userUuid,
@@ -146,6 +149,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
+    console.log("handleGameStarted");
     setIsUnityDownloaded(true);
   };
 
@@ -154,15 +158,21 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * TODO: use debounce logic here maybe?
    */
   const handleUserCapturedTarget = () => {
+    console.log("handleUserCapturedTarget");
+
     // TODO: will be implemented for multiplayer
   };
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     const socket = connectTestSocket();
 
     return () => {
       socket.close();
     };
+
   }, [user?.uuid]);
 
   // Set unity to react listeners
@@ -181,21 +191,27 @@ export const GameBlock = observer((props: GameBlockProps) => {
   }, [addEventListener, removeEventListener, sendMessage]);
 
   useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
+    console.log(payload);
     ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_READY_TO_START_PLAY, (payload: UserReadyToStartPlayPayload) => {
+    console.log(payload);
     ReactToUnity.sendUserReadyToStartPlay(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, () => {
+    console.log(TestEventId.HOST_STARTED_GAME);
     ReactToUnity.sendHostStartedGame(sendMessage)();
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_CAPTURED_TARGET, (payload: UserCapturedTargetPayload) => {
+    console.log(payload);
     ReactToUnity.sendUserCapturedTarget(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWERED_QUESTION, (payload: UserAnsweredQuestionPayload) => {
+    console.log(payload);
     ReactToUnity.sendUserAnsweredQuestion(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWER_HANDLED_BY_SERVER, (payload: UserAnswerHandledByServerPayload) => {
+    console.log(payload);
     ReactToUnity.sendUserAnswerHandledByServer(sendMessage)(payload);
   });
 

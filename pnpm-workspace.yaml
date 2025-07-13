@@ -14,3 +14,4 @@ packages:
   - 'mw-notification-websocket'
   - 'mw-training'
   - 'mw-training-bff'
+  - 'mw-test-websocket'

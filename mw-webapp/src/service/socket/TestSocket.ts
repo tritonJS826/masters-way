@@ -67,7 +67,10 @@ export const connectTestSocket = () => {
   /**
    * Handler triggered on error with websocket
    */
-  socket.onerror = () => {
+  socket.onerror = (error) => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!");
+
+    console.log(JSON.stringify(error));
     displayNotification({
       text: "Test websocket error! Try to reconnect!",
       type: NotificationType.ERROR,

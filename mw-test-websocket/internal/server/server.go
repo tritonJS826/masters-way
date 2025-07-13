@@ -47,7 +47,7 @@ func NewServer(cfg *config.Config) *Server {
 }
 
 func (server *Server) SetRoutes(controller *controllers.Controller) {
-	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
+	mwChatWebsocket := server.GinServer.Group("/mw-test-websocket")
 	{
 		mwChatWebsocket.GET("/ws", auth.ExtractTokenMiddleware(server.Config), controller.SocketController.ConnectSocket)
 

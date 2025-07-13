@@ -14,5 +14,5 @@ FROM scratch
 WORKDIR /app
 COPY --from=build /app/src/main ./
 COPY --from=build /app/src/.env ./
-EXPOSE 7994
+EXPOSE 7991
 ENTRYPOINT ["./main"]

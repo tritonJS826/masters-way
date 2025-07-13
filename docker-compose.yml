@@ -125,6 +125,18 @@ services:
     networks:
       - app-network
 
+  mw-test-websocket:
+    image: viktarveratsennikau/masters-way-mw-test-websocket:latest
+    build:
+      context: .
+      dockerfile: ./mw-test-websocket/Dockerfile
+    ports:
+      - "7991:7991"
+    depends_on:
+      - mw-test-bff
+    networks:
+      - app-network
+
   postgres-storage:
     build:
       context: .
