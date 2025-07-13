@@ -3,7 +3,10 @@
 ## Unity->React (React.jslib unity)
 1. GameStarted: undefined
 2. GameFinished: undefined
-3. UserAnsweredQuestion: {questionUuid: string, userAnswer: string}
+3. UserAnsweredQuestion: {
+    questionUuid: string,
+    userAnswer: string
+}
 4. (for multiplayer) UserCapturedTarget: {questionUuid: string}
 
 

@@ -1,0 +1,247 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way test-websocket API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/mw-test-websocket",
+    "paths": {
+        "/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "Send message to socket",
+                "operationId": "send-message-event",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.SendMessagePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/rooms": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "Send created room event",
+                "operationId": "send-room-event",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.RoomPopulatedResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/ws": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "Connect to socket",
+                "operationId": "connect-socket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "mw-test-websocket_internal_schemas.MessageReader": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "readDate",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "readDate": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.MessageResponse": {
+            "type": "object",
+            "required": [
+                "message",
+                "messageId",
+                "messageReaders",
+                "ownerId",
+                "ownerImageUrl",
+                "ownerName",
+                "roomId"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "messageId": {
+                    "type": "string"
+                },
+                "messageReaders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageReader"
+                    }
+                },
+                "ownerId": {
+                    "type": "string"
+                },
+                "ownerImageUrl": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string"
+                },
+                "roomId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.RoomPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "messages",
+                "name",
+                "roomId",
+                "roomType",
+                "unreadMessagesAmount",
+                "users"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageResponse"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
+                    "type": "string"
+                },
+                "unreadMessagesAmount": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserResponse"
+                    }
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.SendMessagePayload": {
+            "type": "object",
+            "required": [
+                "message",
+                "users"
+            ],
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageResponse"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

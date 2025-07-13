@@ -1,0 +1,167 @@
+basePath: /mw-test-websocket
+definitions:
+  mw-test-websocket_internal_schemas.MessageReader:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - readDate
+    - userId
+    type: object
+  mw-test-websocket_internal_schemas.MessageResponse:
+    properties:
+      message:
+        type: string
+      messageId:
+        type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.MessageReader'
+        type: array
+      ownerId:
+        type: string
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+      roomId:
+        type: string
+    required:
+    - message
+    - messageId
+    - messageReaders
+    - ownerId
+    - ownerImageUrl
+    - ownerName
+    - roomId
+    type: object
+  mw-test-websocket_internal_schemas.RoomPopulatedResponse:
+    properties:
+      imageUrl:
+        type: string
+      messages:
+        items:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.MessageResponse'
+        type: array
+      name:
+        type: string
+      roomId:
+        type: string
+      roomType:
+        type: string
+      unreadMessagesAmount:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserResponse'
+        type: array
+    required:
+    - imageUrl
+    - messages
+    - name
+    - roomId
+    - roomType
+    - unreadMessagesAmount
+    - users
+    type: object
+  mw-test-websocket_internal_schemas.SendMessagePayload:
+    properties:
+      message:
+        $ref: '#/definitions/mw-test-websocket_internal_schemas.MessageResponse'
+      users:
+        items:
+          type: string
+        type: array
+    required:
+    - message
+    - users
+    type: object
+  mw-test-websocket_internal_schemas.UserResponse:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - role
+    - userId
+    type: object
+info:
+  contact: {}
+  title: Masters way test-websocket API
+  version: "1.0"
+paths:
+  /messages:
+    post:
+      consumes:
+      - application/json
+      operationId: send-message-event
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.SendMessagePayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Send message to socket
+      tags:
+      - socket
+  /rooms:
+    post:
+      consumes:
+      - application/json
+      operationId: send-room-event
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.RoomPopulatedResponse'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Send created room event
+      tags:
+      - socket
+  /ws:
+    get:
+      consumes:
+      - application/json
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+swagger: "2.0"
