@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **QuestionUuid** | **string** |  | 
 **ResultDescription** | **string** |  | 
 **UserAnswer** | **string** |  | 
+**UserImageUrl** | **string** |  | 
+**UserName** | **string** |  | 
 **UserUuid** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -18,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasQuestionResult
 
-`func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userUuid string, uuid string, ) *MwTrainingBffInternalSchemasQuestionResult`
+`func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userImageUrl string, userName string, userUuid string, uuid string, ) *MwTrainingBffInternalSchemasQuestionResult`
 
 NewMwTrainingBffInternalSchemasQuestionResult instantiates a new MwTrainingBffInternalSchemasQuestionResult object
 This constructor will assign default values to properties that have it defined,
@@ -171,6 +173,46 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserAnswer(v string)`
 
 SetUserAnswer sets UserAnswer field to given value.
+
+
+### GetUserImageUrl
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserImageUrl() string`
+
+GetUserImageUrl returns the UserImageUrl field if non-nil, zero value otherwise.
+
+### GetUserImageUrlOk
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserImageUrlOk() (*string, bool)`
+
+GetUserImageUrlOk returns a tuple with the UserImageUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserImageUrl
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserImageUrl(v string)`
+
+SetUserImageUrl sets UserImageUrl field to given value.
+
+
+### GetUserName
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserName() string`
+
+GetUserName returns the UserName field if non-nil, zero value otherwise.
+
+### GetUserNameOk
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserNameOk() (*string, bool)`
+
+GetUserNameOk returns a tuple with the UserName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserName
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserName(v string)`
+
+SetUserName sets UserName field to given value.
 
 
 ### GetUserUuid

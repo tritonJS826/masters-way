@@ -28,6 +28,8 @@ type MwTrainingBffInternalSchemasQuestionResult struct {
 	QuestionUuid string `json:"questionUuid"`
 	ResultDescription string `json:"resultDescription"`
 	UserAnswer string `json:"userAnswer"`
+	UserImageUrl string `json:"userImageUrl"`
+	UserName string `json:"userName"`
 	UserUuid string `json:"userUuid"`
 	Uuid string `json:"uuid"`
 }
@@ -38,7 +40,7 @@ type _MwTrainingBffInternalSchemasQuestionResult MwTrainingBffInternalSchemasQue
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userUuid string, uuid string) *MwTrainingBffInternalSchemasQuestionResult {
+func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userImageUrl string, userName string, userUuid string, uuid string) *MwTrainingBffInternalSchemasQuestionResult {
 	this := MwTrainingBffInternalSchemasQuestionResult{}
 	this.IsOk = isOk
 	this.QuestionAnswer = questionAnswer
@@ -47,6 +49,8 @@ func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer str
 	this.QuestionUuid = questionUuid
 	this.ResultDescription = resultDescription
 	this.UserAnswer = userAnswer
+	this.UserImageUrl = userImageUrl
+	this.UserName = userName
 	this.UserUuid = userUuid
 	this.Uuid = uuid
 	return &this
@@ -228,6 +232,54 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserAnswer(v string) {
 	o.UserAnswer = v
 }
 
+// GetUserImageUrl returns the UserImageUrl field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserImageUrl() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserImageUrl
+}
+
+// GetUserImageUrlOk returns a tuple with the UserImageUrl field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserImageUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserImageUrl, true
+}
+
+// SetUserImageUrl sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserImageUrl(v string) {
+	o.UserImageUrl = v
+}
+
+// GetUserName returns the UserName field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserName
+}
+
+// GetUserNameOk returns a tuple with the UserName field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserName, true
+}
+
+// SetUserName sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserName(v string) {
+	o.UserName = v
+}
+
 // GetUserUuid returns the UserUuid field value
 func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserUuid() string {
 	if o == nil {
@@ -293,6 +345,8 @@ func (o MwTrainingBffInternalSchemasQuestionResult) ToMap() (map[string]interfac
 	toSerialize["questionUuid"] = o.QuestionUuid
 	toSerialize["resultDescription"] = o.ResultDescription
 	toSerialize["userAnswer"] = o.UserAnswer
+	toSerialize["userImageUrl"] = o.UserImageUrl
+	toSerialize["userName"] = o.UserName
 	toSerialize["userUuid"] = o.UserUuid
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
@@ -310,6 +364,8 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) UnmarshalJSON(data []byte) 
 		"questionUuid",
 		"resultDescription",
 		"userAnswer",
+		"userImageUrl",
+		"userName",
 		"userUuid",
 		"uuid",
 	}

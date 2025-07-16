@@ -1,9 +1,15 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import clsx from "clsx";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Link} from "src/component/link/Link";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
 import {QuestionResult} from "src/model/businessModel/QuestionResult";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/resultTestPage/resultsTestTable/columns.module.scss";
@@ -107,17 +113,33 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with user's answer
      */
     cell: ({row}) => (
-      <VerticalContainer className={clsx(
+      <HorizontalContainer className={clsx(
         styles.cellWrapper,
         styles.iconCell,
       )}
       >
+        <Link
+          path={pages.user.getPath({uuid: row.original.userUuid})}
+          className={styles.userAvatar}
+        >
+          <Tooltip
+            key={row.original.userUuid}
+            position={PositionTooltip.TOP}
+            content={row.original.userName}
+          >
+            <Avatar
+              alt={row.original.userUuid}
+              src={row.original.userImageUrl}
+              size={AvatarSize.SMALL}
+            />
+          </Tooltip>
+        </Link>
         <Icon
           size={IconSize.MEDIUM}
           name={row.original.isOk ? "CheckIcon" : "RemoveIcon"}
           className={clsx(row.original.isOk ? styles.answerIsOk : styles.answerIsWrong)}
         />
-      </VerticalContainer>
+      </HorizontalContainer>
     ),
   }),
   columnHelper.accessor("resultDescription", {

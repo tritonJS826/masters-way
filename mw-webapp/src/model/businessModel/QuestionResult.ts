@@ -26,6 +26,16 @@ export interface QuestionResultProps {
   userAnswer: string;
 
   /**
+   * User's image url
+   */
+  userImageUrl: string;
+
+  /**
+   * User's name
+   */
+  userName: string;
+
+  /**
    * Question's UUID
    */
   questionUuid: string;
@@ -78,6 +88,16 @@ export class QuestionResult {
   public userAnswer: string;
 
   /**
+   * User's image url
+   */
+  public userImageUrl: string;
+
+  /**
+   * User's name
+   */
+  public userName: string;
+
+  /**
    * Question's UUID
    */
   public questionUuid: string;
@@ -107,6 +127,8 @@ export class QuestionResult {
     this.uuid = questionResultData.uuid;
     this.userAnswer = questionResultData.userAnswer;
     this.userUuid = questionResultData.userUuid;
+    this.userImageUrl = questionResultData.userImageUrl;
+    this.userName = questionResultData.userName;
     this.questionAnswer = questionResultData.questionAnswer;
     this.questionUuid = questionResultData.questionUuid;
     this.resultDescription = questionResultData.resultDescription;

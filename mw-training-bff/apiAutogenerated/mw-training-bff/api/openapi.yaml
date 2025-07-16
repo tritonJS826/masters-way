@@ -1263,12 +1263,14 @@ components:
     mw-training-bff_internal_schemas.QuestionResult:
       example:
         questionDescription: questionDescription
+        userImageUrl: userImageUrl
         userAnswer: userAnswer
         questionAnswer: questionAnswer
         isOk: true
         userUuid: userUuid
         questionName: questionName
         resultDescription: resultDescription
+        userName: userName
         uuid: uuid
         questionUuid: questionUuid
       properties:
@@ -1286,6 +1288,10 @@ components:
           type: string
         userAnswer:
           type: string
+        userImageUrl:
+          type: string
+        userName:
+          type: string
         userUuid:
           type: string
         uuid:
@@ -1298,6 +1304,8 @@ components:
       - questionUuid
       - resultDescription
       - userAnswer
+      - userImageUrl
+      - userName
       - userUuid
       - uuid
       type: object
