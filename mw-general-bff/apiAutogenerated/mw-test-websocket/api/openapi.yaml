@@ -1,0 +1,251 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way test-websocket API
+  version: "1.0"
+servers:
+- url: /mw-test-websocket
+paths:
+  /session/{sessionUuid}/hostStartedGame:
+    post:
+      operationId: host-started-game
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.HostStartedGameEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: host started game
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /session/{sessionUuid}/userAnswerHandledByServer:
+    post:
+      operationId: user-answer-handled-by-server
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: User answer handled by server
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /session/{sessionUuid}/userAnsweredQuestion:
+    post:
+      operationId: user-answered-question
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: User answered question
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /session/{sessionUuid}/userCapturedTarget:
+    post:
+      operationId: user-captured-target
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: User captured target
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /session/{sessionUuid}/userJoinedSession:
+    post:
+      operationId: user-joined-session
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: User joined session
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /session/{sessionUuid}/userReadyToStartPlay:
+    post:
+      operationId: user-ready-to-start-play
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: User ready to start play
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /ws:
+    get:
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+components:
+  schemas:
+    mw-test-websocket_internal_schemas.HostStartedGameEventPayload:
+      properties:
+        userUuid:
+          type: string
+      required:
+      - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload:
+      properties:
+        isOk:
+          type: boolean
+        questionAnswer:
+          type: string
+        questionDescription:
+          type: string
+        questionName:
+          type: string
+        questionUuid:
+          type: string
+        resultDescription:
+          type: string
+        resultUuid:
+          description: handledAnswer identification
+          type: string
+        userAnswer:
+          type: string
+        userUuid:
+          type: string
+      required:
+      - isOk
+      - questionAnswer
+      - questionDescription
+      - questionName
+      - questionUuid
+      - resultDescription
+      - resultUuid
+      - userAnswer
+      - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload:
+      properties:
+        questionUuid:
+          type: string
+        userUuid:
+          type: string
+      required:
+      - questionUuid
+      - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload:
+      properties:
+        questionUuid:
+          type: string
+        userUuid:
+          type: string
+      required:
+      - questionUuid
+      - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
+      properties:
+        userUuid:
+          type: string
+      required:
+      - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
+      properties:
+        userUuid:
+          type: string
+      required:
+      - userUuid
+      type: object
+x-original-swagger-version: "2.0"

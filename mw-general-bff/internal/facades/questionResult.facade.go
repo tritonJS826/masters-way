@@ -7,12 +7,13 @@ import (
 )
 
 type QuestionResultFacade struct {
-	generalService  *services.GeneralService
-	trainingService *services.TrainingService
+	generalService       *services.GeneralService
+	trainingService      *services.TrainingService
+	testWebsocketService *services.TestWebsocketService
 }
 
-func newQuestionResultFacade(generalService *services.GeneralService, trainingService *services.TrainingService) *QuestionResultFacade {
-	return &QuestionResultFacade{generalService, trainingService}
+func newQuestionResultFacade(generalService *services.GeneralService, trainingService *services.TrainingService, testWebsocketService *services.TestWebsocketService) *QuestionResultFacade {
+	return &QuestionResultFacade{generalService, trainingService, testWebsocketService}
 }
 
 func (gs *QuestionResultFacade) CreateAndCheckQuestionResult(ctx context.Context, payload *schemas.CreateQuestionResultRequest, userId string) (*schemas.QuestionResult, error) {
@@ -47,6 +48,20 @@ func (gs *QuestionResultFacade) CreateAndCheckQuestionResult(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	// notify team in the session
+	_ = gs.testWebsocketService.SendUserAnswerHandledByServerEvent(ctx, &services.SendUserAnswerHandledByServerEventParams{
+		Uuid:                questionResult.Uuid,
+		UserUuid:            questionResult.UserUuid,
+		IsOk:                questionResult.IsOk,
+		ResultDescription:   questionResult.ResultDescription,
+		QuestionName:        questionResult.QuestionName,
+		QuestionDescription: questionResult.QuestionDescription,
+		UserAnswer:          questionResult.UserAnswer,
+		QuestionAnswer:      questionResult.QuestionAnswer,
+		QuestionUuid:        questionResult.QuestionUuid,
+		SessionUuid:         payload.TestSessionUUID,
+	})
 
 	return &schemas.QuestionResult{
 		UUID:                questionResult.Uuid,

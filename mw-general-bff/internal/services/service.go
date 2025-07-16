@@ -17,6 +17,7 @@ type Service struct {
 	NotificationService  *NotificationService
 	ChatService          *ChatService
 	ChatWebSocketService *ChatWebSocketService
+	TestWebSocketService *TestWebsocketService
 	TrainingService      *TrainingService
 }
 
@@ -26,6 +27,7 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 	var mailApi = openapi.MakeMailAPIClient(config)
 	var chatApi = openapi.MakeChatAPIClient(config)
 	var chatWebSocketApi = openapi.MakeChatWebsocketAPIClient(config)
+	var testWebSocketApi = openapi.MakeTestWebsocketAPIClient(config)
 
 	notificationGRPC := pb.NewNotificationServiceClient(notificationConfig)
 	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(notificationConfig)
@@ -49,6 +51,7 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 		NotificationService:  newNotificationService(notificationGRPC, notificationSettingGRPC),
 		ChatService:          newChatService(chatApi, config),
 		ChatWebSocketService: newChatWebSocketService(chatWebSocketApi),
+		TestWebSocketService: newTestWebsocketService(testWebSocketApi),
 		TrainingService:      newTrainingService(trainingGRPC, testGRPC, questionGRPC, questionResultsGRPC, testSessionResultsGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
 	}
 }

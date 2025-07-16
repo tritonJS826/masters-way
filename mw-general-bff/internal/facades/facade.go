@@ -67,6 +67,6 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		WayCollectionFacade:            newWayCollectionFacade(service.GeneralService),
 		WayCollectionWayFacade:         newWayCollectionWayFacade(service.GeneralService),
 		HealthCheckFacade:              newHealthCheckFacade(service.GeneralService),
-		QuestionResultFacade:           newQuestionResultFacade(service.GeneralService, service.TrainingService),
+		QuestionResultFacade:           newQuestionResultFacade(service.GeneralService, service.TrainingService, service.TestWebSocketService),
 	}
 }
