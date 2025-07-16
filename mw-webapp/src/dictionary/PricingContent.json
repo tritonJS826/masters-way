@@ -42,6 +42,11 @@
       "en": "Mobile version support (PWA)",
       "ua": "Підтримка мобільної версії (PWA)"
     },
+    "masterCoins": {
+      "ru": "Пополнение мастеркоинов ежемесячно!",
+      "en": "Monthly Mastercoin Refill!",
+      "ua": "Відновлення майстеркоїнів щомісяця!"
+    },
     "allInStart": {
       "ru": "Возможности тарифа Start",
       "en": "Everything in Start",
@@ -119,6 +124,11 @@
     },
     "callToActionButton": {
       "start": {
+        "ru": "Начать",
+        "en": "Get started",
+        "ua": "Почніть"
+      },
+      "start-ai": {
         "ru": "Начать",
         "en": "Get started",
         "ua": "Почніть"

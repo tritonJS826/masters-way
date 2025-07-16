@@ -125,21 +125,22 @@ export const GameBlock = observer((props: GameBlockProps) => {
       testUuid: props.testUuid,
       userUuid: props.userUuid,
       language,
-    })
-      // TODO: Probably we should do it after receiving event from sol websocket
-      // Event listener already added
-      // just remove next line after adding multiplayer mode
-      .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
-        isOk: answer.isOk,
-        questionAnswer: answer.questionAnswer,
-        questionDescription: answer.questionDescription,
-        questionName: answer.questionName,
-        questionUuid: answer.questionUuid,
-        resultDescription: answer.resultDescription,
-        userAnswer: answer.userAnswer,
-        userUuid: answer.userUuid,
-        uuid: answer.uuid,
-      }));
+    });
+    // TODO: remove it after test
+    // Probably we should do it after receiving event from sol websocket
+    // Event listener already added
+    // just remove next line after adding multiplayer mode
+    // .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
+    //   isOk: answer.isOk,
+    //   questionAnswer: answer.questionAnswer,
+    //   questionDescription: answer.questionDescription,
+    //   questionName: answer.questionName,
+    //   questionUuid: answer.questionUuid,
+    //   resultDescription: answer.resultDescription,
+    //   userAnswer: answer.userAnswer,
+    //   userUuid: answer.userUuid,
+    //   uuid: answer.uuid,
+    // }));
   };
 
   /**
