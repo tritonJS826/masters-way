@@ -89,6 +89,7 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 
 	// listen for the events
 	for {
+		fmt.Println("LISTENING !!!!")
 		_, message, err := conn.ReadMessage()
 		if err != nil {
 			mu.Lock()
@@ -104,6 +105,7 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 
 			return
 		}
+
 		fmt.Println("Received message:", string(message))
 	}
 }
@@ -114,7 +116,8 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 // @ID user-joined-session
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.RoomPopulatedResponse true "query params"
+// @Param sessionUuid path string true "sessionUuid"
+// @Param request body schemas.UserJoinedSessionEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/userJoinedSession [post]
 func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
@@ -146,6 +149,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 // @ID user-ready-to-start-play
 // @Accept  json
 // @Produce  json
+// @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.UserReadyToStartPlayEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/userReadyToStartPlay [post]
@@ -178,6 +182,7 @@ func (cc *SocketController) SendUserReadyToStartPlayEvent(ctx *gin.Context) {
 // @ID host-started-game
 // @Accept  json
 // @Produce  json
+// @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.HostStartedGameEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/hostStartedGame [post]
@@ -210,6 +215,7 @@ func (cc *SocketController) SendHostStartedGameEvent(ctx *gin.Context) {
 // @ID user-captured-target
 // @Accept  json
 // @Produce  json
+// @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.UserCapturedTargetEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/userCapturedTarget [post]
@@ -245,6 +251,7 @@ func (cc *SocketController) SendUserCapturedTargetEvent(ctx *gin.Context) {
 // @ID user-answered-question
 // @Accept  json
 // @Produce  json
+// @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.UserAnsweredQuestionEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/userAnsweredQuestion [post]
@@ -280,6 +287,7 @@ func (cc *SocketController) SendUserAnsweredQuestionEvent(ctx *gin.Context) {
 // @ID user-answer-handled-by-server
 // @Accept  json
 // @Produce  json
+// @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.UserAnswerHandledByServerEventPayload true "query params"
 // @Success 204
 // @Router /session/{sessionUuid}/userAnswerHandledByServer [post]

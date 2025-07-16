@@ -12,6 +12,8 @@ package openapi
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the MwGeneralBffInternalSchemasProfileSetting type satisfies the MappedNullable interface at compile time
@@ -19,18 +21,24 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasProfileSetting{}
 
 // MwGeneralBffInternalSchemasProfileSetting struct for MwGeneralBffInternalSchemasProfileSetting
 type MwGeneralBffInternalSchemasProfileSetting struct {
-	Coins *int32 `json:"coins,omitempty"`
-	ExpirationDate *string `json:"expirationDate,omitempty"`
-	PricingPlan *string `json:"pricingPlan,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
+	Coins int32 `json:"coins"`
+	ExpirationDate string `json:"expirationDate"`
+	PricingPlan string `json:"pricingPlan"`
+	Uuid string `json:"uuid"`
 }
+
+type _MwGeneralBffInternalSchemasProfileSetting MwGeneralBffInternalSchemasProfileSetting
 
 // NewMwGeneralBffInternalSchemasProfileSetting instantiates a new MwGeneralBffInternalSchemasProfileSetting object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasProfileSetting() *MwGeneralBffInternalSchemasProfileSetting {
+func NewMwGeneralBffInternalSchemasProfileSetting(coins int32, expirationDate string, pricingPlan string, uuid string) *MwGeneralBffInternalSchemasProfileSetting {
 	this := MwGeneralBffInternalSchemasProfileSetting{}
+	this.Coins = coins
+	this.ExpirationDate = expirationDate
+	this.PricingPlan = pricingPlan
+	this.Uuid = uuid
 	return &this
 }
 
@@ -42,132 +50,100 @@ func NewMwGeneralBffInternalSchemasProfileSettingWithDefaults() *MwGeneralBffInt
 	return &this
 }
 
-// GetCoins returns the Coins field value if set, zero value otherwise.
+// GetCoins returns the Coins field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetCoins() int32 {
-	if o == nil || IsNil(o.Coins) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Coins
+
+	return o.Coins
 }
 
-// GetCoinsOk returns a tuple with the Coins field value if set, nil otherwise
+// GetCoinsOk returns a tuple with the Coins field value
 // and a boolean to check if the value has been set.
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetCoinsOk() (*int32, bool) {
-	if o == nil || IsNil(o.Coins) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Coins, true
+	return &o.Coins, true
 }
 
-// HasCoins returns a boolean if a field has been set.
-func (o *MwGeneralBffInternalSchemasProfileSetting) HasCoins() bool {
-	if o != nil && !IsNil(o.Coins) {
-		return true
-	}
-
-	return false
-}
-
-// SetCoins gets a reference to the given int32 and assigns it to the Coins field.
+// SetCoins sets field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) SetCoins(v int32) {
-	o.Coins = &v
+	o.Coins = v
 }
 
-// GetExpirationDate returns the ExpirationDate field value if set, zero value otherwise.
+// GetExpirationDate returns the ExpirationDate field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetExpirationDate() string {
-	if o == nil || IsNil(o.ExpirationDate) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.ExpirationDate
+
+	return o.ExpirationDate
 }
 
-// GetExpirationDateOk returns a tuple with the ExpirationDate field value if set, nil otherwise
+// GetExpirationDateOk returns a tuple with the ExpirationDate field value
 // and a boolean to check if the value has been set.
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetExpirationDateOk() (*string, bool) {
-	if o == nil || IsNil(o.ExpirationDate) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ExpirationDate, true
+	return &o.ExpirationDate, true
 }
 
-// HasExpirationDate returns a boolean if a field has been set.
-func (o *MwGeneralBffInternalSchemasProfileSetting) HasExpirationDate() bool {
-	if o != nil && !IsNil(o.ExpirationDate) {
-		return true
-	}
-
-	return false
-}
-
-// SetExpirationDate gets a reference to the given string and assigns it to the ExpirationDate field.
+// SetExpirationDate sets field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) SetExpirationDate(v string) {
-	o.ExpirationDate = &v
+	o.ExpirationDate = v
 }
 
-// GetPricingPlan returns the PricingPlan field value if set, zero value otherwise.
+// GetPricingPlan returns the PricingPlan field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetPricingPlan() string {
-	if o == nil || IsNil(o.PricingPlan) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.PricingPlan
+
+	return o.PricingPlan
 }
 
-// GetPricingPlanOk returns a tuple with the PricingPlan field value if set, nil otherwise
+// GetPricingPlanOk returns a tuple with the PricingPlan field value
 // and a boolean to check if the value has been set.
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetPricingPlanOk() (*string, bool) {
-	if o == nil || IsNil(o.PricingPlan) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PricingPlan, true
+	return &o.PricingPlan, true
 }
 
-// HasPricingPlan returns a boolean if a field has been set.
-func (o *MwGeneralBffInternalSchemasProfileSetting) HasPricingPlan() bool {
-	if o != nil && !IsNil(o.PricingPlan) {
-		return true
-	}
-
-	return false
-}
-
-// SetPricingPlan gets a reference to the given string and assigns it to the PricingPlan field.
+// SetPricingPlan sets field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) SetPricingPlan(v string) {
-	o.PricingPlan = &v
+	o.PricingPlan = v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *MwGeneralBffInternalSchemasProfileSetting) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *MwGeneralBffInternalSchemasProfileSetting) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *MwGeneralBffInternalSchemasProfileSetting) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
 func (o MwGeneralBffInternalSchemasProfileSetting) MarshalJSON() ([]byte, error) {
@@ -180,19 +156,51 @@ func (o MwGeneralBffInternalSchemasProfileSetting) MarshalJSON() ([]byte, error)
 
 func (o MwGeneralBffInternalSchemasProfileSetting) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Coins) {
-		toSerialize["coins"] = o.Coins
-	}
-	if !IsNil(o.ExpirationDate) {
-		toSerialize["expirationDate"] = o.ExpirationDate
-	}
-	if !IsNil(o.PricingPlan) {
-		toSerialize["pricingPlan"] = o.PricingPlan
-	}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
+	toSerialize["coins"] = o.Coins
+	toSerialize["expirationDate"] = o.ExpirationDate
+	toSerialize["pricingPlan"] = o.PricingPlan
+	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
+}
+
+func (o *MwGeneralBffInternalSchemasProfileSetting) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"coins",
+		"expirationDate",
+		"pricingPlan",
+		"uuid",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varMwGeneralBffInternalSchemasProfileSetting := _MwGeneralBffInternalSchemasProfileSetting{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varMwGeneralBffInternalSchemasProfileSetting)
+
+	if err != nil {
+		return err
+	}
+
+	*o = MwGeneralBffInternalSchemasProfileSetting(varMwGeneralBffInternalSchemasProfileSetting)
+
+	return err
 }
 
 type NullableMwGeneralBffInternalSchemasProfileSetting struct {

@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/messages": {
+        "/session/{sessionUuid}/hostStartedGame": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -26,16 +26,23 @@ const docTemplate = `{
                 "tags": [
                     "socket"
                 ],
-                "summary": "Send message to socket",
-                "operationId": "send-message-event",
+                "summary": "host started game",
+                "operationId": "host-started-game",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "query params",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.SendMessagePayload"
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.HostStartedGameEventPayload"
                         }
                     }
                 ],
@@ -46,7 +53,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/rooms": {
+        "/session/{sessionUuid}/userAnswerHandledByServer": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -57,16 +64,175 @@ const docTemplate = `{
                 "tags": [
                     "socket"
                 ],
-                "summary": "Send created room event",
-                "operationId": "send-room-event",
+                "summary": "User answer handled by server",
+                "operationId": "user-answer-handled-by-server",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "query params",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/session/{sessionUuid}/userAnsweredQuestion": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "User answered question",
+                "operationId": "user-answered-question",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/session/{sessionUuid}/userCapturedTarget": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "User captured target",
+                "operationId": "user-captured-target",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/session/{sessionUuid}/userJoinedSession": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "User joined session",
+                "operationId": "user-joined-session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/session/{sessionUuid}/userReadyToStartPlay": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "User ready to start play",
+                "operationId": "user-ready-to-start-play",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sessionUuid",
+                        "name": "sessionUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload"
                         }
                     }
                 ],
@@ -108,145 +274,109 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "mw-test-websocket_internal_schemas.MessageReader": {
+        "mw-test-websocket_internal_schemas.HostStartedGameEventPayload": {
             "type": "object",
             "required": [
-                "imageUrl",
-                "name",
-                "readDate",
-                "userId"
+                "userUuid"
             ],
             "properties": {
-                "imageUrl": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "readDate": {
-                    "type": "string"
-                },
-                "userId": {
+                "userUuid": {
                     "type": "string"
                 }
             }
         },
-        "mw-test-websocket_internal_schemas.MessageResponse": {
+        "mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload": {
             "type": "object",
             "required": [
-                "message",
-                "messageId",
-                "messageReaders",
-                "ownerId",
-                "ownerImageUrl",
-                "ownerName",
-                "roomId"
+                "isOk",
+                "questionAnswer",
+                "questionDescription",
+                "questionName",
+                "questionUuid",
+                "resultDescription",
+                "resultUuid",
+                "userAnswer",
+                "userUuid"
             ],
             "properties": {
-                "message": {
+                "isOk": {
+                    "type": "boolean"
+                },
+                "questionAnswer": {
                     "type": "string"
                 },
-                "messageId": {
+                "questionDescription": {
                     "type": "string"
                 },
-                "messageReaders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageReader"
-                    }
-                },
-                "ownerId": {
+                "questionName": {
                     "type": "string"
                 },
-                "ownerImageUrl": {
+                "questionUuid": {
                     "type": "string"
                 },
-                "ownerName": {
+                "resultDescription": {
                     "type": "string"
                 },
-                "roomId": {
+                "resultUuid": {
+                    "description": "handledAnswer identification",
+                    "type": "string"
+                },
+                "userAnswer": {
+                    "type": "string"
+                },
+                "userUuid": {
                     "type": "string"
                 }
             }
         },
-        "mw-test-websocket_internal_schemas.RoomPopulatedResponse": {
+        "mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload": {
             "type": "object",
             "required": [
-                "imageUrl",
-                "messages",
-                "name",
-                "roomId",
-                "roomType",
-                "unreadMessagesAmount",
-                "users"
+                "questionUuid",
+                "userUuid"
             ],
             "properties": {
-                "imageUrl": {
+                "questionUuid": {
                     "type": "string"
                 },
-                "messages": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageResponse"
-                    }
-                },
-                "name": {
+                "userUuid": {
                     "type": "string"
-                },
-                "roomId": {
-                    "type": "string"
-                },
-                "roomType": {
-                    "type": "string"
-                },
-                "unreadMessagesAmount": {
-                    "type": "integer"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserResponse"
-                    }
                 }
             }
         },
-        "mw-test-websocket_internal_schemas.SendMessagePayload": {
+        "mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload": {
             "type": "object",
             "required": [
-                "message",
-                "users"
+                "questionUuid",
+                "userUuid"
             ],
             "properties": {
-                "message": {
-                    "$ref": "#/definitions/mw-test-websocket_internal_schemas.MessageResponse"
+                "questionUuid": {
+                    "type": "string"
                 },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "userUuid": {
+                    "type": "string"
                 }
             }
         },
-        "mw-test-websocket_internal_schemas.UserResponse": {
+        "mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload": {
             "type": "object",
             "required": [
-                "imageUrl",
-                "name",
-                "role",
-                "userId"
+                "userUuid"
             ],
             "properties": {
-                "imageUrl": {
+                "userUuid": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                },
-                "userId": {
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload": {
+            "type": "object",
+            "required": [
+                "userUuid"
+            ],
+            "properties": {
+                "userUuid": {
                     "type": "string"
                 }
             }

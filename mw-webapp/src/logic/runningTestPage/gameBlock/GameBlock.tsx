@@ -8,6 +8,7 @@ import {Loader} from "src/component/loader/Loader";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
+import {TestWebsocketDAL} from "src/dataAccessLogic/TestWebsocketDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {TestEventId} from "src/eventBus/events/test/TestEventDict";
 import {
@@ -165,6 +166,10 @@ export const GameBlock = observer((props: GameBlockProps) => {
     // In dev mode this line called twice which leads to error.
     // This error is annoying pretty safe and does not exist in production
     const socket = connectTestSocket(props.sessionUuid);
+    TestWebsocketDAL.SendUserJoinedSessionEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+    });
 
     return () => {
       socket.close();
