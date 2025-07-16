@@ -113,33 +113,32 @@ export const getResultsTestColumns = (language: Language) => [
      * Cell with user's answer
      */
     cell: ({row}) => (
-      <HorizontalContainer className={clsx(
+      <VerticalContainer className={clsx(
         styles.cellWrapper,
         styles.iconCell,
       )}
       >
-        <Link
-          path={pages.user.getPath({uuid: row.original.userUuid})}
-          className={styles.userAvatar}
-        >
-          <Tooltip
-            key={row.original.userUuid}
-            position={PositionTooltip.TOP}
-            content={row.original.userName}
-          >
-            <Avatar
-              alt={row.original.userUuid}
-              src={row.original.userImageUrl}
-              size={AvatarSize.SMALL}
-            />
-          </Tooltip>
-        </Link>
-        <Icon
-          size={IconSize.MEDIUM}
-          name={row.original.isOk ? "CheckIcon" : "RemoveIcon"}
-          className={clsx(row.original.isOk ? styles.answerIsOk : styles.answerIsWrong)}
-        />
-      </HorizontalContainer>
+        <HorizontalContainer>
+          <Link path={pages.user.getPath({uuid: row.original.userUuid})}>
+            <Tooltip
+              key={row.original.userUuid}
+              position={PositionTooltip.TOP}
+              content={row.original.userName}
+            >
+              <Avatar
+                alt={row.original.userName}
+                src={row.original.userImageUrl}
+                size={AvatarSize.SMALL}
+              />
+            </Tooltip>
+          </Link>
+          <Icon
+            size={IconSize.MEDIUM}
+            name={row.original.isOk ? "CheckIcon" : "RemoveIcon"}
+            className={clsx(row.original.isOk ? styles.answerIsOk : styles.answerIsWrong)}
+          />
+        </HorizontalContainer>
+      </VerticalContainer>
     ),
   }),
   columnHelper.accessor("resultDescription", {

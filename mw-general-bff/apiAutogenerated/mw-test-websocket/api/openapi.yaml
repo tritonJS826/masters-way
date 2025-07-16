@@ -124,9 +124,12 @@ paths:
         description: query params
         required: true
       responses:
-        "204":
-          content: {}
-          description: No Content
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse'
+          description: OK
       summary: User joined session
       tags:
       - socket
@@ -234,12 +237,34 @@ components:
       - questionUuid
       - userUuid
       type: object
+    mw-test-websocket_internal_schemas.UserInfo:
+      example:
+        userUuid: userUuid
+      properties:
+        userUuid:
+          type: string
+      required:
+      - userUuid
+      type: object
     mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
       properties:
         userUuid:
           type: string
       required:
       - userUuid
+      type: object
+    mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:
+      example:
+        currentUsers:
+        - userUuid: userUuid
+        - userUuid: userUuid
+      properties:
+        currentUsers:
+          items:
+            $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserInfo'
+          type: array
+      required:
+      - currentUsers
       type: object
     mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
       properties:

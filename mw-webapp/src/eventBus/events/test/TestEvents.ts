@@ -248,6 +248,45 @@ export const makeHostStartedGameEvent = (payload: HostStartedGamePayload) => {
   return populatedEvent;
 };
 
+export type UserInfo = {
+
+  /**
+   * UserUuid
+   */
+  userUuid: string;
+}
+
+/**
+ * Event fired when a some session data was updated (when launching for example)
+ */
+export type SessionStateUpdatedPayload = {
+
+  /**
+   * List of current users
+   */
+  currentUsers: UserInfo[];
+
+  /**
+   * Self user uuid
+   */
+  selfUserUuid: string;
+};
+
+/**
+ * Factory for {@link SessionStateUpdatedPayload} event
+ * Used for creating new event objects
+ */
+export const makeSessionStateUpdatedEvent = (payload: SessionStateUpdatedPayload) => {
+  const populatedEvent = populateWithBaseEvent(
+    payload,
+    ChannelId.TEST,
+    TestEventId.SESSION_STATE_UPDATED,
+    currentWindowEventConfig,
+  );
+
+  return populatedEvent;
+};
+
 /**
  * Event fired when a connection to mw-test-websocket closed
  */

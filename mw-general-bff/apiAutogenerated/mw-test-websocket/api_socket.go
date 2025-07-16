@@ -904,7 +904,7 @@ func (r ApiUserJoinedSessionRequest) Request(request MwTestWebsocketInternalSche
 	return r
 }
 
-func (r ApiUserJoinedSessionRequest) Execute() (*http.Response, error) {
+func (r ApiUserJoinedSessionRequest) Execute() (*MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse, *http.Response, error) {
 	return r.ApiService.UserJoinedSessionExecute(r)
 }
 
@@ -924,16 +924,18 @@ func (a *SocketAPIService) UserJoinedSession(ctx context.Context, sessionUuid st
 }
 
 // Execute executes the request
-func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionRequest) (*http.Response, error) {
+//  @return MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
+func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionRequest) (*MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.UserJoinedSession")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/session/{sessionUuid}/userJoinedSession"
@@ -943,7 +945,7 @@ func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionReques
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.request == nil {
-		return nil, reportError("request is required and must be specified")
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -956,7 +958,7 @@ func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionReques
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -967,19 +969,19 @@ func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionReques
 	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -987,21 +989,32 @@ func (a *SocketAPIService) UserJoinedSessionExecute(r ApiUserJoinedSessionReques
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // Execute executes the request
-func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSessionRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+//  @return MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseStream
+func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSessionRequest, request *http.Request, GoogleAccessToken string) (*MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
+		localVarReturnValue  *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.UserJoinedSession")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/session/{sessionUuid}/userJoinedSession"
@@ -1023,7 +1036,7 @@ func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSession
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1032,7 +1045,7 @@ func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSession
 	}
 	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	for key, values := range request.Header {
@@ -1046,14 +1059,14 @@ func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSession
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1061,10 +1074,19 @@ func (a *SocketAPIService) UserJoinedSessionStreamExecute(r ApiUserJoinedSession
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiUserReadyToStartPlayRequest struct {

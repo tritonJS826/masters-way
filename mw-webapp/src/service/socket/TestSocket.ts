@@ -99,11 +99,11 @@ export const connectTestSocket = (sessionUuid: string) => {
         break;
       case "mw-test-websocket:host-started-game":
         emitEvent(makeHostStartedGameEvent(event.payload as HostStartedGamePayload));
-        serviceWorkerStore.systemNotification({
-          title: "New message!",
-          text: `${(event.payload as HostStartedGamePayload).userId} is ready to start!`,
-          tag: SystemNotificationTag.TEST,
-        });
+        // ServiceWorkerStore.systemNotification({
+        //   title: "New message!",
+        //   text: `${(event.payload as HostStartedGamePayload).userId} is ready to start!`,
+        //   tag: SystemNotificationTag.TEST,
+        // });
         break;
       case "mw-test-websocket:user-captured-target":
         emitEvent(makeUserCapturedTargetEvent(event.payload as UserCapturedTargetPayload));

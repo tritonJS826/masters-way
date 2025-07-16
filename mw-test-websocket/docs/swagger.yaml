@@ -59,12 +59,28 @@ definitions:
     - questionUuid
     - userUuid
     type: object
+  mw-test-websocket_internal_schemas.UserInfo:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
   mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
     properties:
       userUuid:
         type: string
     required:
     - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:
+    properties:
+      currentUsers:
+        items:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserInfo'
+        type: array
+    required:
+    - currentUsers
     type: object
   mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
     properties:
@@ -198,8 +214,10 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse'
       summary: User joined session
       tags:
       - socket

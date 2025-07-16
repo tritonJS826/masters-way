@@ -39,7 +39,7 @@ func MakeUserAnsweredQuestionEvent(payload schemas.UserAnsweredQuestionEventPayl
 
 func MakeUserAnswerHandledByServerEvent(payload schemas.UserAnswerHandledByServerEventPayload) *schemas.UserAnswerHandledByServerEvent {
 	return &schemas.UserAnswerHandledByServerEvent{
-		Type:    schemas.UserAnsweredQuestionEventType,
+		Type:    schemas.UserAnswerHandledByServerEventType,
 		Payload: payload,
 	}
 }

@@ -9,9 +9,12 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
 import {TestWebsocketDAL} from "src/dataAccessLogic/TestWebsocketDAL";
+import {emitEvent} from "src/eventBus/EmitEvent";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {TestEventId} from "src/eventBus/events/test/TestEventDict";
 import {
+  makeSessionStateUpdatedEvent,
+  SessionStateUpdatedPayload,
   UserAnsweredQuestionPayload,
   UserAnswerHandledByServerPayload,
   UserCapturedTargetPayload,
@@ -148,7 +151,24 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
+    if (!user?.uuid) {
+      return;
+    }
+
     setIsUnityDownloaded(true);
+
+    TestWebsocketDAL.SendUserJoinedSessionEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+    }).then((currentSessionState) => {
+      // Let's exclude owner from the list
+      // probably we should send owner uuid also to the unity to provide consistent logic for all users
+
+      emitEvent(makeSessionStateUpdatedEvent({
+        currentUsers: currentSessionState.currentUsers,
+        selfUserUuid: user.uuid,
+      }));
+    });
   };
 
   /**
@@ -167,10 +187,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
     // In dev mode this line called twice which leads to error.
     // This error is annoying pretty safe and does not exist in production
     const socket = connectTestSocket(props.sessionUuid);
-    TestWebsocketDAL.SendUserJoinedSessionEvent({
-      sessionUuid: props.sessionUuid,
-      userUuid: user.uuid,
-    });
 
     return () => {
       socket.close();
@@ -193,6 +209,9 @@ export const GameBlock = observer((props: GameBlockProps) => {
     };
   }, [addEventListener, removeEventListener, sendMessage]);
 
+  useListenEventBus(ChannelId.TEST, TestEventId.SESSION_STATE_UPDATED, (payload: SessionStateUpdatedPayload) => {
+    ReactToUnity.sendSessionStateUpdated(sendMessage)(payload);
+  });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
     ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
   });

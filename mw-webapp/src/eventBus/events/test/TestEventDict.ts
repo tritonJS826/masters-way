@@ -1,5 +1,6 @@
 import {
   HostStartedGamePayload,
+  SessionStateUpdatedPayload,
   TestConnectionClosedPayload,
   TestConnectionEstablishedPayload,
   TestRefreshTokenRequiredPayload,
@@ -30,6 +31,7 @@ export enum TestEventId {
   CONNECTION_ESTABLISHED = "MW_TEST:CONNECTION_ESTABLISHED",
   CONNECTION_CLOSED = "MW_TEST:CONNECTION_CLOSED",
   REFRESH_TOKEN_REQUIRED = "MW_TEST:REFRESH_TOKEN_REQUIRED",
+  SESSION_STATE_UPDATED = "MW_TEST:SESSION_STATE_UPDATED"
 }
 
 /**
@@ -64,9 +66,14 @@ export type TestEventDict = {
   [TestEventId.USER_ANSWER_HANDLED_BY_SERVER]: UserAnswerHandledByServerPayload;
 
   /**
-   * User answered in question and it was handled on server from mw-test-websocket
+   * Host started game
    */
   [TestEventId.HOST_STARTED_GAME]: HostStartedGamePayload;
+
+  /**
+   * Session data was updated
+   */
+  [TestEventId.SESSION_STATE_UPDATED]: SessionStateUpdatedPayload;
 
   /**
    * Connection to mw-test-websocket established

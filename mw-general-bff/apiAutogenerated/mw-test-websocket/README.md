@@ -93,7 +93,9 @@ Class | Method | HTTP request | Description
  - [MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayload](docs/MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload](docs/MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload](docs/MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload.md)
+ - [MwTestWebsocketInternalSchemasUserInfo](docs/MwTestWebsocketInternalSchemasUserInfo.md)
  - [MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload](docs/MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload.md)
+ - [MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse](docs/MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse.md)
  - [MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload](docs/MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload.md)
 
 

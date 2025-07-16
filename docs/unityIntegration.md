@@ -20,6 +20,12 @@
         <!-- seconds -->
         timeToAnswer: number,
 }}
+2. SessionStateUpdated: {
+    selfUserUuid: string,
+    currentUsers: {
+        userUuid: string
+    }[]
+}
 2. UserJoinedSession: {
     userUuid: string
 }

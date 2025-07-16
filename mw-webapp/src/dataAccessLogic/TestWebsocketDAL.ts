@@ -1,3 +1,6 @@
+import {currentSessionStateDTOToCurrentSessionState}
+  from "src/dataAccessLogic/DTOToPreviewConverter/currentSessionStateDTOToCurrentSessionState";
+import {CurrentSessionState} from "src/model/businessModel/CurrentSessionState";
 import {TestWebsocketService} from "src/service/TestWebsocketService";
 
 /**
@@ -77,11 +80,13 @@ export class TestWebsocketDAL {
   /**
    * Send user joined session event
    */
-  public static async SendUserJoinedSessionEvent(params: UserJoinedSessionParams): Promise<void> {
-    await TestWebsocketService
+  public static async SendUserJoinedSessionEvent(params: UserJoinedSessionParams): Promise<CurrentSessionState> {
+    const currentSessionStateDTO = await TestWebsocketService
       .sendUserJoinedSessionEvent({sessionUuid: params.sessionUuid, request: {userUuid: params.userUuid}});
 
-    return;
+    const currentSessionState = currentSessionStateDTOToCurrentSessionState(currentSessionStateDTO);
+
+    return currentSessionState;
   }
 
   /**

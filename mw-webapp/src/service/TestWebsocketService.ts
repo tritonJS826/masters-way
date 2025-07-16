@@ -1,5 +1,6 @@
 import {
   HostStartedGameRequest,
+  MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse,
   UserCapturedTargetRequest,
   UserJoinedSessionRequest,
   UserReadyToStartPlayRequest,
@@ -16,7 +17,7 @@ export class TestWebsocketService {
    */
   public static async sendUserJoinedSessionEvent(
     requestParameters: UserJoinedSessionRequest,
-  ): Promise<void> {
+  ): Promise<MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse> {
     const data = await testWebsocketService.userJoinedSession(requestParameters);
 
     return data;

@@ -199,8 +199,11 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse"
+                        }
                     }
                 }
             }
@@ -359,6 +362,17 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-test-websocket_internal_schemas.UserInfo": {
+            "type": "object",
+            "required": [
+                "userUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload": {
             "type": "object",
             "required": [
@@ -367,6 +381,20 @@ const docTemplate = `{
             "properties": {
                 "userUuid": {
                     "type": "string"
+                }
+            }
+        },
+        "mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse": {
+            "type": "object",
+            "required": [
+                "currentUsers"
+            ],
+            "properties": {
+                "currentUsers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserInfo"
+                    }
                 }
             }
         },

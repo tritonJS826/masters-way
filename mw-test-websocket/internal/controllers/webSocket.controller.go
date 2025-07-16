@@ -14,6 +14,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/samber/lo"
 )
 
 type SocketController struct {
@@ -25,7 +26,7 @@ func NewSocketController(socketService services.SocketService) *SocketController
 }
 
 type UserInfo struct {
-	userUuid string
+	UserUuid string
 }
 
 type ConnectionsDetails struct {
@@ -84,7 +85,7 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 		sessionPool[sessionUuid] = session
 	}
 	session.Connections[connectionID] = conn
-	session.Users[userID] = &UserInfo{userUuid: userID}
+	session.Users[userID] = &UserInfo{UserUuid: userID}
 	mu.Unlock()
 
 	// listen for the events
@@ -118,7 +119,7 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 // @Produce  json
 // @Param sessionUuid path string true "sessionUuid"
 // @Param request body schemas.UserJoinedSessionEventPayload true "query params"
-// @Success 204
+// @Success 200 {object} schemas.UserJoinedSessionEventResponse
 // @Router /session/{sessionUuid}/userJoinedSession [post]
 func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 	sessionUuid := ctx.Param("sessionUuid")
@@ -129,6 +130,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 		return
 	}
 
+	var currentUsers []schemas.UserInfo
 	mu.RLock()
 	session, exists := sessionPool[sessionUuid]
 	if exists {
@@ -137,10 +139,20 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 			err := connection.WriteJSON(newMessage)
 			utils.HandleErrorGin(ctx, err)
 		}
+
+		currentUsers = lo.MapToSlice(session.Users, func(userUuid string, userInfo *UserInfo) schemas.UserInfo {
+			return schemas.UserInfo{
+				UserUuid: userInfo.UserUuid,
+			}
+		})
 	}
 	mu.RUnlock()
 
-	ctx.Status(http.StatusNoContent)
+	response := schemas.UserJoinedSessionEventResponse{
+		CurrentUsers: currentUsers,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary User ready to start play

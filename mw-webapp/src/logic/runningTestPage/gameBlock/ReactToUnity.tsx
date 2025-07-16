@@ -2,6 +2,7 @@ import {ReactUnityEventParameter} from "react-unity-webgl/distribution/types/rea
 import {QuestionResultReactToUnity} from "src/model/unity/QuestionResultReactToUnity";
 import {QuestionUnity} from "src/model/unity/QuestionUnity";
 import {SendUserAnsweredQuestionReactToUnity} from "src/model/unity/SendUserAnsweredQuestionReactToUnity";
+import {SessionStateUpdatedReactToUnity} from "src/model/unity/SessionStateUpdatedReactToUnity";
 import {UserCapturedTargetReactToUnity} from "src/model/unity/UserCapturedTargetReactToUnity";
 import {UserJoinedSessionReactToUnity} from "src/model/unity/UserJoinedSessionReactToUnity";
 import {UserReadyToStartPlayReactToUnity} from "src/model/unity/UserReadyToStartPlayReactToUnity";
@@ -13,9 +14,10 @@ const UnityListenerName = "ReactEventHandler" as const;
  */
 enum ReactToUnityEvents {
   QuestionListReceived = "HandleQuestionListReceived",
+  SessionStateUpdated = "HandleSessionStateUpdated",
   UserJoinedSession = "HandleUserJoinedSession",
-  UserReadyToStartPlay = "UserReadyToStartPlay",
-  HostStartedGame = "HostStartedGame",
+  UserReadyToStartPlay = "HandleUserReadyToStartPlay",
+  HostStartedGame = "HandleHostStartedGame",
   UserCapturedTarget = "HandleUserCapturedTarget",
   UserAnsweredQuestion = "HandleUserAnsweredQuestion",
   UserAnswerHandledByServer = "HandleUserAnswerHandledByServer",
@@ -44,6 +46,16 @@ export class ReactToUnity {
   ): (payload: SendQuestionListReceivedParam) => void {
     return (payload: SendQuestionListReceivedParam) =>
       sendMessage(UnityListenerName, ReactToUnityEvents.QuestionListReceived, JSON.stringify(payload));
+  }
+
+  /**
+   * Send session state updated
+   */
+  public static sendSessionStateUpdated(
+    sendMessage: SendMessage,
+  ): (payload: SessionStateUpdatedReactToUnity) => void {
+    return (payload: SessionStateUpdatedReactToUnity) =>
+      sendMessage(UnityListenerName, ReactToUnityEvents.SessionStateUpdated, JSON.stringify(payload));
   }
 
   /**

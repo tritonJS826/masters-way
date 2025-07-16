@@ -20,6 +20,7 @@ import type {
   MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload,
   MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload,
   MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload,
+  MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse,
   MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload,
 } from '../models/index';
 import {
@@ -33,6 +34,8 @@ import {
     MwTestWebsocketInternalSchemasUserCapturedTargetEventPayloadToJSON,
     MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadToJSON,
+    MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseFromJSON,
+    MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseToJSON,
     MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayloadToJSON,
 } from '../models/index';
@@ -252,7 +255,7 @@ export class SocketApi extends runtime.BaseAPI {
     /**
      * User joined session
      */
-    async userJoinedSessionRaw(requestParameters: UserJoinedSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async userJoinedSessionRaw(requestParameters: UserJoinedSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse>> {
         if (requestParameters.sessionUuid === null || requestParameters.sessionUuid === undefined) {
             throw new runtime.RequiredError('sessionUuid','Required parameter requestParameters.sessionUuid was null or undefined when calling userJoinedSession.');
         }
@@ -275,14 +278,15 @@ export class SocketApi extends runtime.BaseAPI {
             body: MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseFromJSON(jsonValue));
     }
 
     /**
      * User joined session
      */
-    async userJoinedSession(requestParameters: UserJoinedSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.userJoinedSessionRaw(requestParameters, initOverrides);
+    async userJoinedSession(requestParameters: UserJoinedSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse> {
+        const response = await this.userJoinedSessionRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
