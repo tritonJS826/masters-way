@@ -10,6 +10,7 @@ import (
 )
 
 const ContextKeyUserID = "userID"
+const ContextKeySessionUuid = "sessionUuid"
 
 type Claims struct {
 	UserID string `json:"userID"`
@@ -41,7 +42,10 @@ func ExtractTokenMiddleware(cfg *config.Config) gin.HandlerFunc {
 			return
 		}
 
+		sessionUuid := ctx.Query("sessionUuid")
+
 		ctx.Set(ContextKeyUserID, claims.UserID)
+		ctx.Set(ContextKeySessionUuid, sessionUuid)
 		ctx.Next()
 	}
 }

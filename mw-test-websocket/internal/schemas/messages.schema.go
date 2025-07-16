@@ -1,23 +1,31 @@
 package schemas
 
-type MessageReader struct {
-	UserID   string `json:"userId" validate:"required"`
-	Name     string `json:"name" validate:"required"`
-	ImageURL string `json:"imageUrl" validate:"required"`
-	ReadDate string `json:"readDate" validate:"required"`
+type UserJoinedSessionEventPayload struct {
+	UserUuid string `json:"userUuid" validate:"required"`
 }
-
-type MessageResponse struct {
-	MessageID     string          `json:"messageId" validate:"required"`
-	OwnerID       string          `json:"ownerId" validate:"required"`
-	OwnerName     string          `json:"ownerName" validate:"required"`
-	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`
-	RoomID        string          `json:"roomId" validate:"required"`
-	Message       string          `json:"message" validate:"required"`
-	Readers       []MessageReader `json:"messageReaders" validate:"required"`
+type UserReadyToStartPlayEventPayload struct {
+	UserUuid string `json:"userUuid" validate:"required"`
 }
-
-type SendMessagePayload struct {
-	Users   []string        `json:"users" validate:"required"`
-	Message MessageResponse `json:"message" validate:"required"`
+type HostStartedGameEventPayload struct {
+	UserUuid string `json:"userUuid" validate:"required"`
+}
+type UserCapturedTargetEventPayload struct {
+	UserUuid     string `json:"userUuid" validate:"required"`
+	QuestionUuid string `json:"questionUuid" validate:"required"`
+}
+type UserAnsweredQuestionEventPayload struct {
+	UserUuid     string `json:"userUuid" validate:"required"`
+	QuestionUuid string `json:"questionUuid" validate:"required"`
+}
+type UserAnswerHandledByServerEventPayload struct {
+	IsOk                bool   `json:"isOk" validate:"required"`
+	UserUuid            string `json:"userUuid" validate:"required"`
+	UserAnswer          string `json:"userAnswer" validate:"required"`
+	QuestionName        string `json:"questionName" validate:"required"`
+	QuestionDescription string `json:"questionDescription" validate:"required"`
+	QuestionAnswer      string `json:"questionAnswer" validate:"required"`
+	ResultDescription   string `json:"resultDescription" validate:"required"`
+	QuestionUuid        string `json:"questionUuid" validate:"required"`
+	// handledAnswer identification
+	Uuid string `json:"resultUuid" validate:"required"`
 }

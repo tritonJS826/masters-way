@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"mw-test-websocket/internal/auth"
-	eventfactory "mw-test-websocket/internal/eventFactory"
+	eventFactory "mw-test-websocket/internal/eventFactory"
 	"mw-test-websocket/internal/schemas"
 	"mw-test-websocket/internal/services"
 	"mw-test-websocket/pkg/utils"
@@ -12,14 +12,9 @@ import (
 	"sync"
 	"time"
 
-	lop "github.com/samber/lo/parallel"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
-
-const RoomTypePrivate string = "private"
-const RoomTypeGroup string = "group"
 
 type SocketController struct {
 	SocketService services.SocketService
@@ -29,16 +24,21 @@ func NewSocketController(socketService services.SocketService) *SocketController
 	return &SocketController{SocketService: socketService}
 }
 
-type CurrentSocketConnection struct {
-	// string is unique key for session
-	Connections map[string]*websocket.Conn
+type UserInfo struct {
+	userUuid string
 }
 
-// key: userID
-// val: session and user details
+type ConnectionsDetails struct {
+	// string is unique key for session
+	Connections map[string]*websocket.Conn
+	Users       map[string]*UserInfo
+}
+
+// key: session uuid
+// val: session details and session users
 // var users = make(map[string]*User)
 var (
-	sessionPool = make(map[string]*CurrentSocketConnection)
+	sessionPool = make(map[string]*ConnectionsDetails)
 	mu          sync.RWMutex
 )
 
@@ -60,6 +60,8 @@ var upgrader = websocket.Upgrader{
 func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
+	sessionUuidRaw, _ := ctx.Get(auth.ContextKeySessionUuid)
+	sessionUuid := sessionUuidRaw.(string)
 
 	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
@@ -69,148 +71,247 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	defer conn.Close()
 
 	connectionID := time.Now().Format(time.RFC3339Nano)
-	fmt.Println(connectionID)
+	fmt.Printf("socket connection: %s, sessionUuid: %s\n", connectionID, sessionUuid)
 
+	// set session and user Data
 	mu.Lock()
-	session, exists := sessionPool[userID]
+	session, exists := sessionPool[sessionUuid]
 	if !exists {
-		session = &CurrentSocketConnection{Connections: map[string]*websocket.Conn{}}
-		sessionPool[userID] = session
+		session = &ConnectionsDetails{
+			Connections: make(map[string]*websocket.Conn),
+			Users:       make(map[string]*UserInfo),
+		}
+		sessionPool[sessionUuid] = session
 	}
 	session.Connections[connectionID] = conn
+	session.Users[userID] = &UserInfo{userUuid: userID}
 	mu.Unlock()
 
-	totalConnections := 0
-	totalUsers := 0
-	mu.RLock()
-	for _, session := range sessionPool {
-		totalConnections += len(session.Connections)
-		totalUsers++
-	}
-	mu.RUnlock()
-
-	fmt.Println("Current amount of users: ", totalUsers)
-	fmt.Println("Total Connections: ", totalConnections)
-
+	// listen for the events
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
 			mu.Lock()
-			if session, exists := sessionPool[userID]; exists {
+			if session, exists := sessionPool[sessionUuid]; exists {
 				delete(session.Connections, connectionID)
+				delete(session.Users, userID)
+
 				if len(session.Connections) == 0 {
-					delete(sessionPool, userID)
+					delete(sessionPool, sessionUuid)
 				}
 			}
 			mu.Unlock()
 
-			totalConnections := 0
-			totalUsers := 0
-
-			mu.RLock()
-			for _, session := range sessionPool {
-				totalConnections += len(session.Connections)
-				totalUsers++
-			}
-			mu.RUnlock()
-
-			fmt.Println("Current amount of users: ", totalUsers)
-			fmt.Println("Total Connections: ", totalConnections)
 			return
 		}
-
 		fmt.Println("Received message:", string(message))
 	}
 }
 
-// @Summary Send message to socket
+// @Summary User joined session
 // @Description
 // @Tags socket
-// @ID send-message-event
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.SendMessagePayload true "query params"
-// @Success 204
-// @Router /messages [post]
-func (cc *SocketController) SendMessageReceivedEvent(ctx *gin.Context) {
-	var payload *schemas.SendMessagePayload
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	lop.ForEach(payload.Users, func(userID string, _ int) {
-		mu.RLock()
-		session, exists := sessionPool[userID]
-		mu.RUnlock()
-		if exists {
-			for _, connection := range session.Connections {
-				newMessage := eventfactory.MakeMessageReceivedEvent(payload.Message)
-				err := connection.WriteJSON(newMessage)
-				utils.HandleErrorGin(ctx, err)
-			}
-		}
-	})
-
-	ctx.Status(http.StatusNoContent)
-}
-
-// @Summary Send created room event
-// @Description
-// @Tags socket
-// @ID send-room-event
+// @ID user-joined-session
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.RoomPopulatedResponse true "query params"
 // @Success 204
-// @Router /rooms [post]
-func (cc *SocketController) SendRoomCreatedEvent(ctx *gin.Context) {
-	var payload *schemas.RoomPopulatedResponse
+// @Router /session/{sessionUuid}/userJoinedSession [post]
+func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.UserJoinedSessionEventPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	lop.ForEach(payload.Users, func(user schemas.UserResponse, _ int) {
-		mu.RLock()
-		session, exists := sessionPool[user.UserID]
-		mu.RUnlock()
-		if exists {
-			if payload.RoomType == RoomTypePrivate {
-				name, err := getPrivateRoomName(user.UserID, payload.Users)
-				if err != nil {
-					fmt.Println(err.Error())
-					return
-				}
-
-				payload.Name = name
-			}
-
-			for _, connection := range session.Connections {
-				newRoom := eventfactory.MakeRoomCreatedEvent(*payload)
-				err := connection.WriteJSON(newRoom)
-				utils.HandleErrorGin(ctx, err)
-			}
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeUserJoinedSessionEvent(schemas.UserJoinedSessionEventPayload{UserUuid: payload.UserUuid})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
 		}
-	})
+	}
+	mu.RUnlock()
 
 	ctx.Status(http.StatusNoContent)
 }
 
-func getPrivateRoomName(currentUserID string, users []schemas.UserResponse) (string, error) {
-	if len(users) != 2 {
-		return "", fmt.Errorf("A private room must contain exactly 2 users, got %d", len(users))
+// @Summary User ready to start play
+// @Description
+// @Tags socket
+// @ID user-ready-to-start-play
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.UserReadyToStartPlayEventPayload true "query params"
+// @Success 204
+// @Router /session/{sessionUuid}/userReadyToStartPlay [post]
+func (cc *SocketController) SendUserReadyToStartPlayEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.UserReadyToStartPlayEventPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	if users[0].UserID == currentUserID {
-		return users[1].Name, nil
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeUserReadyToStartPlayEvent(schemas.UserReadyToStartPlayEventPayload{UserUuid: payload.UserUuid})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
+		}
+	}
+	mu.RUnlock()
+
+	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary host started game
+// @Description
+// @Tags socket
+// @ID host-started-game
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.HostStartedGameEventPayload true "query params"
+// @Success 204
+// @Router /session/{sessionUuid}/hostStartedGame [post]
+func (cc *SocketController) SendHostStartedGameEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.HostStartedGameEventPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	if users[1].UserID == currentUserID {
-		return users[0].Name, nil
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeHostStartedGameEvent(schemas.HostStartedGameEventPayload{UserUuid: payload.UserUuid})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
+		}
+	}
+	mu.RUnlock()
+
+	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary User captured target
+// @Description
+// @Tags socket
+// @ID user-captured-target
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.UserCapturedTargetEventPayload true "query params"
+// @Success 204
+// @Router /session/{sessionUuid}/userCapturedTarget [post]
+func (cc *SocketController) SendUserCapturedTargetEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.UserCapturedTargetEventPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeUserCapturedTargetEvent(schemas.UserCapturedTargetEventPayload{
+				UserUuid:     payload.UserUuid,
+				QuestionUuid: payload.QuestionUuid,
+			})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
+		}
+	}
+	mu.RUnlock()
+
+	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary User answered question
+// @Description
+// @Tags socket
+// @ID user-answered-question
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.UserAnsweredQuestionEventPayload true "query params"
+// @Success 204
+// @Router /session/{sessionUuid}/userAnsweredQuestion [post]
+func (cc *SocketController) SendUserAnsweredQuestionEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.UserAnsweredQuestionEventPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeUserAnsweredQuestionEvent(schemas.UserAnsweredQuestionEventPayload{
+				UserUuid:     payload.UserUuid,
+				QuestionUuid: payload.QuestionUuid,
+			})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
+		}
+	}
+	mu.RUnlock()
+
+	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary User answer handled by server
+// @Description
+// @Tags socket
+// @ID user-answer-handled-by-server
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.UserAnswerHandledByServerEventPayload true "query params"
+// @Success 204
+// @Router /session/{sessionUuid}/userAnswerHandledByServer [post]
+func (cc *SocketController) SendUserAnswerHandledByServerEvent(ctx *gin.Context) {
+	sessionUuid := ctx.Param("sessionUuid")
+	var payload *schemas.UserAnswerHandledByServerEventPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	mu.RLock()
+	session, exists := sessionPool[sessionUuid]
+	if exists {
+		for _, connection := range session.Connections {
+			newMessage := eventFactory.MakeUserAnswerHandledByServerEvent(schemas.UserAnswerHandledByServerEventPayload{
+				IsOk:                payload.IsOk,
+				UserAnswer:          payload.UserAnswer,
+				QuestionName:        payload.QuestionName,
+				QuestionDescription: payload.QuestionDescription,
+				QuestionAnswer:      payload.QuestionAnswer,
+				ResultDescription:   payload.ResultDescription,
+				Uuid:                payload.Uuid,
+				UserUuid:            payload.UserUuid,
+				QuestionUuid:        payload.QuestionUuid,
+			})
+			err := connection.WriteJSON(newMessage)
+			utils.HandleErrorGin(ctx, err)
+		}
+	}
+	mu.RUnlock()
+
+	ctx.Status(http.StatusNoContent)
 }

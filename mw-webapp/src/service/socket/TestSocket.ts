@@ -35,10 +35,10 @@ let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
 /**
  * Connect to mw-test-websocket
  */
-export const connectTestSocket = () => {
+export const connectTestSocket = (sessionUuid: string) => {
   const socket = new WebSocket(
     env.API_MW_TEST_WEBSOCKET_PATH +
-      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
+      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}&sessionUuid=${sessionUuid}`,
   );
 
   /**
@@ -67,10 +67,7 @@ export const connectTestSocket = () => {
   /**
    * Handler triggered on error with websocket
    */
-  socket.onerror = (error) => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!");
-
-    console.log(JSON.stringify(error));
+  socket.onerror = () => {
     displayNotification({
       text: "Test websocket error! Try to reconnect!",
       type: NotificationType.ERROR,
@@ -108,7 +105,7 @@ export const connectTestSocket = () => {
           tag: SystemNotificationTag.TEST,
         });
         break;
-      case "mw-test-websocket:user-captured-target-event":
+      case "mw-test-websocket:user-captured-target":
         emitEvent(makeUserCapturedTargetEvent(event.payload as UserCapturedTargetPayload));
         break;
       case "mw-test-websocket:user-answered-question":

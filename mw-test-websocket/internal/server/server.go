@@ -51,7 +51,11 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 	{
 		mwChatWebsocket.GET("/ws", auth.ExtractTokenMiddleware(server.Config), controller.SocketController.ConnectSocket)
 
-		mwChatWebsocket.POST("/messages", controller.SocketController.SendMessageReceivedEvent)
-		mwChatWebsocket.POST("/rooms", controller.SocketController.SendRoomCreatedEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/userJoinedSession", controller.SocketController.SendUserJoinedSessionEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/userReadyToStartPlay", controller.SocketController.SendUserReadyToStartPlayEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/hostStartedGame", controller.SocketController.SendHostStartedGameEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/userCapturedTarget", controller.SocketController.SendUserCapturedTargetEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/userAnsweredQuestion", controller.SocketController.SendUserAnsweredQuestionEvent)
+		mwChatWebsocket.POST("session/:sessionUuid/userAnswerHandledByServer", controller.SocketController.SendUserAnswerHandledByServerEvent)
 	}
 }

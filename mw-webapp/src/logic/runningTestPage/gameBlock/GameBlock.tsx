@@ -158,10 +158,13 @@ export const GameBlock = observer((props: GameBlockProps) => {
   };
 
   useEffect(() => {
-    if (!user) {
+    if (!user?.uuid) {
       return;
     }
-    const socket = connectTestSocket();
+
+    // In dev mode this line called twice which leads to error.
+    // This error is annoying pretty safe and does not exist in production
+    const socket = connectTestSocket(props.sessionUuid);
 
     return () => {
       socket.close();
@@ -185,27 +188,21 @@ export const GameBlock = observer((props: GameBlockProps) => {
   }, [addEventListener, removeEventListener, sendMessage]);
 
   useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
-    console.log(payload);
     ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_READY_TO_START_PLAY, (payload: UserReadyToStartPlayPayload) => {
-    console.log(payload);
     ReactToUnity.sendUserReadyToStartPlay(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, () => {
-    console.log(TestEventId.HOST_STARTED_GAME);
     ReactToUnity.sendHostStartedGame(sendMessage)();
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_CAPTURED_TARGET, (payload: UserCapturedTargetPayload) => {
-    console.log(payload);
     ReactToUnity.sendUserCapturedTarget(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWERED_QUESTION, (payload: UserAnsweredQuestionPayload) => {
-    console.log(payload);
     ReactToUnity.sendUserAnsweredQuestion(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWER_HANDLED_BY_SERVER, (payload: UserAnswerHandledByServerPayload) => {
-    console.log(payload);
     ReactToUnity.sendUserAnswerHandledByServer(sendMessage)(payload);
   });
 
