@@ -133,7 +133,7 @@ services:
     ports:
       - "7991:7991"
     depends_on:
-      - mw-test-bff
+      - mw-training-bff
     networks:
       - app-network
 
