@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Coins** | Pointer to **int32** |  | [optional] 
-**ExpirationDate** | Pointer to **string** |  | [optional] 
-**PricingPlan** | Pointer to **string** |  | [optional] 
-**Uuid** | Pointer to **string** |  | [optional] 
+**Coins** | **int32** |  | 
+**ExpirationDate** | **string** |  | 
+**PricingPlan** | **string** |  | 
+**Uuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwGeneralBffInternalSchemasProfileSetting
 
-`func NewMwGeneralBffInternalSchemasProfileSetting() *MwGeneralBffInternalSchemasProfileSetting`
+`func NewMwGeneralBffInternalSchemasProfileSetting(coins int32, expirationDate string, pricingPlan string, uuid string, ) *MwGeneralBffInternalSchemasProfileSetting`
 
 NewMwGeneralBffInternalSchemasProfileSetting instantiates a new MwGeneralBffInternalSchemasProfileSetting object
 This constructor will assign default values to properties that have it defined,
@@ -47,11 +47,6 @@ and a boolean to check if the value has been set.
 
 SetCoins sets Coins field to given value.
 
-### HasCoins
-
-`func (o *MwGeneralBffInternalSchemasProfileSetting) HasCoins() bool`
-
-HasCoins returns a boolean if a field has been set.
 
 ### GetExpirationDate
 
@@ -72,11 +67,6 @@ and a boolean to check if the value has been set.
 
 SetExpirationDate sets ExpirationDate field to given value.
 
-### HasExpirationDate
-
-`func (o *MwGeneralBffInternalSchemasProfileSetting) HasExpirationDate() bool`
-
-HasExpirationDate returns a boolean if a field has been set.
 
 ### GetPricingPlan
 
@@ -97,11 +87,6 @@ and a boolean to check if the value has been set.
 
 SetPricingPlan sets PricingPlan field to given value.
 
-### HasPricingPlan
-
-`func (o *MwGeneralBffInternalSchemasProfileSetting) HasPricingPlan() bool`
-
-HasPricingPlan returns a boolean if a field has been set.
 
 ### GetUuid
 
@@ -122,11 +107,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *MwGeneralBffInternalSchemasProfileSetting) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

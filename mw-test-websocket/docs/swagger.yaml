@@ -1,0 +1,268 @@
+basePath: /mw-test-websocket
+definitions:
+  mw-test-websocket_internal_schemas.HostStartedGameEventPayload:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload:
+    properties:
+      isOk:
+        type: boolean
+      questionAnswer:
+        type: string
+      questionDescription:
+        type: string
+      questionName:
+        type: string
+      questionUuid:
+        type: string
+      resultDescription:
+        type: string
+      resultUuid:
+        description: handledAnswer identification
+        type: string
+      userAnswer:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - isOk
+    - questionAnswer
+    - questionDescription
+    - questionName
+    - questionUuid
+    - resultDescription
+    - resultUuid
+    - userAnswer
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload:
+    properties:
+      questionUuid:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - questionUuid
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload:
+    properties:
+      questionUuid:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - questionUuid
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserInfo:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
+  mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:
+    properties:
+      currentUsers:
+        items:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserInfo'
+        type: array
+    required:
+    - currentUsers
+    type: object
+  mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
+info:
+  contact: {}
+  title: Masters way test-websocket API
+  version: "1.0"
+paths:
+  /session/{sessionUuid}/hostStartedGame:
+    post:
+      consumes:
+      - application/json
+      operationId: host-started-game
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.HostStartedGameEventPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: host started game
+      tags:
+      - socket
+  /session/{sessionUuid}/userAnswerHandledByServer:
+    post:
+      consumes:
+      - application/json
+      operationId: user-answer-handled-by-server
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: User answer handled by server
+      tags:
+      - socket
+  /session/{sessionUuid}/userAnsweredQuestion:
+    post:
+      consumes:
+      - application/json
+      operationId: user-answered-question
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserAnsweredQuestionEventPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: User answered question
+      tags:
+      - socket
+  /session/{sessionUuid}/userCapturedTarget:
+    post:
+      consumes:
+      - application/json
+      operationId: user-captured-target
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserCapturedTargetEventPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: User captured target
+      tags:
+      - socket
+  /session/{sessionUuid}/userJoinedSession:
+    post:
+      consumes:
+      - application/json
+      operationId: user-joined-session
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse'
+      summary: User joined session
+      tags:
+      - socket
+  /session/{sessionUuid}/userReadyToStartPlay:
+    post:
+      consumes:
+      - application/json
+      operationId: user-ready-to-start-play
+      parameters:
+      - description: sessionUuid
+        in: path
+        name: sessionUuid
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: User ready to start play
+      tags:
+      - socket
+  /ws:
+    get:
+      consumes:
+      - application/json
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+swagger: "2.0"

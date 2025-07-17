@@ -24,25 +24,25 @@ export interface MwGeneralBffInternalSchemasProfileSetting {
      * @type {number}
      * @memberof MwGeneralBffInternalSchemasProfileSetting
      */
-    coins?: number;
+    coins: number;
     /**
      * 
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasProfileSetting
      */
-    expirationDate?: string;
+    expirationDate: string;
     /**
      * 
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasProfileSetting
      */
-    pricingPlan?: string;
+    pricingPlan: string;
     /**
      * 
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasProfileSetting
      */
-    uuid?: string;
+    uuid: string;
 }
 
 /**
@@ -52,6 +52,10 @@ export function instanceOfMwGeneralBffInternalSchemasProfileSetting(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "coins" in value;
+    isInstance = isInstance && "expirationDate" in value;
+    isInstance = isInstance && "pricingPlan" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -69,10 +73,10 @@ export function MwGeneralBffInternalSchemasProfileSettingFromJSONTyped(
     }
     return {
         
-        'coins': !exists(json, 'coins') ? undefined : json['coins'],
-        'expirationDate': !exists(json, 'expirationDate') ? undefined : json['expirationDate'],
-        'pricingPlan': !exists(json, 'pricingPlan') ? undefined : json['pricingPlan'],
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'coins': json['coins'],
+        'expirationDate': json['expirationDate'],
+        'pricingPlan': json['pricingPlan'],
+        'uuid': json['uuid'],
     };
 }
 

@@ -3,7 +3,10 @@
 ## Unity->React (React.jslib unity)
 1. GameStarted: undefined
 2. GameFinished: undefined
-3. UserAnsweredQuestion: {questionUuid: string, userAnswer: string}
+3. UserAnsweredQuestion: {
+    questionUuid: string,
+    userAnswer: string
+}
 4. (for multiplayer) UserCapturedTarget: {questionUuid: string}
 
 
@@ -17,7 +20,28 @@
         <!-- seconds -->
         timeToAnswer: number,
 }}
-2. UserAnswerHandledByServer: {
+2. SessionStateUpdated: {
+    selfUserUuid: string,
+    currentUsers: {
+        userUuid: string
+    }[]
+}
+2. UserJoinedSession: {
+    userUuid: string
+}
+3. UserReadyToStartPlay: {
+    userUuid: string
+}
+4. HostStartedGame: {}
+5. UserCapturedTarget: {
+    userUuid: string,
+    questionUuid: string,
+}
+6. UserAnsweredQuestion: {
+    userUuid: string,
+    questionUuid: string,
+}
+7. UserAnswerHandledByServer: {
         isOk: bool,
         userUuid: string,
         userAnswer: string,
@@ -28,15 +52,4 @@
         questionUuid: string,
         <!-- handledAnswer identificator -->
         uuid: string 
-}
-3. UserJoinedSession: {
-    userUuid: string
-}
-4. UserCapturedTarget: {
-    userUuid: string,
-    questionUuid: string,
-}
-5. UserAnsweredQuestion: {
-    userUuid: string,
-    questionUuid: string,
 }

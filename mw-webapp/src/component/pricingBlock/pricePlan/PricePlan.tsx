@@ -88,6 +88,12 @@ export interface CapabilitiesType {
    */
   onboarding?: null;
 
+  /**
+   * Mastercoins per month
+   */
+  // eslint-disable-next-line no-magic-numbers
+  masterCoins: 50 | 1500 | 2000 | 4000;
+
 }
 
 /**
@@ -128,7 +134,7 @@ export interface PricePlanType {
   /**
    * CTA button value
    */
-  buttonValue: "start" | "grow" | "scale";
+  buttonValue: "start" | "start-ai" | "grow" | "scale";
 
   // /**
   //  * Callback triggered on CTA button click
@@ -186,9 +192,10 @@ export const PricePlan = observer((props: PricePlanProps) => {
           {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
         </span>
         }
-        {props.pricePlan.period === "month" &&
+        {(props.pricePlan.period === "month") &&
         <span className={styles.measurement}>
-          {" or 420$/year"}
+          {props.pricePlan.buttonValue === "start-ai" ? " or 100$/year" : null}
+          {props.pricePlan.buttonValue === "grow" ? " or 420$/year" : null}
         </span>
         }
         {props.pricePlan.period === "year" &&

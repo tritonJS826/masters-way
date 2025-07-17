@@ -23,6 +23,8 @@ type Config struct {
 	ChatBaseURL              string `mapstructure:"CHAT_BASE_URL"`
 	ChatAPIWebsocketHost     string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
 	ChatWebsocketBaseURL     string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
+	TestAPIWebsocketHost     string `mapstructure:"MW_TEST_WEBSOCKET_API_HOST"`
+	TestWebsocketBaseURL     string `mapstructure:"MW_TEST_WEBSOCKET_BASE_URL"`
 	TrainingAPIHost          string `mapstructure:"TRAINING_API_HOST"`
 	TrainingBaseURL          string `mapstructure:"TRAINING_BASE_URL"`
 	TestGeneralBffAPIHost    string `mapstructure:"TEST_GENERAL_BFF_API_HOST"`

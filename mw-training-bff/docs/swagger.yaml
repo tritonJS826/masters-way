@@ -275,6 +275,10 @@ definitions:
         type: string
       userAnswer:
         type: string
+      userImageUrl:
+        type: string
+      userName:
+        type: string
       userUuid:
         type: string
       uuid:
@@ -287,6 +291,8 @@ definitions:
     - questionUuid
     - resultDescription
     - userAnswer
+    - userImageUrl
+    - userName
     - userUuid
     - uuid
     type: object

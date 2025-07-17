@@ -8,6 +8,20 @@ import {Loader} from "src/component/loader/Loader";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AiQuestionResultDAL} from "src/dataAccessLogic/AiQuestionResultDAL";
 import {TestSessionResultDAL} from "src/dataAccessLogic/TestSessionResultDAL";
+import {TestWebsocketDAL} from "src/dataAccessLogic/TestWebsocketDAL";
+import {emitEvent} from "src/eventBus/EmitEvent";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {TestEventId} from "src/eventBus/events/test/TestEventDict";
+import {
+  makeSessionStateUpdatedEvent,
+  SessionStateUpdatedPayload,
+  UserAnsweredQuestionPayload,
+  UserAnswerHandledByServerPayload,
+  UserCapturedTargetPayload,
+  UserJoinedSessionPayload,
+  UserReadyToStartPlayPayload,
+} from "src/eventBus/events/test/TestEvents";
+import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -18,6 +32,7 @@ import {UnityToReactEvents} from "src/logic/runningTestPage/gameBlock/UnityToRea
 import {Question} from "src/model/businessModel/Test";
 import {QuestionUnity} from "src/model/unity/QuestionUnity";
 import {pages} from "src/router/pages";
+import {connectTestSocket} from "src/service/socket/TestSocket";
 import styles from "src/logic/runningTestPage/gameBlock/GameBlock.module.scss";
 
 /**
@@ -90,12 +105,12 @@ export const GameBlock = observer((props: GameBlockProps) => {
    */
   const handleGameFinished = () => {
     // TODO: minus token if it is AI request
-
+    // TODO: only host user should create test session results
     TestSessionResultDAL.createTestSessionResult({
       sessionUuid: props.sessionUuid,
       testUuid: props.testUuid,
     })
-      .then(() => navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.testUuid})));
+      .then(() => navigate(pages.resultTest.getPath({testUuid: props.testUuid, sessionUuid: props.sessionUuid})));
   };
 
   /**
@@ -113,26 +128,47 @@ export const GameBlock = observer((props: GameBlockProps) => {
       testUuid: props.testUuid,
       userUuid: props.userUuid,
       language,
-    })
-      // TODO: Probably wi should do it after receiving event from sol websocket
-      .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
-        isOk: answer.isOk,
-        questionAnswer: answer.questionAnswer,
-        questionDescription: answer.questionDescription,
-        questionName: answer.questionName,
-        questionUuid: answer.uuid,
-        resultDescription: answer.resultDescription,
-        userAnswer: answer.userAnswer,
-        userUuid: answer.userUuid,
-        uuid: answer.uuid,
-      }));
+    });
+    // TODO: remove it after test
+    // Probably we should do it after receiving event from sol websocket
+    // Event listener already added
+    // just remove next line after adding multiplayer mode
+    // .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
+    //   isOk: answer.isOk,
+    //   questionAnswer: answer.questionAnswer,
+    //   questionDescription: answer.questionDescription,
+    //   questionName: answer.questionName,
+    //   questionUuid: answer.questionUuid,
+    //   resultDescription: answer.resultDescription,
+    //   userAnswer: answer.userAnswer,
+    //   userUuid: answer.userUuid,
+    //   uuid: answer.uuid,
+    // }));
   };
 
   /**
    * Handle event game started
+   * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
+    if (!user?.uuid) {
+      return;
+    }
+
     setIsUnityDownloaded(true);
+
+    TestWebsocketDAL.SendUserJoinedSessionEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+    }).then((currentSessionState) => {
+      // Let's exclude owner from the list
+      // probably we should send owner uuid also to the unity to provide consistent logic for all users
+
+      emitEvent(makeSessionStateUpdatedEvent({
+        currentUsers: currentSessionState.currentUsers,
+        selfUserUuid: user.uuid,
+      }));
+    });
   };
 
   /**
@@ -142,6 +178,21 @@ export const GameBlock = observer((props: GameBlockProps) => {
   const handleUserCapturedTarget = () => {
     // TODO: will be implemented for multiplayer
   };
+
+  useEffect(() => {
+    if (!user?.uuid) {
+      return;
+    }
+
+    // In dev mode this line called twice which leads to error.
+    // This error is annoying pretty safe and does not exist in production
+    const socket = connectTestSocket(props.sessionUuid);
+
+    return () => {
+      socket.close();
+    };
+
+  }, [user?.uuid]);
 
   // Set unity to react listeners
   useEffect(() => {
@@ -158,16 +209,29 @@ export const GameBlock = observer((props: GameBlockProps) => {
     };
   }, [addEventListener, removeEventListener, sendMessage]);
 
-  if (!runningGameStore.isInitialized) {
-    return (
-      <Loader
-        theme={theme}
-        isAbsolute
-      />
-    );
-  }
+  useListenEventBus(ChannelId.TEST, TestEventId.SESSION_STATE_UPDATED, (payload: SessionStateUpdatedPayload) => {
+    ReactToUnity.sendSessionStateUpdated(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
+    ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_READY_TO_START_PLAY, (payload: UserReadyToStartPlayPayload) => {
+    ReactToUnity.sendUserReadyToStartPlay(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, () => {
+    ReactToUnity.sendHostStartedGame(sendMessage)();
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_CAPTURED_TARGET, (payload: UserCapturedTargetPayload) => {
+    ReactToUnity.sendUserCapturedTarget(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWERED_QUESTION, (payload: UserAnsweredQuestionPayload) => {
+    ReactToUnity.sendUserAnsweredQuestion(sendMessage)(payload);
+  });
+  useListenEventBus(ChannelId.TEST, TestEventId.USER_ANSWER_HANDLED_BY_SERVER, (payload: UserAnswerHandledByServerPayload) => {
+    ReactToUnity.sendUserAnswerHandledByServer(sendMessage)(payload);
+  });
 
-  if (isLoading) {
+  if (isLoading || !runningGameStore.isInitialized) {
     return (
       <Loader
         theme={theme}
@@ -193,7 +257,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
       <VerticalContainer className={styles.gameBlock}>
         <Button
           onClick={sendQuestionsToUnity}
-          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading..."}
+          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading... (I should be in the unity)"}
           isDisabled={!runningGameStore.isInitialized}
           buttonType={ButtonType.PRIMARY}
         />
