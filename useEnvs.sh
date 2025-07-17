@@ -16,7 +16,8 @@ services=(
   "mw-chat"
   "grafana"
   "mw-training"
-  "mw-training-bff")
+  "mw-training-bff"
+  "mw-test-websocket")
 
 # Define the environment file templates
 if [ "$1" = "local" ]; then
