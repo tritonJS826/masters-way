@@ -107,7 +107,7 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
       <HorizontalContainer>
         <Button
           value={LanguageService.resultTest.buttons.downloadAsPDF[language]}
-          onClick={() => downloadResultTestPdf(resultTestPageStore)}
+          onClick={() => downloadResultTestPdf(resultTestPageStore, language)}
         />
       </HorizontalContainer>
 

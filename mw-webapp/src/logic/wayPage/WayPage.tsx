@@ -573,7 +573,7 @@ export const WayPage = observer((props: WayPageProps) => {
                           /**
                            * Download way as pdf
                            */
-                          onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple),
+                          onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple, language),
                         },
                         {
                           id: "Go to original way",

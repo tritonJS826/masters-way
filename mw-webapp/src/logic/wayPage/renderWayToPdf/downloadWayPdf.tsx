@@ -1,12 +1,13 @@
 import {Content, ContentColumns, ContentStack, ContentText, ContentUnorderedList, TDocumentDefinitions} from "pdfmake/interfaces";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {Language} from "src/globalStore/LanguageStore";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
-import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -355,8 +356,7 @@ const getReports = async (way: Way): Promise<Content[]> => {
 /**
  * Download way as pdf
  */
-export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTriple) => {
-  const pdfMake = await pdfMakeLazyLoader();
+export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTriple, language: Language) => {
   const headerDefinition = getHeader(way);
   const titleDefinition = getTitle(way.name);
   const ownerDefinition = getOwner(way.owner.name);
@@ -387,6 +387,5 @@ export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTr
     ],
   };
 
-  const pdf = pdfMake.createPdf(docDefinition);
-  pdf.download(`${way.name}.pdf`);
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, `${way.name}.pdf`);
 };

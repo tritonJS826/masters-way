@@ -1,12 +1,13 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
+import {Language} from "src/globalStore/LanguageStore";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {Topic} from "src/model/businessModel/Topic";
 import {Training} from "src/model/businessModel/Training";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {DateUtils} from "src/utils/DateUtils";
-import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -144,8 +145,7 @@ const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
 /**
  * Download training as pdf
  */
-export const downloadTrainingPdf = async (training: Training) => {
-  const pdfMake = await pdfMakeLazyLoader();
+export const downloadTrainingPdf = async (training: Training, language: Language) => {
 
   const topicMaterials = await Promise.all(
     training.topics.map(topicPreview =>
@@ -173,6 +173,5 @@ export const downloadTrainingPdf = async (training: Training) => {
     ],
   };
 
-  const pdf = pdfMake.createPdf(docDefinition);
-  pdf.download(`${training.name}.pdf`);
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, `${training.name}.pdf`);
 };

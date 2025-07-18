@@ -120,7 +120,7 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
           {user && <>
             <Button
               value={LanguageService.lobbyTest.buttons.downloadAsPDF[language]}
-              onClick={() => downloadTestAsPDF(lobbyTestPageStore.test, timeToTest)}
+              onClick={() => downloadTestAsPDF(lobbyTestPageStore.test, timeToTest, language)}
             />
             <Button
               value={LanguageService.lobbyTest.buttons.startTest[language]}

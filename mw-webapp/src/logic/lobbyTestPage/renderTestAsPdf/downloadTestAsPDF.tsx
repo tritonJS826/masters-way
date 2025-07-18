@@ -1,7 +1,8 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
+import {Language} from "src/globalStore/LanguageStore";
 import {Question, Test} from "src/model/businessModel/Test";
 import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
-import {pdfMakeLazyLoader} from "src/utils/pdfMakeLazyLoader";
+import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -77,8 +78,8 @@ const getQuestions = (questions: Question[]): Content[] => {
 /**
  * Download test as pdf
  */
-export const downloadTestAsPDF = async (test: Test, timeToTest: number) => {
-  const pdfMake = await pdfMakeLazyLoader();
+export const downloadTestAsPDF = async (test: Test, timeToTest: number, language: Language) => {
+
   const descriptionDefinition = getDescription(test.description);
   const questionsDefinition = getQuestions(test.questions);
   const testNameDefinition = getTestName(test);
@@ -98,6 +99,5 @@ export const downloadTestAsPDF = async (test: Test, timeToTest: number) => {
 
   };
 
-  const pdf = pdfMake.createPdf(docDefinition);
-  pdf.download(`${test.name}.pdf`);
+  await LazyLoader.getPdfDownloader().createPdf(docDefinition, language, `${test.name}.pdf`);
 };
