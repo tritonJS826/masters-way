@@ -1,6 +1,20 @@
 {
   "short_name": "Master's way",
   "name": "Your Map to Success",
+  "description": "Create tests and generate trainings based on the results obtained using AI",
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "orientation": "natural",
+  "categories": [
+    "education",
+    "games",
+    "productivity"
+  ],
+  "dir": "ltr",
+  "lang": "en",
+  "prefer_related_applications": false,
+  "scope": "/",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +32,7 @@
       "sizes": "512x512"
     }
   ],
-  "screenshots" : [
+  "screenshots": [
     {
       "src": "logo512x512.png",
       "sizes": "512x512",
@@ -37,5 +51,6 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#282828",
-  "background_color": "#282828"
+  "background_color": "#282828",
+  "handle_links": "auto"
 }
