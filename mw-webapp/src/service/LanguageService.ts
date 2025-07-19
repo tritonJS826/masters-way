@@ -8,6 +8,7 @@ import errorContent from "src/dictionary/ErrorContent.json";
 import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import businessLanding from "src/dictionary/landing/BusinessLandingContent.json";
+import gameLanding from "src/dictionary/landing/GameLandingContent.json";
 import loremLanding from "src/dictionary/landing/LoremLandingContent.json";
 import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
@@ -223,6 +224,13 @@ export class LanguageService {
    */
   public static get testWithAiLanding() {
     return testWithAiLanding;
+  }
+
+  /**
+   * Game SOL landing content
+   */
+  public static get gameLanding() {
+    return gameLanding;
   }
 
   /**
