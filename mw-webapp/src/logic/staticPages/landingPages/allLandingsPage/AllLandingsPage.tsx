@@ -52,6 +52,9 @@ export const LandingsPage = observer(() => {
         <Link path={pages.landingUserFlowWithAI.getPath({})}>
           Landing page for user flow with AI
         </Link>
+        <Link path={pages.landingGame.getPath({})}>
+          Landing page for game SOL
+        </Link>
         <Link path={pages.landingLorem.getPath({})}>
           Landing page for lorem with AI
         </Link>

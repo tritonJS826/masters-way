@@ -255,6 +255,14 @@ const UserFlowWithAILandingPage = () => (<>
   <UserFlowWithAILandingPageLazy />
 </>);
 
+const GameLandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/gameLandingPage/GameLandingPage"
+)
+  .then((module) => ({default: module.GameLandingPage})));
+const GameLandingPage = () => (<>
+  <GameLandingPageLazy />
+</>);
+
 const LoremLandingPageLazy = React.lazy(() => import(
   "src/logic/staticPages/landingPages/landings/loremLandingPage/LoremLandingPage"
 )
@@ -412,6 +420,12 @@ export const pages = {
     getPath: () => "/land/userFlowWithAI",
     // TODO
     getPageComponent: () => suspended(<UserFlowWithAILandingPage />),
+    urlParams: {},
+  } as PageParams,
+  landingGame: {
+    getPath: () => "/land/game",
+    // TODO
+    getPageComponent: () => suspended(<GameLandingPage />),
     urlParams: {},
   } as PageParams,
   landingLorem: {

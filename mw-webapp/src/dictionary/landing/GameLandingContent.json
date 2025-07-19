@@ -1,0 +1,393 @@
+{
+  "navigation": {
+    "video": {
+      "ru": "С чего начать?",
+      "en": "What to start with?",
+      "ua": "З чого почати?"
+    },
+    "advantages": {
+      "ru": "Преимущества",
+      "en": "Advantages",
+      "ua": "Переваги"
+    },
+    "solutions": {
+      "ru": "Решения",
+      "en": "Solutions",
+      "ua": "Рішення"
+    },
+    "reviews": {
+      "ru": "Отзывы",
+      "en": "Reviews",
+      "ua": "Відгуки"
+    },
+    "pricing": {
+      "ru": "Тарифы",
+      "en": "Pricing",
+      "ua": "Тарифи"
+    },
+    "questions": {
+      "ru": "Вопросы",
+      "en": "Questions",
+      "ua": "Питання"
+    }
+  },
+  "callToActionButton": {
+    "ru": "Попробовать бесплатно",
+    "en": "Try for free",
+    "ua": "Спробувати безкоштовно"
+  },
+  "main": {
+    "title": {
+      "ru": "Проверь себя, сыграй в игру!",
+      "en": "Test yourself, play a game!",
+      "ua": "Перевір себе, зіграй у гру!"
+    },
+    "grow": {
+      "ru": "",
+      "en": "",
+      "ua": ""
+    },
+    "description": {
+      "ru": "Улучшай свои навыки, играя и соревнуясь с друзьями, товарищами или коллегами",
+      "en": "Improve your skills by playing and competing with friends, teammates or colleagues",
+      "ua": "Поліпшуй свої навички, граючи та змагаючись з друзями, товаришами чи колегами"
+    },
+    "backgroundImageAlt": {
+      "ru": "Пример пути",
+      "en": "Way's example",
+      "ua": "Приклад шляху"
+    }
+  },
+  "videoBlock": {
+    "title": {
+      "ru": "Как проверить себя, играя?",
+      "en": "How to test yourself while playing?",
+      "ua": "Як перевірити себе, граючи?"
+    },
+    "description": {
+      "ru": "Посмотри 1-минутное видео, как начать игру на проверку знаний",
+      "en": "Watch the 1-minute video on how to start a knowledge test game",
+      "ua": "Подивися 1-хвилинне відео, як розпочати гру на перевірку знань"
+    },
+    "videoPath": {
+      "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
+      "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+      "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
+    },
+    "callToActionButton": {
+      "ru": "Начать сейчас",
+      "en": "Start now",
+      "ua": "Почати зараз"
+    }
+  },
+  "advantages": {
+    "title": {
+      "ru": "Преимущества тестирования в игре",
+      "en": "Benefits of in-game testing",
+      "ua": "Переваги тестування у грі"
+    },
+    "saveTime": {
+      "title": {
+        "ru": "Обучение во время отдыха",
+        "en": "Study while on vacation",
+        "ua": "Навчання під час відпочинку"
+      },
+      "description": {
+        "ru": "Игровые тесты позволяют продолжить обучение во время перерыва. Просто играй, а знания будут закрепляться автоматически.",
+        "en": "Game tests allow you to continue learning during a break. Just play, and the knowledge will be consolidated automatically.",
+        "ua": "Ігрові тести дозволяють продовжити навчання під час перерви. Просто грай, а знання закріплюватимуться автоматично."
+      }
+    },
+    "noStress": {
+      "title": {
+        "ru": "Обучение без стресса",
+        "en": "Stress-free learning",
+        "ua": "Навчання без стресу"
+      },
+      "description": {
+        "ru": "На платформе тесты превращаются в увлекательную игру, где нет страха на ошибку. Проходи уровни, получай знания, развивай навыки!",
+        "en": "On the platform, tests turn into an exciting game where there is no fear of making a mistake. Complete levels, gain knowledge, develop skills!",
+        "ua": "На платформі тести перетворюються на захоплюючу гру, де немає страху на помилку. Проходь рівні, отримуй знання, розвивай навички!"
+      }
+    },
+    "multiplayer": {
+      "title": {
+        "ru": "Мультиплеерное обучение",
+        "en": "Multiplayer training",
+        "ua": "Мультиплеєрне навчання"
+      },
+      "description": {
+        "ru": "Учиться вместе гораздо интереснее! Сражайся в игровых баттлах, обменивайся опытом и закрепляй новый материал.",
+        "en": "Learning together is much more interesting! Fight in game battles, exchange experiences and consolidate new material.",
+        "ua": "Вчитися разом набагато цікавіше! Змагайся в ігрових баттлах, обмінюйся досвідом та закріплюй новий матеріал."
+      }
+    }
+  },
+  "amountBlock": {
+    "title": {
+      "ru": "Для кого подходит AI-тестирование?",
+      "en": "Who is AI testing suitable for?",
+      "ua": "Для кого підходить тестування AI?"
+    },
+    "trainings": {
+      "ru": "Уникальных игровых тестов",
+      "en": "Unique game tests",
+      "ua": "Унікальних ігрових тестів"
+    },
+    "activeStudents": {
+      "ru": "Активных пользователей на пути к целям",
+      "en": "Active users on the way to goals",
+      "ua": "Aктивних користувачів на шляху до цілей"
+    },
+    "mentors": {
+      "ru": "Менторов, сопровождающих обучение",
+      "en": "Mentors supporting the training",
+      "ua": "Наставників, які супроводжують навчання"
+    }
+  },
+  "solutions": {
+    "title": {
+      "ru": "Мы решаем проблемы обучения",
+      "en": "We solve learning problems",
+      "ua": "Ми вирішуємо проблеми навчання"
+    },
+    "description": {
+      "ru": "Посмотри, как и какие проблемы помогает решить Master's Way",
+      "en": "See how and what problems Master's Way helps to solve",
+      "ua": "Подивися, як і які проблеми допомагає вирішити Master's Way"
+    },
+    "motivation": {
+      "title": {
+        "ru": "Пропала мотивация продолжать обучение?",
+        "en": "Lost motivation to continue learning?",
+        "ua": "Зникла мотивація продовжувати навчання?"
+      },
+      "description": {
+        "ru": "Новый материал кажется скучным и сложным? Это нормально. Master's Way вернет твой интерес к знаниям! Ведь мы превращаем обучение в захватывающее приключение  незаметно закрепляя материал, пока ты просто наслаждаешься игрой.",
+        "en": "Does the new material seem boring and difficult? That's okay. Master's Way will bring back your interest in knowledge! After all, we turn learning into an exciting adventure and seamlessly reinforce the material while you simply enjoy the game.",
+        "ua": "Новий матеріал здається нудним та складним? Це нормально. Master's Way поверне твій інтерес до знань! Адже ми перетворюємо навчання на захоплюючу пригоду непомітно закріплює матеріал, поки ти просто насолоджуєшся грою."
+      },
+      "callToActionButton": {
+        "ru": "Начать игру",
+        "en": "Start game",
+        "ua": "Почати гру"
+      }
+    },
+    "relax": {
+      "title": {
+        "ru": "Устал от постоянного обучения?",
+        "en": "Tired of constant learning?",
+        "ua": "Втомився від постійного навчання?"
+      },
+      "description": {
+        "ru": "Пора отдохнуть и разгрузить голову! Master's Way поможет тебе отвлечься, при этом соберет данные о твоем прогрессе и слабых местах, пока ты просто играешь.",
+        "en": "It's time to relax and clear your head! Master's Way will help you get distracted, while collecting data on your progress and weak points while you're just playing.",
+        "ua": "Настав час відпочити і розвантажити голову! Master's Way допоможе тобі відволіктися, при цьому збере дані про твій прогрес і слабкі місця, поки ти просто граєш."
+      },
+      "callToActionButton": {
+        "ru": "Начать игру",
+        "en": "Start game",
+        "ua": "Почати гру"
+      }
+    },
+    "multiplayer": {
+      "title": {
+        "ru": "Хочешь больше проводить время с друзьями?",
+        "en": "Do you want to spend more time with your friends?",
+        "ua": "Хочеш більше проводити час із друзями?"
+      },
+      "description": {
+        "ru": "Не перживай! На платформе Master's Way ты можешь проходить тесты с друзьями или коллегами, превращая учебу в весёлое соревнование! Это идеальный способ закрепить материал, проверить свои силы и при этом отлично провести время в компании!",
+        "en": "Don't worry! On the Master's Way platform, you can take tests with friends or colleagues, turning your studies into a fun competition! This is the perfect way to consolidate the material, test your strength, and have a great time in company!",
+        "ua": "Чи не переживай! На платформі Master's Way ти можеш проходити тести з друзями чи колегами, перетворюючи навчання на веселе змагання! Це ідеальний спосіб закріпити матеріал, перевірити свої сили і при цьому чудово провести час у компанії!"
+      },
+      "callToActionButton": {
+        "ru": "Начать игру",
+        "en": "Start game",
+        "ua": "Почати гру"
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Что говорят наши пользователи",
+      "en": "What our users say",
+      "ua": "Що кажуть наші користувачі"
+    },
+    "kirillReview": {
+      "review": {
+        "ru": "Я не верила, но это действительно работает! Раньше постоянно тратила часы на поиск подходящих тестов, часто вопросы повторялись и были нерелевантными моему запросу. На платформе Master's Way смогла описать узкую проблемную зону и определить свои пробелы в знаниях.",
+        "en": " didn't believe it, but it really works! Previously, I spent hours searching for suitable tests, often the questions were repeated and were irrelevant to my request. On the Master's Way platform, I was able to describe a narrow problem area and identify my knowledge gaps.",
+        "ua": "Я не вірила, але це справді працює! Раніше постійно витрачала годинник на пошук відповідних тестів, часто питання повторювалися і були нерелевантними до мого запиту. На платформі Master's Way змогла описати вузьку проблемну зону та визначити свої прогалини у знаннях."
+      },
+      "mentorName": {
+        "ru": "Ольга",
+        "en": "Olga",
+        "ua": "Ольга"
+      },
+      "mentorProfession": {
+        "ru": "студентка",
+        "en": "student",
+        "ua": "студентка"
+      }
+    },
+    "viktarReview": {
+      "review": {
+        "ru": "Я постоянно ищу новые способы отслеживать прогресс своих учеников. Раньше всегда создавал тесты самостоятельно под каждого, на что уходило очень много времени. Платформа Master's Way позволила автоматизировать этот процесс.",
+        "en": "I am constantly looking for new ways to track my students' progress. Previously, I always created tests for each student myself, which took a lot of time. The Master's Way platform allowed me to automate this process.",
+        "ua": "Я постійно шукаю нових способів відстежувати прогрес своїх учнів. Раніше завжди створював тести самостійно під кожного, на що витрачалося дуже багато часу. Платформа Master's Way дозволила автоматизувати цей процес."
+      },
+      "mentorName": {
+        "ru": "Алексей",
+        "en": "Alexey",
+        "ua": "Олексій"
+      },
+      "mentorProfession": {
+        "ru": "преподаватель React, TS",
+        "en": "teacher React, TS",
+        "ua": "викладач React, TS"
+      }
+    },
+    "viktoryiaReview": {
+      "review": {
+        "ru": "Несколько месяцев искала свою первую работу в IT. Сильно переживала и на этапе интервью не получалось грамотно и точно отвечать на вопросы. На платформе Master's Way проходила тесты с запросом на имитацию интервью, что помогло мне избавиться от страха и уже через неделю я получила приглашение на работу!",
+        "en": "I spent several months looking for my first job in IT. I was very worried and at the interview stage I couldn't answer questions correctly and accurately. On the Master's Way platform I took tests with a request to simulate an interview, which helped me get rid of my fear, and a week later I received a job offer!",
+        "ua": "Декілька місяців шукала свою першу роботу в IT. Сильно переживала і на етапі інтерв'ю не виходило грамотно і відповідати на запитання. На платформі Master's Way проходила тести із запитом на імітацію інтерв'ю, що допомогло мені позбутися  страху і вже через тиждень я отримала запрошення на роботу!"
+      },
+      "mentorName": {
+        "ru": "Мария",
+        "en": "Maria",
+        "ua": "Марія"
+      },
+      "mentorProfession": {
+        "ru": "junior back-end разработчик",
+        "en": "junior back-end developer",
+        "ua": "junior back-end розробник"
+      }
+    }
+  },
+  "pricing": {
+    "title": {
+      "ru": "Ознакомьтесь с нашими тарифами",
+      "en": "Check out our rates",
+      "ua": "Ознайомтеся з нашими тарифами"
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Часто задаваемые вопросы",
+      "en": "Frequently Asked Questions",
+      "ua": "Часті питання"
+    },
+    "accordion": [
+      {
+        "id": 0,
+        "question": {
+          "ru": "Сколько стоит Master's Way?",
+          "en": "How much does Master's Way cost?",
+          "ua": "Скільки коштує Master's Way?"
+        },
+        "answer": {
+          "ru": "Master's Way предлагает различные тарифные планы для удовлетворения различных потребностей. Посетите наш веб-сайт, чтобы получить подробную информацию о ценах и найти план, который подходит именно вам.",
+          "en": "Master's Way offers various pricing plans to suit different needs. Visit our website for detailed pricing information and to find the plan that's right for you.",
+          "ua": "Master's Way пропонує різні тарифні плани відповідно до різних потреб. Відвідайте наш веб-сайт, щоб отримати детальну інформацію про ціни та знайти план, який підходить саме вам."
+        }
+      },
+      {
+        "id": 1,
+        "question": {
+          "ru": "Могу ли я попробовать Master's Way, прежде чем совершить сделку?",
+          "en": "Can I try Master's Way before I commit?",
+          "ua": "Чи можу я спробувати Master's Way, перш ніж взяти на себе зобов'язання?"
+        },
+        "answer": {
+          "ru": "Да, мы предлагаем бесплатный план, чтобы вы могли лично ощутить преимущества Master's Way. Подпишитесь на бесплатный план на нашем веб-сайте, чтобы изучить платформу и посмотреть, как она может изменить ваш опыт наставничества.",
+          "en": "Yes, we offer a free plan so you can experience the benefits of Master's Way firsthand. Sign up for a free plan on our website to explore the platform and see how it can transform your mentoring experience.",
+          "ua": "Так, ми пропонуємо безкоштовний план, щоб ви могли на власні очі відчути переваги Master's Way. Підпишіться на безкоштовний план на нашому веб-сайті, щоб дослідити платформу та побачити, як вона може змінити ваш досвід наставництва."
+        }
+      },
+      {
+        "id": 2,
+        "question": {
+          "ru": "Как начать работу с приложением?",
+          "en": "How do I get started with Master's Way?",
+          "ua": "Як розпочати роботу з додатком?"
+        },
+        "answer": {
+          "ru": "Это просто! Просто посетите наш сайт и создайте учетную запись. Мы предоставляем комплексные инструкции и поддержку, которые помогут вам ориентироваться на платформе и начать эффективно использовать Master's Way.",
+          "en": "It's easy to get started! Simply visit our website and create an account. We provide comprehensive tutorials and support to help you navigate the platform and start using Master's Way effectively.",
+          "ua": "Почати легко! Просто відвідайте наш сайт та створіть обліковий запис. Ми надаємо комплексні інструкції та підтримку, які допоможуть вам орієнтуватися на платформі та почати ефективно використовувати Master's Way."
+        }
+      },
+      {
+        "id": 3,
+        "question": {
+          "ru": "Что такое асинхронное обучение и какую пользу оно принесет мне как ментору?",
+          "en": "What is asynchronous learning, and how does it benefit me as a mentor?",
+          "ua": "Що таке асинхронне навчання і яку користь воно принесе мені як ментору?"
+        },
+        "answer": {
+          "ru": "Асинхронное обучение позволяет вам взаимодействовать со своими учениками вне встреч в режиме реального времени. Это означает, что вы можете оставлять отзывы, проводить уроки и отслеживать прогресс в удобное для вас время, освобождая свое время и позволяя работать со студентами в разных часовых поясах.",
+          "en": "Asynchronous learning allows you to interact with your students outside of real-time meetings. This means you can provide feedback, deliver lessons, and track progress at your convenience, freeing up your time and allowing you to work with students across different time zones.",
+          "ua": "Асинхронне навчання дозволяє вам спілкуватися зі своїми учнями поза межами зустрічей у реальному часі. Це означає, що ви можете надавати відгуки, проводити уроки та відстежувати прогрес у зручний для вас час, звільняючи час і дозволяючи вам працювати зі студентами в різних часових поясах."
+        }
+      },
+      {
+        "id": 4,
+        "question": {
+          "ru": "Как Master's Way помогает мне отслеживать прогресс учащихся?",
+          "en": "How does Master's Way help me track student progress?",
+          "ua": "Як Master's Way допомагає мені відстежувати прогрес студента?"
+        },
+        "answer": {
+          "ru": "Master's Way предоставляет подробные отчеты о деятельности учащихся, включая время, потраченное на уроки, выполненные тесты и сданные задания. Эти данные помогут вам определить области, где учащимся нужна дополнительная поддержка, и отметить их достижения.",
+          "en": "Master's Way provides detailed reports on student activity, including time spent on lessons, tests completed, and assignments submitted. This data helps you identify areas where students need extra support and celebrate their achievements.",
+          "ua": "Master's Way надає докладні звіти про діяльність студентів, включаючи час, витрачений на уроки, виконані тести та подані завдання. Ці дані допомагають визначити сфери, де студентам потрібна додаткова підтримка, і відзначити їхні досягнення."
+        }
+      },
+      {
+        "id": 5,
+        "question": {
+          "ru": "Могу ли я адаптировать свой подход к наставничеству с помощью Master's Way?",
+          "en": "Can I customize my mentoring approach with Master's Way?",
+          "ua": "Чи можу я налаштувати свій наставницький підхід за допомогою Master's Way?"
+        },
+        "answer": {
+          "ru": "Абсолютно! Master's Way предлагает гибкую платформу, которая позволяет вам адаптировать свой стиль наставничества. Вы можете создавать индивидуальные уроки, ставить цели и предоставлять персонализированную обратную связь для удовлетворения уникальных потребностей каждого учащегося.",
+          "en": "Absolutely! Master's Way offers a flexible platform that allows you to tailor your mentoring style. You can create custom lessons, set goals, and provide personalized feedback to meet the unique needs of each student.",
+          "ua": "Абсолютно! Master's Way пропонує гнучку платформу, яка дозволяє вам адаптувати свій стиль наставництва. Ви можете створювати спеціальні уроки, встановлювати цілі та надавати індивідуальні відгуки, щоб задовольнити унікальні потреби кожного учня."
+        }
+      },
+      {
+        "id": 6,
+        "question": {
+          "ru": "Как Master's Way помогает мне управлять несколькими студентами?",
+          "en": "How does Master's Way help me manage multiple students?",
+          "ua": "Як Master's Way допомагає мені керувати кількома студентами?"
+        },
+        "answer": {
+          "ru": "Master's Way позволяет легко управлять несколькими студентами благодаря интуитивно понятному интерфейсу и организованной панели управления. Вы можете отслеживать прогресс, общаться с учащимися и эффективно предоставлять обратную связь даже в большой группе.",
+          "en": "Master's Way makes it easy to manage multiple students with its intuitive interface and organized dashboard. You can track progress, communicate with students, and provide feedback efficiently, even with a large group.",
+          "ua": "Master's Way дозволяє легко керувати кількома студентами завдяки інтуїтивно зрозумілому інтерфейсу та організованій інформаційній панелі. Ви можете відстежувати прогрес, спілкуватися зі студентами та ефективно надавати зворотній зв’язок навіть у великій групі."
+        }
+      }
+    ]
+  },
+  "aboutApp": {
+    "title": {
+      "ru": "Готовы оптимизировать свое обучение с помощью AI в Masters Way?",
+      "en": "Ready to optimize your learning with AI using Masters Way?",
+      "ua": "Готові оптимізувати своє навчання за допомогою AI з Masters Way?"
+    },
+    "tryOurApp": {
+      "ru": "Попробуйте наше веб-приложение бесплатно и узнайте, как AI может улучшить ваш процесс обучения, ускорить достижения и сделать его более персонализированным. Мы предлагаем инновационный подход к самообучению.",
+      "en": "Try our web app for free and see how AI can enhance your learning process, accelerate your progress, and make it more personalized. We offer an innovative approach to self-directed learning.",
+      "ua": "Спробуйте наш веб-додаток безкоштовно і дізнайтеся, як AI може покращити ваш процес навчання, прискорити досягнення та зробити його більш персоналізованим. Ми пропонуємо інноваційний підхід до самостійного навчання."
+    },
+    "ourAppIs": {
+      "ru": "Наша платформа использует AI для персонализированного обучения, позволяя вам контролировать свой прогресс, получать детализированные отчеты и оптимизировать процесс обучения. Доступная по цене, она подходит для самостоятельного обучения, предлагает интеграцию с GitHub и помогает вам достигать лучших результатов благодаря интеллектуальному анализу данных и рекомендациям.",
+      "en": "Our platform uses AI for personalized learning, allowing you to control your progress, receive detailed reports, and optimize your learning process. Affordable and designed for self-directed learning, it offers GitHub integration and helps you achieve better results through intelligent data analysis and recommendations.",
+      "ua": "Наша платформа використовує AI для персоналізованого навчання, дозволяючи вам контролювати свій прогрес, отримувати детальні звіти та оптимізувати процес навчання. Доступна за ціною та призначена для самостійного навчання, вона пропонує інтеграцію з GitHub і допомагає досягати кращих результатів завдяки інтелектуальному аналізу даних та рекомендаціям."
+    }
+  }
+}
