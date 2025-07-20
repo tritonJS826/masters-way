@@ -66,6 +66,18 @@ export interface MwGeneralBffInternalSchemasQuestionResult {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasQuestionResult
      */
+    userImageUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasQuestionResult
+     */
+    userName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasQuestionResult
+     */
     userUuid: string;
     /**
      * 
@@ -89,6 +101,8 @@ export function instanceOfMwGeneralBffInternalSchemasQuestionResult(
     isInstance = isInstance && "questionUuid" in value;
     isInstance = isInstance && "resultDescription" in value;
     isInstance = isInstance && "userAnswer" in value;
+    isInstance = isInstance && "userImageUrl" in value;
+    isInstance = isInstance && "userName" in value;
     isInstance = isInstance && "userUuid" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -115,6 +129,8 @@ export function MwGeneralBffInternalSchemasQuestionResultFromJSONTyped(
         'questionUuid': json['questionUuid'],
         'resultDescription': json['resultDescription'],
         'userAnswer': json['userAnswer'],
+        'userImageUrl': json['userImageUrl'],
+        'userName': json['userName'],
         'userUuid': json['userUuid'],
         'uuid': json['uuid'],
     };
@@ -137,6 +153,8 @@ export function MwGeneralBffInternalSchemasQuestionResultToJSON(value?: MwGenera
         'questionUuid': value.questionUuid,
         'resultDescription': value.resultDescription,
         'userAnswer': value.userAnswer,
+        'userImageUrl': value.userImageUrl,
+        'userName': value.userName,
         'userUuid': value.userUuid,
         'uuid': value.uuid,
     };

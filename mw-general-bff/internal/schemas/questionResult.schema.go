@@ -4,6 +4,8 @@ type QuestionResult struct {
 	UUID                string `json:"uuid" validate:"required"`
 	QuestionUUID        string `json:"questionUuid" validate:"required"`
 	UserUUID            string `json:"userUuid" validate:"required"`
+	UserName            string `json:"userName" validate:"required"`
+	UserImageUrl        string `json:"userImageUrl" validate:"required"`
 	IsOk                bool   `json:"isOk" validate:"required"`
 	ResultDescription   string `json:"resultDescription" validate:"required"`
 	QuestionName        string `json:"questionName" validate:"required"`

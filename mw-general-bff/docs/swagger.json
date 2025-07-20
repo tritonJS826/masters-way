@@ -4792,6 +4792,8 @@
                 "questionUuid",
                 "resultDescription",
                 "userAnswer",
+                "userImageUrl",
+                "userName",
                 "userUuid",
                 "uuid"
             ],
@@ -4815,6 +4817,12 @@
                     "type": "string"
                 },
                 "userAnswer": {
+                    "type": "string"
+                },
+                "userImageUrl": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 },
                 "userUuid": {

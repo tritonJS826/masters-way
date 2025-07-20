@@ -4800,6 +4800,8 @@ const docTemplate = `{
                 "questionUuid",
                 "resultDescription",
                 "userAnswer",
+                "userImageUrl",
+                "userName",
                 "userUuid",
                 "uuid"
             ],
@@ -4823,6 +4825,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userAnswer": {
+                    "type": "string"
+                },
+                "userImageUrl": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 },
                 "userUuid": {

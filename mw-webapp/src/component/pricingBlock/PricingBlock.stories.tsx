@@ -15,6 +15,7 @@ const mockPricePlans: PricePlanType[] = [
       trackProgress: null,
       chat: null,
       notifications: null,
+      masterCoins: 50,
     },
     buttonValue: "start",
   },
@@ -32,6 +33,8 @@ const mockPricePlans: PricePlanType[] = [
       notifications: null,
       aiSupport: null,
       mobileSupport: null,
+      masterCoins: 1500,
+
     },
     buttonValue: "grow",
   },
@@ -52,6 +55,8 @@ const mockPricePlans: PricePlanType[] = [
       prioritySupport: null,
       featureRequest: null,
       onboarding: null,
+      masterCoins: 2000,
+
     },
     buttonValue: "scale",
   },
@@ -68,6 +73,7 @@ const singlePlan: PricePlanType[] = [
       mentorSupport: 1,
       ownTrainings: null,
       trackProgress: null,
+      masterCoins: 4000,
     },
     buttonValue: "start",
   },

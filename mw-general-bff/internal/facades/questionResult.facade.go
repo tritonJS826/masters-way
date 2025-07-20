@@ -63,6 +63,11 @@ func (gs *QuestionResultFacade) CreateAndCheckQuestionResult(ctx context.Context
 		SessionUuid:         payload.TestSessionUUID,
 	})
 
+	user, err := gs.generalService.GetUserByIds(ctx, []string{userId})
+	if err != nil {
+		return nil, err
+	}
+
 	return &schemas.QuestionResult{
 		UUID:                questionResult.Uuid,
 		UserUUID:            questionResult.UserUuid,
@@ -72,6 +77,8 @@ func (gs *QuestionResultFacade) CreateAndCheckQuestionResult(ctx context.Context
 		QuestionDescription: questionResult.QuestionDescription,
 		UserAnswer:          questionResult.UserAnswer,
 		QuestionAnswer:      questionResult.QuestionAnswer,
+		UserName:            user[0].Name,
+		UserImageUrl:        user[0].ImageURL,
 		QuestionUUID:        questionResult.QuestionUuid,
 	}, nil
 }
