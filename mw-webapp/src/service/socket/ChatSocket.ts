@@ -9,11 +9,14 @@ import {
   makeChatConnectionClosedEvent,
   makeChatConnectionEstablishedEvent,
   makeChatMessageReceivedEvent,
+  makeChatMetaInfoReceivedEvent,
   makeChatRefreshTokenRequiredEvent,
   makeChatRoomCreatedEvent,
 } from "src/eventBus/events/chat/ChatEvents";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {tokenStore} from "src/globalStore/TokenStore";
+import {chatStore} from "src/logic/chat/ChatStore";
+import {ChatService} from "src/service/ChatService";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {
   BASE_RECONNECT_INTERVAL,
@@ -22,12 +25,13 @@ import {
 } from "src/service/socket/SocketConfig";
 import {env} from "src/utils/env/env";
 
+const {setUnreadMessagesAmount} = chatStore;
 let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
 
 /**
  * Connect to mw-chat-websocket
  */
-export const connectChatSocket = () => {
+export const connectChatSocket = (isReconnect = false) => {
   const socket = new WebSocket(
     env.API_MW_CHAT_WEBSOCKET_PATH +
       `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
@@ -36,9 +40,21 @@ export const connectChatSocket = () => {
   /**
    * Handler triggered on connection open
    */
-  socket.onopen = () => {
+  socket.onopen = async () => {
     emitEvent(makeChatConnectionEstablishedEvent({}));
     currentReconnectInterval = BASE_RECONNECT_INTERVAL;
+
+    if (isReconnect) {
+      const metaInfo = await ChatService.getChatPreview();
+      emitEvent(makeChatMetaInfoReceivedEvent(metaInfo));
+
+      if (chatStore.activeRoomStore?.activeRoom) {
+        const roomId = chatStore.activeRoomStore.activeRoom.roomId;
+        chatStore.initiateActiveRoomStore(roomId);
+      } else {
+        setUnreadMessagesAmount(metaInfo.unreadMessagesAmount);
+      }
+    }
   };
 
   /**
@@ -51,7 +67,7 @@ export const connectChatSocket = () => {
 
     emitEvent(makeChatConnectionClosedEvent({}));
 
-    setTimeout(connectChatSocket, currentReconnectInterval);
+    setTimeout(() => connectChatSocket(true), currentReconnectInterval);
 
     currentReconnectInterval = Math.min(currentReconnectInterval * MULTIPLICAND, MAX_RECONNECT_INTERVAL);
   };

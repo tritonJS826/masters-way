@@ -89,6 +89,13 @@ class ChatStore {
   };
 
   /**
+   * Set the number of unread messages
+   */
+  public setUnreadMessagesAmount = (count: number) => {
+    this.unreadMessagesAmount = count;
+  };
+
+  /**
    * Increment unread messages counter
    */
   public incrementUnreadMessagesCounters = (roomId: string) => {
