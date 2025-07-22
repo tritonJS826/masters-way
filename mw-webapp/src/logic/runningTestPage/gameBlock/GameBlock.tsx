@@ -1,8 +1,7 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {Unity, useUnityContext} from "react-unity-webgl";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
 import {Loader} from "src/component/loader/Loader";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -83,8 +82,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
   const {theme} = themeStore;
   const {user, isLoading} = userStore;
 
-  const [isUnityDownloaded, setIsUnityDownloaded] = useState<boolean>(false);
-
   const runningGameStore = useStore<
   new (testUuid: string) => RunningGameStore,
   [string, string], RunningGameStore>({
@@ -129,21 +126,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
       userUuid: props.userUuid,
       language,
     });
-    // TODO: remove it after test
-    // Probably we should do it after receiving event from sol websocket
-    // Event listener already added
-    // just remove next line after adding multiplayer mode
-    // .then((answer) => ReactToUnity.sendUserAnswerHandledByServer(sendMessage)({
-    //   isOk: answer.isOk,
-    //   questionAnswer: answer.questionAnswer,
-    //   questionDescription: answer.questionDescription,
-    //   questionName: answer.questionName,
-    //   questionUuid: answer.questionUuid,
-    //   resultDescription: answer.resultDescription,
-    //   userAnswer: answer.userAnswer,
-    //   userUuid: answer.userUuid,
-    //   uuid: answer.uuid,
-    // }));
   };
 
   /**
@@ -155,8 +137,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
       return;
     }
 
-    setIsUnityDownloaded(true);
-
     TestWebsocketDAL.SendUserJoinedSessionEvent({
       sessionUuid: props.sessionUuid,
       userUuid: user.uuid,
@@ -167,6 +147,11 @@ export const GameBlock = observer((props: GameBlockProps) => {
         userHostUuid: currentSessionState.userHostUuid,
       }));
     });
+
+    // TODO: POTENTIAL BUG:We should wait until questions will be loaded
+    // but for now it is much more faster then unity loading
+    const questionsUnityList = runningGameStore.test.questions.map(questionToQuestionUnity);
+    ReactToUnity.sendQuestionListReceived(sendMessage)({questions: questionsUnityList});
   };
 
   /**
@@ -242,27 +227,13 @@ export const GameBlock = observer((props: GameBlockProps) => {
     throw new Error("User is not defined");
   }
 
-  /**
-   * Send questions to unity
-   */
-  const sendQuestionsToUnity = () => {
-    const questionsUnityList = runningGameStore.test.questions.map(questionToQuestionUnity);
-    ReactToUnity.sendQuestionListReceived(sendMessage)({questions: questionsUnityList});
-  };
-
   return (
     <VerticalContainer className={styles.gamePageWrapper}>
       <VerticalContainer className={styles.gameBlock}>
-        <Button
-          onClick={sendQuestionsToUnity}
-          value={(isUnityDownloaded && runningGameStore.isInitialized) ? "Let's go!!" : "Loading... (I should be in the unity)"}
-          isDisabled={!runningGameStore.isInitialized}
-          buttonType={ButtonType.PRIMARY}
-        />
-
         <Unity
           unityProvider={unityProvider}
-          style={{width: "100%"}}
+          style={{width: "100%", aspectRatio: "16/9"}}
+          matchWebGLToCanvasSize
         />
       </VerticalContainer>
 
