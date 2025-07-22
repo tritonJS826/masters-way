@@ -129,6 +129,19 @@ export const GameBlock = observer((props: GameBlockProps) => {
   };
 
   /**
+   * Handle event host started Game
+   */
+  const handleHostStartedGame = () => {
+    if (!user) {
+      return;
+    }
+    TestWebsocketDAL.sendHostStartedGameEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+    });
+  };
+
+  /**
    * Handle event game started
    * TODO: temporal thing - game should be started from unity
    */
@@ -180,6 +193,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
   // Set unity to react listeners
   useEffect(() => {
     addEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
+    addEventListener(UnityToReactEvents.HostStartedGame, handleHostStartedGame);
     addEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
     addEventListener(UnityToReactEvents.UserAnsweredQuestion, handleUserAnsweredQuestion);
     addEventListener(UnityToReactEvents.UserCapturedTarget, handleUserCapturedTarget);

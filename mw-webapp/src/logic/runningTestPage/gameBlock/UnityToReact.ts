@@ -3,6 +3,7 @@
  */
 export enum UnityToReactEvents {
   GameFinished = "GameFinished",
+  HostStartedGame = "HostStartedGame",
   GameStarted = "GameStarted",
   UserAnsweredQuestion = "UserAnsweredQuestion",
   UserCapturedTarget = "UserCapturedTarget"
