@@ -26,6 +26,28 @@
             "ua": "хвилин"
         }
     },
+    "downloadPDFModal": {
+        "title": {
+            "ru": "Скачать тест как PDF",
+            "en": "Download test as PDF",
+            "ua": "Завантажити тест як PDF"
+        },
+        "includeAnswers": {
+            "ru": "Включить ответы в PDF?",
+            "en": "Include answers in PDF?",
+            "ua": "Включити відповіді в PDF?"
+        },
+        "cancel": {
+            "ru": "Отмена",
+            "en": "Cancel",
+            "ua": "Скасувати"
+        },
+        "download": {
+            "ru": "Скачать",
+            "en": "Download",
+            "ua": "Завантажити"
+        }
+    },
     "buttons": {
         "saveAnswer": {
             "ru": "Сохранить ответ",
@@ -67,6 +89,7 @@
             "en": "See results",
             "ua": "Перегляньте результати"
         }
+
     },
     "aiButtons": {
         "generateTrainingWithAIButton": {

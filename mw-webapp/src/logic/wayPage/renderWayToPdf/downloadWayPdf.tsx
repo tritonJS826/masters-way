@@ -49,13 +49,10 @@ const getAllDayReports = async (way: Way): Promise<DayReport[]> => {
  */
 const getHeader = (way: Way): Content[] => {
   return [
-    {
-      text: `Way link: https://mastersway.netlify.app/way/${way.uuid}`,
-      margin: [MARGIN_SMALL, MARGIN_SMALL, 0, 0],
-    },
+    {text: `Way link: https://mastersway.netlify.app/way/${way.uuid}`},
     {
       text: `PDF Downloaded at: ${DateUtils.getShortISODateValue(new Date())}`,
-      margin: [MARGIN_SMALL, 0, 0, 0],
+      margin: [0, MARGIN_MEDIUM],
     },
   ];
 };
@@ -373,11 +370,11 @@ export const downloadWayPdf = async (way: Way, statisticsTriple: WayStatisticsTr
   const reportsDefinition = await getReports(way);
 
   const docDefinition: TDocumentDefinitions = {
-    header: headerDefinition,
     content: [
       titleDefinition,
-      datesDefinition,
       ownerDefinition,
+      datesDefinition,
+      headerDefinition,
       mentorsDefinition,
       formerMentorsDefinition,
       goalDefinition,

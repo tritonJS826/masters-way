@@ -76,47 +76,39 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
 
   return (
     <VerticalContainer className={styles.resultsContainer}>
-      <Link path={pages.lobbyTest.getPath({uuid: resultTestPageStore.sessionResult.testUuid})}>
+      <VerticalContainer className={styles.resultHeaderContainer}>
+        <Link path={pages.lobbyTest.getPath({uuid: resultTestPageStore.sessionResult.testUuid})}>
+          <Title
+            level={HeadingLevel.h2}
+            text={LanguageService.resultTest.buttons.returnToLobby[language]}
+            placeholder=""
+            classNameHeading={styles.headingLevelH2}
+          />
+        </Link>
         <Title
           level={HeadingLevel.h2}
-          text={LanguageService.resultTest.buttons.returnToLobby[language]}
+          text={LanguageService.resultTest.sessionTitle[language]}
           placeholder=""
           classNameHeading={styles.headingLevelH2}
         />
-      </Link>
-
-      <Title
-        level={HeadingLevel.h2}
-        text={LanguageService.resultTest.sessionTitle[language]}
-        placeholder=""
-        classNameHeading={styles.headingLevelH2}
-      />
-
-      <Text text={LanguageService.resultTest.percentageResult[language].replace("$rightAnswers", `${rightAnswersPercentages}`)} />
-      <Text text={resultTestPageStore.sessionResult.resultDescription} />
-
-      <HorizontalContainer className={styles.titleContainer}>
-        <Title
-          level={HeadingLevel.h2}
-          text={LanguageService.resultTest.resultTable.title[language]}
-          placeholder=""
-          classNameHeading={styles.headingLevelH2}
+        <Text text={LanguageService.resultTest.percentageResult[language]
+          .replace("$rightAnswers", `${rightAnswersPercentages}`)}
         />
-      </HorizontalContainer>
+        <Text text={resultTestPageStore.sessionResult.resultDescription} />
 
-      <HorizontalContainer>
+      </VerticalContainer>
+      <HorizontalContainer className={styles.buttons}>
         <Button
           value={LanguageService.resultTest.buttons.downloadAsPDF[language]}
+          buttonType={ButtonType.PRIMARY}
           onClick={() => downloadResultTestPdf(resultTestPageStore, language)}
         />
       </HorizontalContainer>
-
       <div className={styles.resultsContent}>
         <ScrollableBlock>
           <ResultsTableBlock questionResults={resultTestPageStore.questionResults} />
         </ScrollableBlock>
       </div>
-
       <HorizontalContainer className={styles.buttons}>
         {user &&
         <Button
