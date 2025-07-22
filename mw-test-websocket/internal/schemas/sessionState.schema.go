@@ -6,4 +6,5 @@ type UserInfo struct {
 
 type UserJoinedSessionEventResponse struct {
 	CurrentUsers []UserInfo `json:"currentUsers" validate:"required"`
+	UserHostUuid string     `json:"userHostUuid" validate:"required"`
 }

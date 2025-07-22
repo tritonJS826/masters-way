@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CurrentUsers** | [**[]MwTestWebsocketInternalSchemasUserInfo**](MwTestWebsocketInternalSchemasUserInfo.md) |  | 
+**UserHostUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
 
-`func NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse(currentUsers []MwTestWebsocketInternalSchemasUserInfo, ) *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse`
+`func NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse(currentUsers []MwTestWebsocketInternalSchemasUserInfo, userHostUuid string, ) *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse`
 
 NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse instantiates a new MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) SetCurrentUsers(v []MwTestWebsocketInternalSchemasUserInfo)`
 
 SetCurrentUsers sets CurrentUsers field to given value.
+
+
+### GetUserHostUuid
+
+`func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) GetUserHostUuid() string`
+
+GetUserHostUuid returns the UserHostUuid field if non-nil, zero value otherwise.
+
+### GetUserHostUuidOk
+
+`func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) GetUserHostUuidOk() (*string, bool)`
+
+GetUserHostUuidOk returns a tuple with the UserHostUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserHostUuid
+
+`func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) SetUserHostUuid(v string)`
+
+SetUserHostUuid sets UserHostUuid field to given value.
 
 
 

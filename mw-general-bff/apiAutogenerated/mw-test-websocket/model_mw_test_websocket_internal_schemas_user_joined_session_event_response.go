@@ -22,6 +22,7 @@ var _ MappedNullable = &MwTestWebsocketInternalSchemasUserJoinedSessionEventResp
 // MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse struct for MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
 type MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse struct {
 	CurrentUsers []MwTestWebsocketInternalSchemasUserInfo `json:"currentUsers"`
+	UserHostUuid string `json:"userHostUuid"`
 }
 
 type _MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
@@ -30,9 +31,10 @@ type _MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse MwTestWebsock
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse(currentUsers []MwTestWebsocketInternalSchemasUserInfo) *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse {
+func NewMwTestWebsocketInternalSchemasUserJoinedSessionEventResponse(currentUsers []MwTestWebsocketInternalSchemasUserInfo, userHostUuid string) *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse {
 	this := MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse{}
 	this.CurrentUsers = currentUsers
+	this.UserHostUuid = userHostUuid
 	return &this
 }
 
@@ -68,6 +70,30 @@ func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) SetCurren
 	o.CurrentUsers = v
 }
 
+// GetUserHostUuid returns the UserHostUuid field value
+func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) GetUserHostUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserHostUuid
+}
+
+// GetUserHostUuidOk returns a tuple with the UserHostUuid field value
+// and a boolean to check if the value has been set.
+func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) GetUserHostUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserHostUuid, true
+}
+
+// SetUserHostUuid sets field value
+func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) SetUserHostUuid(v string) {
+	o.UserHostUuid = v
+}
+
 func (o MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +105,7 @@ func (o MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) MarshalJSO
 func (o MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["currentUsers"] = o.CurrentUsers
+	toSerialize["userHostUuid"] = o.UserHostUuid
 	return toSerialize, nil
 }
 
@@ -88,6 +115,7 @@ func (o *MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse) Unmarshal
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"currentUsers",
+		"userHostUuid",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -32,6 +32,12 @@ export interface MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse {
      * @memberof MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
      */
     currentUsers: Array<MwTestWebsocketInternalSchemasUserInfo>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse
+     */
+    userHostUuid: string;
 }
 
 /**
@@ -42,6 +48,7 @@ export function instanceOfMwTestWebsocketInternalSchemasUserJoinedSessionEventRe
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "currentUsers" in value;
+    isInstance = isInstance && "userHostUuid" in value;
 
     return isInstance;
 }
@@ -60,6 +67,7 @@ export function MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseFrom
     return {
         
         'currentUsers': ((json['currentUsers'] as Array<any>).map(MwTestWebsocketInternalSchemasUserInfoFromJSON)),
+        'userHostUuid': json['userHostUuid'],
     };
 }
 
@@ -74,6 +82,7 @@ export function MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseToJS
     return {
         
         'currentUsers': ((value.currentUsers as Array<any>).map(MwTestWebsocketInternalSchemasUserInfoToJSON)),
+        'userHostUuid': value.userHostUuid,
     };
 }
 

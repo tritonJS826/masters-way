@@ -79,8 +79,11 @@ definitions:
         items:
           $ref: '#/definitions/mw-test-websocket_internal_schemas.UserInfo'
         type: array
+      userHostUuid:
+        type: string
     required:
     - currentUsers
+    - userHostUuid
     type: object
   mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
     properties:

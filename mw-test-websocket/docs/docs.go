@@ -387,7 +387,8 @@ const docTemplate = `{
         "mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse": {
             "type": "object",
             "required": [
-                "currentUsers"
+                "currentUsers",
+                "userHostUuid"
             ],
             "properties": {
                 "currentUsers": {
@@ -395,6 +396,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserInfo"
                     }
+                },
+                "userHostUuid": {
+                    "type": "string"
                 }
             }
         },

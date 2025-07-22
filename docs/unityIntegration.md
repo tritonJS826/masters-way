@@ -11,17 +11,19 @@
 
 
 ## React->Unity ()
-1. QuestionListReceived: {questions: []QuestionUnity{
-        answer: string,
-        name: string,
-        order: number,
-        questionText: string,
-        uuid: string,
-        <!-- seconds -->
-        timeToAnswer: number,
+1. QuestionListReceived: {
+        questions: []QuestionUnity{
+            answer: string,
+            name: string,
+            order: number,
+            questionText: string,
+            uuid: string,
+            <!-- seconds -->
+            timeToAnswer: number,
 }}
 2. SessionStateUpdated: {
-    selfUserUuid: string,
+    selfUserUuid: string, 
+    userHostUuid: string,
     currentUsers: {
         userUuid: string
     }[]

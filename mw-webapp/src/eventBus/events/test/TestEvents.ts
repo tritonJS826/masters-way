@@ -270,6 +270,11 @@ export type SessionStateUpdatedPayload = {
    * Self user uuid
    */
   selfUserUuid: string;
+
+  /**
+   * Host user uuid
+   */
+  userHostUuid: string;
 };
 
 /**

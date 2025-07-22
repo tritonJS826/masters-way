@@ -31,8 +31,9 @@ type UserInfo struct {
 
 type ConnectionsDetails struct {
 	// string is unique key for session
-	Connections map[string]*websocket.Conn
-	Users       map[string]*UserInfo
+	Connections  map[string]*websocket.Conn
+	Users        map[string]*UserInfo
+	UserHostUuid string
 }
 
 // key: session uuid
@@ -79,8 +80,9 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	session, exists := sessionPool[sessionUuid]
 	if !exists {
 		session = &ConnectionsDetails{
-			Connections: make(map[string]*websocket.Conn),
-			Users:       make(map[string]*UserInfo),
+			Connections:  make(map[string]*websocket.Conn),
+			Users:        make(map[string]*UserInfo),
+			UserHostUuid: userID,
 		}
 		sessionPool[sessionUuid] = session
 	}
@@ -131,6 +133,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 	}
 
 	var currentUsers []schemas.UserInfo
+	var userHostUuid string
 	mu.RLock()
 	session, exists := sessionPool[sessionUuid]
 	if exists {
@@ -140,6 +143,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 			utils.HandleErrorGin(ctx, err)
 		}
 
+		userHostUuid = session.UserHostUuid
 		currentUsers = lo.MapToSlice(session.Users, func(userUuid string, userInfo *UserInfo) schemas.UserInfo {
 			return schemas.UserInfo{
 				UserUuid: userInfo.UserUuid,
@@ -150,6 +154,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 
 	response := schemas.UserJoinedSessionEventResponse{
 		CurrentUsers: currentUsers,
+		UserHostUuid: userHostUuid,
 	}
 
 	ctx.JSON(http.StatusOK, response)

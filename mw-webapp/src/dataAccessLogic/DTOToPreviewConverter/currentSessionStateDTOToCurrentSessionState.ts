@@ -7,5 +7,8 @@ import {CurrentSessionState} from "src/model/businessModel/CurrentSessionState";
 export const currentSessionStateDTOToCurrentSessionState = (
   currentSessionStateDTO: MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse,
 ): CurrentSessionState => {
-  return new CurrentSessionState({currentUsers: currentSessionStateDTO.currentUsers});
+  return new CurrentSessionState({
+    currentUsers: currentSessionStateDTO.currentUsers,
+    userHostUuid: currentSessionStateDTO.userHostUuid,
+  });
 };

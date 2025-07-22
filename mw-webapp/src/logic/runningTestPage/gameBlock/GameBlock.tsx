@@ -161,12 +161,10 @@ export const GameBlock = observer((props: GameBlockProps) => {
       sessionUuid: props.sessionUuid,
       userUuid: user.uuid,
     }).then((currentSessionState) => {
-      // Let's exclude owner from the list
-      // probably we should send owner uuid also to the unity to provide consistent logic for all users
-
       emitEvent(makeSessionStateUpdatedEvent({
         currentUsers: currentSessionState.currentUsers,
         selfUserUuid: user.uuid,
+        userHostUuid: currentSessionState.userHostUuid,
       }));
     });
   };

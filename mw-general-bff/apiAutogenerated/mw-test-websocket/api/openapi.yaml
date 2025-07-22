@@ -255,6 +255,7 @@ components:
       type: object
     mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:
       example:
+        userHostUuid: userHostUuid
         currentUsers:
         - userUuid: userUuid
         - userUuid: userUuid
@@ -263,8 +264,11 @@ components:
           items:
             $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserInfo'
           type: array
+        userHostUuid:
+          type: string
       required:
       - currentUsers
+      - userHostUuid
       type: object
     mw-test-websocket_internal_schemas.UserReadyToStartPlayEventPayload:
       properties:
