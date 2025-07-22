@@ -3,9 +3,9 @@ import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {ResultsParams} from "src/logic/resultTestPage/ResultTestPageStore";
 import {QuestionResultProps} from "src/model/businessModel/QuestionResult";
-import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 import {DateUtils} from "src/utils/DateUtils";
 import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
+import {renderMarkdownToPDF} from "src/utils/markdown/renderMarkdownToPDF";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -58,7 +58,7 @@ const getQuestionsResults = (results: QuestionResultProps[]): Content[] => {
     {
       text: [
         {text: "Description: ", bold: true},
-        {text: convertAsterisksToOrderedList(result.questionDescription)},
+        {text: renderMarkdownToPDF(result.questionDescription)},
       ],
       margin: [0, MARGIN_SMALL],
     },

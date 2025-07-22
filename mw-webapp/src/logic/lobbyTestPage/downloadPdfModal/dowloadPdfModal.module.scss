@@ -1,0 +1,10 @@
+@import "src/styles/variables";
+
+.modalButtonsContainer {
+  justify-content: space-between;
+  margin: $marginMedium 0;
+}
+
+.modalCheckboxContainer {
+  margin: $marginMedium 0;
+}

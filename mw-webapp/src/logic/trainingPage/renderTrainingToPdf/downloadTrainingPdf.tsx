@@ -14,22 +14,6 @@ const MARGIN_MEDIUM = 10;
 const MARGIN_LARGE = 20;
 
 /**
- * Render header
- */
-const getHeader = (training: Training): Content[] => {
-  return [
-    {
-      text: `Training link: https://mastersway.netlify.app/training/${training.uuid}`,
-      margin: [MARGIN_SMALL, MARGIN_SMALL, 0, 0],
-    },
-    {
-      text: `PDF Downloaded at: ${DateUtils.getShortISODateValue(new Date())}`,
-      margin: [MARGIN_SMALL, 0, 0, 0],
-    },
-  ];
-};
-
-/**
  * Render title
  */
 const getTitle = (wayName: string): ContentText => ({
@@ -52,12 +36,27 @@ const getDates = (createdAt: Date, lastUpdate: Date) => {
 };
 
 /**
+ * Render header
+ */
+const getHeader = (training: Training): Content[] => {
+  return [
+    {
+      text: `Training link: https://mastersway.netlify.app/training/${training.uuid}`,
+      margin: [0, MARGIN_SMALL, 0, 0],
+    },
+    {
+      text: `PDF Downloaded at: ${DateUtils.getShortISODateValue(new Date())}`,
+      margin: [0, MARGIN_SMALL, 0, 0],
+    },
+  ];
+};
+
+/**
  * Render owner's name
  */
 const getOwner = (owner: string): ContentText => ({
-  text: owner,
-  alignment: "center",
-  bold: true,
+  text: `Owner: ${owner}`,
+  alignment: "left",
   margin: [0, MARGIN_SMALL, 0, 0],
 });
 
@@ -94,9 +93,10 @@ const getTopics = (topics: TopicPreview[]): Content[] => {
  * Render topic material
  */
 const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
-  return topicMaterials.flatMap(topic => {
+
+  return topicMaterials.flatMap((topic, index) => {
     const topicTitle: ContentText = {
-      text: topic.name,
+      text: `${++index}. ${topic.name}`,
       style: "header",
       bold: true,
       fontSize: 18,
@@ -162,10 +162,10 @@ export const downloadTrainingPdf = async (training: Training, language: Language
   const topicsMaterialsDefinition = getTopicMaterials(topicMaterials);
 
   const docDefinition: TDocumentDefinitions = {
-    header: headerDefinition,
     content: [
       titleDefinition,
       ownerDefinition,
+      headerDefinition,
       datesDefinition,
       descriptionDefinition,
       topicsDefinition,

@@ -26,6 +26,7 @@
 .testInfo {
   @include regularContainer;
   min-width: $minWidthBlock;
+  justify-content: space-between;
   gap: $gapSmall;
 }
 

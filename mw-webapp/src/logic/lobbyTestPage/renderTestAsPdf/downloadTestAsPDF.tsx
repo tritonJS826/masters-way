@@ -1,12 +1,11 @@
 import {Content, ContentText, TDocumentDefinitions} from "pdfmake/interfaces";
 import {Language} from "src/globalStore/LanguageStore";
 import {Question, Test} from "src/model/businessModel/Test";
-import {convertAsterisksToOrderedList} from "src/utils/convertAsterisksToOrderedList";
 import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
+import {renderMarkdownToPDF} from "src/utils/markdown/renderMarkdownToPDF";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
-const MARGIN_LARGE = 20;
 
 const QUESTION_INDEX_STEP = 1;
 
@@ -53,7 +52,7 @@ const getLinkToTest = (test: Test): Content => {
 /**
  * Render questions
  */
-const getQuestions = (questions: Question[]): Content[] => {
+const getQuestions = (questions: Question[], isIncludeAnswers: boolean): Content[] => {
   return questions.flatMap((question, index) => [
     {
       text: `Question ${index + QUESTION_INDEX_STEP}: ${question.name}`,
@@ -62,26 +61,33 @@ const getQuestions = (questions: Question[]): Content[] => {
       margin: [0, MARGIN_MEDIUM, 0, MARGIN_SMALL],
     },
     {
-      text: convertAsterisksToOrderedList(question.questionText),
+      text: renderMarkdownToPDF(question.questionText),
       fontSize: 12,
       margin: [MARGIN_MEDIUM, 0, 0, MARGIN_SMALL],
     },
-    {
-      text: "Answer:",
-      fontSize: 12,
-      margin: [MARGIN_MEDIUM, MARGIN_MEDIUM, 0, MARGIN_LARGE],
-      color: "#666666",
-    },
+    isIncludeAnswers ?
+      {
+        text: `Answer: ${question.answer}`,
+        fontSize: 12,
+        margin: [MARGIN_MEDIUM, MARGIN_MEDIUM, 0, MARGIN_SMALL],
+        color: "#666666",
+      } :
+      {
+        text: "Answer:",
+        fontSize: 12,
+        margin: [MARGIN_MEDIUM, MARGIN_MEDIUM, 0, MARGIN_SMALL],
+        color: "#666666",
+      },
   ]);
 };
 
 /**
  * Download test as pdf
  */
-export const downloadTestAsPDF = async (test: Test, timeToTest: number, language: Language) => {
+export const downloadTestAsPDF = async (test: Test, timeToTest: number, language: Language, isIncludeAnswers: boolean) => {
 
   const descriptionDefinition = getDescription(test.description);
-  const questionsDefinition = getQuestions(test.questions);
+  const questionsDefinition = getQuestions(test.questions, isIncludeAnswers);
   const testNameDefinition = getTestName(test);
   const testTimeDefinition = getTestTime(timeToTest);
   const linkToTestDefinition = getLinkToTest(test);

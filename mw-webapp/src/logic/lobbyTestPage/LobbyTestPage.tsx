@@ -1,19 +1,26 @@
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {testsAccessIds} from "cypress/accessIds/testsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Dropdown} from "src/component/dropdown/Dropdown";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {SessionDAL} from "src/dataAccessLogic/SessionDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
+import {DownloadPDFModal} from "src/logic/lobbyTestPage/downloadPdfModal/downloadPDFModal";
 import {LobbyTestPageStore} from "src/logic/lobbyTestPage/LobbyTestPageStore";
-import {downloadTestAsPDF} from "src/logic/lobbyTestPage/renderTestAsPdf/downloadTestAsPDF";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -37,6 +44,7 @@ interface LobbyTestPageProps {
  * Lobby Test page
  */
 export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
+  const [isOpenDownloadTestModal, setIsOpenDownloadTestModal] = useState<boolean>(false);
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
@@ -68,47 +76,112 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.lobbyDashboard}>
         <VerticalContainer className={styles.lobbyDashBoardLeft}>
-          <VerticalContainer className={styles.testInfo}>
-            <HorizontalContainer className={styles.testTitleBlock}>
-              <Title
-                level={HeadingLevel.h2}
-                text={lobbyTestPageStore.test.name}
-                placeholder={LanguageService.common.emptyMarkdown[language]}
-                onChangeFinish={() => {}}
-                isEditable={false}
-                className={styles.testName}
-              />
-            </HorizontalContainer>
+          <HorizontalContainer className={styles.testInfo}>
+            <VerticalContainer>
+              <HorizontalContainer className={styles.testTitleBlock}>
+                <Title
+                  level={HeadingLevel.h2}
+                  text={lobbyTestPageStore.test.name}
+                  placeholder={LanguageService.common.emptyMarkdown[language]}
+                  onChangeFinish={() => {}}
+                  isEditable={false}
+                  className={styles.testName}
+                />
+              </HorizontalContainer>
+              <VerticalContainer className={styles.descriptionSection}>
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.lobbyTest.testInfo.description[language]}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                />
+                <Text
+                  text={lobbyTestPageStore.test.description}
+                  className={styles.description}
+                />
+              </VerticalContainer>
 
-            <VerticalContainer className={styles.descriptionSection}>
               <Title
                 level={HeadingLevel.h3}
-                text={LanguageService.lobbyTest.testInfo.description[language]}
-                placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                text={`${LanguageService.lobbyTest.testInfo.questionsAmount[language]} 
+                     ${lobbyTestPageStore.test.questions.length}`}
+                className={styles.questionsAmount}
+                placeholder=""
               />
-              <Text
-                text={lobbyTestPageStore.test.description}
-                className={styles.description}
+              <Title
+                level={HeadingLevel.h3}
+                text={`${LanguageService.lobbyTest.testInfo.timeToTest[language]} 
+                  ${timeToTest} ${LanguageService.lobbyTest.testInfo.measurement[language]}`}
+                placeholder=""
               />
             </VerticalContainer>
+            <VerticalContainer>
+              <Dropdown
+                isModalBehavior={false}
+                contentClassName={styles.testActionMenu}
+                trigger={(
+                  <Tooltip
+                    content={LanguageService.lobbyTest.buttons.downloadAsPDF[language]}
+                    position={PositionTooltip.LEFT}
+                  >
+                    <Button
+                      className={styles.userActionsIcon}
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                      onClick={() => {}}
+                      icon={
+                        <Icon
+                          size={IconSize.MEDIUM}
+                          name={"MoreVertical"}
+                        />
+                      }
+                      dataCy={testsAccessIds.lobbyTest.downloadAsPDF}
+                    />
+                  </Tooltip>
+                )}
 
-            <Title
-              level={HeadingLevel.h3}
-              text={`${LanguageService.lobbyTest.testInfo.questionsAmount[language]} ${lobbyTestPageStore.test.questions.length}`}
-              placeholder=""
-            />
+                cy={{
+                  dataCyContent: testsAccessIds.lobbyTest.downloadAsPDF,
+                  dataCyContentList: testsAccessIds.lobbyTest.menuList,
+                  dataCySubContent: testsAccessIds.lobbyTest.downloadAsPDF,
+                  dataCySubTrigger: testsAccessIds.lobbyTest.downloadAsPDF,
+                }}
 
-            <Title
-              level={HeadingLevel.h3}
-              text={`${LanguageService.lobbyTest.testInfo.timeToTest[language]} 
-                ${timeToTest} ${LanguageService.lobbyTest.testInfo.measurement[language]}`}
-              placeholder=""
-            />
+                dropdownMenuItems={[
+                  {
+                    dropdownSubMenuItems: [
+                      {
+                        id: "Download as PDF",
+                        isPreventDefaultUsed: false,
+                        value: LanguageService.lobbyTest.buttons.downloadAsPDF[language],
 
-          </VerticalContainer>
-
+                        /**
+                         * Download test as PDF
+                         */
+                        onClick: () => {
+                          setIsOpenDownloadTestModal(true);
+                        },
+                      },
+                    ],
+                  },
+                ]}
+              />
+              {isOpenDownloadTestModal &&
+                <Modal
+                  isOpen={isOpenDownloadTestModal}
+                  close={() => setIsOpenDownloadTestModal(false)}
+                  trigger={<></>}
+                  content={
+                    <DownloadPDFModal
+                      test={lobbyTestPageStore.test}
+                      timeToTest={timeToTest}
+                      language={language}
+                      onClose={() => setIsOpenDownloadTestModal(false)}
+                    />
+                  }
+                />
+              }
+            </VerticalContainer>
+          </HorizontalContainer>
         </VerticalContainer>
-
         <HorizontalContainer className={styles.lobbyTestButtons}>
           {isOwner &&
             <Button
@@ -118,10 +191,6 @@ export const LobbyTestPage = observer((props: LobbyTestPageProps) => {
           }
 
           {user && <>
-            <Button
-              value={LanguageService.lobbyTest.buttons.downloadAsPDF[language]}
-              onClick={() => downloadTestAsPDF(lobbyTestPageStore.test, timeToTest, language)}
-            />
             <Button
               value={LanguageService.lobbyTest.buttons.startTest[language]}
               buttonType={ButtonType.PRIMARY}
