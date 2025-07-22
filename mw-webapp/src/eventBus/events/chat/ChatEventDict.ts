@@ -2,7 +2,6 @@ import {
   ChatConnectionClosedPayload,
   ChatConnectionEstablishedPayload,
   ChatMessageReceivedPayload,
-  ChatMetaInfoPayload,
   ChatRefreshTokenRequiredPayload,
   ChatRoomCreatedPayload,
 } from "src/eventBus/events/chat/ChatEvents";
@@ -23,7 +22,6 @@ export enum ChatEventId {
   MESSAGE_RECEIVED = "MW_CHAT:MESSAGE_RECEIVED",
   ROOM_CREATED = "MW_CHAT:ROOM_CREATED",
   REFRESH_TOKEN_REQUIRED = "MW_CHAT:REFRESH_TOKEN_REQUIRED",
-  META_INFO_RECEIVED = "MW_CHAT:META_INFO_RECEIVED"
 }
 
 /**
@@ -56,9 +54,4 @@ export type ChatEventDict = {
    * Refresh token required
    */
   [ChatEventId.REFRESH_TOKEN_REQUIRED]: ChatRefreshTokenRequiredPayload;
-
-  /**
-   +  * Meta info fetched after (re)connect (e.g., unread total).
-   +  */
-  [ChatEventId.META_INFO_RECEIVED]: ChatMetaInfoPayload;
 };

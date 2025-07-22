@@ -34,8 +34,12 @@ export const ChatModal = observer(() => {
   useEffect(() => {
     if (!isChatOpen) {
       loadUnreadMessagesAmount();
+    } else {
+      if (isConnectionEstablished && chatStore.activeRoomStore?.activeRoom) {
+        chatStore.activeRoomStore.appendMessages();
+      }
     }
-  }, [isChatOpen]);
+  }, [isChatOpen, isConnectionEstablished]);
 
   return (
     <DialogRoot
