@@ -8,7 +8,9 @@
     userAnswer: string
 }
 4. (for multiplayer) UserCapturedTarget: {questionUuid: string}
-
+5. UserReadyToStartPlay {
+    userUuid: string,
+}
 
 ## React->Unity ()
 1. QuestionListReceived: {

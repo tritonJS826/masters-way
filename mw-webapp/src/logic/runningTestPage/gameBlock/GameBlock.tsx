@@ -143,7 +143,6 @@ export const GameBlock = observer((props: GameBlockProps) => {
 
   /**
    * Handle event game started
-   * TODO: temporal thing - game should be started from unity
    */
   const handleGameStarted = () => {
     if (!user?.uuid) {
@@ -165,6 +164,20 @@ export const GameBlock = observer((props: GameBlockProps) => {
     // but for now it is much more faster then unity loading
     const questionsUnityList = runningGameStore.test.questions.map(questionToQuestionUnity);
     ReactToUnity.sendQuestionListReceived(sendMessage)({questions: questionsUnityList});
+  };
+
+  /**
+   * HandleUserReadyToStartPlay
+   */
+  const handleUserReadyToStartPlay = () => {
+    if (!user?.uuid) {
+      return;
+    }
+
+    TestWebsocketDAL.sendUserReadyToStartPlayEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+    });
   };
 
   /**
@@ -194,6 +207,7 @@ export const GameBlock = observer((props: GameBlockProps) => {
   useEffect(() => {
     addEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
     addEventListener(UnityToReactEvents.HostStartedGame, handleHostStartedGame);
+    addEventListener(UnityToReactEvents.UserReadyToStartPlay, handleUserReadyToStartPlay);
     addEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
     addEventListener(UnityToReactEvents.UserAnsweredQuestion, handleUserAnsweredQuestion);
     addEventListener(UnityToReactEvents.UserCapturedTarget, handleUserCapturedTarget);
@@ -201,6 +215,8 @@ export const GameBlock = observer((props: GameBlockProps) => {
     return () => {
       removeEventListener(UnityToReactEvents.GameFinished, handleGameFinished);
       removeEventListener(UnityToReactEvents.GameStarted, handleGameStarted);
+      removeEventListener(UnityToReactEvents.HostStartedGame, handleHostStartedGame);
+      removeEventListener(UnityToReactEvents.UserReadyToStartPlay, handleUserReadyToStartPlay);
       removeEventListener(UnityToReactEvents.UserAnsweredQuestion, handleUserAnsweredQuestion);
       removeEventListener(UnityToReactEvents.UserCapturedTarget, handleUserCapturedTarget);
     };

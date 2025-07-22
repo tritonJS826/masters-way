@@ -84,8 +84,9 @@ export class ReactToUnity {
   public static sendHostStartedGame(
     sendMessage: SendMessage,
   ): () => void {
-    return () =>
-      sendMessage(UnityListenerName, ReactToUnityEvents.HostStartedGame);
+    return () => {
+      sendMessage(UnityListenerName, ReactToUnityEvents.HostStartedGame, JSON.stringify({}));
+    };
   }
 
   /**
