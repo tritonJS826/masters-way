@@ -1,4 +1,4 @@
-import {makeAutoObservable, runInAction} from "mobx";
+import {makeAutoObservable} from "mobx";
 import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
 import {load} from "src/hooks/useLoad";
 import {Room} from "src/model/businessModel/Chat";
@@ -41,21 +41,9 @@ export class ActiveRoomStore {
   /**
    * Append messages
    */
-  public appendMessages = async (): Promise<void> => {
+  public reloadMessages = async (): Promise<void> => {
     const roomId = this.activeRoom.roomId;
-
-    const updatedRoom = await ChatDAL.getRoomById(roomId);
-
-    const serverMsgs = updatedRoom?.messages ?? [];
-    if (serverMsgs.length) {
-      const existingIds = new Set(this.activeRoom.messages.map((m) => m.uuid));
-      const newMsgs = serverMsgs.filter((m) => !existingIds.has(m.uuid));
-      if (newMsgs.length > 0) {
-        runInAction(() => {
-          newMsgs.forEach((msg) => this.activeRoom.addMessage(msg));
-        });
-      }
-    }
+    this.activeRoom = await this.loadActiveRoom(roomId);
   };
 
   /**
@@ -120,3 +108,4 @@ export class ActiveRoomStore {
   };
 
 }
+
