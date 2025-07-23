@@ -7,7 +7,8 @@ type UserReadyToStartPlayEventPayload struct {
 	UserUuid string `json:"userUuid" validate:"required"`
 }
 type HostStartedGameEventPayload struct {
-	UserUuid string `json:"userUuid" validate:"required"`
+	SpeedScale         float32 `json:"speedScale" validate:"required"`
+	EnemySpawnInterval int     `json:"enemySpawnInterval" validate:"required"`
 }
 type UserCapturedTargetEventPayload struct {
 	UserUuid     string `json:"userUuid" validate:"required"`

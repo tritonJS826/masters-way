@@ -13,4 +13,19 @@ export type SessionStateUpdatedReactToUnity = {
      */
     currentUsers: UserInfo[];
 
+    /**
+     * Link for sharing
+     */
+    shareUrl: string;
+
+    /**
+     * Current user uuid (current player)
+     */
+    selfUserUuid: string;
+
+    /**
+     * Host of the session
+     */
+    userHostUuid: string;
+
 }

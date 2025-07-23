@@ -1,4 +1,5 @@
 import {ReactUnityEventParameter} from "react-unity-webgl/distribution/types/react-unity-event-parameters";
+import {HostStartedGameReactToUnity} from "src/model/unity/HostStartedGameReactToUnity";
 import {QuestionResultReactToUnity} from "src/model/unity/QuestionResultReactToUnity";
 import {QuestionUnity} from "src/model/unity/QuestionUnity";
 import {SendUserAnsweredQuestionReactToUnity} from "src/model/unity/SendUserAnsweredQuestionReactToUnity";
@@ -83,9 +84,9 @@ export class ReactToUnity {
    */
   public static sendHostStartedGame(
     sendMessage: SendMessage,
-  ): () => void {
-    return () => {
-      sendMessage(UnityListenerName, ReactToUnityEvents.HostStartedGame, JSON.stringify({}));
+  ): (payload: HostStartedGameReactToUnity) => void {
+    return (payload: HostStartedGameReactToUnity) => {
+      sendMessage(UnityListenerName, ReactToUnityEvents.HostStartedGame, JSON.stringify(payload));
     };
   }
 

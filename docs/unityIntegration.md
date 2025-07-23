@@ -24,7 +24,9 @@
             timeToAnswer: number,
 }}
 2. SessionStateUpdated: {
-    selfUserUuid: string, 
+    selfUserUuid: string,
+    <!-- url to invite other -->
+    shareUrl: string,
     userHostUuid: string,
     currentUsers: {
         userUuid: string
@@ -36,7 +38,12 @@
 3. UserReadyToStartPlay: {
     userUuid: string
 }
-4. HostStartedGame: {}
+4. HostStartedGame: {
+    <!-- percentage from 0.01x to 100x -->
+    speedScaleParameter: number,
+    <!-- seconds from 1 to 1800 -->
+    enemyIntervalParameter: number,
+}
 5. UserCapturedTarget: {
     userUuid: string,
     questionUuid: string,

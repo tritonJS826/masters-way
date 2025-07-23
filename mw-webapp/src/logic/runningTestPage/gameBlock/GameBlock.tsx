@@ -12,6 +12,7 @@ import {emitEvent} from "src/eventBus/EmitEvent";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {TestEventId} from "src/eventBus/events/test/TestEventDict";
 import {
+  HostStartedGamePayload,
   makeSessionStateUpdatedEvent,
   SessionStateUpdatedPayload,
   UserAnsweredQuestionPayload,
@@ -223,7 +224,10 @@ export const GameBlock = observer((props: GameBlockProps) => {
   }, [addEventListener, removeEventListener, sendMessage]);
 
   useListenEventBus(ChannelId.TEST, TestEventId.SESSION_STATE_UPDATED, (payload: SessionStateUpdatedPayload) => {
-    ReactToUnity.sendSessionStateUpdated(sendMessage)(payload);
+    ReactToUnity.sendSessionStateUpdated(sendMessage)({
+      ...payload,
+      shareUrl: window.location.href,
+    });
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_JOINED_SESSION, (payload: UserJoinedSessionPayload) => {
     ReactToUnity.sendUserJoinedSession(sendMessage)(payload);
@@ -231,8 +235,8 @@ export const GameBlock = observer((props: GameBlockProps) => {
   useListenEventBus(ChannelId.TEST, TestEventId.USER_READY_TO_START_PLAY, (payload: UserReadyToStartPlayPayload) => {
     ReactToUnity.sendUserReadyToStartPlay(sendMessage)(payload);
   });
-  useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, () => {
-    ReactToUnity.sendHostStartedGame(sendMessage)();
+  useListenEventBus(ChannelId.TEST, TestEventId.HOST_STARTED_GAME, (payload: HostStartedGamePayload) => {
+    ReactToUnity.sendHostStartedGame(sendMessage)(payload);
   });
   useListenEventBus(ChannelId.TEST, TestEventId.USER_CAPTURED_TARGET, (payload: UserCapturedTargetPayload) => {
     ReactToUnity.sendUserCapturedTarget(sendMessage)(payload);

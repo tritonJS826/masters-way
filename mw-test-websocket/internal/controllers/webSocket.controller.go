@@ -34,6 +34,10 @@ type ConnectionsDetails struct {
 	Connections  map[string]*websocket.Conn
 	Users        map[string]*UserInfo
 	UserHostUuid string
+	// percentage from 0.01x to 100x. Default 1 -->
+	SpeedScale float32
+	// seconds from 1 to 1800. Default 10
+	EnemySpawnInterval int
 }
 
 // key: session uuid
@@ -80,9 +84,11 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	session, exists := sessionPool[sessionUuid]
 	if !exists {
 		session = &ConnectionsDetails{
-			Connections:  make(map[string]*websocket.Conn),
-			Users:        make(map[string]*UserInfo),
-			UserHostUuid: userID,
+			Connections:        make(map[string]*websocket.Conn),
+			Users:              make(map[string]*UserInfo),
+			UserHostUuid:       userID,
+			SpeedScale:         1,
+			EnemySpawnInterval: 10,
 		}
 		sessionPool[sessionUuid] = session
 	}
@@ -215,8 +221,14 @@ func (cc *SocketController) SendHostStartedGameEvent(ctx *gin.Context) {
 	mu.RLock()
 	session, exists := sessionPool[sessionUuid]
 	if exists {
+		session.SpeedScale = payload.SpeedScale
+		session.EnemySpawnInterval = payload.EnemySpawnInterval
+
 		for _, connection := range session.Connections {
-			newMessage := eventFactory.MakeHostStartedGameEvent(schemas.HostStartedGameEventPayload{UserUuid: payload.UserUuid})
+			newMessage := eventFactory.MakeHostStartedGameEvent(schemas.HostStartedGameEventPayload{
+				SpeedScale:         session.SpeedScale,
+				EnemySpawnInterval: session.EnemySpawnInterval,
+			})
 			err := connection.WriteJSON(newMessage)
 			utils.HandleErrorGin(ctx, err)
 		}
