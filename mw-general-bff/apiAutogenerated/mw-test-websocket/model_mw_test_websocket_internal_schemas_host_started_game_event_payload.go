@@ -21,7 +21,8 @@ var _ MappedNullable = &MwTestWebsocketInternalSchemasHostStartedGameEventPayloa
 
 // MwTestWebsocketInternalSchemasHostStartedGameEventPayload struct for MwTestWebsocketInternalSchemasHostStartedGameEventPayload
 type MwTestWebsocketInternalSchemasHostStartedGameEventPayload struct {
-	UserUuid string `json:"userUuid"`
+	EnemySpawnInterval int32 `json:"enemySpawnInterval"`
+	SpeedScale float32 `json:"speedScale"`
 }
 
 type _MwTestWebsocketInternalSchemasHostStartedGameEventPayload MwTestWebsocketInternalSchemasHostStartedGameEventPayload
@@ -30,9 +31,10 @@ type _MwTestWebsocketInternalSchemasHostStartedGameEventPayload MwTestWebsocketI
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTestWebsocketInternalSchemasHostStartedGameEventPayload(userUuid string) *MwTestWebsocketInternalSchemasHostStartedGameEventPayload {
+func NewMwTestWebsocketInternalSchemasHostStartedGameEventPayload(enemySpawnInterval int32, speedScale float32) *MwTestWebsocketInternalSchemasHostStartedGameEventPayload {
 	this := MwTestWebsocketInternalSchemasHostStartedGameEventPayload{}
-	this.UserUuid = userUuid
+	this.EnemySpawnInterval = enemySpawnInterval
+	this.SpeedScale = speedScale
 	return &this
 }
 
@@ -44,28 +46,52 @@ func NewMwTestWebsocketInternalSchemasHostStartedGameEventPayloadWithDefaults() 
 	return &this
 }
 
-// GetUserUuid returns the UserUuid field value
-func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetUserUuid() string {
+// GetEnemySpawnInterval returns the EnemySpawnInterval field value
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetEnemySpawnInterval() int32 {
 	if o == nil {
-		var ret string
+		var ret int32
 		return ret
 	}
 
-	return o.UserUuid
+	return o.EnemySpawnInterval
 }
 
-// GetUserUuidOk returns a tuple with the UserUuid field value
+// GetEnemySpawnIntervalOk returns a tuple with the EnemySpawnInterval field value
 // and a boolean to check if the value has been set.
-func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetUserUuidOk() (*string, bool) {
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetEnemySpawnIntervalOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UserUuid, true
+	return &o.EnemySpawnInterval, true
 }
 
-// SetUserUuid sets field value
-func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) SetUserUuid(v string) {
-	o.UserUuid = v
+// SetEnemySpawnInterval sets field value
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) SetEnemySpawnInterval(v int32) {
+	o.EnemySpawnInterval = v
+}
+
+// GetSpeedScale returns the SpeedScale field value
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetSpeedScale() float32 {
+	if o == nil {
+		var ret float32
+		return ret
+	}
+
+	return o.SpeedScale
+}
+
+// GetSpeedScaleOk returns a tuple with the SpeedScale field value
+// and a boolean to check if the value has been set.
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) GetSpeedScaleOk() (*float32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.SpeedScale, true
+}
+
+// SetSpeedScale sets field value
+func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) SetSpeedScale(v float32) {
+	o.SpeedScale = v
 }
 
 func (o MwTestWebsocketInternalSchemasHostStartedGameEventPayload) MarshalJSON() ([]byte, error) {
@@ -78,7 +104,8 @@ func (o MwTestWebsocketInternalSchemasHostStartedGameEventPayload) MarshalJSON()
 
 func (o MwTestWebsocketInternalSchemasHostStartedGameEventPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["userUuid"] = o.UserUuid
+	toSerialize["enemySpawnInterval"] = o.EnemySpawnInterval
+	toSerialize["speedScale"] = o.SpeedScale
 	return toSerialize, nil
 }
 
@@ -87,7 +114,8 @@ func (o *MwTestWebsocketInternalSchemasHostStartedGameEventPayload) UnmarshalJSO
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"userUuid",
+		"enemySpawnInterval",
+		"speedScale",
 	}
 
 	allProperties := make(map[string]interface{})

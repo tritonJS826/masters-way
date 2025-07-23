@@ -185,8 +185,15 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event user captured another target
    * TODO: use debounce logic here maybe?
    */
-  const handleUserCapturedTarget = () => {
-    // TODO: will be implemented for multiplayer
+  const handleUserCapturedTarget = (questionUuid: unknown) => {
+    if (!user?.uuid) {
+      return;
+    }
+    TestWebsocketDAL.sendUserCapturedTargetEvent({
+      sessionUuid: props.sessionUuid,
+      userUuid: user.uuid,
+      questionUuid: questionUuid as string,
+    });
   };
 
   useEffect(() => {

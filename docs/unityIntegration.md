@@ -7,9 +7,17 @@
     questionUuid: string,
     userAnswer: string
 }
-4. (for multiplayer) UserCapturedTarget: {questionUuid: string}
+4. UserCapturedTarget: {
+    questionUuid: string
+}
 5. UserReadyToStartPlay {
     userUuid: string,
+}
+6. HostStartedGame: {
+    <!-- percentage from 0.01x to 100x -->
+    speedScale: number,
+    <!-- seconds from 1 to 1800 -->
+    enemyInterval: number,
 }
 
 ## React->Unity ()
@@ -40,9 +48,9 @@
 }
 4. HostStartedGame: {
     <!-- percentage from 0.01x to 100x -->
-    speedScaleParameter: number,
+    speedScale: number,
     <!-- seconds from 1 to 1800 -->
-    enemyIntervalParameter: number,
+    enemyInterval: number,
 }
 5. UserCapturedTarget: {
     userUuid: string,

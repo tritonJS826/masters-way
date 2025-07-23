@@ -21,10 +21,16 @@ import { exists, mapValues } from '../runtime';
 export interface MwTestWebsocketInternalSchemasHostStartedGameEventPayload {
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof MwTestWebsocketInternalSchemasHostStartedGameEventPayload
      */
-    userUuid: string;
+    enemySpawnInterval: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MwTestWebsocketInternalSchemasHostStartedGameEventPayload
+     */
+    speedScale: number;
 }
 
 /**
@@ -34,7 +40,8 @@ export function instanceOfMwTestWebsocketInternalSchemasHostStartedGameEventPayl
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "userUuid" in value;
+    isInstance = isInstance && "enemySpawnInterval" in value;
+    isInstance = isInstance && "speedScale" in value;
 
     return isInstance;
 }
@@ -52,7 +59,8 @@ export function MwTestWebsocketInternalSchemasHostStartedGameEventPayloadFromJSO
     }
     return {
         
-        'userUuid': json['userUuid'],
+        'enemySpawnInterval': json['enemySpawnInterval'],
+        'speedScale': json['speedScale'],
     };
 }
 
@@ -66,7 +74,8 @@ export function MwTestWebsocketInternalSchemasHostStartedGameEventPayloadToJSON(
     }
     return {
         
-        'userUuid': value.userUuid,
+        'enemySpawnInterval': value.enemySpawnInterval,
+        'speedScale': value.speedScale,
     };
 }
 

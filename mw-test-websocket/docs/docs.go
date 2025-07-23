@@ -280,11 +280,15 @@ const docTemplate = `{
         "mw-test-websocket_internal_schemas.HostStartedGameEventPayload": {
             "type": "object",
             "required": [
-                "userUuid"
+                "enemySpawnInterval",
+                "speedScale"
             ],
             "properties": {
-                "userUuid": {
-                    "type": "string"
+                "enemySpawnInterval": {
+                    "type": "integer"
+                },
+                "speedScale": {
+                    "type": "number"
                 }
             }
         },

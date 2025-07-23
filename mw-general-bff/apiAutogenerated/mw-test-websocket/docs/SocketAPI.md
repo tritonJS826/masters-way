@@ -100,7 +100,7 @@ import (
 
 func main() {
 	sessionUuid := "sessionUuid_example" // string | sessionUuid
-	request := *openapiclient.NewMwTestWebsocketInternalSchemasHostStartedGameEventPayload("UserUuid_example") // MwTestWebsocketInternalSchemasHostStartedGameEventPayload | query params
+	request := *openapiclient.NewMwTestWebsocketInternalSchemasHostStartedGameEventPayload(int32(123), float32(123)) // MwTestWebsocketInternalSchemasHostStartedGameEventPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

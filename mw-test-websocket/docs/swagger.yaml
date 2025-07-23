@@ -2,10 +2,13 @@ basePath: /mw-test-websocket
 definitions:
   mw-test-websocket_internal_schemas.HostStartedGameEventPayload:
     properties:
-      userUuid:
-        type: string
+      enemySpawnInterval:
+        type: integer
+      speedScale:
+        type: number
     required:
-    - userUuid
+    - enemySpawnInterval
+    - speedScale
     type: object
   mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload:
     properties:
