@@ -22,11 +22,11 @@ import {ResultTestPageStore} from "src/logic/resultTestPage/ResultTestPageStore"
 import {TrainingAiModal} from "src/logic/resultTestPage/trainingAiModal/TrainingAiModal";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import styles from "src/logic/resultTestPage/ResultTestPage.module.scss";
 
 const MAX_PERCENTAGE = 100;
 const PRECISION_PERCENTAGE_RESULT = 2;
-const ANSWERS_COUNT_STEP = 1;
 
 /**
  * Return percentages value
@@ -114,30 +114,21 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   const rightAnswersPercentages = (rightAnswersAmount * MAX_PERCENTAGE / resultTestPageStore.questionResults.length)
     .toFixed(PRECISION_PERCENTAGE_RESULT);
 
-  const uniqueUsersMap = new Map<string, UniqueParticipant>();
-
-  for (const result of resultTestPageStore.questionResults) {
-    const {userUuid, userName, userImageUrl, isOk} = result;
-    const existingUser = uniqueUsersMap.get(userUuid);
-
-    if (existingUser) {
-      if (isOk) {
-        existingUser.rightAnswersAmount++;
-      } else {
-        existingUser.wrongAnswersAmount++;
-      }
-    } else {
-      uniqueUsersMap.set(userUuid, {
-        userUuid,
-        userName,
-        userImageUrl,
-        rightAnswersAmount: isOk ? ANSWERS_COUNT_STEP : 0,
-        wrongAnswersAmount: isOk ? 0 : ANSWERS_COUNT_STEP,
-      });
-    }
-  }
-
-  const usersArray = Array.from(uniqueUsersMap.values());
+  const answersData: UniqueParticipant[] = ArrayUtils
+    .removeDuplicatesByField(resultTestPageStore.questionResults, "uuid")
+    .map(question =>
+      ({
+        userUuid: question.userUuid,
+        userName: question.userName,
+        userImageUrl: question.userImageUrl,
+        rightAnswersAmount: resultTestPageStore.questionResults
+          .filter(q => q.isOk && q.userUuid === question.userUuid)
+          .length,
+        wrongAnswersAmount: resultTestPageStore.questionResults
+          .filter(q => !q.isOk && q.userUuid === question.userUuid)
+          .length,
+      }),
+    );
 
   return (
     <VerticalContainer className={styles.resultsContainer}>
@@ -165,7 +156,7 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
         <Text text={resultTestPageStore.sessionResult.resultDescription} />
 
         <VerticalContainer>
-          {usersArray.map(participant => (
+          {answersData.map(participant => (
             <HorizontalContainer
               key={participant.userUuid}
               className={styles.participantBlock}
