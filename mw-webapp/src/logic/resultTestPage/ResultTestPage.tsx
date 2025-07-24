@@ -11,6 +11,8 @@ import {displayNotification, NotificationType} from "src/component/notification/
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -114,8 +116,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   const rightAnswersPercentages = (rightAnswersAmount * MAX_PERCENTAGE / resultTestPageStore.questionResults.length)
     .toFixed(PRECISION_PERCENTAGE_RESULT);
 
-  const answersData: UniqueParticipant[] = ArrayUtils
-    .removeDuplicatesByField(resultTestPageStore.questionResults, "uuid")
+  const usersWithResultStatistics: UniqueParticipant[] = ArrayUtils
+    .removeDuplicatesByField(resultTestPageStore.questionResults, "userUuid")
     .map(question =>
       ({
         userUuid: question.userUuid,
@@ -155,30 +157,39 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
         />
         <Text text={resultTestPageStore.sessionResult.resultDescription} />
 
-        <VerticalContainer>
-          {answersData.map(participant => (
-            <HorizontalContainer
-              key={participant.userUuid}
-              className={styles.participantBlock}
-            >
-              <Avatar
-                alt={participant.userName}
-                src={participant.userImageUrl}
-              />
-              {participant.userName}
-              <Text text={`${participant.rightAnswersAmount}
-              (${getPercentagesFromAmount(participant.rightAnswersAmount,
-              (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
+        <HorizontalContainer>
+          <VerticalContainer className={styles.participantBlock}>
+            {usersWithResultStatistics.map(participant => (
+              <Tooltip
+                key={participant.userUuid}
+                position={PositionTooltip.TOP}
+                content={participant.userName}
+              >
+                <Avatar
+                  key={participant.userUuid}
+                  alt={participant.userName}
+                  src={participant.userImageUrl}
+                />
+              </Tooltip>
+            ))}
+          </VerticalContainer>
+          <VerticalContainer className={styles.participantBlock}>
+            {usersWithResultStatistics.map(participant => (
+              <HorizontalContainer key={participant.userUuid}>
+                <Text text={`${participant.rightAnswersAmount}
+                     (${getPercentagesFromAmount(participant.rightAnswersAmount,
+                (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
               ${LanguageService.resultTest.rightAnswers[language]}`}
-              />
-              <Text text={`${participant.wrongAnswersAmount} 
+                />
+                <Text text={`${participant.wrongAnswersAmount} 
               (${getPercentagesFromAmount(participant.wrongAnswersAmount,
-              (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
+                (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
               ${LanguageService.resultTest.wrongAnswers[language]}`}
-              />
-            </HorizontalContainer>
-          ))}
-        </VerticalContainer>
+                />
+              </HorizontalContainer>
+            ))}
+          </VerticalContainer>
+        </HorizontalContainer>
 
       </VerticalContainer>
       <HorizontalContainer className={styles.buttons}>
