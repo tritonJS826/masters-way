@@ -41,9 +41,8 @@ export class ActiveRoomStore {
   /**
    * Append messages
    */
-  public reloadMessages = async (): Promise<void> => {
-    const roomId = this.activeRoom.roomId;
-    this.activeRoom = await this.loadActiveRoom(roomId);
+  public reloadActiveRoom = () => {
+    this.initializeActiveRoom(this.activeRoom.roomId);
   };
 
   /**

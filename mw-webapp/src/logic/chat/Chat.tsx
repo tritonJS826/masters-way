@@ -35,8 +35,12 @@ export const ChatModal = observer(() => {
     if (!isChatOpen) {
       loadUnreadMessagesAmount();
     }
-    if (isChatOpen && isConnectionEstablished && chatStore.activeRoomStore?.activeRoom) {
-      chatStore.activeRoomStore.reloadMessages();
+    if (!chatStore.activeRoomStore) {
+      return;
+    }
+    const isShouldReloadActiveRoom = isChatOpen && isConnectionEstablished && !!chatStore.activeRoomStore?.activeRoom;
+    if (isShouldReloadActiveRoom) {
+      chatStore.activeRoomStore.reloadActiveRoom();
     }
   }, [isChatOpen, isConnectionEstablished]);
 

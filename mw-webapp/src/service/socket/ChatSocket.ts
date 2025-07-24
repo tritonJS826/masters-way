@@ -30,7 +30,7 @@ let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
 export const connectChatSocket = () => {
   const socket = new WebSocket(
     env.API_MW_CHAT_WEBSOCKET_PATH +
-    `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
+      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
   );
 
   /**
