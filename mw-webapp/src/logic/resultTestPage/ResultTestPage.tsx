@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -25,6 +26,44 @@ import styles from "src/logic/resultTestPage/ResultTestPage.module.scss";
 
 const MAX_PERCENTAGE = 100;
 const PRECISION_PERCENTAGE_RESULT = 2;
+
+/**
+ * Return percentages value
+ */
+const getPercentagesFromAmount = (amountToConvert: number, allAmount: number) => {
+  return (amountToConvert * MAX_PERCENTAGE / allAmount).toFixed(PRECISION_PERCENTAGE_RESULT);
+};
+
+/**
+ * Unique participant
+ */
+interface UniqueParticipant {
+
+  /**
+   * User's UUID
+   */
+  userUuid: string;
+
+  /**
+   * User's image url
+   */
+  userImageUrl: string;
+
+  /**
+   * User's name
+   */
+  userName: string;
+
+  /**
+   * Right answers amount
+   */
+  rightAnswersAmount: number;
+
+  /**
+   * Wrong answers amount
+   */
+  wrongAnswersAmount: number;
+}
 
 /**
  * RunningTestPage props
@@ -74,6 +113,33 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
   const rightAnswersPercentages = (rightAnswersAmount * MAX_PERCENTAGE / resultTestPageStore.questionResults.length)
     .toFixed(PRECISION_PERCENTAGE_RESULT);
 
+  const uniqueUsersMap = new Map<string, UniqueParticipant>();
+
+  for (const result of resultTestPageStore.questionResults) {
+    const {userUuid, userName, userImageUrl, isOk} = result;
+    const existingUser = uniqueUsersMap.get(userUuid);
+
+    if (existingUser) {
+      if (isOk) {
+        existingUser.rightAnswersAmount++;
+      } else {
+        existingUser.wrongAnswersAmount++;
+      }
+    } else {
+      uniqueUsersMap.set(userUuid, {
+        userUuid,
+        userName,
+        userImageUrl,
+        // eslint-disable-next-line no-magic-numbers
+        rightAnswersAmount: isOk ? 1 : 0,
+        // eslint-disable-next-line no-magic-numbers
+        wrongAnswersAmount: isOk ? 0 : 1,
+      });
+    }
+  }
+
+  const usersArray = Array.from(uniqueUsersMap.values());
+
   return (
     <VerticalContainer className={styles.resultsContainer}>
       <VerticalContainer className={styles.resultHeaderContainer}>
@@ -91,10 +157,38 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
           placeholder=""
           classNameHeading={styles.headingLevelH2}
         />
+        <Text text={LanguageService.resultTest.answersAmount[language]
+          .replace("$answersAmount", `${resultTestPageStore.questionResults.length}`)}
+        />
         <Text text={LanguageService.resultTest.percentageResult[language]
           .replace("$rightAnswers", `${rightAnswersPercentages}`)}
         />
         <Text text={resultTestPageStore.sessionResult.resultDescription} />
+
+        <VerticalContainer>
+          {usersArray.map(participant => (
+            <HorizontalContainer
+              key={participant.userUuid}
+              className={styles.participantBlock}
+            >
+              <Avatar
+                alt={participant.userName}
+                src={participant.userImageUrl}
+              />
+              {participant.userName}
+              <Text text={`${participant.rightAnswersAmount}
+              (${getPercentagesFromAmount(participant.rightAnswersAmount,
+              (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
+              ${LanguageService.resultTest.rightAnswers[language]}`}
+              />
+              <Text text={`${participant.wrongAnswersAmount} 
+              (${getPercentagesFromAmount(participant.wrongAnswersAmount,
+              (participant.rightAnswersAmount + participant.wrongAnswersAmount))}%) 
+              ${LanguageService.resultTest.wrongAnswers[language]}`}
+              />
+            </HorizontalContainer>
+          ))}
+        </VerticalContainer>
 
       </VerticalContainer>
       <HorizontalContainer className={styles.buttons}>
