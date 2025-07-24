@@ -4,6 +4,21 @@
         "en": "Session results",
         "ua": "Результати сесії"
     },
+    "answersAmount": {
+        "ru": "Вы ответили на $answersAmount вопросов",
+        "en": "You have answered $answersAmount questions",
+        "ua": "Ви відповіли на $answersAmount питань"
+    },
+    "rightAnswers": {
+        "ru": "правильных ответов",
+        "en": "correct answers",
+        "ua": "правильних відповідей"
+    },
+    "wrongAnswers": {
+        "ru": "неправильных ответов",
+        "en": "wrong answers",
+        "ua": "неправильних відповідей"
+    },
     "percentageResult": {
         "ru": "У вас $rightAnswers % правильных ответов",
         "en": "You got $rightAnswers % right answers",
