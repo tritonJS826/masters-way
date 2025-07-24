@@ -39,6 +39,13 @@ export class ActiveRoomStore {
   }
 
   /**
+   * Append messages
+   */
+  public reloadActiveRoom = () => {
+    this.initializeActiveRoom(this.activeRoom.roomId);
+  };
+
+  /**
    * Set message to send
    */
   public setMessage = (message: string) => {
