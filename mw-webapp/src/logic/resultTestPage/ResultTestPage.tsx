@@ -26,6 +26,7 @@ import styles from "src/logic/resultTestPage/ResultTestPage.module.scss";
 
 const MAX_PERCENTAGE = 100;
 const PRECISION_PERCENTAGE_RESULT = 2;
+const ANSWERS_COUNT_STEP = 1;
 
 /**
  * Return percentages value
@@ -130,10 +131,8 @@ export const ResultTestPage = observer((props: ResultTestPageProps) => {
         userUuid,
         userName,
         userImageUrl,
-        // eslint-disable-next-line no-magic-numbers
-        rightAnswersAmount: isOk ? 1 : 0,
-        // eslint-disable-next-line no-magic-numbers
-        wrongAnswersAmount: isOk ? 0 : 1,
+        rightAnswersAmount: isOk ? ANSWERS_COUNT_STEP : 0,
+        wrongAnswersAmount: isOk ? 0 : ANSWERS_COUNT_STEP,
       });
     }
   }
