@@ -1,7 +1,11 @@
 package schemas
 
+type SendUserJoinedSessionEventRequest struct {
+	UserUuid string `json:"userUuid" validate:"required"`
+}
 type UserJoinedSessionEventPayload struct {
 	UserUuid string `json:"userUuid" validate:"required"`
+	UserName string `json:"userName" validate:"required"`
 }
 type UserReadyToStartPlayEventPayload struct {
 	UserUuid string `json:"userUuid" validate:"required"`

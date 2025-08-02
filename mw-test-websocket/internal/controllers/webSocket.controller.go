@@ -18,11 +18,18 @@ import (
 )
 
 type SocketController struct {
-	SocketService services.SocketService
+	// SocketService  services.SocketService
+	GeneralService services.GeneralService
 }
 
-func NewSocketController(socketService services.SocketService) *SocketController {
-	return &SocketController{SocketService: socketService}
+func NewSocketController(
+	// socketService services.SocketService,
+	generalService services.GeneralService,
+) *SocketController {
+	return &SocketController{
+		// SocketService: socketService,
+		GeneralService: generalService,
+	}
 }
 
 type Client struct {
@@ -171,6 +178,7 @@ func (c *Client) reader(onDisconnect func()) {
 
 type UserInfo struct {
 	UserUuid string
+	UserName string
 }
 
 type ConnectionsDetails struct {
@@ -219,8 +227,18 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 		return
 	}
 
+	users, err := cc.GeneralService.GetUserByIds(ctx, []string{userID})
+	if err != nil {
+		log.Printf("Failed to get user by ID %s: %v", userID, err)
+		return
+	}
+	user := users[0]
+
 	connectionID := time.Now().Format(time.RFC3339Nano)
-	userInfo := &schemas.UserInfo{UserUuid: userID}
+	userInfo := &schemas.UserInfo{
+		UserUuid: userID,
+		UserName: user.Name,
+	}
 
 	onDisconnect := func() {
 		mu.Lock()
@@ -266,7 +284,10 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 
 	session.Connections[client.ID] = client
 	if _, userExists := session.Users[userID]; !userExists {
-		session.Users[userID] = &UserInfo{UserUuid: userID}
+		session.Users[userID] = &UserInfo{
+			UserUuid: userID,
+			UserName: user.Name,
+		}
 	}
 
 	log.Printf("Client %s (user: %s) connected to session %s.", client.ID, userID, sessionUuid)
@@ -279,12 +300,12 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param sessionUuid path string true "sessionUuid"
-// @Param request body schemas.UserJoinedSessionEventPayload true "query params"
+// @Param request body schemas.SendUserJoinedSessionEventRequest true "query params"
 // @Success 200 {object} schemas.UserJoinedSessionEventResponse
 // @Router /session/{sessionUuid}/userJoinedSession [post]
 func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 	sessionUuid := ctx.Param("sessionUuid")
-	var payload *schemas.UserJoinedSessionEventPayload
+	var payload *schemas.SendUserJoinedSessionEventRequest
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -296,8 +317,18 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 	mu.RLock()
 	session, exists := sessionPool[sessionUuid]
 	if exists {
+		users, err := cc.GeneralService.GetUserByIds(ctx, []string{payload.UserUuid})
+		if err != nil {
+			log.Printf("Failed to get user by ID %s: %v", payload.UserUuid, err)
+			return
+		}
+		user := users[0]
+
+		newMessage := eventFactory.MakeUserJoinedSessionEvent(schemas.UserJoinedSessionEventPayload{
+			UserUuid: payload.UserUuid,
+			UserName: user.Name,
+		})
 		for _, connection := range session.Connections {
-			newMessage := eventFactory.MakeUserJoinedSessionEvent(schemas.UserJoinedSessionEventPayload{UserUuid: payload.UserUuid})
 			err := connection.SendMessage(newMessage)
 			utils.HandleErrorGin(ctx, err)
 		}
@@ -306,6 +337,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 		currentUsers = lo.MapToSlice(session.Users, func(userUuid string, userInfo *UserInfo) schemas.UserInfo {
 			return schemas.UserInfo{
 				UserUuid: userInfo.UserUuid,
+				UserName: user.Name,
 			}
 		})
 	}

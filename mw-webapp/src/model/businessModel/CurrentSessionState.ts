@@ -4,6 +4,11 @@ export type UserInfo = {
    * UserUuid
    */
   userUuid: string;
+
+  /**
+   * User's name
+   */
+  userName: string;
 }
 
 /**

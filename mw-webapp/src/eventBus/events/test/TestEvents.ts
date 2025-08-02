@@ -17,6 +17,11 @@ export type UserJoinedSessionPayload = {
    * User id
    */
   userUuid: string;
+
+  /**
+   * User name
+   */
+  userName: string;
 }
 
 /**
@@ -265,6 +270,11 @@ export type UserInfo = {
    * UserUuid
    */
   userUuid: string;
+
+  /**
+   * User's name
+   */
+  userName: string;
 }
 
 /**

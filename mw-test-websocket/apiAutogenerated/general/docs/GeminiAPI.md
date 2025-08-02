@@ -1,0 +1,812 @@
+# \GeminiAPI
+
+All URIs are relative to */general*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**AiChat**](GeminiAPI.md#AiChat) | **Post** /gemini/just-chat | Just chat with AI
+[**AiCommentIssue**](GeminiAPI.md#AiCommentIssue) | **Post** /gemini/comment-issue | Generate a comment for any issue
+[**AiDecomposeIssue**](GeminiAPI.md#AiDecomposeIssue) | **Post** /gemini/decompose-issue | Decompose issue
+[**AiDescriptionForTrainingByTestResults**](GeminiAPI.md#AiDescriptionForTrainingByTestResults) | **Post** /gemini/trainings/description | 
+[**AiEstimateIssue**](GeminiAPI.md#AiEstimateIssue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
+[**AiPlansByMetrics**](GeminiAPI.md#AiPlansByMetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
+[**AiPracticeMaterialForTopic**](GeminiAPI.md#AiPracticeMaterialForTopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+[**AiQuestionResult**](GeminiAPI.md#AiQuestionResult) | **Post** /gemini/test/questionResult | Generate questionResult
+[**AiQuestionsForTest**](GeminiAPI.md#AiQuestionsForTest) | **Post** /gemini/test/questions | Generate questions test
+[**AiTheoryMaterialForTopic**](GeminiAPI.md#AiTheoryMaterialForTopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
+[**AiTopicForTraining**](GeminiAPI.md#AiTopicForTraining) | **Post** /gemini/trainings/topics | 
+[**GenerateMetrics**](GeminiAPI.md#GenerateMetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
+
+
+
+## AiChat
+
+> MwServerInternalSchemasAIChatResponse AiChat(ctx).Request(request).Execute()
+
+Just chat with AI
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIChatPayload("ru|en|ua", "Message_example") // MwServerInternalSchemasAIChatPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiChat(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiChat``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiChat`: MwServerInternalSchemasAIChatResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiChat`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiChatRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIChatPayload**](MwServerInternalSchemasAIChatPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIChatResponse**](MwServerInternalSchemasAIChatResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiCommentIssue
+
+> MwServerInternalSchemasAICommentIssueResponse AiCommentIssue(ctx).Request(request).Execute()
+
+Generate a comment for any issue
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAICommentIssuePayload("Goal_example", "ru|en|ua", "Message_example") // MwServerInternalSchemasAICommentIssuePayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiCommentIssue(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiCommentIssue``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiCommentIssue`: MwServerInternalSchemasAICommentIssueResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiCommentIssue`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiCommentIssueRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAICommentIssuePayload**](MwServerInternalSchemasAICommentIssuePayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAICommentIssueResponse**](MwServerInternalSchemasAICommentIssueResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiDecomposeIssue
+
+> MwServerInternalSchemasAIDecomposeIssueResponse AiDecomposeIssue(ctx).Request(request).Execute()
+
+Decompose issue
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIDecomposeIssuePayload("Goal_example", "ru|en|ua", "Message_example") // MwServerInternalSchemasAIDecomposeIssuePayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiDecomposeIssue(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiDecomposeIssue``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiDecomposeIssue`: MwServerInternalSchemasAIDecomposeIssueResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiDecomposeIssue`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiDecomposeIssueRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIDecomposeIssuePayload**](MwServerInternalSchemasAIDecomposeIssuePayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIDecomposeIssueResponse**](MwServerInternalSchemasAIDecomposeIssueResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiDescriptionForTrainingByTestResults
+
+> MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse AiDescriptionForTrainingByTestResults(ctx).Request(request).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload("ru|en|ua", "TestDescription_example", "TestName_example", []openapiclient.MwServerInternalSchemasQuestionResult{*openapiclient.NewMwServerInternalSchemasQuestionResult(false, "QuestionAnswer_example", "QuestionDescription_example", "QuestionName_example", "ResultDescription_example", "UserAnswer_example")}, "TestSessionResult_example") // MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiDescriptionForTrainingByTestResults(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiDescriptionForTrainingByTestResults``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiDescriptionForTrainingByTestResults`: MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiDescriptionForTrainingByTestResults`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiDescriptionForTrainingByTestResultsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload**](MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse**](MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiEstimateIssue
+
+> MwServerInternalSchemasAIEstimateIssueResponse AiEstimateIssue(ctx).Request(request).Execute()
+
+Estimate issue in minutes
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIEstimateIssuePayload("Goal_example", "Issue_example", "ru|en|ua") // MwServerInternalSchemasAIEstimateIssuePayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiEstimateIssue(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiEstimateIssue``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiEstimateIssue`: MwServerInternalSchemasAIEstimateIssueResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiEstimateIssue`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiEstimateIssueRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIEstimateIssuePayload**](MwServerInternalSchemasAIEstimateIssuePayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIEstimateIssueResponse**](MwServerInternalSchemasAIEstimateIssueResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiPlansByMetrics
+
+> MwServerInternalSchemasAIGeneratePlansByMetricResponse AiPlansByMetrics(ctx).Request(request).Execute()
+
+Generate plans by metric
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGeneratePlansByMetricPayload("Goal_example", "ru|en|ua", "Metric_example") // MwServerInternalSchemasAIGeneratePlansByMetricPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiPlansByMetrics(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiPlansByMetrics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiPlansByMetrics`: MwServerInternalSchemasAIGeneratePlansByMetricResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiPlansByMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiPlansByMetricsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGeneratePlansByMetricPayload**](MwServerInternalSchemasAIGeneratePlansByMetricPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGeneratePlansByMetricResponse**](MwServerInternalSchemasAIGeneratePlansByMetricResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiPracticeMaterialForTopic
+
+> MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse AiPracticeMaterialForTopic(ctx).Request(request).Execute()
+
+Generate practice material for training
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTheoryMaterials_example"}, int32(123), "ru|en|ua", "TopicName_example", "TrainingDescription_example", "TrainingName_example") // MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiPracticeMaterialForTopic(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiPracticeMaterialForTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiPracticeMaterialForTopic`: MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiPracticeMaterialForTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiPracticeMaterialForTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload**](MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse**](MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiQuestionResult
+
+> MwServerInternalSchemasAIGenerateQuestionResultResponse AiQuestionResult(ctx).Request(request).Execute()
+
+Generate questionResult
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateQuestionResultPayload("AnswerByCreator_example", "AnswerFromUser_example", "ru|en|ua", "QuestionName_example", "QuestionText_example") // MwServerInternalSchemasAIGenerateQuestionResultPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiQuestionResult(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiQuestionResult``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiQuestionResult`: MwServerInternalSchemasAIGenerateQuestionResultResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiQuestionResult`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiQuestionResultRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateQuestionResultPayload**](MwServerInternalSchemasAIGenerateQuestionResultPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateQuestionResultResponse**](MwServerInternalSchemasAIGenerateQuestionResultResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiQuestionsForTest
+
+> MwServerInternalSchemasAIGenerateQuestionsForTestResponse AiQuestionsForTest(ctx).Request(request).Execute()
+
+Generate questions test
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateQuestionsForTestPayload(int32(123), "ru|en|ua", []string{"Questions_example"}, "TestDescription_example", "TestName_example") // MwServerInternalSchemasAIGenerateQuestionsForTestPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiQuestionsForTest(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiQuestionsForTest``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiQuestionsForTest`: MwServerInternalSchemasAIGenerateQuestionsForTestResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiQuestionsForTest`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiQuestionsForTestRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateQuestionsForTestPayload**](MwServerInternalSchemasAIGenerateQuestionsForTestPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateQuestionsForTestResponse**](MwServerInternalSchemasAIGenerateQuestionsForTestResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiTheoryMaterialForTopic
+
+> MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse AiTheoryMaterialForTopic(ctx).Request(request).Execute()
+
+Generate theory material for training
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTheoryMaterials_example"}, "ru|en|ua", "TopicName_example", "TrainingDescription_example", "TrainingName_example") // MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiTheoryMaterialForTopic(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiTheoryMaterialForTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiTheoryMaterialForTopic`: MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiTheoryMaterialForTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiTheoryMaterialForTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload**](MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse**](MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AiTopicForTraining
+
+> MwServerInternalSchemasAIGenerateTopicsForTrainingResponse AiTopicForTraining(ctx).Request(request).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload("Goal_example", "ru|en|ua", int32(123), "TrainingName_example") // MwServerInternalSchemasAIGenerateTopicsForTrainingPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.AiTopicForTraining(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiTopicForTraining``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AiTopicForTraining`: MwServerInternalSchemasAIGenerateTopicsForTrainingResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiTopicForTraining`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAiTopicForTrainingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasAIGenerateTopicsForTrainingPayload**](MwServerInternalSchemasAIGenerateTopicsForTrainingPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasAIGenerateTopicsForTrainingResponse**](MwServerInternalSchemasAIGenerateTopicsForTrainingResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateMetrics
+
+> MwServerInternalSchemasGenerateMetricsResponse GenerateMetrics(ctx).Request(request).Execute()
+
+Generate metrics using Gemini
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasGenerateMetricsPayload("GoalDescription_example", "ru|en|ua", []string{"Metrics_example"}, "WayName_example") // MwServerInternalSchemasGenerateMetricsPayload | Request payload
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.GeminiAPI.GenerateMetrics(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.GenerateMetrics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateMetrics`: MwServerInternalSchemasGenerateMetricsResponse
+	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.GenerateMetrics`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateMetricsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasGenerateMetricsPayload**](MwServerInternalSchemasGenerateMetricsPayload.md) | Request payload | 
+
+### Return type
+
+[**MwServerInternalSchemasGenerateMetricsResponse**](MwServerInternalSchemasGenerateMetricsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+

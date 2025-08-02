@@ -21,6 +21,7 @@ var _ MappedNullable = &MwTestWebsocketInternalSchemasUserInfo{}
 
 // MwTestWebsocketInternalSchemasUserInfo struct for MwTestWebsocketInternalSchemasUserInfo
 type MwTestWebsocketInternalSchemasUserInfo struct {
+	UserName string `json:"userName"`
 	UserUuid string `json:"userUuid"`
 }
 
@@ -30,8 +31,9 @@ type _MwTestWebsocketInternalSchemasUserInfo MwTestWebsocketInternalSchemasUserI
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTestWebsocketInternalSchemasUserInfo(userUuid string) *MwTestWebsocketInternalSchemasUserInfo {
+func NewMwTestWebsocketInternalSchemasUserInfo(userName string, userUuid string) *MwTestWebsocketInternalSchemasUserInfo {
 	this := MwTestWebsocketInternalSchemasUserInfo{}
+	this.UserName = userName
 	this.UserUuid = userUuid
 	return &this
 }
@@ -42,6 +44,30 @@ func NewMwTestWebsocketInternalSchemasUserInfo(userUuid string) *MwTestWebsocket
 func NewMwTestWebsocketInternalSchemasUserInfoWithDefaults() *MwTestWebsocketInternalSchemasUserInfo {
 	this := MwTestWebsocketInternalSchemasUserInfo{}
 	return &this
+}
+
+// GetUserName returns the UserName field value
+func (o *MwTestWebsocketInternalSchemasUserInfo) GetUserName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserName
+}
+
+// GetUserNameOk returns a tuple with the UserName field value
+// and a boolean to check if the value has been set.
+func (o *MwTestWebsocketInternalSchemasUserInfo) GetUserNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserName, true
+}
+
+// SetUserName sets field value
+func (o *MwTestWebsocketInternalSchemasUserInfo) SetUserName(v string) {
+	o.UserName = v
 }
 
 // GetUserUuid returns the UserUuid field value
@@ -78,6 +104,7 @@ func (o MwTestWebsocketInternalSchemasUserInfo) MarshalJSON() ([]byte, error) {
 
 func (o MwTestWebsocketInternalSchemasUserInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["userName"] = o.UserName
 	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
@@ -87,6 +114,7 @@ func (o *MwTestWebsocketInternalSchemasUserInfo) UnmarshalJSON(data []byte) (err
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"userName",
 		"userUuid",
 	}
 

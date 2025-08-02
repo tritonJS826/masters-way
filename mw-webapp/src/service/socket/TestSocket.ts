@@ -20,7 +20,6 @@ import {
   UserJoinedSessionPayload,
   UserReadyToStartPlayPayload,
 } from "src/eventBus/events/test/TestEvents";
-import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {
@@ -83,19 +82,9 @@ export const connectTestSocket = (sessionUuid: string) => {
     switch (event.type) {
       case "mw-test-websocket:user-joined-session":
         emitEvent(makeUserJoinedSessionEvent(event.payload as UserJoinedSessionPayload));
-        serviceWorkerStore.systemNotification({
-          title: "Somebody joined to the game!",
-          text: `${(event.payload as UserJoinedSessionPayload).userUuid} joined! `,
-          tag: SystemNotificationTag.TEST,
-        });
         break;
       case "mw-test-websocket:user-ready-to-start-play":
         emitEvent(makeUserReadyToStartPlayEvent(event.payload as UserReadyToStartPlayPayload));
-        serviceWorkerStore.systemNotification({
-          title: "New message!",
-          text: `${(event.payload as UserReadyToStartPlayPayload).userUuid} is ready to start!`,
-          tag: SystemNotificationTag.TEST,
-        });
         break;
       case "mw-test-websocket:host-started-game":
         emitEvent(makeHostStartedGameEvent(event.payload as HostStartedGamePayload));

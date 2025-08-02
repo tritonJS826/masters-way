@@ -38,10 +38,12 @@
     userHostUuid: string,
     currentUsers: {
         userUuid: string
+        userName: string
     }[]
 }
 2. UserJoinedSession: {
-    userUuid: string
+    userUuid: string,
+    userName: string
 }
 3. UserReadyToStartPlay: {
     userUuid: string

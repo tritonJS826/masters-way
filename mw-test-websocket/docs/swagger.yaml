@@ -10,6 +10,13 @@ definitions:
     - enemySpawnInterval
     - speedScale
     type: object
+  mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest:
+    properties:
+      userUuid:
+        type: string
+    required:
+    - userUuid
+    type: object
   mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload:
     properties:
       isOk:
@@ -64,16 +71,12 @@ definitions:
     type: object
   mw-test-websocket_internal_schemas.UserInfo:
     properties:
+      userName:
+        type: string
       userUuid:
         type: string
     required:
-    - userUuid
-    type: object
-  mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
-    properties:
-      userUuid:
-        type: string
-    required:
+    - userName
     - userUuid
     type: object
   mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:
@@ -216,7 +219,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload'
+          $ref: '#/definitions/mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest'
       produces:
       - application/json
       responses:

@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**UserName** | **string** |  | 
 **UserUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwTestWebsocketInternalSchemasUserInfo
 
-`func NewMwTestWebsocketInternalSchemasUserInfo(userUuid string, ) *MwTestWebsocketInternalSchemasUserInfo`
+`func NewMwTestWebsocketInternalSchemasUserInfo(userName string, userUuid string, ) *MwTestWebsocketInternalSchemasUserInfo`
 
 NewMwTestWebsocketInternalSchemasUserInfo instantiates a new MwTestWebsocketInternalSchemasUserInfo object
 This constructor will assign default values to properties that have it defined,
@@ -24,6 +25,26 @@ will change when the set of required properties is changed
 NewMwTestWebsocketInternalSchemasUserInfoWithDefaults instantiates a new MwTestWebsocketInternalSchemasUserInfo object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetUserName
+
+`func (o *MwTestWebsocketInternalSchemasUserInfo) GetUserName() string`
+
+GetUserName returns the UserName field if non-nil, zero value otherwise.
+
+### GetUserNameOk
+
+`func (o *MwTestWebsocketInternalSchemasUserInfo) GetUserNameOk() (*string, bool)`
+
+GetUserNameOk returns a tuple with the UserName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserName
+
+`func (o *MwTestWebsocketInternalSchemasUserInfo) SetUserName(v string)`
+
+SetUserName sets UserName field to given value.
+
 
 ### GetUserUuid
 

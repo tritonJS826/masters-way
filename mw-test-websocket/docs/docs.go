@@ -194,7 +194,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload"
+                            "$ref": "#/definitions/mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest"
                         }
                     }
                 ],
@@ -292,6 +292,17 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest": {
+            "type": "object",
+            "required": [
+                "userUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload": {
             "type": "object",
             "required": [
@@ -369,20 +380,13 @@ const docTemplate = `{
         "mw-test-websocket_internal_schemas.UserInfo": {
             "type": "object",
             "required": [
+                "userName",
                 "userUuid"
             ],
             "properties": {
-                "userUuid": {
+                "userName": {
                     "type": "string"
-                }
-            }
-        },
-        "mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload": {
-            "type": "object",
-            "required": [
-                "userUuid"
-            ],
-            "properties": {
+                },
                 "userUuid": {
                     "type": "string"
                 }

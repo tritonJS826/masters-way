@@ -11,6 +11,8 @@ type Config struct {
 	ServerPort        string `mapstructure:"SERVER_PORT"`
 	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
 	TrainingBffDomain string `mapstructure:"TRAINING_BFF_DOMAIN"`
+	GeneralAPIHost    string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseUrl    string `mapstructure:"GENERAL_BASE_URL"`
 	EnvType           string `mapstructure:"ENV_TYPE"`
 	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
 }

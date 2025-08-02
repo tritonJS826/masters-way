@@ -4,11 +4,14 @@ import (
 	"errors"
 	"mw-test-websocket/internal/config"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
+const HeaderKeyAuthorization = "Authorization"
+const ContextKeyAuthorization = "ContextKeyAuthorization"
 const ContextKeyUserID = "userID"
 const ContextKeySessionUuid = "sessionUuid"
 
@@ -46,6 +49,31 @@ func ExtractTokenMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 		ctx.Set(ContextKeyUserID, claims.UserID)
 		ctx.Set(ContextKeySessionUuid, sessionUuid)
+		ctx.Next()
+	}
+}
+
+func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
+		if authHeader == "" {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
+			return
+		}
+
+		if !strings.HasPrefix(authHeader, "Bearer ") {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header must start with Bearer"})
+			return
+		}
+
+		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+		claims, err := ValidateJWT(cfg.SecretSessionKey, tokenString)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			return
+		}
+
+		ctx.Set(ContextKeyUserID, claims.UserID)
 		ctx.Next()
 	}
 }

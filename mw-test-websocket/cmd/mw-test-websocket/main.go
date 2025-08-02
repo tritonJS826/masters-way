@@ -5,6 +5,7 @@ import (
 	"mw-test-websocket/internal/config"
 	"mw-test-websocket/internal/controllers"
 	"mw-test-websocket/internal/server"
+	"mw-test-websocket/internal/services"
 )
 
 // @title     Masters way test-websocket API
@@ -16,7 +17,8 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
-	controllers := controllers.NewController()
+	newService := services.NewService(&newConfig)
+	controllers := controllers.NewController(newService)
 
 	newServer := server.NewServer(&newConfig)
 	newServer.SetRoutes(controllers)

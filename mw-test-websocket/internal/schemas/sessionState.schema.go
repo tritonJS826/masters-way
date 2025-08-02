@@ -2,6 +2,7 @@ package schemas
 
 type UserInfo struct {
 	UserUuid string `json:"userUuid" validate:"required"`
+	UserName string `json:"userName" validate:"required"`
 }
 
 type UserJoinedSessionEventResponse struct {

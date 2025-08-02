@@ -24,6 +24,12 @@ export interface MwTestWebsocketInternalSchemasUserInfo {
      * @type {string}
      * @memberof MwTestWebsocketInternalSchemasUserInfo
      */
+    userName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTestWebsocketInternalSchemasUserInfo
+     */
     userUuid: string;
 }
 
@@ -34,6 +40,7 @@ export function instanceOfMwTestWebsocketInternalSchemasUserInfo(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "userName" in value;
     isInstance = isInstance && "userUuid" in value;
 
     return isInstance;
@@ -52,6 +59,7 @@ export function MwTestWebsocketInternalSchemasUserInfoFromJSONTyped(
     }
     return {
         
+        'userName': json['userName'],
         'userUuid': json['userUuid'],
     };
 }
@@ -66,6 +74,7 @@ export function MwTestWebsocketInternalSchemasUserInfoToJSON(value?: MwTestWebso
     }
     return {
         
+        'userName': value.userName,
         'userUuid': value.userUuid,
     };
 }

@@ -243,10 +243,14 @@ components:
     mw-test-websocket_internal_schemas.UserInfo:
       example:
         userUuid: userUuid
+        userName: userName
       properties:
+        userName:
+          type: string
         userUuid:
           type: string
       required:
+      - userName
       - userUuid
       type: object
     mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
@@ -261,7 +265,9 @@ components:
         userHostUuid: userHostUuid
         currentUsers:
         - userUuid: userUuid
+          userName: userName
         - userUuid: userUuid
+          userName: userName
       properties:
         currentUsers:
           items:

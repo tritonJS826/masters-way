@@ -133,12 +133,16 @@ export const GameBlock = observer((props: GameBlockProps) => {
    * Handle event host started Game
    */
   const handleHostStartedGame = () => {
+
     if (!user) {
       return;
     }
     TestWebsocketDAL.sendHostStartedGameEvent({
       sessionUuid: props.sessionUuid,
       userUuid: user.uuid,
+      // TODO: get enemySpawnInterval and speedScale from unity
+      enemySpawnInterval: 10,
+      speedScale: 1,
     });
   };
 

@@ -49,6 +49,16 @@ export interface HostStartedGameParams {
      * Session uuid
      */
     userUuid: string;
+
+    /**
+     * Enemy spawn interval integer (usually from 5 to 30 seconds)
+     */
+    enemySpawnInterval: number;
+
+    /**
+     * Speed scale double from 0.01x to 100x
+     */
+    speedScale: number;
 }
 
 /**
@@ -104,7 +114,12 @@ export class TestWebsocketDAL {
    */
   public static async sendHostStartedGameEvent(params: HostStartedGameParams): Promise<void> {
     await TestWebsocketService
-      .sendHostStartedGameEvent({sessionUuid: params.sessionUuid, request: {userUuid: params.userUuid}});
+      .sendHostStartedGameEvent({
+        sessionUuid: params.sessionUuid, request: {
+          enemySpawnInterval: params.enemySpawnInterval,
+          speedScale: params.speedScale,
+        },
+      });
 
     return;
   }

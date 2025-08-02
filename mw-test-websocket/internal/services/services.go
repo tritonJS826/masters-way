@@ -2,6 +2,8 @@ package services
 
 import (
 	"context"
+	"mw-test-websocket/internal/config"
+	"mw-test-websocket/internal/openapi"
 )
 
 type ISocketService interface {
@@ -9,11 +11,15 @@ type ISocketService interface {
 }
 
 type Service struct {
-	ISocketService
+	// ISocketService
+	GeneralService
 }
 
-func NewService() *Service {
+func NewService(config *config.Config) *Service {
+	var generalApi = openapi.MakeGeneralAPIClient(config)
+
 	return &Service{
-		ISocketService: NewSocketService(),
+		// ISocketService: NewSocketService(),
+		GeneralService: *NewGeneralService(generalApi),
 	}
 }
