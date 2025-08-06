@@ -337,7 +337,7 @@ func (cc *SocketController) SendUserJoinedSessionEvent(ctx *gin.Context) {
 		currentUsers = lo.MapToSlice(session.Users, func(userUuid string, userInfo *UserInfo) schemas.UserInfo {
 			return schemas.UserInfo{
 				UserUuid: userInfo.UserUuid,
-				UserName: user.Name,
+				UserName: userInfo.UserName,
 			}
 		})
 	}
