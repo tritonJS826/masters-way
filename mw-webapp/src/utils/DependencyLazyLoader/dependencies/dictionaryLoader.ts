@@ -12,7 +12,7 @@ export class DictionaryLoader {
   private mentorsLandingDictionary: MentorLandingContent | null = null;
 
   constructor() {
-    // This.loadMentorsLandingDictionary();
+    this.loadMentorsLandingDictionary();
   }
 
   /**
