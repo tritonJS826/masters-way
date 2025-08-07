@@ -10,7 +10,6 @@ import homePageContent from "src/dictionary/HomePageContent.json";
 import businessLanding from "src/dictionary/landing/BusinessLandingContent.json";
 import gameLanding from "src/dictionary/landing/GameLandingContent.json";
 import loremLanding from "src/dictionary/landing/LoremLandingContent.json";
-import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import testWithAiLanding from "src/dictionary/landing/TestWithAILandingContent.json";
@@ -31,6 +30,7 @@ import topicPageContent from "src/dictionary/TopicPageContent.json";
 import trainingPageContent from "src/dictionary/TrainingPageContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
+import {DictionaryLazyLoader} from "src/utils/DependencyLazyLoader/dictionaryLazyLoader";
 
 /**
  * Language service (access to dictionaries)
@@ -202,7 +202,12 @@ export class LanguageService {
    * Mentor's landing content
    */
   public static get mentorsLanding() {
-    return mentorsLanding;
+    const dictionary = DictionaryLazyLoader.getDictionaryLoader().getMentorsLandingDictionarySync();
+    if (!dictionary) {
+      throw new Error("Dictionary loaded but returned null. Please check the dictionary file.");
+    }
+
+    return dictionary;
   }
 
   /**
