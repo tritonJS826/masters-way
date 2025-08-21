@@ -7,14 +7,17 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
+import {Loader} from "src/component/loader/Loader";
 import {PricingBlock} from "src/component/pricingBlock/PricingBlock";
 import {ReviewCard} from "src/component/reviewCard/ReviewCard";
 import {Slider, SliderItem} from "src/component/slider/Slider";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {DictionaryState} from "src/globalStore/DictionaryStore";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
+import {useLazyDictionary} from "src/hooks/useLazyDictionary";
 import {pricePlansList} from "src/logic/pricePlans";
 import {getStarted} from "src/logic/staticPages/homePage/HomePage";
 import {AmountBlock, AmountItem} from "src/logic/staticPages/landingPages/amountBlock/AmountBlock";
@@ -32,8 +35,21 @@ export const MentorsLandingPage = observer(() => {
   const {user} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
-
   const navigate = useNavigate();
+  const {state} = useLazyDictionary();
+
+  if (state === DictionaryState.PENDING) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute={true}
+      />
+    );
+  }
+
+  if (state === DictionaryState.ERROR) {
+    throw new Error ("Dictionary is not available");
+  }
 
   const navList: NavLink[] = [
     {

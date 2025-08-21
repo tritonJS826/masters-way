@@ -1,3 +1,4 @@
+
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
 import allTestsPageContent from "src/dictionary/AllTestsPageContent.json";
 import allTrainingsPageContent from "src/dictionary/AllTrainingsPageContent.json";
@@ -30,7 +31,7 @@ import topicPageContent from "src/dictionary/TopicPageContent.json";
 import trainingPageContent from "src/dictionary/TrainingPageContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
-import {DictionaryLazyLoader} from "src/utils/DependencyLazyLoader/dictionaryLazyLoader";
+import {dictionaryStore} from "src/globalStore/DictionaryStore";
 
 /**
  * Language service (access to dictionaries)
@@ -199,12 +200,19 @@ export class LanguageService {
   }
 
   /**
-   * Mentor's landing content
+   * Pre-load mentors landing dictionary
+   */
+  public static async preloadMentorsLanding() {
+    await dictionaryStore.loadMentorsLandingDictionary();
+  }
+
+  /**
+   * Get mentors landing content (synchronous, requires pre-loading)
    */
   public static get mentorsLanding() {
-    const dictionary = DictionaryLazyLoader.getDictionaryLoader().getMentorsLandingDictionarySync();
+    const dictionary = dictionaryStore.mentorsLandingDictionary;
     if (!dictionary) {
-      throw new Error("Dictionary loaded but returned null. Please check the dictionary file.");
+      throw new Error("Mentors landing dictionary not loaded.");
     }
 
     return dictionary;
