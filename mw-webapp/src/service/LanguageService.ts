@@ -31,7 +31,6 @@ import topicPageContent from "src/dictionary/TopicPageContent.json";
 import trainingPageContent from "src/dictionary/TrainingPageContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
-import {dictionaryStore} from "src/globalStore/DictionaryStore";
 
 /**
  * Language service (access to dictionaries)
@@ -197,25 +196,6 @@ export class LanguageService {
    */
   public static get pricing() {
     return pricing;
-  }
-
-  /**
-   * Pre-load mentors landing dictionary
-   */
-  public static async preloadMentorsLanding() {
-    await dictionaryStore.loadMentorsLandingDictionary();
-  }
-
-  /**
-   * Get mentors landing content (synchronous, requires pre-loading)
-   */
-  public static get mentorsLanding() {
-    const dictionary = dictionaryStore.mentorsLandingDictionary;
-    if (!dictionary) {
-      throw new Error("Mentors landing dictionary not loaded.");
-    }
-
-    return dictionary;
   }
 
   /**
