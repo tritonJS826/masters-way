@@ -1,15 +1,15 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {DictionaryDAL} from "src/dataAccessLogic/DictionaryDAL";
 import {load} from "src/hooks/useLoad";
-import {DictionaryKey, DictionaryTypeMap} from "src/service/LazyLoadLanguageService";
+import {DictionaryKey, DictionaryTypeMap} from "src/service/AsyncLanguageService";
 
 /**
- * RunningTestStore related methods
+ * DictionaryStore related methods
  */
 export class DictionaryStore<T extends DictionaryKey> {
 
   /**
-   * Test value
+   * Dictionary value
    * Should be initialized!
    */
   public dictionary!: DictionaryTypeMap[T];

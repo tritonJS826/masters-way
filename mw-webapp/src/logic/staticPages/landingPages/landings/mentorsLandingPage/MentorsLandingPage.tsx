@@ -13,18 +13,17 @@ import {ReviewCard} from "src/component/reviewCard/ReviewCard";
 import {Slider, SliderItem} from "src/component/slider/Slider";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {DictionaryStore} from "src/globalStore/dictionaryStore";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {useStore} from "src/hooks/useStore";
+import {useLazyDictionaries} from "src/hooks/useLazyDictionary";
 import {pricePlansList} from "src/logic/pricePlans";
 import {getStarted} from "src/logic/staticPages/homePage/HomePage";
 import {AmountBlock, AmountItem} from "src/logic/staticPages/landingPages/amountBlock/AmountBlock";
 import {FooterLanding} from "src/logic/staticPages/landingPages/footerLanding/FooterLanding";
 import {HeaderLanding, NavLink} from "src/logic/staticPages/landingPages/headerLanding/HeaderLanding";
 import {ProblemItem} from "src/logic/staticPages/landingPages/problemItem/ProblemItem";
-import {DictionaryKey, LazyLoadLanguageService} from "src/service/LazyLoadLanguageService";
+import {DictionaryKey} from "src/service/AsyncLanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/staticPages/landingPages/landings/mentorsLandingPage/MentorsLandingPage.module.scss";
 
@@ -36,15 +35,10 @@ export const MentorsLandingPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
   const navigate = useNavigate();
+  const {dictionaries: [mentorsDictionary], areAllLoaded} =
+    useLazyDictionaries(DictionaryKey.MENTORS_LANDING, DictionaryKey.LOREM_LANDING);
 
-  const dictionaryStore = useStore<
-  new (key: DictionaryKey) => DictionaryStore<DictionaryKey.MENTORS_LANDING>,
-  [DictionaryKey], DictionaryStore<DictionaryKey.MENTORS_LANDING>>({
-      storeForInitialize: DictionaryStore,
-      dataForInitialization: [DictionaryKey.MENTORS_LANDING],
-    });
-
-  if (!dictionaryStore.isInitialized) {
+  if (!areAllLoaded) {
     return (
       <Loader
         theme={theme}
@@ -56,27 +50,27 @@ export const MentorsLandingPage = observer(() => {
   const navList: NavLink[] = [
     {
       path: "advantages",
-      value: LazyLoadLanguageService.mentorsLanding.navigation.advantages[language],
+      value: mentorsDictionary.dictionary.navigation.advantages[language],
     },
     {
       path: "problems",
-      value: LazyLoadLanguageService.mentorsLanding.navigation.solutions[language],
+      value: mentorsDictionary.dictionary.navigation.solutions[language],
     },
     {
       path: "reviews",
-      value: LazyLoadLanguageService.mentorsLanding.navigation.reviews[language],
+      value: mentorsDictionary.dictionary.navigation.reviews[language],
     },
     {
       path: "pricing",
-      value: LazyLoadLanguageService.mentorsLanding.navigation.pricing[language],
+      value: mentorsDictionary.dictionary.navigation.pricing[language],
     },
     {
       path: "questions",
-      value: LazyLoadLanguageService.mentorsLanding.navigation.questions[language],
+      value: mentorsDictionary.dictionary.navigation.questions[language],
     },
   ];
 
-  const accordionItems = LazyLoadLanguageService.mentorsLanding.questions.accordion.map((data) => ({
+  const accordionItems = mentorsDictionary.dictionary.questions.accordion.map((data) => ({
     trigger: {child: data.question[language]},
     content: {child: renderMarkdown(data.answer[language])},
   }));
@@ -85,17 +79,17 @@ export const MentorsLandingPage = observer(() => {
     {
       id: "00000000-0000-0000-0000-00000000001",
       amount: 30,
-      description: LazyLoadLanguageService.mentorsLanding.amountBlock.mentors[language],
+      description: mentorsDictionary.dictionary.amountBlock.mentors[language],
     },
     {
       id: "00000000-0000-0000-0000-00000000002",
       amount: 150,
-      description: LazyLoadLanguageService.mentorsLanding.amountBlock.activeWays[language],
+      description: mentorsDictionary.dictionary.amountBlock.activeWays[language],
     },
     {
       id: "00000000-0000-0000-0000-00000000003",
       amount: 50,
-      description: LazyLoadLanguageService.mentorsLanding.amountBlock.students[language],
+      description: mentorsDictionary.dictionary.amountBlock.students[language],
     },
   ];
 
@@ -105,10 +99,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LazyLoadLanguageService.mentorsLanding.reviews.kirillReview.review[language]}
+          review={mentorsDictionary.dictionary.reviews.kirillReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=13WWXNAtUrMrsf1dT5JzPJriTMUP9WJ55&sz=w400"
-          reviewerName={LazyLoadLanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
-          reviewerProfession={LazyLoadLanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
+          reviewerName={mentorsDictionary.dictionary.reviews.kirillReview.mentorName[language]}
+          reviewerProfession={mentorsDictionary.dictionary.reviews.kirillReview.mentorProfession[language]}
         />
       ),
     },
@@ -117,10 +111,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LazyLoadLanguageService.mentorsLanding.reviews.viktarReview.review[language]}
+          review={mentorsDictionary.dictionary.reviews.viktarReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=1mx9_dCHdwlxGw1UK_tkHZjHZKLjuBnhK&sz=w400"
-          reviewerName={LazyLoadLanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
-          reviewerProfession={LazyLoadLanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
+          reviewerName={mentorsDictionary.dictionary.reviews.viktarReview.mentorName[language]}
+          reviewerProfession={mentorsDictionary.dictionary.reviews.viktarReview.mentorProfession[language]}
         />
       ),
     },
@@ -129,10 +123,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LazyLoadLanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+          review={mentorsDictionary.dictionary.reviews.viktoryiaReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w400"
-          reviewerName={LazyLoadLanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
-          reviewerProfession={LazyLoadLanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+          reviewerName={mentorsDictionary.dictionary.reviews.viktoryiaReview.mentorName[language]}
+          reviewerProfession={mentorsDictionary.dictionary.reviews.viktoryiaReview.mentorProfession[language]}
         />
       ),
     },
@@ -154,18 +148,18 @@ export const MentorsLandingPage = observer(() => {
 
             {/* Workaround for colorized part of title */}
             <h1 className={styles.title}>
-              {`${LazyLoadLanguageService.mentorsLanding.main.title[language]}`}
+              {mentorsDictionary.dictionary.main.title[language]}
               <span className={clsx(styles.title, styles.mw)}>
-                {`${LazyLoadLanguageService.mentorsLanding.main.mastersWay[language]}`}
+                {mentorsDictionary.dictionary.main.mastersWay[language]}
               </span>
             </h1>
             <p className={styles.titleDescription}>
-              {LazyLoadLanguageService.mentorsLanding.main.description[language]}
+              {mentorsDictionary.dictionary.main.description[language]}
             </p>
           </VerticalContainer>
           <Button
             buttonType={ButtonType.PRIMARY}
-            value={LazyLoadLanguageService.mentorsLanding.callToActionButton[language]}
+            value={mentorsDictionary.dictionary.callToActionButton[language]}
             icon={
               <Icon
                 size={IconSize.SMALL}
@@ -192,24 +186,24 @@ export const MentorsLandingPage = observer(() => {
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
-            text={LazyLoadLanguageService.mentorsLanding.advantages.title[language]}
+            text={mentorsDictionary.dictionary.advantages.title[language]}
             placeholder=""
           />
           <HorizontalContainer className={styles.advantages}>
             <AdvantageItem
               iconName="ClockIcon"
-              title={LazyLoadLanguageService.mentorsLanding.advantages.asynchronousInteraction.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.advantages.asynchronousInteraction.description[language]}
+              title={mentorsDictionary.dictionary.advantages.asynchronousInteraction.title[language]}
+              description={mentorsDictionary.dictionary.advantages.asynchronousInteraction.description[language]}
             />
             <AdvantageItem
               iconName="TrendingUpIcon"
-              title={LazyLoadLanguageService.mentorsLanding.advantages.speedingUpProcesses.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.advantages.speedingUpProcesses.description[language]}
+              title={mentorsDictionary.dictionary.advantages.speedingUpProcesses.title[language]}
+              description={mentorsDictionary.dictionary.advantages.speedingUpProcesses.description[language]}
             />
             <AdvantageItem
               iconName="ActivityIcon"
-              title={LazyLoadLanguageService.mentorsLanding.advantages.monitoringAchievements.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.advantages.monitoringAchievements.description[language]}
+              title={mentorsDictionary.dictionary.advantages.monitoringAchievements.title[language]}
+              description={mentorsDictionary.dictionary.advantages.monitoringAchievements.description[language]}
             />
           </HorizontalContainer>
         </div>
@@ -224,28 +218,28 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LazyLoadLanguageService.mentorsLanding.solutions.title[language]}
+              text={mentorsDictionary.dictionary.solutions.title[language]}
               placeholder=""
             />
             <p className={styles.titleDescription}>
-              {LazyLoadLanguageService.mentorsLanding.solutions.description[language]}
+              {mentorsDictionary.dictionary.solutions.description[language]}
             </p>
           </VerticalContainer>
           <VerticalContainer className={styles.problems}>
             <ProblemItem
-              title={LazyLoadLanguageService.mentorsLanding.solutions.timeSaving.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.solutions.timeSaving.description[language]}
+              title={mentorsDictionary.dictionary.solutions.timeSaving.title[language]}
+              description={mentorsDictionary.dictionary.solutions.timeSaving.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1nTTtnLsX3mCFOKdua6aSlG6WL61vN49o&sz=w500"
             />
             <ProblemItem
-              title={LazyLoadLanguageService.mentorsLanding.solutions.progressMonitoring.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.solutions.progressMonitoring.description[language]}
+              title={mentorsDictionary.dictionary.solutions.progressMonitoring.title[language]}
+              description={mentorsDictionary.dictionary.solutions.progressMonitoring.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1bZryfMCG_JwdaBPoaGN8KqRDTwP3cda7&sz=w500"
               isReversed
             />
             <ProblemItem
-              title={LazyLoadLanguageService.mentorsLanding.solutions.focusOnResults.title[language]}
-              description={LazyLoadLanguageService.mentorsLanding.solutions.focusOnResults.description[language]}
+              title={mentorsDictionary.dictionary.solutions.focusOnResults.title[language]}
+              description={mentorsDictionary.dictionary.solutions.focusOnResults.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1cKQvsA0hlBPSJ3sGRXYKPQsBYzjBsom6&sz=w500"
             />
           </VerticalContainer>
@@ -259,7 +253,7 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LazyLoadLanguageService.mentorsLanding.reviews.title[language]}
+              text={mentorsDictionary.dictionary.reviews.title[language]}
               placeholder=""
             />
           </div>
@@ -271,7 +265,7 @@ export const MentorsLandingPage = observer(() => {
           </HorizontalContainer>
           <Button
             buttonType={ButtonType.PRIMARY}
-            value={LazyLoadLanguageService.mentorsLanding.callToActionButton[language]}
+            value={mentorsDictionary.dictionary.callToActionButton[language]}
             icon={
               <Icon
                 size={IconSize.SMALL}
@@ -291,7 +285,7 @@ export const MentorsLandingPage = observer(() => {
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
-            text={LazyLoadLanguageService.mentorsLanding.pricing.title[language]}
+            text={mentorsDictionary.dictionary.pricing.title[language]}
             placeholder=""
           />
           <PricingBlock pricePlans={pricePlansList} />
@@ -305,7 +299,7 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LazyLoadLanguageService.mentorsLanding.questions.title[language]}
+              text={mentorsDictionary.dictionary.questions.title[language]}
               placeholder=""
             />
           </VerticalContainer>
@@ -321,19 +315,19 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={clsx(styles.titleBlock, styles.title, styles.titleYouShouldBlock)}
               level={HeadingLevel.h2}
-              text={LazyLoadLanguageService.mentorsLanding.aboutApp.title[language]}
+              text={mentorsDictionary.dictionary.aboutApp.title[language]}
               placeholder=""
             />
             <VerticalContainer className={styles.triesContentBlock}>
               <p>
-                {LazyLoadLanguageService.mentorsLanding.aboutApp.tryOurApp[language]}
+                {mentorsDictionary.dictionary.aboutApp.tryOurApp[language]}
               </p>
               <p>
-                {LazyLoadLanguageService.mentorsLanding.aboutApp.ourAppIs[language]}
+                {mentorsDictionary.dictionary.aboutApp.ourAppIs[language]}
               </p>
               <Button
                 buttonType={ButtonType.PRIMARY}
-                value={LazyLoadLanguageService.mentorsLanding.callToActionButton[language]}
+                value={mentorsDictionary.dictionary.callToActionButton[language]}
                 icon={
                   <Icon
                     size={IconSize.SMALL}
