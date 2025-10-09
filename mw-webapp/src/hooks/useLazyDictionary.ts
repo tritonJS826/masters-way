@@ -8,10 +8,11 @@ import {DictionaryKey} from "src/service/AsyncLanguageService";
 export const useLazyDictionaries = <T extends readonly DictionaryKey[]> (...dictionaryKeys: T) => {
   const dictionaries = dictionaryKeys.map((dictionaryKey) => {
     const store = useStore<
-       new (key: DictionaryKey) => DictionaryStore<DictionaryKey>, [DictionaryKey], DictionaryStore<DictionaryKey>>({
-         storeForInitialize: DictionaryStore,
-         dataForInitialization: [dictionaryKey],
-       });
+      new (key: DictionaryKey) => DictionaryStore<DictionaryKey>, [DictionaryKey], DictionaryStore<DictionaryKey>
+        >({
+          storeForInitialize: DictionaryStore,
+          dataForInitialization: [dictionaryKey],
+        });
 
     return {
       dictionary: store,
@@ -27,6 +28,6 @@ export const useLazyDictionaries = <T extends readonly DictionaryKey[]> (...dict
     dictionaries: dictionaries.map(item => item.dictionary) as {
       [K in keyof T]: DictionaryStore<T[K]>
     },
-    areAllLoaded: dictionaries.every(item => !item.isLoading),
+    isAllLoaded: dictionaries.every(item => !item.isLoading),
   };
 };

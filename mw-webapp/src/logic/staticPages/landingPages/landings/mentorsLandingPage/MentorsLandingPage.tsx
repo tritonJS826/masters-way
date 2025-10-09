@@ -35,10 +35,10 @@ export const MentorsLandingPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
   const navigate = useNavigate();
-  const {dictionaries: [mentorsDictionary], areAllLoaded} =
+  const {dictionaries: [mentorsDictionary], isAllLoaded: isAllLoaded} =
     useLazyDictionaries(DictionaryKey.MENTORS_LANDING, DictionaryKey.LOREM_LANDING);
 
-  if (!areAllLoaded) {
+  if (!isAllLoaded) {
     return (
       <Loader
         theme={theme}
