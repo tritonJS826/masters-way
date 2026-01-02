@@ -50,6 +50,13 @@ func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.Generat
 	return prompt, nil
 }
 
+func (gs *GeminiService) formatMetricsForCompanion(metrics []string) string {
+	if len(metrics) == 0 {
+		return "No metrics available."
+	}
+	return strings.Join(metrics, ", ")
+}
+
 func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
 	if gs.config.EnvType != "prod" {
@@ -702,13 +709,15 @@ func (gs *GeminiService) GenerateCompanionFeedback(ctx context.Context, payload 
 		characterDescription = "You are a strict but fair army sergeant. Be demanding, use military terminology, push hard."
 	}
 
+	metricsStr := gs.formatMetricsForCompanion(payload.Metrics)
+
 	switch payload.Language {
 	case "en":
-		systemPrompt = characterDescription + "\n\nYou are analyzing a user's progress on their goal over the last 14 days. Based on their reports (jobs done, plans, problems, comments), provide a motivation score (0-100) and a short feedback comment (max 500 characters).\n\nGoal: " + payload.Goal + "\nProject: " + payload.WayName + "\nRecent Activity:\n" + payload.DayReportsData + "\n\nRespond in JSON format: {\"status\": <number 0-100>, \"comment\": \"<your feedback>\"}"
+		systemPrompt = characterDescription + "\n\nYou are analyzing a user's progress on their goal over the last 14 days. Based on their reports (jobs done, plans, problems, comments), provide a motivation score (0-100) and a short feedback comment (max 500 characters).\n\nGoal: " + payload.Goal + "\nProject: " + payload.WayName + "\nMetrics:\n" + metricsStr + "\n\nRecent Activity:\n" + payload.DayReportsData + "\n\nRespond in JSON format: {\"status\": <number 0-100>, \"comment\": \"<your feedback>\"}"
 	case "ru":
-		systemPrompt = characterDescription + "\n\nТы анализируешь прогресс пользователя за последние 14 дней. На основе отчётов (выполненные задачи, планы, проблемы, комментарии) дай оценку мотивации (0-100) и короткий комментарий (макс 500 символов).\n\nЦель: " + payload.Goal + "\nПроект: " + payload.WayName + "\nНедавняя активность:\n" + payload.DayReportsData + "\n\nОтвет в формате JSON: {\"status\": <число 0-100>, \"comment\": \"<твой отзыв>\"}"
+		systemPrompt = characterDescription + "\n\nТы анализируешь прогресс пользователя за последние 14 дней. На основе отчётов (выполненные задачи, планы, проблемы, комментарии) дай оценку мотивации (0-100) и короткий комментарий (макс 500 символов).\n\nЦель: " + payload.Goal + "\nПроект: " + payload.WayName + "\nМетрики:\n" + metricsStr + "\n\nНедавняя активность:\n" + payload.DayReportsData + "\n\nОтвет в формате JSON: {\"status\": <число 0-100>, \"comment\": \"<твой отзыв>\"}"
 	case "ua":
-		systemPrompt = characterDescription + "\n\nТи аналізуєш прогрес користувача за останні 14 днів. На основі звітів (виконані завдання, плани, проблеми, коментарі) дай оцінку мотивації (0-100) та короткий коментар (макс 500 символів).\n\nМета: " + payload.Goal + "\nПроект: " + payload.WayName + "\nНедавня активність:\n" + payload.DayReportsData + "\n\nВідповідь у форматі JSON: {\"status\": <число 0-100>, \"comment\": \"<твій відгук>\"}"
+		systemPrompt = characterDescription + "\n\nТи аналізуєш прогрес користувача за останні 14 днів. На основі звітів (виконані завдання, плани, проблеми, коментарі) дай оцінку мотивації (0-100) та короткий коментар (макс 500 символів).\n\nМета: " + payload.Goal + "\nПроект: " + payload.WayName + "\nМетрики:\n" + metricsStr + "\n\nНедавня активність:\n" + payload.DayReportsData + "\n\nВідповідь у форматі JSON: {\"status\": <число 0-100>, \"comment\": \"<твій відгук>\"}"
 	default:
 		systemPrompt = characterDescription + "\n\nAnalyze user progress over last 14 days. Respond JSON: {\"status\": <0-100>, \"comment\": \"<feedback>\"}"
 	}

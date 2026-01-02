@@ -1,6 +1,8 @@
 import {makeAutoObservable} from "mobx";
+import {CompanionDAL} from "src/dataAccessLogic/CompanionDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {load} from "src/hooks/useLoad";
+import {CompanionFeedback} from "src/model/businessModel/CompanionFeedback";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
@@ -16,6 +18,11 @@ type WayPageFirstLoad = {
    * Way statistics
    */
   wayStatistics: WayStatisticsTriple;
+
+  /**
+   * Companion feedback
+   */
+  companionFeedback: CompanionFeedback;
 
 }
 
@@ -37,6 +44,11 @@ export class WayPageStore {
   public wayStatisticsTriple!: WayStatisticsTriple;
 
   /**
+   * Companion feedback
+   */
+  public companionFeedback!: CompanionFeedback;
+
+  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
@@ -51,6 +63,13 @@ export class WayPageStore {
    */
   public setWayStatisticsTriple = (wayStatistics: WayStatisticsTriple) => {
     this.wayStatisticsTriple = wayStatistics;
+  };
+
+  /**
+   * Set companion feedback
+   */
+  public setCompanionFeedback = (companionFeedback: CompanionFeedback) => {
+    this.companionFeedback = companionFeedback;
   };
 
   /**
@@ -73,6 +92,7 @@ export class WayPageStore {
   private setLoadedData = (loadedData: WayPageFirstLoad) => {
     this.way = loadedData.way;
     this.wayStatisticsTriple = loadedData.wayStatistics;
+    this.companionFeedback = loadedData.companionFeedback;
   };
 
   /**
@@ -100,17 +120,18 @@ export class WayPageStore {
   private loadData = async (wayUuid: string): Promise<WayPageFirstLoad> => {
     const wayPromise = WayDAL.getWay(wayUuid);
     const wayStatisticsPromise = WayDAL.getWayStatisticTripleById(wayUuid);
+    const companionPromise = CompanionDAL.getCompanionFeedback(wayUuid);
 
-    const [way, wayStatistics] = await Promise.all([wayPromise, wayStatisticsPromise]);
+    const [way, wayStatistics, companionFeedback] = await Promise.all([wayPromise, wayStatisticsPromise, companionPromise]);
 
-    return {way, wayStatistics};
+    return {way, wayStatistics, companionFeedback};
   };
 
   /**
    * Validate data
    */
   private validateData = (data: WayPageFirstLoad) => {
-    return !!data.way && !!data.wayStatistics;
+    return !!data.way && !!data.wayStatistics && !!data.companionFeedback;
   };
 
   /**

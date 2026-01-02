@@ -15,6 +15,7 @@ type IMetricRepository interface {
 	CreateMetric(ctx context.Context, arg db.CreateMetricParams) (db.Metric, error)
 	UpdateMetric(ctx context.Context, arg db.UpdateMetricParams) (db.Metric, error)
 	DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (db.Metric, error)
+	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.Metric, error)
 }
 
 type MetricService struct {
@@ -146,4 +147,17 @@ func (ms *MetricService) DeleteMetricById(ctx context.Context, metricID string) 
 	}
 
 	return util.ConvertPgUUIDToUUID(removedMetric.WayUuid).String(), nil
+}
+
+func (ms *MetricService) GetMetricsByWayUuid(ctx context.Context, wayID uuid.UUID) ([]string, error) {
+	metrics, err := ms.metricRepository.GetListMetricsByWayUuid(ctx, pgtype.UUID{Bytes: wayID, Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]string, len(metrics))
+	for i, m := range metrics {
+		result[i] = m.Description
+	}
+	return result, nil
 }

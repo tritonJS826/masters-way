@@ -17,6 +17,7 @@ type CompanionController struct {
 	dayReportService     *services.DayReportService
 	wayService           *services.WayService
 	companionFeedbackSvc *services.CompanionFeedbackService
+	metricService        *services.MetricService
 }
 
 func NewCompanionController(
@@ -24,8 +25,9 @@ func NewCompanionController(
 	dayReportService *services.DayReportService,
 	wayService *services.WayService,
 	companionFeedbackSvc *services.CompanionFeedbackService,
+	metricService *services.MetricService,
 ) *CompanionController {
-	return &CompanionController{geminiService, dayReportService, wayService, companionFeedbackSvc}
+	return &CompanionController{geminiService, dayReportService, wayService, companionFeedbackSvc, metricService}
 }
 
 // Get companion feedback for a way
@@ -41,6 +43,7 @@ func NewCompanionController(
 func (cc *CompanionController) GetCompanionFeedback(ctx *gin.Context) {
 	wayIDRaw := ctx.Param("wayId")
 	wayID := uuid.MustParse(wayIDRaw)
+	language := ctx.DefaultQuery("language", "en")
 
 	feedback, err := cc.companionFeedbackSvc.GetCompanionFeedbackByWayId(ctx, wayID)
 	if err == nil {
@@ -62,15 +65,22 @@ func (cc *CompanionController) GetCompanionFeedback(ctx *gin.Context) {
 
 	reportsData := formatDayReportsForCompanion(reports)
 
+	metrics, err := cc.metricService.GetMetricsByWayUuid(ctx, wayID)
+	if err != nil {
+		util.HandleErrorGin(ctx, err)
+		return
+	}
+
 	character := "army_sergeant"
 	payload := &schemas.CompanionAnalyzePayload{
 		WayUUID:        wayIDRaw,
 		WayName:        way.Name,
 		Goal:           way.GoalDescription,
 		Character:      character,
-		Language:       "en",
+		Language:       language,
 		DayReportsData: reportsData,
 		TriggerType:    "initial",
+		Metrics:        metrics,
 	}
 
 	response, err := cc.geminiService.GenerateCompanionFeedback(ctx, payload)

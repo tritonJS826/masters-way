@@ -20,13 +20,14 @@ type CompanionFeedback struct {
 }
 
 type CompanionAnalyzePayload struct {
-	WayUUID        string `json:"wayUuid" validate:"required"`
-	WayName        string `json:"wayName" validate:"required"`
-	Goal           string `json:"goal" validate:"required"`
-	Character      string `json:"character" validate:"required"`
-	Language       string `json:"language" validate:"required" example:"ru|en|ua"`
-	DayReportsData string `json:"dayReportsData" validate:"required"`
-	TriggerType    string `json:"triggerType" validate:"required"`
+	WayUUID        string   `json:"wayUuid" validate:"required"`
+	WayName        string   `json:"wayName" validate:"required"`
+	Goal           string   `json:"goal" validate:"required"`
+	Character      string   `json:"character" validate:"required"`
+	Language       string   `json:"language" validate:"required" example:"ru|en|ua"`
+	DayReportsData string   `json:"dayReportsData" validate:"required"`
+	TriggerType    string   `json:"triggerType" validate:"required"`
+	Metrics        []string `json:"metrics"`
 }
 
 type CompanionAnalyzeResponse struct {

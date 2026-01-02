@@ -1,0 +1,77 @@
+@import "src/styles/variables";
+
+.companionBlock {
+  gap: $gapSmall;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapSmall;
+}
+
+.loading {
+  padding: $paddingMedium;
+  color: var(--secondaryColor);
+  text-align: center;
+}
+
+.statusText {
+  margin-left: 20px;
+  text-align: center;
+}
+
+.characterSelect {
+  max-width: 180px;
+  flex: 1;
+}
+
+.feedbackRows {
+  display: flex;
+  flex-direction: column;
+  gap: $gapExtraSmall;
+}
+
+.feedbackRow {
+  display: flex;
+  align-items: center;
+  font-size: $fontSizeSmall;
+  gap: $gapSmall;
+}
+
+.feedbackPreview {
+  flex: 1;
+  color: var(--secondaryColor);
+  font-size: $fontSizeMedium;
+  font-style: italic;
+}
+
+.readMoreButton {
+  align-self: flex-end;
+  font-size: $fontSizeSmall;
+}
+
+.feedbackModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
+}
+
+.feedbackFullComment {
+  font-size: $fontSizeBig;
+  line-height: $lineHeightPrimary;
+}
+
+.feedbackMeta {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: $gapSmall;
+  border-top: 1px solid var(--primaryStrokeColor);
+  gap: $gapMedium;
+}
+
+.metaItem {
+  color: var(--secondaryColor);
+  font-size: $fontSizeSmall;
+}

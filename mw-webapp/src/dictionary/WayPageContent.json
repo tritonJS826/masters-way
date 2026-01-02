@@ -859,5 +859,57 @@
       "en": "Decline",
       "ua": "Відклонити"
     }
+  },
+  "companion": {
+    "title": {
+      "ru": "Твой компаньон",
+      "en": "Your Companion",
+      "ua": "Твій компаньйон"
+    },
+    "description": {
+      "ru": "Выбери персонажа и получи мотивацию на основе своих ежедневных отчётов. Компаньон анализирует твою активность за последние 14 дней и даёт обратную связь.",
+      "en": "Choose a character and get motivation based on your daily reports. The companion analyzes your activity for the last 14 days and provides feedback.",
+      "ua": "Обери персонажа та отримай мотивацію на основі своїх щоденних звітів. Компаньйон аналізує твою активність за останні 14 днів і дає зворотний зв'язок."
+    },
+    "characterLabel": {
+      "ru": "Персонаж:",
+      "en": "Character:",
+      "ua": "Персонаж:"
+    },
+    "lastUpdateLabel": {
+      "ru": "Обновлено:",
+      "en": "Last update:",
+      "ua": "Оновлено:"
+    },
+    "readMore": {
+      "ru": "Читать полностью",
+      "en": "Read more",
+      "ua": "Читати повністю"
+    },
+    "feedbackTitle": {
+      "ru": "Обратная связь от компаньона",
+      "en": "Companion Feedback",
+      "ua": "Зворотній зв'язок від компаньйона"
+    },
+    "statusGreat": {
+      "ru": "Отлично!",
+      "en": "Great!",
+      "ua": "Чудово!"
+    },
+    "statusGood": {
+      "ru": "Хорошо",
+      "en": "Good",
+      "ua": "Добре"
+    },
+    "statusKeepGoing": {
+      "ru": "Продолжай",
+      "en": "Keep going",
+      "ua": "Продовжуй"
+    },
+    "statusNeedMotivation": {
+      "ru": "Нужна мотивация",
+      "en": "Need motivation",
+      "ua": "Потрібна мотивація"
+    }
   }
 }

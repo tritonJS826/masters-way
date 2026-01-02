@@ -2,6 +2,7 @@ import {Configuration as ChatConfiguration, FileApi, MessageApi, RoomApi} from "
 import {
   AuthApi,
   CommentApi,
+  CompanionApi,
   CompositeWayApi,
   Configuration as GeneralConfiguration,
   DayReportApi,
@@ -172,6 +173,7 @@ export const mentorUserWay = new MentorUserWayApi(generalConfiguration);
 export const compositeWayService = new CompositeWayApi(generalConfiguration);
 export const aiService = new GeminiApi(generalConfiguration);
 export const aiQuestionResultService = new AiQuestionResultApi(generalConfiguration);
+export const companionService = new CompanionApi(generalConfiguration);
 export const projectService = new ProjectApi(generalConfiguration);
 export const userProjectService = new UserProjectApi(generalConfiguration);
 
