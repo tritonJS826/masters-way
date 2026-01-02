@@ -9,6 +9,7 @@ type Facade struct {
 	FileFacade                     *FileFacade
 	AuthFacade                     *AuthFacade
 	CommentFacade                  *CommentFacade
+	CompanionFacade                *CompanionFacade
 	CompositeWayFacade             *CompositeWayFacade
 	DayReportFacade                *DayReportFacade
 	FavoriteUserFacade             *FavoriteUserFacade
@@ -42,6 +43,7 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		FileFacade:                     newFileFacade(service.StorageService),
 		AuthFacade:                     newAuthFacade(service.AuthService, service.GeneralService, service.NotificationService, service.ChatService, service.ChatWebSocketService, service.MailService, config),
 		CommentFacade:                  newCommentFacade(service.GeneralService, service.NotificationService, service.MailService, config),
+		CompanionFacade:                newCompanionFacade(service.GeneralService),
 		CompositeWayFacade:             newCompositeWayFacade(service.GeneralService),
 		DayReportFacade:                newDayReportFacade(service.GeneralService),
 		FavoriteUserFacade:             newFavoriteUserFacade(service.GeneralService),

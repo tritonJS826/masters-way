@@ -8,6 +8,7 @@ type Controller struct {
 	FileController                     *FileController
 	AuthController                     *AuthController
 	CommentController                  *CommentController
+	CompanionController                *CompanionController
 	CompositeWayController             *CompositeWayController
 	DayReportController                *DayReportController
 	FavoriteUserController             *FavoriteUserController
@@ -38,9 +39,10 @@ type Controller struct {
 
 func NewController(facade *facades.Facade) *Controller {
 	return &Controller{
-		AuthController:                     NewAuthController(facade.AuthFacade),
 		FileController:                     NewFileController(facade.FileFacade),
+		AuthController:                     NewAuthController(facade.AuthFacade),
 		CommentController:                  NewCommentController(facade.CommentFacade),
+		CompanionController:                NewCompanionController(facade.CompanionFacade),
 		CompositeWayController:             NewCompositeWayController(facade.CompositeWayFacade),
 		DayReportController:                NewDayReportController(facade.DayReportFacade),
 		FavoriteUserController:             NewFavoriteUserController(facade.FavoriteUserFacade),

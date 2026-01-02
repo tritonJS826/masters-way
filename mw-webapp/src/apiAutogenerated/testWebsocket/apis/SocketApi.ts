@@ -16,24 +16,24 @@
 import * as runtime from '../runtime';
 import type {
   MwTestWebsocketInternalSchemasHostStartedGameEventPayload,
+  MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest,
   MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayload,
   MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload,
   MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload,
-  MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload,
   MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse,
   MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload,
 } from '../models/index';
 import {
     MwTestWebsocketInternalSchemasHostStartedGameEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasHostStartedGameEventPayloadToJSON,
+    MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequestFromJSON,
+    MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequestToJSON,
     MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayloadToJSON,
     MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayloadToJSON,
     MwTestWebsocketInternalSchemasUserCapturedTargetEventPayloadFromJSON,
     MwTestWebsocketInternalSchemasUserCapturedTargetEventPayloadToJSON,
-    MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadFromJSON,
-    MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadToJSON,
     MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseFromJSON,
     MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseToJSON,
     MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayloadFromJSON,
@@ -66,7 +66,7 @@ export interface UserCapturedTargetRequest {
 
 export interface UserJoinedSessionRequest {
     sessionUuid: string;
-    request: MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload;
+    request: MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest;
 }
 
 export interface UserReadyToStartPlayRequest {
@@ -275,7 +275,7 @@ export class SocketApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwTestWebsocketInternalSchemasUserJoinedSessionEventPayloadToJSON(requestParameters.request),
+            body: MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequestToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MwTestWebsocketInternalSchemasUserJoinedSessionEventResponseFromJSON(jsonValue));

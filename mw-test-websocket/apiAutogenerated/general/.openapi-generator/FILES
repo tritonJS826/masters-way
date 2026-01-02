@@ -4,6 +4,7 @@ README.md
 api/openapi.yaml
 api_auth.go
 api_comment.go
+api_companion.go
 api_composite_way.go
 api_day_report.go
 api_dev.go
@@ -35,6 +36,7 @@ client.go
 configuration.go
 docs/AuthAPI.md
 docs/CommentAPI.md
+docs/CompanionAPI.md
 docs/CompositeWayAPI.md
 docs/DayReportAPI.md
 docs/DevAPI.md
@@ -74,6 +76,8 @@ docs/MwServerInternalSchemasAIGenerateTrainingDescriptionByTestResultsResponse.m
 docs/MwServerInternalSchemasAddWayToCompositeWayPayload.md
 docs/MwServerInternalSchemasBeginAuthResponse.md
 docs/MwServerInternalSchemasCommentPopulatedResponse.md
+docs/MwServerInternalSchemasCompanionCharacter.md
+docs/MwServerInternalSchemasCompanionFeedback.md
 docs/MwServerInternalSchemasCompositeDayReportPopulatedResponse.md
 docs/MwServerInternalSchemasCompositeWayRelation.md
 docs/MwServerInternalSchemasCreateCommentPayload.md
@@ -198,6 +202,8 @@ model_mw_server_internal_schemas_ai_generate_training_description_by_test_result
 model_mw_server_internal_schemas_ai_generate_training_description_by_test_results_response.go
 model_mw_server_internal_schemas_begin_auth_response.go
 model_mw_server_internal_schemas_comment_populated_response.go
+model_mw_server_internal_schemas_companion_character.go
+model_mw_server_internal_schemas_companion_feedback.go
 model_mw_server_internal_schemas_composite_day_report_populated_response.go
 model_mw_server_internal_schemas_composite_way_relation.go
 model_mw_server_internal_schemas_create_comment_payload.go

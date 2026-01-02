@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './AuthApi';
 export * from './CommentApi';
+export * from './CompanionApi';
 export * from './CompositeWayApi';
 export * from './DayReportApi';
 export * from './FavoriteUserApi';

@@ -13,6 +13,7 @@ type Service struct {
 	AuthService                     *AuthService
 	CommentService                  *CommentService
 	CompositeWayService             *CompositeWayService
+	CompanionFeedbackService        *CompanionFeedbackService
 	DayReportService                *DayReportService
 	DevService                      *DevService
 	FavoriteUserService             *FavoriteUserService
@@ -51,6 +52,7 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.C
 		AuthService:                     newAuthService(googleOAuthConfig, []byte(config.SecretSessionKey)),
 		CommentService:                  NewCommentService(queries),
 		CompositeWayService:             NewCompositeWayService(queries),
+		CompanionFeedbackService:        NewCompanionFeedbackService(queries),
 		DayReportService:                NewDayReportService(queries),
 		DevService:                      NewDevService(queries, pool),
 		FavoriteUserService:             NewFavoriteUserService(queries),

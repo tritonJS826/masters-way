@@ -4,6 +4,7 @@ README.md
 api/openapi.yaml
 api_auth.go
 api_comment.go
+api_companion.go
 api_composite_way.go
 api_day_report.go
 api_favorite_user.go
@@ -36,6 +37,7 @@ client.go
 configuration.go
 docs/AuthAPI.md
 docs/CommentAPI.md
+docs/CompanionAPI.md
 docs/CompositeWayAPI.md
 docs/DayReportAPI.md
 docs/FavoriteUserAPI.md
@@ -74,6 +76,8 @@ docs/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload.md
 docs/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse.md
 docs/MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.md
 docs/MwGeneralBffInternalSchemasCommentPopulatedResponse.md
+docs/MwGeneralBffInternalSchemasCompanionCharacter.md
+docs/MwGeneralBffInternalSchemasCompanionFeedbackResponse.md
 docs/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.md
 docs/MwGeneralBffInternalSchemasCompositeWayRelation.md
 docs/MwGeneralBffInternalSchemasCreateCommentPayload.md
@@ -198,6 +202,8 @@ model_mw_general_bff_internal_schemas_ai_generate_topics_for_training_response.g
 model_mw_general_bff_internal_schemas_ai_generate_training_by_test_test_session_id_payload.go
 model_mw_general_bff_internal_schemas_ai_generate_training_by_test_test_session_id_response.go
 model_mw_general_bff_internal_schemas_comment_populated_response.go
+model_mw_general_bff_internal_schemas_companion_character.go
+model_mw_general_bff_internal_schemas_companion_feedback_response.go
 model_mw_general_bff_internal_schemas_composite_day_report_populated_response.go
 model_mw_general_bff_internal_schemas_composite_way_relation.go
 model_mw_general_bff_internal_schemas_create_comment_payload.go
@@ -280,4 +286,5 @@ model_mw_general_bff_internal_schemas_way_statistics.go
 model_mw_general_bff_internal_schemas_way_statistics_triple_period.go
 model_mw_general_bff_internal_schemas_way_tag_response.go
 response.go
+test/api_companion_test.go
 utils.go

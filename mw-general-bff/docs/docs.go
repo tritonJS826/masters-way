@@ -325,6 +325,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/companion/{wayId}": {
+            "get": {
+                "description": "Returns motivational feedback based on last 14 days of activity. Analyzes jobs, plans, problems, and comments. Characters: army_sergeant, creative_artist, warm_sister, wise_mentor, cheerful_friend.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "companion"
+                ],
+                "summary": "Get AI companion feedback for a way",
+                "operationId": "get-companion-feedback",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Way UUID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.CompanionFeedbackResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/compositeWay": {
             "post": {
                 "consumes": [
@@ -3465,6 +3498,54 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.CompanionCharacter": {
+            "type": "string",
+            "enum": [
+                "army_sergeant",
+                "creative_artist",
+                "warm_sister",
+                "wise_mentor",
+                "cheerful_friend"
+            ],
+            "x-enum-varnames": [
+                "CompanionCharacterArmySergeant",
+                "CompanionCharacterCreativeArtist",
+                "CompanionCharacterWarmSister",
+                "CompanionCharacterWiseMentor",
+                "CompanionCharacterCheerfulFriend"
+            ]
+        },
+        "mw-general-bff_internal_schemas.CompanionFeedbackResponse": {
+            "type": "object",
+            "required": [
+                "character",
+                "comment",
+                "lastUpdatedAt",
+                "status",
+                "uuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "character": {
+                    "$ref": "#/definitions/mw-general-bff_internal_schemas.CompanionCharacter"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "lastUpdatedAt": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "uuid": {
                     "type": "string"
                 },
                 "wayUuid": {

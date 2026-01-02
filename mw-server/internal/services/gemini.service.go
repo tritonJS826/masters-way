@@ -50,6 +50,13 @@ func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.Generat
 	return prompt, nil
 }
 
+func (gs *GeminiService) formatMetricsForCompanion(metrics []string) string {
+	if len(metrics) == 0 {
+		return "No metrics available."
+	}
+	return strings.Join(metrics, ", ")
+}
+
 func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
 	if gs.config.EnvType != "prod" {
@@ -672,4 +679,75 @@ func (gs *GeminiService) GenerateQuestionResult(ctx context.Context, payload *sc
 		IsOk:              theoryMaterial.IsOk,
 		ResultDescription: theoryMaterial.ResultDescription,
 	}, nil
+}
+
+func (gs *GeminiService) GenerateCompanionFeedback(ctx context.Context, payload *schemas.CompanionAnalyzePayload) (*schemas.CompanionAnalyzeResponse, error) {
+	if gs.config.EnvType != "prod" {
+		return &schemas.CompanionAnalyzeResponse{
+			Status:  75,
+			Comment: "Good progress! Keep pushing forward, soldier!",
+		}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var systemPrompt string
+	var characterDescription string
+
+	switch payload.Character {
+	case "army_sergeant":
+		characterDescription = "You are a strict but fair army sergeant. Be demanding, use military terminology, push hard but occasionally show respect for good work."
+	case "creative_artist":
+		characterDescription = "You are a creative and inspiring artist. Be warm, use metaphors, encourage creativity and celebrate unique approaches."
+	case "warm_sister":
+		characterDescription = "You are a caring and supportive sister. Be gentle, understanding, offer emotional support while encouraging growth."
+	case "wise_mentor":
+		characterDescription = "You are a wise and experienced mentor. Be patient, offer deep insights, guide with questions and share experience."
+	case "cheerful_friend":
+		characterDescription = "You are a cheerful and supportive friend. Be energetic, use emojis, make everything sound fun and achievable."
+	default:
+		characterDescription = "You are a strict but fair army sergeant. Be demanding, use military terminology, push hard."
+	}
+
+	metricsStr := gs.formatMetricsForCompanion(payload.Metrics)
+
+	switch payload.Language {
+	case "en":
+		systemPrompt = characterDescription + "\n\nYou are analyzing a user's progress on their goal over the last 14 days. Based on their reports (jobs done, plans, problems, comments), provide a motivation score (0-100) and a short feedback comment (max 500 characters).\n\nGoal: " + payload.Goal + "\nProject: " + payload.WayName + "\nMetrics:\n" + metricsStr + "\n\nRecent Activity:\n" + payload.DayReportsData + "\n\nRespond in JSON format: {\"status\": <number 0-100>, \"comment\": \"<your feedback>\"}"
+	case "ru":
+		systemPrompt = characterDescription + "\n\nТы анализируешь прогресс пользователя за последние 14 дней. На основе отчётов (выполненные задачи, планы, проблемы, комментарии) дай оценку мотивации (0-100) и короткий комментарий (макс 500 символов).\n\nЦель: " + payload.Goal + "\nПроект: " + payload.WayName + "\nМетрики:\n" + metricsStr + "\n\nНедавняя активность:\n" + payload.DayReportsData + "\n\nОтвет в формате JSON: {\"status\": <число 0-100>, \"comment\": \"<твой отзыв>\"}"
+	case "ua":
+		systemPrompt = characterDescription + "\n\nТи аналізуєш прогрес користувача за останні 14 днів. На основі звітів (виконані завдання, плани, проблеми, коментарі) дай оцінку мотивації (0-100) та короткий коментар (макс 500 символів).\n\nМета: " + payload.Goal + "\nПроект: " + payload.WayName + "\nМетрики:\n" + metricsStr + "\n\nНедавня активність:\n" + payload.DayReportsData + "\n\nВідповідь у форматі JSON: {\"status\": <число 0-100>, \"comment\": \"<твій відгук>\"}"
+	default:
+		systemPrompt = characterDescription + "\n\nAnalyze user progress over last 14 days. Respond JSON: {\"status\": <0-100>, \"comment\": \"<feedback>\"}"
+	}
+
+	response, err := model.GenerateContent(ctx, genai.Text(systemPrompt))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate companion feedback: %w", err)
+	}
+
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in companion response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var result schemas.CompanionAnalyzeResponse
+	err = json.Unmarshal([]byte(jsonString), &result)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal companion response: %w", err)
+	}
+
+	if result.Status < 0 {
+		result.Status = 0
+	}
+	if result.Status > 100 {
+		result.Status = 100
+	}
+
+	return &result, nil
 }

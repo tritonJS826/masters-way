@@ -20,6 +20,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Separator} from "src/component/separator/Separator";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -40,6 +41,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
+import {CompanionBlock} from "src/logic/wayPage/companionBlock/CompanionBlock";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {AdjustLabelsBlock} from "src/logic/wayPage/labels/AdjustLabelsModalContent";
@@ -862,6 +864,10 @@ export const WayPage = observer((props: WayPageProps) => {
           className={styles.statistics}
           dataCy={statisticsAccessIds.statistics.wayPageStatistics}
         >
+          <CompanionBlock companionFeedback={wayPageStore.companionFeedback} />
+
+          <Separator className={styles.statisticsSeparator} />
+
           <HorizontalContainer className={styles.horizontalContainer}>
             <HorizontalContainer className={styles.horizontalContainer}>
               <Infotip content={LanguageService.way.infotip.statistics[language]} />

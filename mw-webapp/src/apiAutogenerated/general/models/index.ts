@@ -25,6 +25,8 @@ export * from './MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionI
 export * from './MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse';
 export * from './MwGeneralBffInternalSchemasAddWayToCompositeWayPayload';
 export * from './MwGeneralBffInternalSchemasCommentPopulatedResponse';
+export * from './MwGeneralBffInternalSchemasCompanionCharacter';
+export * from './MwGeneralBffInternalSchemasCompanionFeedbackResponse';
 export * from './MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse';
 export * from './MwGeneralBffInternalSchemasCompositeWayRelation';
 export * from './MwGeneralBffInternalSchemasCreateCommentPayload';

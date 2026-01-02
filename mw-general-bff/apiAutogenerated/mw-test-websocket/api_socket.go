@@ -895,11 +895,11 @@ type ApiUserJoinedSessionRequest struct {
 	ctx context.Context
 	ApiService *SocketAPIService
 	sessionUuid string
-	request *MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload
+	request *MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest
 }
 
 // query params
-func (r ApiUserJoinedSessionRequest) Request(request MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload) ApiUserJoinedSessionRequest {
+func (r ApiUserJoinedSessionRequest) Request(request MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest) ApiUserJoinedSessionRequest {
 	r.request = &request
 	return r
 }

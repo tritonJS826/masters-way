@@ -1437,3 +1437,21 @@ func (gs *GeneralService) GetUserByIds(ctx context.Context, userIDs []string) ([
 
 	return shortUsers, nil
 }
+
+func (gs *GeneralService) GetCompanionFeedback(ctx context.Context, wayID string) (*schemas.CompanionFeedbackResponse, error) {
+	feedbackRaw, response, err := gs.generalAPI.CompanionAPI.GetCompanionFeedback(ctx, wayID).Execute()
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	feedback := &schemas.CompanionFeedbackResponse{
+		UUID:          feedbackRaw.GetUuid(),
+		WayUUID:       feedbackRaw.GetWayUuid(),
+		Status:        int(feedbackRaw.GetStatus()),
+		Comment:       feedbackRaw.GetComment(),
+		Character:     schemas.CompanionCharacter(feedbackRaw.GetCharacter()),
+		LastUpdatedAt: feedbackRaw.GetLastUpdatedAt(),
+	}
+
+	return feedback, nil
+}
