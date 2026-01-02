@@ -50,11 +50,22 @@ func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.Generat
 	return prompt, nil
 }
 
-func (gs *GeminiService) formatMetricsForCompanion(metrics []string) string {
+func (gs *GeminiService) formatMetricsForCompanion(metrics []schemas.CompanionMetric) string {
 	if len(metrics) == 0 {
 		return "No metrics available."
 	}
-	return strings.Join(metrics, ", ")
+	result := ""
+	for _, m := range metrics {
+		status := "in progress"
+		if m.IsDone {
+			status = "done"
+			if m.DoneDate != nil {
+				status = "done on " + *m.DoneDate
+			}
+		}
+		result += "- " + m.Description + " (" + status + ")\n"
+	}
+	return result
 }
 
 func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {

@@ -149,15 +149,25 @@ func (ms *MetricService) DeleteMetricById(ctx context.Context, metricID string) 
 	return util.ConvertPgUUIDToUUID(removedMetric.WayUuid).String(), nil
 }
 
-func (ms *MetricService) GetMetricsByWayUuid(ctx context.Context, wayID uuid.UUID) ([]string, error) {
+type MetricInfo struct {
+	Description string
+	IsDone      bool
+	DoneDate    *string
+}
+
+func (ms *MetricService) GetMetricsByWayUuid(ctx context.Context, wayID uuid.UUID) ([]MetricInfo, error) {
 	metrics, err := ms.metricRepository.GetListMetricsByWayUuid(ctx, pgtype.UUID{Bytes: wayID, Valid: true})
 	if err != nil {
 		return nil, err
 	}
 
-	result := make([]string, len(metrics))
+	result := make([]MetricInfo, len(metrics))
 	for i, m := range metrics {
-		result[i] = m.Description
+		result[i] = MetricInfo{
+			Description: m.Description,
+			IsDone:      m.IsDone,
+			DoneDate:    util.MarshalPgTimestamp(m.DoneDate),
+		}
 	}
 	return result, nil
 }

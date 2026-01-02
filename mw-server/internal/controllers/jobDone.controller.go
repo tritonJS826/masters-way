@@ -141,6 +141,15 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		return
 	}
 
+	companionMetrics := make([]schemas.CompanionMetric, len(metrics))
+	for i, m := range metrics {
+		companionMetrics[i] = schemas.CompanionMetric{
+			Description: m.Description,
+			IsDone:      m.IsDone,
+			DoneDate:    m.DoneDate,
+		}
+	}
+
 	character := params.character
 	payload := &schemas.CompanionAnalyzePayload{
 		WayUUID:        wayID,
@@ -150,7 +159,7 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		Language:       params.language,
 		DayReportsData: reportsData,
 		TriggerType:    "job_done",
-		Metrics:        metrics,
+		Metrics:        companionMetrics,
 	}
 
 	response, err := jc.geminiService.GenerateCompanionFeedback(ctx, payload)
