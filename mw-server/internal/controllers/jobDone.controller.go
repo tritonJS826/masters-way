@@ -1,14 +1,17 @@
 package controllers
 
 import (
+	"context"
 	"mw-server/internal/auth"
 	"mw-server/internal/customErrors"
 	"mw-server/internal/schemas"
 	"mw-server/internal/services"
 	"mw-server/pkg/util"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // Without next lines swagger does not see openapi models
@@ -19,6 +22,11 @@ type JobDoneController struct {
 	jobDoneService       *services.JobDoneService
 	jobDoneJobTagService *services.JobDoneJobTagService
 	jobTagService        *services.JobTagService
+	geminiService        *services.GeminiService
+	dayReportService     *services.DayReportService
+	wayService           *services.WayService
+	companionFeedbackSvc *services.CompanionFeedbackService
+	metricService        *services.MetricService
 }
 
 func NewJobDoneController(
@@ -26,8 +34,13 @@ func NewJobDoneController(
 	jobDoneService *services.JobDoneService,
 	jobDoneJobTagService *services.JobDoneJobTagService,
 	jobTagService *services.JobTagService,
+	geminiService *services.GeminiService,
+	dayReportService *services.DayReportService,
+	wayService *services.WayService,
+	companionFeedbackSvc *services.CompanionFeedbackService,
+	metricService *services.MetricService,
 ) *JobDoneController {
-	return &JobDoneController{permissionService, jobDoneService, jobDoneJobTagService, jobTagService}
+	return &JobDoneController{permissionService, jobDoneService, jobDoneJobTagService, jobTagService, geminiService, dayReportService, wayService, companionFeedbackSvc, metricService}
 }
 
 // Create JobDone  handler
@@ -69,6 +82,14 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, payload.JobTagUuids)
 	util.HandleErrorGin(ctx, err)
 
+	const MINIMAL_JOB_LENS_FOR_ANALYSIS = 5
+
+	if len(payload.Description) > MINIMAL_JOB_LENS_FOR_ANALYSIS {
+		go func() {
+			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description)
+		}()
+	}
+
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          jobDone.ID,
 		CreatedAt:     jobDone.CreatedAt,
@@ -84,6 +105,82 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, response)
+}
+
+func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Context, wayID string, description string) {
+	wayUUID := uuid.MustParse(wayID)
+
+	reports, err := jc.dayReportService.GetLast14DayReportsByWayID(ctx, wayUUID)
+	if err != nil {
+		return
+	}
+
+	reportsData := formatDayReportsForCompanion(reports)
+
+	way, err := jc.wayService.GetPlainWayById(ctx, wayUUID)
+	if err != nil {
+		return
+	}
+
+	metrics, err := jc.metricService.GetMetricsByWayUuid(ctx, wayUUID)
+	if err != nil {
+		return
+	}
+
+	character := "army_sergeant"
+	payload := &schemas.CompanionAnalyzePayload{
+		WayUUID:        wayID,
+		WayName:        way.Name,
+		Goal:           way.GoalDescription,
+		Character:      character,
+		Language:       "en",
+		DayReportsData: reportsData,
+		TriggerType:    "job_done",
+		Metrics:        metrics,
+	}
+
+	response, err := jc.geminiService.GenerateCompanionFeedback(ctx, payload)
+	if err != nil {
+		return
+	}
+
+	_, err = jc.companionFeedbackSvc.CreateCompanionFeedback(ctx, &services.CreateCompanionFeedbackParams{
+		WayUUID:       wayUUID,
+		Status:        int32(response.Status),
+		Comment:       response.Comment,
+		Character:     character,
+		LastUpdatedAt: time.Now(),
+	})
+	if err != nil {
+		return
+	}
+}
+
+func formatDayReportsForCompanion(reports []services.DayReportWithCounts) string {
+	if len(reports) == 0 {
+		return "No reports yet"
+	}
+	result := ""
+	for _, report := range reports {
+		result += "Date: " + report.CreatedAt.Format("2006-01-02") + " | "
+		result += "Plans: " + itoa(report.PlansCount) + " | "
+		result += "Jobs: " + itoa(report.JobsDoneCount) + " | "
+		result += "Problems: " + itoa(report.ProblemsCount) + " | "
+		result += "Comments: " + itoa(report.CommentsCount) + "\n"
+	}
+	return result
+}
+
+func itoa(n int) string {
+	if n == 0 {
+		return "0"
+	}
+	result := ""
+	for n > 0 {
+		result = string(rune('0'+n%10)) + result
+		n /= 10
+	}
+	return result
 }
 
 // Update JobDone handler
@@ -122,6 +219,14 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 
 	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, jobDone.TagIDs)
 	util.HandleErrorGin(ctx, err)
+
+	const MINIMAL_JOB_LENS_FOR_ANALYSIS = 5
+
+	if len(jobDone.Description) > MINIMAL_JOB_LENS_FOR_ANALYSIS {
+		go func() {
+			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, jobDone.Description)
+		}()
+	}
 
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          jobDone.ID,
