@@ -163,6 +163,7 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		Status:        int32(response.Status),
 		Comment:       response.Comment,
 		Character:     character,
+		Language:      params.language,
 		LastUpdatedAt: time.Now(),
 	})
 	if err != nil {

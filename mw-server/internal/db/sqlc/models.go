@@ -70,6 +70,7 @@ type CompanionFeedback struct {
 	Status        int32            `json:"status"`
 	Comment       string           `json:"comment"`
 	Character     string           `json:"character"`
+	Language      string           `json:"language"`
 	LastUpdatedAt pgtype.Timestamp `json:"last_updated_at"`
 }
 

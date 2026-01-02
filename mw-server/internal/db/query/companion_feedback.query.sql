@@ -5,6 +5,7 @@ SELECT
     status,
     comment,
     character,
+    language,
     last_updated_at
 FROM companion_feedback
 WHERE way_uuid = @way_uuid;
@@ -30,17 +31,20 @@ INSERT INTO companion_feedback(
     status,
     comment,
     character,
+    language,
     last_updated_at
 ) VALUES (
     @way_uuid,
     @status,
     @comment,
     @character,
+    @language,
     @last_updated_at
 ) ON CONFLICT (way_uuid) DO UPDATE SET
     status = EXCLUDED.status,
     comment = EXCLUDED.comment,
     character = EXCLUDED.character,
+    language = EXCLUDED.language,
     last_updated_at = EXCLUDED.last_updated_at
 RETURNING uuid;
 

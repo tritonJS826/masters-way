@@ -46,6 +46,7 @@ type CreateCompanionFeedbackParams struct {
 	Status        int32
 	Comment       string
 	Character     string
+	Language      string
 	LastUpdatedAt time.Time
 }
 
@@ -83,6 +84,7 @@ func (s *CompanionFeedbackService) UpsertCompanionFeedback(ctx context.Context, 
 		Status:        params.Status,
 		Comment:       params.Comment,
 		Character:     params.Character,
+		Language:      params.Language,
 		LastUpdatedAt: pgtype.Timestamp{Time: params.LastUpdatedAt, Valid: true},
 	})
 }

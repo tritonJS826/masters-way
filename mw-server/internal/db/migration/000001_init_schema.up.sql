@@ -737,6 +737,7 @@ CREATE TABLE companion_feedback (
     "status" INTEGER NOT NULL CHECK (status BETWEEN 0 AND 100),
     "comment" VARCHAR(5000) NOT NULL,
     "character" VARCHAR(50) NOT NULL DEFAULT 'army_sergeant',
+    "language" VARCHAR(10) NOT NULL DEFAULT 'en',
     "last_updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "companion_feedback_pkey" PRIMARY KEY("uuid"),
     CONSTRAINT "companion_feedback_way_unique" UNIQUE("way_uuid")

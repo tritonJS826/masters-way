@@ -55,6 +55,7 @@ SELECT
     status,
     comment,
     character,
+    language,
     last_updated_at
 FROM companion_feedback
 WHERE way_uuid = $1
@@ -69,6 +70,7 @@ func (q *Queries) GetCompanionFeedbackByWayId(ctx context.Context, wayUuid pgtyp
 		&i.Status,
 		&i.Comment,
 		&i.Character,
+		&i.Language,
 		&i.LastUpdatedAt,
 	)
 	return i, err
@@ -111,17 +113,20 @@ INSERT INTO companion_feedback(
     status,
     comment,
     character,
+    language,
     last_updated_at
 ) VALUES (
     $1,
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 ) ON CONFLICT (way_uuid) DO UPDATE SET
     status = EXCLUDED.status,
     comment = EXCLUDED.comment,
     character = EXCLUDED.character,
+    language = EXCLUDED.language,
     last_updated_at = EXCLUDED.last_updated_at
 RETURNING uuid
 `
@@ -131,6 +136,7 @@ type UpsertCompanionFeedbackParams struct {
 	Status        int32            `json:"status"`
 	Comment       string           `json:"comment"`
 	Character     string           `json:"character"`
+	Language      string           `json:"language"`
 	LastUpdatedAt pgtype.Timestamp `json:"last_updated_at"`
 }
 
@@ -140,6 +146,7 @@ func (q *Queries) UpsertCompanionFeedback(ctx context.Context, arg UpsertCompani
 		arg.Status,
 		arg.Comment,
 		arg.Character,
+		arg.Language,
 		arg.LastUpdatedAt,
 	)
 	var uuid pgtype.UUID
