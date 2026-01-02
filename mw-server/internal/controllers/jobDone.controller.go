@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 	"mw-server/internal/auth"
 	"mw-server/internal/customErrors"
 	"mw-server/internal/schemas"
@@ -95,7 +96,9 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 			if existingFeedback != nil {
 				character = string(existingFeedback.Character)
 			}
-			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description, companionFeedbackParams{language: language, character: character})
+			if err := jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description, companionFeedbackParams{language: language, character: character}); err != nil {
+				log.Printf("[CreateJobDone] ERROR in companion feedback generation: %v", err)
+			}
 		}()
 	}
 
@@ -121,24 +124,29 @@ type companionFeedbackParams struct {
 	character string
 }
 
-func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Context, wayID string, description string, params companionFeedbackParams) {
+func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Context, wayID string, description string, params companionFeedbackParams) error {
+	log.Printf("[CompanionFeedback] Starting feedback generation for wayID: %s", wayID)
+
 	wayUUID := uuid.MustParse(wayID)
 
 	reports, err := jc.dayReportService.GetLast14DayReportsByWayID(ctx, wayUUID)
 	if err != nil {
-		return
+		log.Printf("[CompanionFeedback] ERROR getting day reports: %v", err)
+		return err
 	}
 
 	reportsData := formatDayReportsForCompanion(reports)
 
 	way, err := jc.wayService.GetPlainWayById(ctx, wayUUID)
 	if err != nil {
-		return
+		log.Printf("[CompanionFeedback] ERROR getting way: %v", err)
+		return err
 	}
 
 	metrics, err := jc.metricService.GetMetricsByWayUuid(ctx, wayUUID)
 	if err != nil {
-		return
+		log.Printf("[CompanionFeedback] ERROR getting metrics: %v", err)
+		return err
 	}
 
 	companionMetrics := make([]schemas.CompanionMetric, len(metrics))
@@ -162,11 +170,14 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		Metrics:        companionMetrics,
 	}
 
+	log.Printf("[CompanionFeedback] Calling Gemini API for wayID: %s", wayID)
 	response, err := jc.geminiService.GenerateCompanionFeedback(ctx, payload)
 	if err != nil {
-		return
+		log.Printf("[CompanionFeedback] ERROR generating feedback from Gemini: %v", err)
+		return err
 	}
 
+	log.Printf("[CompanionFeedback] Upserting feedback for wayID: %s", wayID)
 	_, err = jc.companionFeedbackSvc.UpsertCompanionFeedback(ctx, &services.CreateCompanionFeedbackParams{
 		WayUUID:       wayUUID,
 		Status:        int32(response.Status),
@@ -176,8 +187,12 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		LastUpdatedAt: time.Now(),
 	})
 	if err != nil {
-		return
+		log.Printf("[CompanionFeedback] ERROR upserting feedback: %v", err)
+		return err
 	}
+
+	log.Printf("[CompanionFeedback] Successfully generated feedback for wayID: %s", wayID)
+	return nil
 }
 
 func formatDayReportsForCompanion(reports []services.DayReportWithCounts) string {
@@ -260,7 +275,9 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 			if existingFeedback != nil {
 				character = string(existingFeedback.Character)
 			}
-			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, jobDone.Description, companionFeedbackParams{language: language, character: character})
+			if err := jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, jobDone.Description, companionFeedbackParams{language: language, character: character}); err != nil {
+				log.Printf("[UpdateJobDone] ERROR in companion feedback generation: %v", err)
+			}
 		}()
 	}
 
