@@ -10,6 +10,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {CompanionCharacter, CompanionFeedback} from "src/model/businessModel/CompanionFeedback";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/companionBlock/CompanionBlock.module.scss";
 
 const SHORT_FEEDBACK_LENGTH = 60;
@@ -137,7 +138,7 @@ export const CompanionBlock = observer((props: CompanionBlockProps) => {
                   placeholder=""
                 />
                 <div className={styles.feedbackFullComment}>
-                  {companionFeedback.comment}
+                  {renderMarkdown(companionFeedback.comment)}
                 </div>
                 <HorizontalContainer className={styles.feedbackMeta}>
                   <span className={styles.metaItem}>

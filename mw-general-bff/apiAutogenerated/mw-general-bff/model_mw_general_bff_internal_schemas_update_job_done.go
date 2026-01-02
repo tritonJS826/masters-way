@@ -19,6 +19,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasUpdateJobDone{}
 
 // MwGeneralBffInternalSchemasUpdateJobDone struct for MwGeneralBffInternalSchemasUpdateJobDone
 type MwGeneralBffInternalSchemasUpdateJobDone struct {
+	CompanionLanguage *string `json:"companionLanguage,omitempty"`
 	Description *string `json:"description,omitempty"`
 	Time *int32 `json:"time,omitempty"`
 }
@@ -38,6 +39,38 @@ func NewMwGeneralBffInternalSchemasUpdateJobDone() *MwGeneralBffInternalSchemasU
 func NewMwGeneralBffInternalSchemasUpdateJobDoneWithDefaults() *MwGeneralBffInternalSchemasUpdateJobDone {
 	this := MwGeneralBffInternalSchemasUpdateJobDone{}
 	return &this
+}
+
+// GetCompanionLanguage returns the CompanionLanguage field value if set, zero value otherwise.
+func (o *MwGeneralBffInternalSchemasUpdateJobDone) GetCompanionLanguage() string {
+	if o == nil || IsNil(o.CompanionLanguage) {
+		var ret string
+		return ret
+	}
+	return *o.CompanionLanguage
+}
+
+// GetCompanionLanguageOk returns a tuple with the CompanionLanguage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasUpdateJobDone) GetCompanionLanguageOk() (*string, bool) {
+	if o == nil || IsNil(o.CompanionLanguage) {
+		return nil, false
+	}
+	return o.CompanionLanguage, true
+}
+
+// HasCompanionLanguage returns a boolean if a field has been set.
+func (o *MwGeneralBffInternalSchemasUpdateJobDone) HasCompanionLanguage() bool {
+	if o != nil && !IsNil(o.CompanionLanguage) {
+		return true
+	}
+
+	return false
+}
+
+// SetCompanionLanguage gets a reference to the given string and assigns it to the CompanionLanguage field.
+func (o *MwGeneralBffInternalSchemasUpdateJobDone) SetCompanionLanguage(v string) {
+	o.CompanionLanguage = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -114,6 +147,9 @@ func (o MwGeneralBffInternalSchemasUpdateJobDone) MarshalJSON() ([]byte, error) 
 
 func (o MwGeneralBffInternalSchemasUpdateJobDone) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.CompanionLanguage) {
+		toSerialize["companionLanguage"] = o.CompanionLanguage
+	}
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}

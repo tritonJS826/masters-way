@@ -21,6 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateJobDonePayload{}
 
 // MwGeneralBffInternalSchemasCreateJobDonePayload struct for MwGeneralBffInternalSchemasCreateJobDonePayload
 type MwGeneralBffInternalSchemasCreateJobDonePayload struct {
+	CompanionLanguage *string `json:"companionLanguage,omitempty"`
 	DayReportUuid string `json:"dayReportUuid"`
 	Description string `json:"description"`
 	JobTagUuids []string `json:"jobTagUuids"`
@@ -50,6 +51,38 @@ func NewMwGeneralBffInternalSchemasCreateJobDonePayload(dayReportUuid string, de
 func NewMwGeneralBffInternalSchemasCreateJobDonePayloadWithDefaults() *MwGeneralBffInternalSchemasCreateJobDonePayload {
 	this := MwGeneralBffInternalSchemasCreateJobDonePayload{}
 	return &this
+}
+
+// GetCompanionLanguage returns the CompanionLanguage field value if set, zero value otherwise.
+func (o *MwGeneralBffInternalSchemasCreateJobDonePayload) GetCompanionLanguage() string {
+	if o == nil || IsNil(o.CompanionLanguage) {
+		var ret string
+		return ret
+	}
+	return *o.CompanionLanguage
+}
+
+// GetCompanionLanguageOk returns a tuple with the CompanionLanguage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasCreateJobDonePayload) GetCompanionLanguageOk() (*string, bool) {
+	if o == nil || IsNil(o.CompanionLanguage) {
+		return nil, false
+	}
+	return o.CompanionLanguage, true
+}
+
+// HasCompanionLanguage returns a boolean if a field has been set.
+func (o *MwGeneralBffInternalSchemasCreateJobDonePayload) HasCompanionLanguage() bool {
+	if o != nil && !IsNil(o.CompanionLanguage) {
+		return true
+	}
+
+	return false
+}
+
+// SetCompanionLanguage gets a reference to the given string and assigns it to the CompanionLanguage field.
+func (o *MwGeneralBffInternalSchemasCreateJobDonePayload) SetCompanionLanguage(v string) {
+	o.CompanionLanguage = &v
 }
 
 // GetDayReportUuid returns the DayReportUuid field value
@@ -182,6 +215,9 @@ func (o MwGeneralBffInternalSchemasCreateJobDonePayload) MarshalJSON() ([]byte, 
 
 func (o MwGeneralBffInternalSchemasCreateJobDonePayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.CompanionLanguage) {
+		toSerialize["companionLanguage"] = o.CompanionLanguage
+	}
 	toSerialize["dayReportUuid"] = o.DayReportUuid
 	toSerialize["description"] = o.Description
 	toSerialize["jobTagUuids"] = o.JobTagUuids

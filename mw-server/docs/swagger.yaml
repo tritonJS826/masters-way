@@ -510,6 +510,9 @@ definitions:
     type: object
   mw-server_internal_schemas.CreateJobDonePayload:
     properties:
+      companionLanguage:
+        example: en|ru|ua
+        type: string
       dayReportUuid:
         type: string
       description:
@@ -1316,7 +1319,10 @@ definitions:
     type: object
   mw-server_internal_schemas.UpdateJobDone:
     properties:
+      companionLanguage:
+        type: string
       description:
+        example: en|ru|ua
         type: string
       time:
         type: integer

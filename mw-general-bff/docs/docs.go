@@ -3725,6 +3725,10 @@ const docTemplate = `{
                 "time"
             ],
             "properties": {
+                "companionLanguage": {
+                    "type": "string",
+                    "example": "en|ru|ua"
+                },
                 "dayReportUuid": {
                     "type": "string"
                 },
@@ -4970,6 +4974,10 @@ const docTemplate = `{
         "mw-general-bff_internal_schemas.UpdateJobDone": {
             "type": "object",
             "properties": {
+                "companionLanguage": {
+                    "type": "string",
+                    "example": "en|ru|ua"
+                },
                 "description": {
                     "type": "string"
                 },

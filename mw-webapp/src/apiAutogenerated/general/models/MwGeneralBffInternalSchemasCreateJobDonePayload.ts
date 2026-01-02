@@ -24,6 +24,12 @@ export interface MwGeneralBffInternalSchemasCreateJobDonePayload {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasCreateJobDonePayload
      */
+    companionLanguage?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasCreateJobDonePayload
+     */
     dayReportUuid: string;
     /**
      * 
@@ -80,6 +86,7 @@ export function MwGeneralBffInternalSchemasCreateJobDonePayloadFromJSONTyped(
     }
     return {
         
+        'companionLanguage': !exists(json, 'companionLanguage') ? undefined : json['companionLanguage'],
         'dayReportUuid': json['dayReportUuid'],
         'description': json['description'],
         'jobTagUuids': json['jobTagUuids'],
@@ -98,6 +105,7 @@ export function MwGeneralBffInternalSchemasCreateJobDonePayloadToJSON(value?: Mw
     }
     return {
         
+        'companionLanguage': value.companionLanguage,
         'dayReportUuid': value.dayReportUuid,
         'description': value.description,
         'jobTagUuids': value.jobTagUuids,

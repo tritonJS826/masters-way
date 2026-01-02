@@ -24,6 +24,12 @@ export interface MwGeneralBffInternalSchemasUpdateJobDone {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasUpdateJobDone
      */
+    companionLanguage?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasUpdateJobDone
+     */
     description?: string;
     /**
      * 
@@ -57,6 +63,7 @@ export function MwGeneralBffInternalSchemasUpdateJobDoneFromJSONTyped(
     }
     return {
         
+        'companionLanguage': !exists(json, 'companionLanguage') ? undefined : json['companionLanguage'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'time': !exists(json, 'time') ? undefined : json['time'],
     };
@@ -72,6 +79,7 @@ export function MwGeneralBffInternalSchemasUpdateJobDoneToJSON(value?: MwGeneral
     }
     return {
         
+        'companionLanguage': value.companionLanguage,
         'description': value.description,
         'time': value.time,
     };

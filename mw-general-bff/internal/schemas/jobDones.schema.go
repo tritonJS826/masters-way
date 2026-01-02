@@ -1,16 +1,18 @@
 package schemas
 
 type CreateJobDonePayload struct {
-	Description   string   `json:"description" validate:"required"`
-	Time          int32    `json:"time" validate:"required"`
-	DayReportUuid string   `json:"dayReportUuid" validate:"required"`
-	OwnerUuid     string   `json:"ownerUuid" validate:"required"`
-	JobTagUuids   []string `json:"jobTagUuids" validate:"required"`
+	Description       string   `json:"description" validate:"required"`
+	Time              int32    `json:"time" validate:"required"`
+	DayReportUuid     string   `json:"dayReportUuid" validate:"required"`
+	OwnerUuid         string   `json:"ownerUuid" validate:"required"`
+	JobTagUuids       []string `json:"jobTagUuids" validate:"required"`
+	CompanionLanguage string   `json:"companionLanguage" example:"en|ru|ua"`
 }
 
 type UpdateJobDone struct {
-	Description *string `json:"description"`
-	Time        *int32  `json:"time"`
+	Description       *string `json:"description"`
+	Time              *int32  `json:"time"`
+	CompanionLanguage *string `json:"companionLanguage" example:"en|ru|ua"`
 }
 
 type JobDonePopulatedResponse struct {

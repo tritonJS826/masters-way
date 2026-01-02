@@ -455,6 +455,9 @@ definitions:
     type: object
   mw-general-bff_internal_schemas.CreateJobDonePayload:
     properties:
+      companionLanguage:
+        example: en|ru|ua
+        type: string
       dayReportUuid:
         type: string
       description:
@@ -1329,6 +1332,9 @@ definitions:
     type: object
   mw-general-bff_internal_schemas.UpdateJobDone:
     properties:
+      companionLanguage:
+        example: en|ru|ua
+        type: string
       description:
         type: string
       time:

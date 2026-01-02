@@ -93,10 +93,11 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	}
 
 	params := &services.UpdateJobDoneParams{
-		JobDoneID:        jobDoneID,
-		Description:      payload.Description,
-		Time:             payload.Time,
-		ModifierUserUuid: modifierUserId,
+		JobDoneID:         jobDoneID,
+		Description:       payload.Description,
+		Time:              payload.Time,
+		CompanionLanguage: payload.CompanionLanguage,
+		ModifierUserUuid:  modifierUserId,
 	}
 
 	responseRaw, err := jc.jobDoneFacade.UpdateJobDone(ctx, params)

@@ -286,5 +286,4 @@ model_mw_general_bff_internal_schemas_way_statistics.go
 model_mw_general_bff_internal_schemas_way_statistics_triple_period.go
 model_mw_general_bff_internal_schemas_way_tag_response.go
 response.go
-test/api_companion_test.go
 utils.go

@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**CompanionLanguage** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **Time** | Pointer to **int32** |  | [optional] 
 
@@ -25,6 +26,31 @@ will change when the set of required properties is changed
 NewMwServerInternalSchemasUpdateJobDoneWithDefaults instantiates a new MwServerInternalSchemasUpdateJobDone object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetCompanionLanguage
+
+`func (o *MwServerInternalSchemasUpdateJobDone) GetCompanionLanguage() string`
+
+GetCompanionLanguage returns the CompanionLanguage field if non-nil, zero value otherwise.
+
+### GetCompanionLanguageOk
+
+`func (o *MwServerInternalSchemasUpdateJobDone) GetCompanionLanguageOk() (*string, bool)`
+
+GetCompanionLanguageOk returns a tuple with the CompanionLanguage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCompanionLanguage
+
+`func (o *MwServerInternalSchemasUpdateJobDone) SetCompanionLanguage(v string)`
+
+SetCompanionLanguage sets CompanionLanguage field to given value.
+
+### HasCompanionLanguage
+
+`func (o *MwServerInternalSchemasUpdateJobDone) HasCompanionLanguage() bool`
+
+HasCompanionLanguage returns a boolean if a field has been set.
 
 ### GetDescription
 

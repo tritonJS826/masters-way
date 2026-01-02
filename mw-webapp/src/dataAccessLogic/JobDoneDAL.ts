@@ -1,4 +1,5 @@
 import {jobDoneDTOToJobDone} from "src/dataAccessLogic/DTOToPreviewConverter/jobDoneDTOToJobDone";
+import {Language} from "src/globalStore/LanguageStore";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
@@ -25,6 +26,11 @@ interface CreateJobParams {
    */
   plan?: Plan;
 
+  /**
+   * The app language
+   */
+  language: Language;
+
 }
 
 /**
@@ -36,6 +42,11 @@ interface UpdateJobParams {
    * Partial comment to update
    */
   jobDone: PartialWithUuid<JobDone>;
+
+  /**
+   * The app language
+   */
+  language: Language;
 
 }
 
@@ -56,6 +67,7 @@ export class JobDoneDAL {
         ownerUuid: params.ownerUuid,
         time: params.plan?.time ?? 0,
         jobTagUuids: params.plan?.tags.map(tag => tag.uuid) ?? [],
+        companionLanguage: params.language,
       },
     });
 
@@ -70,7 +82,10 @@ export class JobDoneDAL {
   public static async updateJobDone(params: UpdateJobParams): Promise<JobDone> {
     const updatedJobDoneDTO = await JobDoneService.updateJobDone({
       jobDoneId: params.jobDone.uuid,
-      request: params.jobDone,
+      request: {
+        ...params.jobDone,
+        companionLanguage: params.language,
+      },
     });
 
     const updatedJobDone = new JobDone({

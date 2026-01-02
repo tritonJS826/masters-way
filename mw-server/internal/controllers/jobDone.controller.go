@@ -86,7 +86,16 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 
 	if len(payload.Description) > MINIMAL_JOB_LENS_FOR_ANALYSIS {
 		go func() {
-			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description)
+			language := payload.CompanionLanguage
+			if language == "" {
+				language = "en"
+			}
+			character := string(schemas.CompanionCharacterArmySergeant)
+			existingFeedback, _ := jc.companionFeedbackSvc.GetCompanionFeedbackByWayId(context.Background(), uuid.MustParse(jobDone.WayUUID))
+			if existingFeedback != nil {
+				character = string(existingFeedback.Character)
+			}
+			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description, companionFeedbackParams{language: language, character: character})
 		}()
 	}
 
@@ -107,7 +116,12 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Context, wayID string, description string) {
+type companionFeedbackParams struct {
+	language  string
+	character string
+}
+
+func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Context, wayID string, description string, params companionFeedbackParams) {
 	wayUUID := uuid.MustParse(wayID)
 
 	reports, err := jc.dayReportService.GetLast14DayReportsByWayID(ctx, wayUUID)
@@ -127,13 +141,13 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		return
 	}
 
-	character := "army_sergeant"
+	character := params.character
 	payload := &schemas.CompanionAnalyzePayload{
 		WayUUID:        wayID,
 		WayName:        way.Name,
 		Goal:           way.GoalDescription,
 		Character:      character,
-		Language:       "en",
+		Language:       params.language,
 		DayReportsData: reportsData,
 		TriggerType:    "job_done",
 		Metrics:        metrics,
@@ -224,7 +238,19 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 
 	if len(jobDone.Description) > MINIMAL_JOB_LENS_FOR_ANALYSIS {
 		go func() {
-			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, jobDone.Description)
+			language := ""
+			if payload.CompanionLanguage != nil {
+				language = *payload.CompanionLanguage
+			}
+			if language == "" {
+				language = "en"
+			}
+			character := string(schemas.CompanionCharacterArmySergeant)
+			existingFeedback, _ := jc.companionFeedbackSvc.GetCompanionFeedbackByWayId(context.Background(), uuid.MustParse(jobDone.WayUUID))
+			if existingFeedback != nil {
+				character = string(existingFeedback.Character)
+			}
+			jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, jobDone.Description, companionFeedbackParams{language: language, character: character})
 		}()
 	}
 

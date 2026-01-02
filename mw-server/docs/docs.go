@@ -3822,6 +3822,10 @@ const docTemplate = `{
                 "time"
             ],
             "properties": {
+                "companionLanguage": {
+                    "type": "string",
+                    "example": "en|ru|ua"
+                },
                 "dayReportUuid": {
                     "type": "string"
                 },
@@ -4976,8 +4980,12 @@ const docTemplate = `{
         "mw-server_internal_schemas.UpdateJobDone": {
             "type": "object",
             "properties": {
-                "description": {
+                "companionLanguage": {
                     "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "en|ru|ua"
                 },
                 "time": {
                     "type": "integer"

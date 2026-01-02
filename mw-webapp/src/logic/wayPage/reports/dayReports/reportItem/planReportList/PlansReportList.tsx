@@ -168,6 +168,7 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
       dayReportUuid: wayParticipant.dayReportId,
       ownerUuid,
       plan,
+      language: languageStore.language,
     });
     report.addJob(jobDone);
   };

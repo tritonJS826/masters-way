@@ -534,12 +534,17 @@ func (gs *GeneralService) AiGenerateQuestionResult(ctx context.Context, payload 
 }
 
 func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
+	var companionLanguage *string
+	if payload.CompanionLanguage != "" {
+		companionLanguage = &payload.CompanionLanguage
+	}
 	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDonePayload{
-		DayReportUuid: payload.DayReportUuid,
-		Description:   payload.Description,
-		JobTagUuids:   payload.JobTagUuids,
-		OwnerUuid:     payload.OwnerUuid,
-		Time:          payload.Time,
+		DayReportUuid:     payload.DayReportUuid,
+		Description:       payload.Description,
+		JobTagUuids:       payload.JobTagUuids,
+		OwnerUuid:         payload.OwnerUuid,
+		Time:              payload.Time,
+		CompanionLanguage: companionLanguage,
 	}).Execute()
 
 	if err != nil {
@@ -550,17 +555,20 @@ func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.Cr
 }
 
 type UpdateJobDoneParams struct {
-	JobDoneID        string
-	Description      *string
-	Time             *int32
-	ModifierUserUuid string
+	JobDoneID         string
+	Description       *string
+	Time              *int32
+	CompanionLanguage *string
+	ModifierUserUuid  string
 }
 
 func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
-	jobDone, response, err := gs.generalAPI.JobDoneAPI.UpdateJobDone(ctx, params.JobDoneID).Request(openapiGeneral.MwServerInternalSchemasUpdateJobDone{
-		Description: params.Description,
-		Time:        params.Time,
-	}).Execute()
+	req := openapiGeneral.MwServerInternalSchemasUpdateJobDone{
+		Description:       params.Description,
+		Time:              params.Time,
+		CompanionLanguage: params.CompanionLanguage,
+	}
+	jobDone, response, err := gs.generalAPI.JobDoneAPI.UpdateJobDone(ctx, params.JobDoneID).Request(req).Execute()
 
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)

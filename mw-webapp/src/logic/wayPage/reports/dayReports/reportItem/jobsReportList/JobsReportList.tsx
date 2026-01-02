@@ -145,6 +145,7 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
       const jobDone = await JobDoneDAL.createJobDone({
         dayReportUuid: compositionParticipant.dayReportId,
         ownerUuid: userUuid,
+        language: languageStore.language,
       });
       props.dayReport.addJob(jobDone);
       const updatedStatistics = await loadWayStatistics();
@@ -261,7 +262,7 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                         uuid: jobDone.uuid,
                         time: getValidatedTime(Number(time)),
                       };
-                      await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
+                      await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate, language: languageStore.language});
                       jobDone.updateTime(getValidatedTime(Number(time)));
 
                       const updatedStatistics = await loadWayStatistics();
@@ -345,7 +346,7 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                   uuid: jobDone.uuid,
                   description,
                 };
-                await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
+                await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate, language: languageStore.language});
                 jobDone.updateDescription(description);
               }}
               isEditable={props.isEditable}
