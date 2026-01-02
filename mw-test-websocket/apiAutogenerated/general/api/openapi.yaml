@@ -228,6 +228,29 @@ paths:
       tags:
       - comment
       x-codegen-request-body-name: request
+  /companion/{wayId}:
+    get:
+      description: "Returns motivational feedback based on last 14 days of activity.\
+        \ Analyzes jobs, plans, problems, and comments. Characters: army_sergeant,\
+        \ creative_artist, warm_sister, wise_mentor, cheerful_friend."
+      operationId: get-companion-feedback
+      parameters:
+      - description: Way UUID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mw-server_internal_schemas.CompanionFeedback"
+          description: OK
+      summary: Get AI companion feedback for a way
+      tags:
+      - companion
   /compositeWay:
     post:
       operationId: create-compositeWay
@@ -2379,6 +2402,49 @@ components:
       - updatedAt
       - uuid
       - wayName
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CompanionCharacter:
+      enum:
+      - army_sergeant
+      - creative_artist
+      - warm_sister
+      - wise_mentor
+      - cheerful_friend
+      type: string
+      x-enum-varnames:
+      - CompanionCharacterArmySergeant
+      - CompanionCharacterCreativeArtist
+      - CompanionCharacterWarmSister
+      - CompanionCharacterWiseMentor
+      - CompanionCharacterCheerfulFriend
+    mw-server_internal_schemas.CompanionFeedback:
+      example:
+        character: army_sergeant
+        lastUpdatedAt: lastUpdatedAt
+        wayUuid: wayUuid
+        comment: comment
+        uuid: uuid
+        status: 0
+      properties:
+        character:
+          $ref: "#/components/schemas/mw-server_internal_schemas.CompanionCharacter"
+        comment:
+          type: string
+        lastUpdatedAt:
+          type: string
+        status:
+          type: integer
+        uuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - character
+      - comment
+      - lastUpdatedAt
+      - status
+      - uuid
       - wayUuid
       type: object
     mw-server_internal_schemas.CompositeDayReportPopulatedResponse:

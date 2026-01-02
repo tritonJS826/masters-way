@@ -24,6 +24,7 @@ type IDayReportRepository interface {
 	GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.Comment, error)
 	CreateDayReport(ctx context.Context, arg db.CreateDayReportParams) (db.DayReport, error)
 	UpdateWay(ctx context.Context, arg db.UpdateWayParams) (db.UpdateWayRow, error)
+	GetLast14DayReportsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.DayReport, error)
 }
 
 type DayReportService struct {
@@ -390,4 +391,85 @@ func (drs *DayReportService) CreateDayReport(ctx context.Context, wayID string) 
 		Problems: []schemas.ProblemPopulatedResponse{},
 		Comments: []schemas.CommentPopulatedResponse{},
 	}, nil
+}
+
+type DayReportWithCounts struct {
+	CreatedAt     time.Time
+	PlansCount    int
+	JobsDoneCount int
+	ProblemsCount int
+	CommentsCount int
+}
+
+func (drs *DayReportService) GetLast14DayReportsByWayID(ctx context.Context, wayID uuid.UUID) ([]DayReportWithCounts, error) {
+	dayReports, err := drs.dayReportRepository.GetLast14DayReportsByWayUuid(ctx, pgtype.UUID{Bytes: wayID, Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	if len(dayReports) == 0 {
+		return []DayReportWithCounts{}, nil
+	}
+
+	dayReportUUIDs := lo.Map(dayReports, func(dr db.DayReport, _ int) pgtype.UUID {
+		return dr.Uuid
+	})
+
+	jobDones, err := drs.dayReportRepository.GetJobDonesByDayReportUuids(ctx, dayReportUUIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	plans, err := drs.dayReportRepository.GetPlansByDayReportUuids(ctx, dayReportUUIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	problems, err := drs.dayReportRepository.GetProblemsByDayReportUuids(ctx, dayReportUUIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	comments, err := drs.dayReportRepository.GetListCommentsByDayReportUuids(ctx, dayReportUUIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	jobDonesMap := make(map[string]int)
+	for _, jd := range jobDones {
+		uuidStr := util.ConvertPgUUIDToUUID(jd.DayReportUuid).String()
+		jobDonesMap[uuidStr]++
+	}
+
+	plansMap := make(map[string]int)
+	for _, p := range plans {
+		uuidStr := util.ConvertPgUUIDToUUID(p.DayReportUuid).String()
+		plansMap[uuidStr]++
+	}
+
+	problemsMap := make(map[string]int)
+	for _, pr := range problems {
+		uuidStr := util.ConvertPgUUIDToUUID(pr.DayReportUuid).String()
+		problemsMap[uuidStr]++
+	}
+
+	commentsMap := make(map[string]int)
+	for _, c := range comments {
+		uuidStr := util.ConvertPgUUIDToUUID(c.DayReportUuid).String()
+		commentsMap[uuidStr]++
+	}
+
+	result := make([]DayReportWithCounts, 0, len(dayReports))
+	for _, dr := range dayReports {
+		uuidStr := util.ConvertPgUUIDToUUID(dr.Uuid).String()
+		result = append(result, DayReportWithCounts{
+			CreatedAt:     dr.CreatedAt.Time,
+			PlansCount:    plansMap[uuidStr],
+			JobsDoneCount: jobDonesMap[uuidStr],
+			ProblemsCount: problemsMap[uuidStr],
+			CommentsCount: commentsMap[uuidStr],
+		})
+	}
+
+	return result, nil
 }

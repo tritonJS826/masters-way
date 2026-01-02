@@ -19,6 +19,7 @@ type Router struct {
 	config                         *config.Config
 	authRouter                     *authRouter
 	commentRouter                  *commentRouter
+	companionRouter                *companionRouter
 	compositeWayRouter             *compositeWayRouter
 	dayReportRouter                *dayReportRouter
 	wayTagRouter                   *wayTagRouter
@@ -68,6 +69,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		config:                         config,
 		authRouter:                     newAuthRouter(controller.AuthController, config),
 		commentRouter:                  newCommentRouter(controller.CommentController, config),
+		companionRouter:                newCompanionRouter(controller.CompanionController, config),
 		compositeWayRouter:             newCompositeWayRouter(controller.CompositeWayController, config),
 		dayReportRouter:                newDayReportRouter(controller.DayReportController, config),
 		devRouter:                      newDevRouter(controller.DevController),
@@ -102,6 +104,7 @@ func (r *Router) SetRoutes() {
 
 	r.authRouter.setAuthRoutes(general)
 	r.commentRouter.setCommentRoutes(general)
+	r.companionRouter.setCompanionRoutes(general)
 	r.compositeWayRouter.setCompositeWayRoutes(general)
 	r.dayReportRouter.setDayReportRoutes(general)
 	r.favoriteUserRouter.setFavoriteUserRoutes(general)

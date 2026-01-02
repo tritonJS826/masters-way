@@ -1,5 +1,6 @@
 apis/AuthApi.ts
 apis/CommentApi.ts
+apis/CompanionApi.ts
 apis/CompositeWayApi.ts
 apis/DayReportApi.ts
 apis/FavoriteUserApi.ts
@@ -55,6 +56,8 @@ models/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdPayload.t
 models/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse.ts
 models/MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.ts
 models/MwGeneralBffInternalSchemasCommentPopulatedResponse.ts
+models/MwGeneralBffInternalSchemasCompanionCharacter.ts
+models/MwGeneralBffInternalSchemasCompanionFeedbackResponse.ts
 models/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.ts
 models/MwGeneralBffInternalSchemasCompositeWayRelation.ts
 models/MwGeneralBffInternalSchemasCreateCommentPayload.ts

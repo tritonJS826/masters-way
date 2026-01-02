@@ -21,6 +21,7 @@ type Router struct {
 	fileRouter                     *fileRouter
 	authRouter                     *authRouter
 	commentRouter                  *commentRouter
+	companionRouter                *companionRouter
 	compositeWayRouter             *compositeWayRouter
 	dayReportRouter                *dayReportRouter
 	wayTagRouter                   *wayTagRouter
@@ -71,6 +72,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		fileRouter:                     newFileRouter(controller.FileController),
 		authRouter:                     newAuthRouter(controller.AuthController, config),
 		commentRouter:                  newCommentRouter(controller.CommentController, config),
+		companionRouter:                newCompanionRouter(controller.CompanionController, config),
 		compositeWayRouter:             newCompositeWayRouter(controller.CompositeWayController, config),
 		dayReportRouter:                newDayReportRouter(controller.DayReportController, config),
 		favoriteUserRouter:             newFavoriteUserRouter(controller.FavoriteUserController, config),
@@ -108,6 +110,7 @@ func (r *Router) SetRoutes(cfg *config.Config) {
 
 	r.authRouter.setAuthRoutes(general)
 	r.commentRouter.setCommentRoutes(general)
+	r.companionRouter.setCompanionRoutes(general)
 	r.compositeWayRouter.setCompositeWayRoutes(general)
 	r.dayReportRouter.setDayReportRoutes(general)
 	r.favoriteUserRouter.setFavoriteUserRoutes(general)

@@ -90,11 +90,11 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [MwTestWebsocketInternalSchemasHostStartedGameEventPayload](docs/MwTestWebsocketInternalSchemasHostStartedGameEventPayload.md)
+ - [MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest](docs/MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest.md)
  - [MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayload](docs/MwTestWebsocketInternalSchemasUserAnswerHandledByServerEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload](docs/MwTestWebsocketInternalSchemasUserAnsweredQuestionEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload](docs/MwTestWebsocketInternalSchemasUserCapturedTargetEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserInfo](docs/MwTestWebsocketInternalSchemasUserInfo.md)
- - [MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload](docs/MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload.md)
  - [MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse](docs/MwTestWebsocketInternalSchemasUserJoinedSessionEventResponse.md)
  - [MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload](docs/MwTestWebsocketInternalSchemasUserReadyToStartPlayEventPayload.md)
 

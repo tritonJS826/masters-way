@@ -729,3 +729,15 @@ CREATE TRIGGER check_max_users_trigger
 BEFORE INSERT ON users_projects
 FOR EACH ROW
 EXECUTE FUNCTION check_max_users_per_project();
+
+-- AI Companion table for each way
+CREATE TABLE companion_feedback (
+    "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
+    "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "status" INTEGER NOT NULL CHECK (status BETWEEN 0 AND 100),
+    "comment" VARCHAR(5000) NOT NULL,
+    "character" VARCHAR(50) NOT NULL DEFAULT 'army_sergeant',
+    "last_updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "companion_feedback_pkey" PRIMARY KEY("uuid"),
+    CONSTRAINT "companion_feedback_way_unique" UNIQUE("way_uuid")
+);

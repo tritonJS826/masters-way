@@ -54,3 +54,10 @@ SELECT
 FROM ways
 INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
 WHERE day_reports.uuid = @day_report_uuid;
+
+-- name: GetLast14DayReportsByWayUuid :many
+SELECT uuid, way_uuid, created_at, updated_at
+FROM day_reports
+WHERE way_uuid = @way_uuid
+ORDER BY created_at DESC
+LIMIT 14;

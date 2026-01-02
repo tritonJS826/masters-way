@@ -372,7 +372,7 @@ import (
 
 func main() {
 	sessionUuid := "sessionUuid_example" // string | sessionUuid
-	request := *openapiclient.NewMwTestWebsocketInternalSchemasUserJoinedSessionEventPayload("UserUuid_example") // MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload | query params
+	request := *openapiclient.NewMwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest("UserUuid_example") // MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -402,7 +402,7 @@ Other parameters are passed through a pointer to a apiUserJoinedSessionRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload**](MwTestWebsocketInternalSchemasUserJoinedSessionEventPayload.md) | query params | 
+ **request** | [**MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest**](MwTestWebsocketInternalSchemasSendUserJoinedSessionEventRequest.md) | query params | 
 
 ### Return type
 

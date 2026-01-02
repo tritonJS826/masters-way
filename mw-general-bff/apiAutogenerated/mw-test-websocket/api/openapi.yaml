@@ -120,7 +120,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload'
+              $ref: '#/components/schemas/mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest'
         description: query params
         required: true
       responses:
@@ -188,6 +188,13 @@ components:
       - enemySpawnInterval
       - speedScale
       type: object
+    mw-test-websocket_internal_schemas.SendUserJoinedSessionEventRequest:
+      properties:
+        userUuid:
+          type: string
+      required:
+      - userUuid
+      type: object
     mw-test-websocket_internal_schemas.UserAnswerHandledByServerEventPayload:
       properties:
         isOk:
@@ -251,13 +258,6 @@ components:
           type: string
       required:
       - userName
-      - userUuid
-      type: object
-    mw-test-websocket_internal_schemas.UserJoinedSessionEventPayload:
-      properties:
-        userUuid:
-          type: string
-      required:
       - userUuid
       type: object
     mw-test-websocket_internal_schemas.UserJoinedSessionEventResponse:

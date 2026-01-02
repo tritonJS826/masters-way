@@ -88,6 +88,7 @@ Class | Method | HTTP request | Description
 *CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
 *CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
 *CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID
+*CompanionAPI* | [**GetCompanionFeedback**](docs/CompanionAPI.md#getcompanionfeedback) | **Get** /companion/{wayId} | Get AI companion feedback for a way
 *CompositeWayAPI* | [**CreateCompositeWay**](docs/CompositeWayAPI.md#createcompositeway) | **Post** /compositeWay | Add a way to composite way
 *CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
 *DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
@@ -193,6 +194,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse](docs/MwGeneralBffInternalSchemasAIGenerateTrainingByTestTestSessionIdResponse.md)
  - [MwGeneralBffInternalSchemasAddWayToCompositeWayPayload](docs/MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.md)
  - [MwGeneralBffInternalSchemasCommentPopulatedResponse](docs/MwGeneralBffInternalSchemasCommentPopulatedResponse.md)
+ - [MwGeneralBffInternalSchemasCompanionCharacter](docs/MwGeneralBffInternalSchemasCompanionCharacter.md)
+ - [MwGeneralBffInternalSchemasCompanionFeedbackResponse](docs/MwGeneralBffInternalSchemasCompanionFeedbackResponse.md)
  - [MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse](docs/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasCompositeWayRelation](docs/MwGeneralBffInternalSchemasCompositeWayRelation.md)
  - [MwGeneralBffInternalSchemasCreateCommentPayload](docs/MwGeneralBffInternalSchemasCreateCommentPayload.md)

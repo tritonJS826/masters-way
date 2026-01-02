@@ -8,6 +8,7 @@ import (
 type Controller struct {
 	AuthController                     *AuthController
 	CommentController                  *CommentController
+	CompanionController                *CompanionController
 	CompositeWayController             *CompositeWayController
 	DayReportController                *DayReportController
 	DevController                      *DevController
@@ -40,6 +41,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 	return &Controller{
 		AuthController:                     NewAuthController(services.AuthService, services.UserService, services.ProfileSettingService, config),
 		CommentController:                  NewCommentController(services.PermissionService, services.CommentService),
+		CompanionController:                NewCompanionController(services.GeminiService, services.DayReportService, services.WayService, services.CompanionFeedbackService),
 		CompositeWayController:             NewCompositeWayController(services.CompositeWayService),
 		DayReportController:                NewDayReportController(services.DayReportService, services.LimitService, services.WayService),
 		DevController:                      NewDevController(services.DevService),

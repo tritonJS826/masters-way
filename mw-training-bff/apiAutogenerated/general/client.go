@@ -53,6 +53,8 @@ type APIClient struct {
 
 	CommentAPI *CommentAPIService
 
+	CompanionAPI *CompanionAPIService
+
 	CompositeWayAPI *CompositeWayAPIService
 
 	DayReportAPI *DayReportAPIService
@@ -126,6 +128,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	// API Services
 	c.AuthAPI = (*AuthAPIService)(&c.common)
 	c.CommentAPI = (*CommentAPIService)(&c.common)
+	c.CompanionAPI = (*CompanionAPIService)(&c.common)
 	c.CompositeWayAPI = (*CompositeWayAPIService)(&c.common)
 	c.DayReportAPI = (*DayReportAPIService)(&c.common)
 	c.DevAPI = (*DevAPIService)(&c.common)
