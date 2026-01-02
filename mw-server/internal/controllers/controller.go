@@ -41,7 +41,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 	return &Controller{
 		AuthController:                     NewAuthController(services.AuthService, services.UserService, services.ProfileSettingService, config),
 		CommentController:                  NewCommentController(services.PermissionService, services.CommentService),
-		CompanionController:                NewCompanionController(services.GeminiService, services.DayReportService, services.WayService, services.CompanionFeedbackService, services.MetricService),
+		CompanionController:                NewCompanionController(services.CompanionFeedbackService),
 		CompositeWayController:             NewCompositeWayController(services.CompositeWayService),
 		DayReportController:                NewDayReportController(services.DayReportService, services.LimitService, services.WayService),
 		DevController:                      NewDevController(services.DevService),
@@ -49,7 +49,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		FavoriteUserWayController:          NewFavoriteUserWayController(services.FavoriteUserWayService),
 		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.FromUserMentoringRequestService),
 		GeminiController:                   NewGeminiController(services.LimitService, services.GeminiService, services.ProfileSettingService),
-		JobDoneController:                  NewJobDoneController(services.PermissionService, services.JobDoneService, services.JobDoneJobTagService, services.JobTagService),
+		JobDoneController:                  NewJobDoneController(services.PermissionService, services.JobDoneService, services.JobDoneJobTagService, services.JobTagService, services.GeminiService, services.DayReportService, services.WayService, services.CompanionFeedbackService, services.MetricService),
 		JobDoneJobTagController:            NewJobDoneJobTagController(services.JobDoneJobTagService),
 		JobTagController:                   NewJobTagController(services.JobTagService),
 		MentorUserWayController:            NewMentorUserWayController(services.LimitService, services.MentorUserWayService),
