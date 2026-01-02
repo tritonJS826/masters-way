@@ -153,7 +153,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         placeholder={props.placeholder}
         rows={props.rows}
         isAutofocus
-        onKeyPress={handleCtrlEnter}
         maxCharacterCount={props.maxCharacterCount}
       />
       <HorizontalContainer className={styles.editableTextAreaFooter}>
