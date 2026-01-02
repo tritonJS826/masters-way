@@ -144,7 +144,7 @@ func (jc *JobDoneController) triggerCompanionFeedbackGeneration(ctx context.Cont
 		return
 	}
 
-	_, err = jc.companionFeedbackSvc.CreateCompanionFeedback(ctx, &services.CreateCompanionFeedbackParams{
+	_, err = jc.companionFeedbackSvc.UpsertCompanionFeedback(ctx, &services.CreateCompanionFeedbackParams{
 		WayUUID:       wayUUID,
 		Status:        int32(response.Status),
 		Comment:       response.Comment,

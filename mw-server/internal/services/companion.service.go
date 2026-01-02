@@ -15,6 +15,7 @@ type ICompanionFeedbackRepository interface {
 	CreateCompanionFeedback(ctx context.Context, arg db.CreateCompanionFeedbackParams) (pgtype.UUID, error)
 	GetCompanionFeedbackByWayId(ctx context.Context, wayUuid pgtype.UUID) (db.CompanionFeedback, error)
 	UpdateCompanionFeedback(ctx context.Context, arg db.UpdateCompanionFeedbackParams) (pgtype.UUID, error)
+	UpsertCompanionFeedback(ctx context.Context, arg db.UpsertCompanionFeedbackParams) (pgtype.UUID, error)
 }
 
 type CompanionFeedbackService struct {
@@ -73,5 +74,15 @@ func (s *CompanionFeedbackService) UpdateCompanionFeedback(ctx context.Context, 
 		Character:     params.Character,
 		LastUpdatedAt: pgtype.Timestamp{Time: params.LastUpdatedAt, Valid: true},
 		WayUuid:       pgtype.UUID{Bytes: params.WayUUID, Valid: true},
+	})
+}
+
+func (s *CompanionFeedbackService) UpsertCompanionFeedback(ctx context.Context, params *CreateCompanionFeedbackParams) (pgtype.UUID, error) {
+	return s.ICompanionFeedbackRepository.UpsertCompanionFeedback(ctx, db.UpsertCompanionFeedbackParams{
+		WayUuid:       pgtype.UUID{Bytes: params.WayUUID, Valid: true},
+		Status:        params.Status,
+		Comment:       params.Comment,
+		Character:     params.Character,
+		LastUpdatedAt: pgtype.Timestamp{Time: params.LastUpdatedAt, Valid: true},
 	})
 }
