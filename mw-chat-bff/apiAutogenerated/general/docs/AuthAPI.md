@@ -9,14 +9,19 @@ Method | HTTP request | Description
 [**GetGoogleToken**](AuthAPI.md#GetGoogleToken) | **Get** /auth/google-token | Retrieve Google Access Token
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 [**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
+[**InitiateTelegramLogin**](AuthAPI.md#InitiateTelegramLogin) | **Post** /auth/telegram/initiate | Initiate Telegram login
+[**LinkTelegram**](AuthAPI.md#LinkTelegram) | **Post** /auth/telegram/link | Link Telegram account
 [**LogoutCurrentAuthorizedUser**](AuthAPI.md#LogoutCurrentAuthorizedUser) | **Get** /auth/logout/{provider} | Logout current authorized user
 [**RefreshAccessToken**](AuthAPI.md#RefreshAccessToken) | **Post** /auth/refreshToken | Retrieve Access Token
+[**TestTelegramLink**](AuthAPI.md#TestTelegramLink) | **Get** /auth/telegram/test-link | Test Telegram link (local only)
+[**UnlinkTelegram**](AuthAPI.md#UnlinkTelegram) | **Delete** /auth/telegram/unlink/{telegramId} | Unlink Telegram account
+[**ValidateTelegramLogin**](AuthAPI.md#ValidateTelegramLogin) | **Post** /auth/telegram/validate | Validate Telegram login
 
 
 
 ## BeginAuth
 
-> MwServerInternalSchemasBeginAuthResponse BeginAuth(ctx, provider).Execute()
+> MwServerInternalSchemasBeginAuthResponse BeginAuth(ctx, provider).TelegramCode(telegramCode).Execute()
 
 Begin oauth
 
@@ -34,10 +39,11 @@ import (
 
 func main() {
 	provider := "provider_example" // string | google
+	telegramCode := "telegramCode_example" // string | telegram auth code for linking (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).Execute()
+	resp, r, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).TelegramCode(telegramCode).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.BeginAuth``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -63,6 +69,7 @@ Other parameters are passed through a pointer to a apiBeginAuthRequest struct vi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **telegramCode** | **string** | telegram auth code for linking | 
 
 ### Return type
 
@@ -344,6 +351,138 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## InitiateTelegramLogin
+
+> InternalControllersInitiateTelegramLoginResponse InitiateTelegramLogin(ctx).Request(request).Execute()
+
+Initiate Telegram login
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewInternalControllersInitiateTelegramLoginRequest(int32(123)) // InternalControllersInitiateTelegramLoginRequest | Telegram login request
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.InitiateTelegramLogin(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.InitiateTelegramLogin``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `InitiateTelegramLogin`: InternalControllersInitiateTelegramLoginResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.InitiateTelegramLogin`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiInitiateTelegramLoginRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**InternalControllersInitiateTelegramLoginRequest**](InternalControllersInitiateTelegramLoginRequest.md) | Telegram login request | 
+
+### Return type
+
+[**InternalControllersInitiateTelegramLoginResponse**](InternalControllersInitiateTelegramLoginResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## LinkTelegram
+
+> map[string]string LinkTelegram(ctx).Request(request).Execute()
+
+Link Telegram account
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewInternalControllersLinkTelegramRequest("AuthCode_example", int32(123)) // InternalControllersLinkTelegramRequest | Telegram linking request
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.LinkTelegram(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.LinkTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `LinkTelegram`: map[string]string
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.LinkTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLinkTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**InternalControllersLinkTelegramRequest**](InternalControllersLinkTelegramRequest.md) | Telegram linking request | 
+
+### Return type
+
+**map[string]string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## LogoutCurrentAuthorizedUser
 
 > LogoutCurrentAuthorizedUser(ctx, provider).Execute()
@@ -459,6 +598,210 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwServerInternalSchemasRefreshAccessTokenResponse**](MwServerInternalSchemasRefreshAccessTokenResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestTelegramLink
+
+> InternalControllersTestTelegramLinkResponse TestTelegramLink(ctx).Email(email).AuthCode(authCode).Execute()
+
+Test Telegram link (local only)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	email := "email_example" // string | User email
+	authCode := "authCode_example" // string | Telegram auth code
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.TestTelegramLink(context.Background()).Email(email).AuthCode(authCode).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.TestTelegramLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestTelegramLink`: InternalControllersTestTelegramLinkResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.TestTelegramLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestTelegramLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **email** | **string** | User email | 
+ **authCode** | **string** | Telegram auth code | 
+
+### Return type
+
+[**InternalControllersTestTelegramLinkResponse**](InternalControllersTestTelegramLinkResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UnlinkTelegram
+
+> map[string]string UnlinkTelegram(ctx, telegramId).Execute()
+
+Unlink Telegram account
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	telegramId := int32(56) // int32 | Telegram ID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.UnlinkTelegram(context.Background(), telegramId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.UnlinkTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UnlinkTelegram`: map[string]string
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.UnlinkTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**telegramId** | **int32** | Telegram ID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUnlinkTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+**map[string]string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ValidateTelegramLogin
+
+> InternalControllersValidateTelegramLoginResponse ValidateTelegramLogin(ctx).Request(request).Execute()
+
+Validate Telegram login
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewInternalControllersValidateTelegramLoginRequest("Code_example", int32(123)) // InternalControllersValidateTelegramLoginRequest | Telegram validation request
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.ValidateTelegramLogin(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.ValidateTelegramLogin``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ValidateTelegramLogin`: InternalControllersValidateTelegramLoginResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.ValidateTelegramLogin`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiValidateTelegramLoginRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**InternalControllersValidateTelegramLoginRequest**](InternalControllersValidateTelegramLoginRequest.md) | Telegram validation request | 
+
+### Return type
+
+[**InternalControllersValidateTelegramLoginResponse**](InternalControllersValidateTelegramLoginResponse.md)
 
 ### Authorization
 

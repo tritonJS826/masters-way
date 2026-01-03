@@ -265,6 +265,17 @@ services:
     networks:
       - app-network
 
+  mw-telegram-bot:
+    image: viktarveratsennikau/masters-way-mw-telegram-bot:latest
+    build:
+      context: .
+      dockerfile: ./mw-telegram-bot/Dockerfile
+    container_name: masters-way-mw-telegram-bot-1
+    depends_on:
+      - mw-general-bff
+    networks:
+      - app-network
+
   # grafana:
   #   image: viktarveratsennikau/masters-way-mw-grafana:latest
   #   build:
@@ -305,6 +316,7 @@ services:
       - mw-survey
       - mw-storage
       - mw-mail
+      - mw-telegram-bot
     networks:
       - app-network
 

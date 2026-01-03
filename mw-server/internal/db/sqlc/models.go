@@ -190,6 +190,17 @@ type Project struct {
 	IsDeleted bool        `json:"is_deleted"`
 }
 
+type TelegramUser struct {
+	TelegramID        int64            `json:"telegram_id"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	TelegramName      pgtype.Text      `json:"telegram_name"`
+	AuthCode          string           `json:"auth_code"`
+	AuthCodeExpiresAt pgtype.Timestamp `json:"auth_code_expires_at"`
+	Status            string           `json:"status"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `json:"updated_at"`
+}
+
 type ToUserMentoringRequest struct {
 	UserUuid pgtype.UUID `json:"user_uuid"`
 	WayUuid  pgtype.UUID `json:"way_uuid"`

@@ -39,7 +39,7 @@ type Controller struct {
 
 func NewController(services *services.Service, config *config.Config) *Controller {
 	return &Controller{
-		AuthController:                     NewAuthController(services.AuthService, services.UserService, services.ProfileSettingService, config),
+		AuthController:                     NewAuthController(services.AuthService, services.TelegramService, services.UserService, services.ProfileSettingService, config),
 		CommentController:                  NewCommentController(services.PermissionService, services.CommentService),
 		CompanionController:                NewCompanionController(services.CompanionFeedbackService),
 		CompositeWayController:             NewCompositeWayController(services.CompositeWayService),

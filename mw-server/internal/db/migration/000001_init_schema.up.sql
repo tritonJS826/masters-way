@@ -742,3 +742,40 @@ CREATE TABLE companion_feedback (
     CONSTRAINT "companion_feedback_pkey" PRIMARY KEY("uuid"),
     CONSTRAINT "companion_feedback_way_unique" UNIQUE("way_uuid")
 );
+
+-- Telegram users linking table
+CREATE TABLE telegram_users (
+    "telegram_id" BIGINT NOT NULL,
+    "user_uuid" UUID NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "telegram_name" VARCHAR(100),
+    "auth_code" VARCHAR(64) NOT NULL,
+    "auth_code_expires_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL '10 minutes',
+    "status" VARCHAR(20) NOT NULL DEFAULT 'initiated',
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "telegram_users_pkey" PRIMARY KEY("telegram_id")
+);
+
+CREATE UNIQUE INDEX "idx_telegram_users_user_unique_when_linked" ON telegram_users("user_uuid") WHERE user_uuid IS NOT NULL;
+
+-- Function to clean expired auth codes (only pending/initiated records)
+CREATE OR REPLACE FUNCTION clean_expired_telegram_codes()
+RETURNS void AS $$
+BEGIN
+    DELETE FROM telegram_users WHERE status = 'initiated' AND auth_code_expires_at < CURRENT_TIMESTAMP;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to update updated_at
+CREATE OR REPLACE FUNCTION update_telegram_users_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER "telegram_users_updated_at_trigger"
+    BEFORE UPDATE ON telegram_users
+    FOR EACH ROW
+    EXECUTE FUNCTION update_telegram_users_timestamp();

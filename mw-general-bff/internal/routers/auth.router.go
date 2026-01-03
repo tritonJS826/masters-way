@@ -26,6 +26,8 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 		router.GET("/logout/:provider", auth.HandleHeaders(ar.config), ar.authController.Logout)
 		router.GET("/google-token", auth.HandleHeaders(ar.config), ar.authController.GetGoogleAccessToken)
 		router.POST("/refreshToken", ar.authController.RefreshAccessToken)
+		router.POST("/telegram/initiate", ar.authController.InitiateTelegramLogin)
+		router.POST("/telegram/validate", ar.authController.ValidateTelegramLogin)
 		if ar.config.EnvType != "prod" {
 			router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
 		}

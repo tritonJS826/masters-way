@@ -348,3 +348,69 @@ func ConvertWay(way openapiGeneral.MwServerInternalSchemasWayPlainResponse, _ in
 		}),
 	}
 }
+
+type TelegramLoginRequest struct {
+	TelegramId   int64  `json:"telegramId" binding:"required"`
+	TelegramName string `json:"telegramName"`
+}
+
+type TelegramLoginResponse struct {
+	AuthURL string `json:"authUrl"`
+	Code    string `json:"code"`
+}
+
+type TelegramValidateRequest struct {
+	Code         string `json:"code" binding:"required"`
+	TelegramId   int64  `json:"telegramId" binding:"required"`
+	TelegramName string `json:"telegramName"`
+}
+
+type TelegramValidateResponse struct {
+	UserUuid string `json:"userUuid"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+}
+
+// @Summary Initiate Telegram login
+// @Description Creates a Google OAuth URL and short code for Telegram login
+// @Tags auth
+// @ID telegram-initiate
+// @Accept json
+// @Produce json
+// @Param request body TelegramLoginRequest true "Telegram login request"
+// @Success 200 {object} TelegramLoginResponse
+// @Router /auth/telegram/initiate [post]
+func (ac *AuthController) InitiateTelegramLogin(ctx *gin.Context) {
+	var req TelegramLoginRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "message": err.Error()})
+		return
+	}
+
+	response, err := ac.authFacade.InitiateTelegramLogin(ctx, req.TelegramId, req.TelegramName)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// @Summary Validate Telegram login code
+// @Description Validates the code and returns user info
+// @Tags auth
+// @ID telegram-validate
+// @Accept json
+// @Produce json
+// @Param request body TelegramValidateRequest true "Telegram validate request"
+// @Success 200 {object} TelegramValidateResponse
+// @Router /auth/telegram/validate [post]
+func (ac *AuthController) ValidateTelegramLogin(ctx *gin.Context) {
+	var req TelegramValidateRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid request", "message": err.Error()})
+		return
+	}
+
+	response, err := ac.authFacade.ValidateTelegramLogin(ctx, req.Code, req.TelegramId, req.TelegramName)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
