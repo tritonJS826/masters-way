@@ -80,3 +80,12 @@ func (as *AuthService) RefreshAccessToken(ctx context.Context, refreshToken stri
 	}
 	return accessToken, nil
 }
+
+type LinkTelegramParams struct {
+	TelegramID int64
+	AuthCode   string
+}
+
+func (as *AuthService) LinkTelegram(ctx context.Context, params LinkTelegramParams) error {
+	return nil
+}

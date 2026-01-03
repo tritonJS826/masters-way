@@ -83,8 +83,13 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 *AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
+*AuthAPI* | [**InitiateTelegramLogin**](docs/AuthAPI.md#initiatetelegramlogin) | **Post** /auth/telegram/initiate | Initiate Telegram login
+*AuthAPI* | [**LinkTelegram**](docs/AuthAPI.md#linktelegram) | **Post** /auth/telegram/link | Link Telegram account
 *AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
 *AuthAPI* | [**RefreshAccessToken**](docs/AuthAPI.md#refreshaccesstoken) | **Post** /auth/refreshToken | Retrieve Access Token
+*AuthAPI* | [**TestTelegramLink**](docs/AuthAPI.md#testtelegramlink) | **Get** /auth/telegram/test-link | Test Telegram link (local only)
+*AuthAPI* | [**UnlinkTelegram**](docs/AuthAPI.md#unlinktelegram) | **Delete** /auth/telegram/unlink/{telegramId} | Unlink Telegram account
+*AuthAPI* | [**ValidateTelegramLogin**](docs/AuthAPI.md#validatetelegramlogin) | **Post** /auth/telegram/validate | Validate Telegram login
 *CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
 *CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
 *CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID
@@ -169,6 +174,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [InternalControllersInitiateTelegramLoginRequest](docs/InternalControllersInitiateTelegramLoginRequest.md)
+ - [InternalControllersInitiateTelegramLoginResponse](docs/InternalControllersInitiateTelegramLoginResponse.md)
+ - [InternalControllersLinkTelegramRequest](docs/InternalControllersLinkTelegramRequest.md)
+ - [InternalControllersTestTelegramLinkResponse](docs/InternalControllersTestTelegramLinkResponse.md)
+ - [InternalControllersValidateTelegramLoginRequest](docs/InternalControllersValidateTelegramLoginRequest.md)
+ - [InternalControllersValidateTelegramLoginResponse](docs/InternalControllersValidateTelegramLoginResponse.md)
  - [MwServerInternalCustomErrorsNoRightToChangeDayReportError](docs/MwServerInternalCustomErrorsNoRightToChangeDayReportError.md)
  - [MwServerInternalSchemasAIChatPayload](docs/MwServerInternalSchemasAIChatPayload.md)
  - [MwServerInternalSchemasAIChatResponse](docs/MwServerInternalSchemasAIChatResponse.md)
