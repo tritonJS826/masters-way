@@ -20,6 +20,7 @@ func newWayRouter(wayController *controllers.WayController, config *config.Confi
 func (cr *wayRouter) setWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	router.GET("", cr.wayController.GetAllWays)
+	router.GET("/user/:userId", cr.wayController.GetUserOwnWays)
 	router.GET("/:wayId", cr.wayController.GetWayById)
 	router.GET("/:wayId/notification", cr.wayController.GetWayPlainForNotificationById)
 	router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)

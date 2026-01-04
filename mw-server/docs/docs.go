@@ -1521,6 +1521,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/jobDones/telegram": {
+            "post": {
+                "description": "Creates a job done, automatically finding or creating a day report for today",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDone"
+                ],
+                "summary": "Create job done for telegram",
+                "operationId": "create-job-done-telegram",
+                "parameters": [
+                    {
+                        "description": "Job done payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateJobDoneForTelegramPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/jobDones/{jobDoneId}": {
             "delete": {
                 "consumes": [
@@ -3133,6 +3168,42 @@ const docTemplate = `{
                 }
             }
         },
+        "/ways/user/{userId}": {
+            "get": {
+                "description": "Get all ways owned by a specific user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get user's own ways",
+                "operationId": "get-user-own-ways",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mw-server_internal_schemas.UserOwnWay"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ways/{wayId}": {
             "get": {
                 "consumes": [
@@ -3306,6 +3377,9 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "token": {
+                    "type": "string"
+                },
                 "userUuid": {
                     "type": "string"
                 }
@@ -3393,6 +3467,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 },
                 "userUuid": {
@@ -4114,6 +4191,39 @@ const docTemplate = `{
             "properties": {
                 "userUuid": {
                     "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.CreateJobDoneForTelegramPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "ownerUuid",
+                "time",
+                "wayUuid"
+            ],
+            "properties": {
+                "companionLanguage": {
+                    "type": "string",
+                    "example": "en|ru|ua"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "jobTagUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
                 },
                 "wayUuid": {
                     "type": "string"
@@ -5447,6 +5557,25 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.UserOwnWay": {
+            "type": "object",
+            "required": [
+                "isCompleted",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "name": {
                     "type": "string"
                 },
                 "uuid": {

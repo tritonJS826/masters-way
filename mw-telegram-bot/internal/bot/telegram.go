@@ -5,20 +5,35 @@ import (
 	"fmt"
 	"log"
 	"mw-telegram-bot/internal/config"
+	"mw-telegram-bot/internal/openapi"
 	"mw-telegram-bot/internal/services"
 	"net/http"
+	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+type JobDoneState struct {
+	Description string
+	OwnerUuid   string
+	UserName    string
+	WayUuid     string
+	WayName     string
+	Step        string
+	Ways        []services.UserWay
+}
+
 type TelegramBot struct {
-	config      *config.Config
-	authService *services.AuthService
-	bot         *tgbotapi.BotAPI
-	stopChan    chan struct{}
-	isRunning   bool
+	config        *config.Config
+	authService   *services.AuthService
+	bot           *tgbotapi.BotAPI
+	stopChan      chan struct{}
+	isRunning     bool
+	jobDoneStates map[int64]JobDoneState
+	mu            sync.RWMutex
 }
 
 func NewTelegramBot(cfg *config.Config, authService *services.AuthService) (*TelegramBot, error) {
@@ -30,10 +45,11 @@ func NewTelegramBot(cfg *config.Config, authService *services.AuthService) (*Tel
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	return &TelegramBot{
-		config:      cfg,
-		authService: authService,
-		bot:         bot,
-		stopChan:    make(chan struct{}),
+		config:        cfg,
+		authService:   authService,
+		bot:           bot,
+		stopChan:      make(chan struct{}),
+		jobDoneStates: make(map[int64]JobDoneState),
 	}, nil
 }
 
@@ -135,6 +151,20 @@ func (b *TelegramBot) handleUpdate(update tgbotapi.Update) {
 
 	log.Printf("[%s] %s (ID: %d) sent: %s", user.UserName, update.Message.Chat.Title, chatID, text)
 
+	if text == "/cancel" {
+		b.cancelJobDone(chatID, user)
+		return
+	}
+
+	b.mu.Lock()
+	_, inJobDoneState := b.jobDoneStates[int64(user.ID)]
+	b.mu.Unlock()
+
+	if inJobDoneState {
+		b.handleMessageForJobDoneState(chatID, text, user)
+		return
+	}
+
 	switch {
 	case strings.HasPrefix(text, "/start"):
 		b.sendStartMessage(chatID)
@@ -153,6 +183,23 @@ func (b *TelegramBot) handleUpdate(update tgbotapi.Update) {
 		b.handleLogoutCommand(chatID, user)
 	default:
 		b.sendUnknownCommandMessage(chatID)
+	}
+}
+
+func (b *TelegramBot) handleMessageForJobDoneState(chatID int64, text string, user *tgbotapi.User) {
+	b.mu.Lock()
+	state, exists := b.jobDoneStates[int64(user.ID)]
+	b.mu.Unlock()
+
+	if !exists {
+		return
+	}
+
+	switch state.Step {
+	case "select_way":
+		b.handleWaySelection(chatID, text, user)
+	case "enter_time":
+		b.handleTimeEntry(chatID, text, user)
 	}
 }
 
@@ -186,10 +233,13 @@ Example:
 }
 
 func (b *TelegramBot) sendStatusMessage(chatID int64, user *tgbotapi.User) {
+	log.Printf("sendStatusMessage: userId=%d, UserToken=%s", user.ID, openapi.UserToken)
+
 	linkedUser, err := b.authService.GetLinkedUser(context.Background(), int64(user.ID))
 
 	var statusMsg string
 	if err != nil {
+		log.Printf("sendStatusMessage: GetLinkedUser error: %v", err)
 		statusMsg = "📋 Bot Status:\n- Connected to API: ✅\n- Your account: ❌ Not linked\n\nUse /login to link your Google account!"
 	} else {
 		statusMsg = fmt.Sprintf("📋 Bot Status:\n- Connected to API: ✅\n- Linked account: ✅ %s\n- Email: %s", linkedUser.Name, linkedUser.Email)
@@ -260,6 +310,10 @@ Use /login first to get an authentication link.`)
 		name = "User"
 	}
 
+	token := result.GetToken()
+	log.Printf("handleLinkCommand: token from response: %s", token)
+	openapi.UserToken = token
+
 	successMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf(`✅ Successfully linked!
 
 Welcome, %s!
@@ -277,6 +331,8 @@ func (b *TelegramBot) handleLogoutCommand(chatID int64, user *tgbotapi.User) {
 		b.sendMessage(msg)
 		return
 	}
+
+	openapi.UserToken = ""
 
 	msg := tgbotapi.NewMessage(chatID, "✅ Your account has been unlinked. Use /login to link again.")
 	b.sendMessage(msg)
@@ -307,12 +363,110 @@ Use /login to connect your Google account, then you can log your progress.`)
 		return
 	}
 
-	waitingMsg := tgbotapi.NewMessage(chatID, "📝 Logging your progress...")
+	openapi.UserToken = linkedUser.Token
+
+	ways, err := b.authService.GetUserWays(context.Background(), linkedUser.UserUuid)
+	if err != nil {
+		errorMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf("Failed to get your ways: %v\n\nPlease try again later.", err))
+		b.sendMessage(errorMsg)
+		return
+	}
+
+	if len(ways) == 0 {
+		msg := tgbotapi.NewMessage(chatID, `❌ You don't have any ways yet!
+
+Create a way in the app first, then you can log your job done here.`)
+		b.sendMessage(msg)
+		return
+	}
+
+	if len(ways) == 1 {
+		b.askForTimeAndSaveJobDone(chatID, user, linkedUser, description, ways[0].Uuid, ways[0].Name)
+		return
+	}
+
+	b.askUserToSelectWay(chatID, user, linkedUser, description, ways)
+}
+
+func (b *TelegramBot) askUserToSelectWay(chatID int64, user *tgbotapi.User, linkedUser *services.LinkedUser, description string, ways []services.UserWay) {
+	waysText := "Select a way to save your progress:\n\n"
+	for i, way := range ways {
+		status := ""
+		if way.IsCompleted {
+			status = " (completed)"
+		}
+		waysText += fmt.Sprintf("%d. %s%s\n", i+1, way.Name, status)
+	}
+	waysText += "\nOr type /cancel to cancel"
+
+	msg := tgbotapi.NewMessage(chatID, waysText)
+	b.sendMessage(msg)
+
+	b.jobDoneStates[int64(user.ID)] = JobDoneState{
+		Description: description,
+		OwnerUuid:   linkedUser.UserUuid,
+		UserName:    linkedUser.Name,
+		Step:        "select_way",
+		Ways:        ways,
+	}
+}
+
+func (b *TelegramBot) handleWaySelection(chatID int64, text string, user *tgbotapi.User) {
+	state, exists := b.jobDoneStates[int64(user.ID)]
+	if !exists || state.Step != "select_way" {
+		return
+	}
+
+	text = strings.TrimSpace(text)
+	choice := 0
+	_, err := fmt.Sscanf(text, "%d", &choice)
+	if err != nil || choice < 1 || choice > len(state.Ways) {
+		msg := tgbotapi.NewMessage(chatID, "Invalid selection. Please enter a number from the list:")
+		b.sendMessage(msg)
+		return
+	}
+
+	selectedWay := state.Ways[choice-1]
+	delete(b.jobDoneStates, int64(user.ID))
+
+	b.askForTimeAndSaveJobDone(chatID, user, &services.LinkedUser{
+		UserUuid: state.OwnerUuid,
+		Name:     state.UserName,
+	}, state.Description, selectedWay.Uuid, selectedWay.Name)
+}
+
+func (b *TelegramBot) askForTimeAndSaveJobDone(chatID int64, user *tgbotapi.User, linkedUser *services.LinkedUser, description, wayUuid, wayName string) {
+	msg := tgbotapi.NewMessage(chatID, fmt.Sprintf(`Selected way: %s
+
+How much time did you spend on this? (in minutes)
+
+Examples: 30, 45, 60, 1h 30m`, wayName))
+	b.sendMessage(msg)
+
+	b.jobDoneStates[int64(user.ID)] = JobDoneState{
+		Description: description,
+		OwnerUuid:   linkedUser.UserUuid,
+		UserName:    linkedUser.Name,
+		WayUuid:     wayUuid,
+		WayName:     wayName,
+		Step:        "enter_time",
+	}
+}
+
+func (b *TelegramBot) handleTimeEntry(chatID int64, text string, user *tgbotapi.User) {
+	state, exists := b.jobDoneStates[int64(user.ID)]
+	if !exists || state.Step != "enter_time" {
+		return
+	}
+
+	text = strings.TrimSpace(text)
+	timeSpent := b.parseTimeFromText(text)
+	delete(b.jobDoneStates, int64(user.ID))
+
+	waitingMsg := tgbotapi.NewMessage(chatID, "📝 Saving your progress...")
 	b.sendMessage(waitingMsg)
 
-	timeSpent := b.estimateTimeFromDescription(description)
-
-	result, err := b.authService.CreateJobDone(context.Background(), linkedUser.UserUuid, description, timeSpent)
+	result, err := b.authService.CreateJobDone(context.Background(), state.OwnerUuid, state.Description, state.WayUuid, timeSpent)
 	if err != nil {
 		errorMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf("Failed to log your progress: %v\n\nPlease try again later.", err))
 		b.sendMessage(errorMsg)
@@ -323,12 +477,48 @@ Use /login to connect your Google account, then you can log your progress.`)
 
 Details:
 - Description: %s
-- Time estimated: %d minutes
+- Time: %d minutes
 - Way: %s
 
-Great job on your progress, %s! 🎉`, result.Description, result.Time, result.WayName, linkedUser.Name))
-
+Great job on your progress, %s! 🎉`, result.Description, result.Time, result.WayName, state.UserName))
 	b.sendMessage(successMsg)
+}
+
+func (b *TelegramBot) parseTimeFromText(text string) int32 {
+	text = strings.ToLower(text)
+
+	hours := int32(0)
+	minutes := int32(0)
+
+	hourMatch := regexp.MustCompile(`(\d+)\s*(h|hour|hours)`).FindStringSubmatch(text)
+	if hourMatch != nil {
+		fmt.Sscanf(hourMatch[1], "%d", &hours)
+	}
+
+	minMatch := regexp.MustCompile(`(\d+)\s*(m|min|minute|minutes)`).FindStringSubmatch(text)
+	if minMatch != nil {
+		fmt.Sscanf(minMatch[1], "%d", &minutes)
+	}
+
+	if hours == 0 && minutes == 0 {
+		numMatch := regexp.MustCompile(`(\d+)`).FindStringSubmatch(text)
+		if numMatch != nil {
+			fmt.Sscanf(numMatch[1], "%d", &minutes)
+		}
+	}
+
+	totalMinutes := hours*60 + minutes
+	if totalMinutes == 0 {
+		totalMinutes = 30
+	}
+
+	return totalMinutes
+}
+
+func (b *TelegramBot) cancelJobDone(chatID int64, user *tgbotapi.User) {
+	delete(b.jobDoneStates, int64(user.ID))
+	msg := tgbotapi.NewMessage(chatID, "❌ Job done recording cancelled.")
+	b.sendMessage(msg)
 }
 
 func (b *TelegramBot) estimateTimeFromDescription(description string) int32 {

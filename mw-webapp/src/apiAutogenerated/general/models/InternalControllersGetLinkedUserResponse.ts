@@ -36,6 +36,12 @@ export interface InternalControllersGetLinkedUserResponse {
      * @type {string}
      * @memberof InternalControllersGetLinkedUserResponse
      */
+    token?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InternalControllersGetLinkedUserResponse
+     */
     userUuid?: string;
 }
 
@@ -65,6 +71,7 @@ export function InternalControllersGetLinkedUserResponseFromJSONTyped(
         
         'email': !exists(json, 'email') ? undefined : json['email'],
         'name': !exists(json, 'name') ? undefined : json['name'],
+        'token': !exists(json, 'token') ? undefined : json['token'],
         'userUuid': !exists(json, 'userUuid') ? undefined : json['userUuid'],
     };
 }
@@ -81,6 +88,7 @@ export function InternalControllersGetLinkedUserResponseToJSON(value?: InternalC
         
         'email': value.email,
         'name': value.name,
+        'token': value.token,
         'userUuid': value.userUuid,
     };
 }

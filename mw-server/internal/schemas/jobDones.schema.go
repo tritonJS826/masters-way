@@ -28,3 +28,12 @@ type JobDonePopulatedResponse struct {
 	WayName       string           `json:"wayName" validate:"required"`
 	Tags          []JobTagResponse `json:"tags" validate:"required"`
 }
+
+type CreateJobDoneForTelegramPayload struct {
+	Description       string   `json:"description" validate:"required"`
+	Time              int32    `json:"time" validate:"required"`
+	OwnerUuid         string   `json:"ownerUuid" validate:"required"`
+	WayUuid           string   `json:"wayUuid" validate:"required"`
+	JobTagUuids       []string `json:"jobTagUuids"`
+	CompanionLanguage string   `json:"companionLanguage" example:"en|ru|ua"`
+}

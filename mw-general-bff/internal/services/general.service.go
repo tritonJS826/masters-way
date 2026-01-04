@@ -554,6 +554,27 @@ func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.Cr
 	return jobDone, nil
 }
 
+func (gs *GeneralService) CreateJobDoneForTelegram(ctx context.Context, payload *schemas.CreateJobDoneForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
+	var companionLanguage *string
+	if payload.CompanionLanguage != "" {
+		companionLanguage = &payload.CompanionLanguage
+	}
+	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDoneTelegram(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDoneForTelegramPayload{
+		Description:       payload.Description,
+		JobTagUuids:       payload.JobTagUuids,
+		OwnerUuid:         payload.OwnerUuid,
+		Time:              payload.Time,
+		WayUuid:           payload.WayUuid,
+		CompanionLanguage: companionLanguage,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return jobDone, nil
+}
+
 type UpdateJobDoneParams struct {
 	JobDoneID         string
 	Description       *string
@@ -1276,6 +1297,27 @@ func (gs *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysPara
 	}
 
 	return ways, nil
+}
+
+type GetUserOwnWaysParams struct {
+	UserUuid string
+}
+
+func (gs *GeneralService) GetUserOwnWays(ctx context.Context, params *GetUserOwnWaysParams) ([]schemas.UserOwnWay, error) {
+	ways, _, err := gs.generalAPI.WayAPI.GetUserOwnWays(ctx, params.UserUuid).Execute()
+	if err != nil {
+		return nil, err
+	}
+
+	response := lo.Map(ways, func(way openapiGeneral.MwServerInternalSchemasUserOwnWay, _ int) schemas.UserOwnWay {
+		return schemas.UserOwnWay{
+			Uuid:        way.Uuid,
+			Name:        way.Name,
+			IsCompleted: way.IsCompleted,
+		}
+	})
+
+	return response, nil
 }
 
 func mapWayPlainRes(wayRaw openapiGeneral.MwServerInternalSchemasWayPlainResponse) schemas.WayPlainResponse {

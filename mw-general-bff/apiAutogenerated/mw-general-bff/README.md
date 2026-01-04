@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
+*JobDoneAPI* | [**CreateJobDoneTelegram**](docs/JobDoneAPI.md#createjobdonetelegram) | **Post** /jobDones/telegram | Create a new jobDone for telegram
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
 *JobDoneJobTagAPI* | [**CreateJobDoneJobTag**](docs/JobDoneJobTagAPI.md#createjobdonejobtag) | **Post** /jobDoneJobTags | Create a new jobDoneJobTag
@@ -158,6 +159,7 @@ Class | Method | HTTP request | Description
 *WayAPI* | [**CreateWayFromTraining**](docs/WayAPI.md#createwayfromtraining) | **Post** /ways/createFromTraining | Create a new way based on training
 *WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
 *WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
+*WayAPI* | [**GetUserOwnWays**](docs/WayAPI.md#getuserownways) | **Get** /ways/user/{userId} | Get user&#39;s own ways
 *WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
 *WayAPI* | [**GetWayStatisticsByUuid**](docs/WayAPI.md#getwaystatisticsbyuuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
 *WayAPI* | [**UpdateWay**](docs/WayAPI.md#updateway) | **Patch** /ways/{wayId} | Update way by UUID
@@ -211,6 +213,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasCreateFavoriteUserPayload](docs/MwGeneralBffInternalSchemasCreateFavoriteUserPayload.md)
  - [MwGeneralBffInternalSchemasCreateFavoriteUserWayPayload](docs/MwGeneralBffInternalSchemasCreateFavoriteUserWayPayload.md)
  - [MwGeneralBffInternalSchemasCreateFromUserMentoringRequestPayload](docs/MwGeneralBffInternalSchemasCreateFromUserMentoringRequestPayload.md)
+ - [MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload](docs/MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload.md)
  - [MwGeneralBffInternalSchemasCreateJobDoneJobTagPayload](docs/MwGeneralBffInternalSchemasCreateJobDoneJobTagPayload.md)
  - [MwGeneralBffInternalSchemasCreateJobDonePayload](docs/MwGeneralBffInternalSchemasCreateJobDonePayload.md)
  - [MwGeneralBffInternalSchemasCreateJobTagPayload](docs/MwGeneralBffInternalSchemasCreateJobTagPayload.md)
@@ -274,6 +277,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasUpdateWayPayload](docs/MwGeneralBffInternalSchemasUpdateWayPayload.md)
  - [MwGeneralBffInternalSchemasUploadFileResponse](docs/MwGeneralBffInternalSchemasUploadFileResponse.md)
  - [MwGeneralBffInternalSchemasUserContact](docs/MwGeneralBffInternalSchemasUserContact.md)
+ - [MwGeneralBffInternalSchemasUserOwnWay](docs/MwGeneralBffInternalSchemasUserOwnWay.md)
  - [MwGeneralBffInternalSchemasUserPlainResponse](docs/MwGeneralBffInternalSchemasUserPlainResponse.md)
  - [MwGeneralBffInternalSchemasUserPlainResponseWithInfo](docs/MwGeneralBffInternalSchemasUserPlainResponseWithInfo.md)
  - [MwGeneralBffInternalSchemasUserPopulatedResponse](docs/MwGeneralBffInternalSchemasUserPopulatedResponse.md)

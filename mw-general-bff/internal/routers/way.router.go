@@ -21,6 +21,7 @@ func (cr *wayRouter) setWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	{
 		router.GET("", cr.wayController.GetAllWays)
+		router.GET("/user/:userId", cr.wayController.GetUserOwnWays)
 		router.POST("", auth.HandleHeaders(cr.config), cr.wayController.CreateWay)
 		router.POST("/createFromTraining", auth.HandleHeaders(cr.config), cr.wayController.CreateWayFromTraining)
 		router.GET("/:wayId", cr.wayController.GetWayById)

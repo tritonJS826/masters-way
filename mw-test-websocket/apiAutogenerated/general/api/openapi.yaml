@@ -970,6 +970,29 @@ paths:
       tags:
       - jobDone
       x-codegen-request-body-name: request
+  /jobDones/telegram:
+    post:
+      description: "Creates a job done, automatically finding or creating a day report\
+        \ for today"
+      operationId: create-job-done-telegram
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/mw-server_internal_schemas.CreateJobDoneForTelegramPayload"
+        description: Job done payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mw-server_internal_schemas.JobDonePopulatedResponse"
+          description: OK
+      summary: Create job done for telegram
+      tags:
+      - jobDone
+      x-codegen-request-body-name: request
   /jobDones/{jobDoneId}:
     delete:
       operationId: delete-jobDone
@@ -2022,6 +2045,29 @@ paths:
       tags:
       - way
       x-codegen-request-body-name: request
+  /ways/user/{userId}:
+    get:
+      description: Get all ways owned by a specific user
+      operationId: get-user-own-ways
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/mw-server_internal_schemas.UserOwnWay"
+                type: array
+          description: OK
+      summary: Get user's own ways
+      tags:
+      - way
   /ways/{wayId}:
     delete:
       operationId: delete-way
@@ -2132,10 +2178,13 @@ components:
         name: name
         userUuid: userUuid
         email: email
+        token: token
       properties:
         email:
           type: string
         name:
+          type: string
+        token:
           type: string
         userUuid:
           type: string
@@ -2203,10 +2252,13 @@ components:
         name: name
         userUuid: userUuid
         email: email
+        token: token
       properties:
         email:
           type: string
         name:
+          type: string
+        token:
           type: string
         userUuid:
           type: string
@@ -2910,6 +2962,29 @@ components:
           type: string
       required:
       - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateJobDoneForTelegramPayload:
+      properties:
+        companionLanguage:
+          example: en|ru|ua
+          type: string
+        description:
+          type: string
+        jobTagUuids:
+          items:
+            type: string
+          type: array
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+        wayUuid:
+          type: string
+      required:
+      - description
+      - ownerUuid
+      - time
       - wayUuid
       type: object
     mw-server_internal_schemas.CreateJobDoneJobTagPayload:
@@ -5453,6 +5528,23 @@ components:
       required:
       - contactLink
       - description
+      - uuid
+      type: object
+    mw-server_internal_schemas.UserOwnWay:
+      example:
+        name: name
+        uuid: uuid
+        isCompleted: true
+      properties:
+        isCompleted:
+          type: boolean
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - isCompleted
+      - name
       - uuid
       type: object
     mw-server_internal_schemas.UserPlainResponse:

@@ -119,6 +119,81 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// CreateJobDoneForTelegram creates a job done with automatic day report handling
+// @Summary Create job done for telegram
+// @Description Creates a job done, automatically finding or creating a day report for today
+// @Tags jobDone
+// @ID create-job-done-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateJobDoneForTelegramPayload true "Job done payload"
+// @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Router /jobDones/telegram [post]
+func (jc *JobDoneController) CreateJobDoneForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateJobDoneForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	dayReport, err := jc.dayReportService.GetOrCreateTodayDayReport(ctx, payload.WayUuid)
+	util.HandleErrorGin(ctx, err)
+
+	jobDonePayload := &schemas.CreateJobDonePayload{
+		Description:       payload.Description,
+		Time:              payload.Time,
+		DayReportUuid:     dayReport.Uuid,
+		OwnerUuid:         payload.OwnerUuid,
+		JobTagUuids:       payload.JobTagUuids,
+		CompanionLanguage: payload.CompanionLanguage,
+	}
+
+	jobDone, err := jc.jobDoneService.CreateJobDone(ctx, jobDonePayload)
+	util.HandleErrorGin(ctx, err)
+
+	for _, jobTagID := range payload.JobTagUuids {
+		_, err := jc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, &schemas.CreateJobDoneJobTagPayload{
+			JobDoneUuid: jobDone.ID,
+			JobTagUuid:  jobTagID,
+		})
+		util.HandleErrorGin(ctx, err)
+	}
+
+	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, payload.JobTagUuids)
+	util.HandleErrorGin(ctx, err)
+
+	const MINIMAL_JOB_LENS_FOR_ANALYSIS = 5
+
+	if len(payload.Description) > MINIMAL_JOB_LENS_FOR_ANALYSIS {
+		go func() {
+			language := payload.CompanionLanguage
+			if language == "" {
+				language = "en"
+			}
+			if err := jc.triggerCompanionFeedbackGeneration(context.Background(), jobDone.WayUUID, payload.Description, companionFeedbackParams{language: language, character: string(schemas.CompanionCharacterArmySergeant)}); err != nil {
+				log.Printf("[CreateJobDoneForTelegram] ERROR in companion feedback generation: %v", err)
+			}
+		}()
+	}
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.ID,
+		CreatedAt:     jobDone.CreatedAt,
+		UpdatedAt:     jobDone.UpdatedAt,
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid,
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportID,
+		WayUUID:       jobDone.WayUUID,
+		WayName:       jobDone.WayName,
+		Tags:          jobTags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 type companionFeedbackParams struct {
 	language  string
 	character string

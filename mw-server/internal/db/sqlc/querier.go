@@ -128,6 +128,7 @@ type Querier interface {
 	GetTelegramUserByTelegramId(ctx context.Context, telegramID int64) (TelegramUser, error)
 	GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error)
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
+	GetTodayDayReportByWayUuid(ctx context.Context, wayUuid pgtype.UUID) (DayReport, error)
 	GetUserByEmail(ctx context.Context, userEmail string) (User, error)
 	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (User, error)
 	GetUserContactsByUserUuid(ctx context.Context, userUuid pgtype.UUID) ([]UserContact, error)

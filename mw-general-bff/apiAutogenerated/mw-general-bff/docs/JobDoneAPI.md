@@ -5,6 +5,7 @@ All URIs are relative to */general*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateJobDone**](JobDoneAPI.md#CreateJobDone) | **Post** /jobDones | Create a new jobDone
+[**CreateJobDoneTelegram**](JobDoneAPI.md#CreateJobDoneTelegram) | **Post** /jobDones/telegram | Create a new jobDone for telegram
 [**DeleteJobDone**](JobDoneAPI.md#DeleteJobDone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 [**UpdateJobDone**](JobDoneAPI.md#UpdateJobDone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
 
@@ -55,6 +56,72 @@ Other parameters are passed through a pointer to a apiCreateJobDoneRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request** | [**MwGeneralBffInternalSchemasCreateJobDonePayload**](MwGeneralBffInternalSchemasCreateJobDonePayload.md) | query params | 
+
+### Return type
+
+[**MwGeneralBffInternalSchemasJobDonePopulatedResponse**](MwGeneralBffInternalSchemasJobDonePopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateJobDoneTelegram
+
+> MwGeneralBffInternalSchemasJobDonePopulatedResponse CreateJobDoneTelegram(ctx).Request(request).Execute()
+
+Create a new jobDone for telegram
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload("Description_example", "OwnerUuid_example", int32(123), "WayUuid_example") // MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.JobDoneAPI.CreateJobDoneTelegram(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `JobDoneAPI.CreateJobDoneTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateJobDoneTelegram`: MwGeneralBffInternalSchemasJobDonePopulatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `JobDoneAPI.CreateJobDoneTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateJobDoneTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload**](MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload.md) | query params | 
 
 ### Return type
 

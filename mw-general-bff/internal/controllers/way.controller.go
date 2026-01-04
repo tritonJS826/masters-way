@@ -185,6 +185,27 @@ func (wc *WayController) GetAllWays(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, allWays)
 }
 
+// Get user's own ways handler
+// @Summary Get user's own ways
+// @Description Get all ways owned by a specific user
+// @Tags way
+// @ID get-user-own-ways
+// @Accept  json
+// @Produce  json
+// @Param userId path string true "User ID"
+// @Success 200 {array} schemas.UserOwnWay
+// @Router /ways/user/{userId} [get]
+func (wc *WayController) GetUserOwnWays(ctx *gin.Context) {
+	userId := ctx.Param("userId")
+
+	ways, err := wc.wayFacade.GetUserOwnWays(ctx, &services.GetUserOwnWaysParams{
+		UserUuid: userId,
+	})
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, ways)
+}
+
 // Deleting way handlers
 // @Summary Delete way by UUID
 // @Description

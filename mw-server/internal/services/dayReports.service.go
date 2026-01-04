@@ -25,6 +25,7 @@ type IDayReportRepository interface {
 	CreateDayReport(ctx context.Context, arg db.CreateDayReportParams) (db.DayReport, error)
 	UpdateWay(ctx context.Context, arg db.UpdateWayParams) (db.UpdateWayRow, error)
 	GetLast14DayReportsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.DayReport, error)
+	GetTodayDayReportByWayUuid(ctx context.Context, wayUuid pgtype.UUID) (db.DayReport, error)
 }
 
 type DayReportService struct {
@@ -472,4 +473,37 @@ func (drs *DayReportService) GetLast14DayReportsByWayID(ctx context.Context, way
 	}
 
 	return result, nil
+}
+
+type DayReportResult struct {
+	Uuid      string
+	CreatedAt string
+}
+
+func (drs *DayReportService) GetOrCreateTodayDayReport(ctx context.Context, wayUuid string) (*DayReportResult, error) {
+	now := time.Now()
+	wayUUID := uuid.MustParse(wayUuid)
+	pgWayUUID := pgtype.UUID{Bytes: wayUUID, Valid: true}
+
+	existingReport, err := drs.dayReportRepository.GetTodayDayReportByWayUuid(ctx, pgWayUUID)
+	if err == nil {
+		return &DayReportResult{
+			Uuid:      util.ConvertPgUUIDToUUID(existingReport.Uuid).String(),
+			CreatedAt: existingReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		}, nil
+	}
+
+	newReport, err := drs.dayReportRepository.CreateDayReport(ctx, db.CreateDayReportParams{
+		WayUuid:   pgWayUUID,
+		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &DayReportResult{
+		Uuid:      util.ConvertPgUUIDToUUID(newReport.Uuid).String(),
+		CreatedAt: newReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+	}, nil
 }

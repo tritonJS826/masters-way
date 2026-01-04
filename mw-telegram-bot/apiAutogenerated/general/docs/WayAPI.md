@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**CreateWayFromTraining**](WayAPI.md#CreateWayFromTraining) | **Post** /ways/createFromTraining | Create a new way based on training
 [**DeleteWay**](WayAPI.md#DeleteWay) | **Delete** /ways/{wayId} | Delete way by UUID
 [**GetAllWays**](WayAPI.md#GetAllWays) | **Get** /ways | Get all ways
+[**GetUserOwnWays**](WayAPI.md#GetUserOwnWays) | **Get** /ways/user/{userId} | Get user&#39;s own ways
 [**GetWayByUuid**](WayAPI.md#GetWayByUuid) | **Get** /ways/{wayId} | Get way by UUID
 [**GetWayStatisticsByUuid**](WayAPI.md#GetWayStatisticsByUuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
 [**UpdateWay**](WayAPI.md#UpdateWay) | **Patch** /ways/{wayId} | Update way by UUID
@@ -269,6 +270,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwGeneralBffInternalSchemasGetAllWaysResponse**](MwGeneralBffInternalSchemasGetAllWaysResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetUserOwnWays
+
+> []MwGeneralBffInternalSchemasUserOwnWay GetUserOwnWays(ctx, userId).Execute()
+
+Get user's own ways
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	userId := "userId_example" // string | User ID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WayAPI.GetUserOwnWays(context.Background(), userId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.GetUserOwnWays``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetUserOwnWays`: []MwGeneralBffInternalSchemasUserOwnWay
+	fmt.Fprintf(os.Stdout, "Response from `WayAPI.GetUserOwnWays`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**userId** | **string** | User ID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetUserOwnWaysRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**[]MwGeneralBffInternalSchemasUserOwnWay**](MwGeneralBffInternalSchemasUserOwnWay.md)
 
 ### Authorization
 

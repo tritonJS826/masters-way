@@ -6,6 +6,8 @@ definitions:
         type: string
       name:
         type: string
+      token:
+        type: string
       userUuid:
         type: string
     type: object
@@ -63,6 +65,8 @@ definitions:
       email:
         type: string
       name:
+        type: string
+      token:
         type: string
       userUuid:
         type: string
@@ -563,6 +567,29 @@ definitions:
         type: string
     required:
     - userUuid
+    - wayUuid
+    type: object
+  mw-server_internal_schemas.CreateJobDoneForTelegramPayload:
+    properties:
+      companionLanguage:
+        example: en|ru|ua
+        type: string
+      description:
+        type: string
+      jobTagUuids:
+        items:
+          type: string
+        type: array
+      ownerUuid:
+        type: string
+      time:
+        type: integer
+      wayUuid:
+        type: string
+    required:
+    - description
+    - ownerUuid
+    - time
     - wayUuid
     type: object
   mw-server_internal_schemas.CreateJobDoneJobTagPayload:
@@ -1482,6 +1509,19 @@ definitions:
     required:
     - contactLink
     - description
+    - uuid
+    type: object
+  mw-server_internal_schemas.UserOwnWay:
+    properties:
+      isCompleted:
+        type: boolean
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - isCompleted
+    - name
     - uuid
     type: object
   mw-server_internal_schemas.UserPlainResponse:
@@ -2927,6 +2967,30 @@ paths:
       summary: Update jobDone by UUID
       tags:
       - jobDone
+  /jobDones/telegram:
+    post:
+      consumes:
+      - application/json
+      description: Creates a job done, automatically finding or creating a day report
+        for today
+      operationId: create-job-done-telegram
+      parameters:
+      - description: Job done payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.CreateJobDoneForTelegramPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse'
+      summary: Create job done for telegram
+      tags:
+      - jobDone
   /jobTags:
     post:
       consumes:
@@ -4041,6 +4105,30 @@ paths:
           schema:
             $ref: '#/definitions/mw-server_internal_schemas.WayStatisticsTriplePeriod'
       summary: Get way statistics by UUID
+      tags:
+      - way
+  /ways/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all ways owned by a specific user
+      operationId: get-user-own-ways
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/mw-server_internal_schemas.UserOwnWay'
+            type: array
+      summary: Get user's own ways
       tags:
       - way
 swagger: "2.0"

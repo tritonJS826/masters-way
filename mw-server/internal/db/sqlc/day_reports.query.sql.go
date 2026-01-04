@@ -223,3 +223,23 @@ func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, arg GetListDay
 	}
 	return items, nil
 }
+
+const getTodayDayReportByWayUuid = `-- name: GetTodayDayReportByWayUuid :one
+SELECT uuid, way_uuid, created_at, updated_at
+FROM day_reports
+WHERE way_uuid = $1
+AND DATE(created_at) = CURRENT_DATE
+LIMIT 1
+`
+
+func (q *Queries) GetTodayDayReportByWayUuid(ctx context.Context, wayUuid pgtype.UUID) (DayReport, error) {
+	row := q.db.QueryRow(ctx, getTodayDayReportByWayUuid, wayUuid)
+	var i DayReport
+	err := row.Scan(
+		&i.Uuid,
+		&i.WayUuid,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}

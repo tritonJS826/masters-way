@@ -12,7 +12,6 @@ import (
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -193,11 +192,6 @@ func (af *AuthFacade) InitiateTelegramLogin(ctx context.Context, tgId int64, tgN
 	if authHeader == "" {
 		return nil, fmt.Errorf("authorization header required")
 	}
-	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
-
-	if authHeader != af.config.SecretSessionKey {
-		return nil, fmt.Errorf("invalid authorization")
-	}
 
 	payload := map[string]interface{}{
 		"telegramId":   tgId,
@@ -233,6 +227,7 @@ type TelegramValidateResult struct {
 	UserUuid string
 	Email    string
 	Name     string
+	Token    string
 }
 
 func (af *AuthFacade) ValidateTelegramLogin(ctx context.Context, code string, tgId int64, tgName string) (*TelegramValidateResult, error) {
@@ -244,11 +239,6 @@ func (af *AuthFacade) ValidateTelegramLogin(ctx context.Context, code string, tg
 	authHeader := ginCtx.GetHeader("Authorization")
 	if authHeader == "" {
 		return nil, fmt.Errorf("authorization header required")
-	}
-	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
-
-	if authHeader != af.config.SecretSessionKey {
-		return nil, fmt.Errorf("invalid authorization")
 	}
 
 	payload := map[string]interface{}{
@@ -291,11 +281,6 @@ func (af *AuthFacade) GetLinkedUser(ctx context.Context, tgId int64) (*TelegramV
 	if authHeader == "" {
 		return nil, fmt.Errorf("authorization header required")
 	}
-	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
-
-	if authHeader != af.config.SecretSessionKey {
-		return nil, fmt.Errorf("invalid authorization")
-	}
 
 	url := fmt.Sprintf("%s/auth/telegram/user/%d", af.config.GeneralBaseURL, tgId)
 	log.Printf("GetLinkedUser: requesting %s", url)
@@ -304,7 +289,7 @@ func (af *AuthFacade) GetLinkedUser(ctx context.Context, tgId int64) (*TelegramV
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
-	req.Header.Set("Authorization", "Bearer "+af.config.SecretSessionKey)
+	req.Header.Set("Authorization", authHeader)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -339,11 +324,6 @@ func (af *AuthFacade) UnlinkTelegram(ctx context.Context, telegramID int64) erro
 	authHeader := ginCtx.GetHeader("Authorization")
 	if authHeader == "" {
 		return fmt.Errorf("authorization header required")
-	}
-	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
-
-	if authHeader != af.config.SecretSessionKey {
-		return fmt.Errorf("invalid authorization")
 	}
 
 	return af.authService.UnlinkTelegram(ctx, telegramID)

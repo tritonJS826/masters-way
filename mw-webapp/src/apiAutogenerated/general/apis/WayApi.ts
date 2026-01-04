@@ -20,6 +20,7 @@ import type {
   MwGeneralBffInternalSchemasCreateWayPayload,
   MwGeneralBffInternalSchemasGetAllWaysResponse,
   MwGeneralBffInternalSchemasUpdateWayPayload,
+  MwGeneralBffInternalSchemasUserOwnWay,
   MwGeneralBffInternalSchemasWayPlainResponse,
   MwGeneralBffInternalSchemasWayPopulatedResponse,
   MwGeneralBffInternalSchemasWayStatisticsTriplePeriod,
@@ -35,6 +36,8 @@ import {
     MwGeneralBffInternalSchemasGetAllWaysResponseToJSON,
     MwGeneralBffInternalSchemasUpdateWayPayloadFromJSON,
     MwGeneralBffInternalSchemasUpdateWayPayloadToJSON,
+    MwGeneralBffInternalSchemasUserOwnWayFromJSON,
+    MwGeneralBffInternalSchemasUserOwnWayToJSON,
     MwGeneralBffInternalSchemasWayPlainResponseFromJSON,
     MwGeneralBffInternalSchemasWayPlainResponseToJSON,
     MwGeneralBffInternalSchemasWayPopulatedResponseFromJSON,
@@ -61,6 +64,10 @@ export interface GetAllWaysRequest {
     minDayReportsAmount?: number;
     wayName?: string;
     status?: string;
+}
+
+export interface GetUserOwnWaysRequest {
+    userId: string;
 }
 
 export interface GetWayByUuidRequest {
@@ -223,6 +230,38 @@ export class WayApi extends runtime.BaseAPI {
      */
     async getAllWays(requestParameters: GetAllWaysRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasGetAllWaysResponse> {
         const response = await this.getAllWaysRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all ways owned by a specific user
+     * Get user\'s own ways
+     */
+    async getUserOwnWaysRaw(requestParameters: GetUserOwnWaysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MwGeneralBffInternalSchemasUserOwnWay>>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserOwnWays.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/ways/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MwGeneralBffInternalSchemasUserOwnWayFromJSON));
+    }
+
+    /**
+     * Get all ways owned by a specific user
+     * Get user\'s own ways
+     */
+    async getUserOwnWays(requestParameters: GetUserOwnWaysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MwGeneralBffInternalSchemasUserOwnWay>> {
+        const response = await this.getUserOwnWaysRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

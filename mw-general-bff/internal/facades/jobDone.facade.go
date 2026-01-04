@@ -36,6 +36,10 @@ func (jf *JobDoneFacade) CreateJobDone(ctx context.Context, payload *schemas.Cre
 	return jf.generalService.CreateJobDone(ctx, payload)
 }
 
+func (jf *JobDoneFacade) CreateJobDoneForTelegram(ctx context.Context, payload *schemas.CreateJobDoneForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
+	return jf.generalService.CreateJobDoneForTelegram(ctx, payload)
+}
+
 func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
 	jobDone, err := jf.generalService.UpdateJobDone(ctx, params)
 	if err != nil {

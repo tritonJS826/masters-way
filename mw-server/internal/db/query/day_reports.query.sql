@@ -61,3 +61,10 @@ FROM day_reports
 WHERE way_uuid = @way_uuid
 ORDER BY created_at DESC
 LIMIT 14;
+
+-- name: GetTodayDayReportByWayUuid :one
+SELECT uuid, way_uuid, created_at, updated_at
+FROM day_reports
+WHERE way_uuid = @way_uuid
+AND DATE(created_at) = CURRENT_DATE
+LIMIT 1;

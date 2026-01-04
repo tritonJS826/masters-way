@@ -78,6 +78,12 @@ type GetAllWaysResponse struct {
 	Ways []WayPlainResponse `json:"ways" validate:"required"`
 }
 
+type UserOwnWay struct {
+	Uuid        string `json:"uuid" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	IsCompleted bool   `json:"isCompleted" validate:"required"`
+}
+
 type WayStatistics struct {
 	TimeSpentByDayChart []TimeSpentByDayPoint `json:"timeSpentByDayChart" validate:"required"`
 	OverallInformation  OverallInformation    `json:"overallInformation" validate:"required"`

@@ -21,7 +21,7 @@ func main() {
 
 	openapi.SecretSessionKey = newConfig.SecretSessionKey
 	generalAPI := openapi.MakeGeneralAPIClient(&newConfig)
-	authService := services.NewAuthService(generalAPI)
+	authService := services.NewAuthService(generalAPI, &newConfig)
 
 	telegramBot, err := bot.NewTelegramBot(&newConfig, authService)
 	if err != nil {

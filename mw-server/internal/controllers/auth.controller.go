@@ -329,6 +329,7 @@ type ValidateTelegramLoginResponse struct {
 	UserUuid string `json:"userUuid"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
+	Token    string `json:"token"`
 }
 
 // ValidateTelegramLogin validates the code and returns linked user info
@@ -354,10 +355,18 @@ func (ac *AuthController) ValidateTelegramLogin(ctx *gin.Context) {
 		return
 	}
 
+	userUuid := uuid.UUID(linkedUser.UserUuid.Bytes).String()
+	token, err := auth.GenerateJWT(userUuid, ac.config.SecretSessionKey, auth.AccessExpIn)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		return
+	}
+
 	response := ValidateTelegramLoginResponse{
-		UserUuid: uuid.UUID(linkedUser.UserUuid.Bytes).String(),
+		UserUuid: userUuid,
 		Email:    linkedUser.Email.String,
 		Name:     linkedUser.UserName.String,
+		Token:    token,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -516,6 +525,7 @@ type GetLinkedUserResponse struct {
 	UserUuid string `json:"userUuid"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
+	Token    string `json:"token"`
 }
 
 // GetLinkedUserByTelegramId returns linked user info for a telegram ID
@@ -548,10 +558,18 @@ func (ac *AuthController) GetLinkedUserByTelegramId(ctx *gin.Context) {
 		return
 	}
 
+	userUuid := uuid.UUID(linkedUser.UserUuid.Bytes).String()
+	token, err := auth.GenerateJWT(userUuid, ac.config.SecretSessionKey, auth.AccessExpIn)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		return
+	}
+
 	response := GetLinkedUserResponse{
-		UserUuid: uuid.UUID(linkedUser.UserUuid.Bytes).String(),
+		UserUuid: userUuid,
 		Email:    linkedUser.Email.String,
 		Name:     linkedUser.UserName.String,
+		Token:    token,
 	}
 
 	ctx.JSON(http.StatusOK, response)

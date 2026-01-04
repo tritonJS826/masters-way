@@ -355,6 +355,7 @@ type TelegramValidateResponse struct {
 	UserUuid string `json:"userUuid"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
+	Token    string `json:"token"`
 }
 
 // @Summary Initiate Telegram login
@@ -398,10 +399,17 @@ func (ac *AuthController) ValidateTelegramLogin(ctx *gin.Context) {
 		return
 	}
 
-	response, err := ac.authFacade.ValidateTelegramLogin(ctx, req.Code, req.TelegramId, req.TelegramName)
+	result, err := ac.authFacade.ValidateTelegramLogin(ctx, req.Code, req.TelegramId, req.TelegramName)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to validate telegram login", "message": err.Error()})
 		return
+	}
+
+	response := TelegramValidateResponse{
+		UserUuid: result.UserUuid,
+		Email:    result.Email,
+		Name:     result.Name,
+		Token:    result.Token,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -411,6 +419,7 @@ type GetLinkedUserResponse struct {
 	UserUuid string `json:"userUuid"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
+	Token    string `json:"token"`
 }
 
 // GetLinkedUserByTelegramId returns linked user info for a telegram ID

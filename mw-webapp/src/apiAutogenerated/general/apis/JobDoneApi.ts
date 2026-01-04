@@ -15,11 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload,
   MwGeneralBffInternalSchemasCreateJobDonePayload,
   MwGeneralBffInternalSchemasJobDonePopulatedResponse,
   MwGeneralBffInternalSchemasUpdateJobDone,
 } from '../models/index';
 import {
+    MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayloadFromJSON,
+    MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayloadToJSON,
     MwGeneralBffInternalSchemasCreateJobDonePayloadFromJSON,
     MwGeneralBffInternalSchemasCreateJobDonePayloadToJSON,
     MwGeneralBffInternalSchemasJobDonePopulatedResponseFromJSON,
@@ -30,6 +33,10 @@ import {
 
 export interface CreateJobDoneRequest {
     request: MwGeneralBffInternalSchemasCreateJobDonePayload;
+}
+
+export interface CreateJobDoneTelegramRequest {
+    request: MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayload;
 }
 
 export interface DeleteJobDoneRequest {
@@ -76,6 +83,41 @@ export class JobDoneApi extends runtime.BaseAPI {
      */
     async createJobDone(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasJobDonePopulatedResponse> {
         const response = await this.createJobDoneRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates a job done, automatically finding or creating a day report for today
+     * Create a new jobDone for telegram
+     */
+    async createJobDoneTelegramRaw(requestParameters: CreateJobDoneTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasJobDonePopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createJobDoneTelegram.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/jobDones/telegram`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasCreateJobDoneForTelegramPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasJobDonePopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Creates a job done, automatically finding or creating a day report for today
+     * Create a new jobDone for telegram
+     */
+    async createJobDoneTelegram(requestParameters: CreateJobDoneTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasJobDonePopulatedResponse> {
+        const response = await this.createJobDoneTelegramRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

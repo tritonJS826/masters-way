@@ -37,6 +37,7 @@ type IWayRepository interface {
 	ListWays(ctx context.Context, arg db.ListWaysParams) ([]db.ListWaysRow, error)
 	UpdateWay(ctx context.Context, arg db.UpdateWayParams) (db.UpdateWayRow, error)
 	IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error)
+	GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]db.GetOwnWaysByUserIdRow, error)
 }
 
 type WayService struct {
@@ -498,6 +499,29 @@ func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) 
 		Size: int32(waysSize),
 		Ways: response,
 	}, nil
+}
+
+type GetUserOwnWaysParams struct {
+	UserUuid string
+}
+
+func (ws *WayService) GetUserOwnWays(ctx context.Context, params *GetUserOwnWaysParams) ([]schemas.UserOwnWay, error) {
+	ownerUuid := pgtype.UUID{Bytes: uuid.MustParse(params.UserUuid), Valid: true}
+
+	ways, err := ws.wayRepository.GetOwnWaysByUserId(ctx, ownerUuid)
+	if err != nil {
+		return nil, err
+	}
+
+	response := lo.Map(ways, func(way db.GetOwnWaysByUserIdRow, _ int) schemas.UserOwnWay {
+		return schemas.UserOwnWay{
+			Uuid:        util.ConvertPgUUIDToUUID(way.Uuid).String(),
+			Name:        way.Name,
+			IsCompleted: way.IsCompleted,
+		}
+	})
+
+	return response, nil
 }
 
 func (ws *WayService) DeleteWayById(ctx *gin.Context, wayID string) error {

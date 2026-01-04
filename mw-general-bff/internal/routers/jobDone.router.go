@@ -21,6 +21,7 @@ func (jr *jobDoneRouter) setJobDoneRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("jobDones", auth.HandleHeaders(jr.config))
 	{
 		router.POST("", jr.jobDoneController.CreateJobDone)
+		router.POST("/telegram", jr.jobDoneController.CreateJobDoneForTelegram)
 		router.PATCH("/:jobDoneId", jr.jobDoneController.UpdateJobDone)
 		router.DELETE("/:jobDoneId", jr.jobDoneController.DeleteJobDoneById)
 	}

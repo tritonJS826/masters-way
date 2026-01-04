@@ -9,6 +9,15 @@ type CreateJobDonePayload struct {
 	CompanionLanguage string   `json:"companionLanguage" example:"en|ru|ua"`
 }
 
+type CreateJobDoneForTelegramPayload struct {
+	Description       string   `json:"description" validate:"required"`
+	Time              int32    `json:"time" validate:"required"`
+	OwnerUuid         string   `json:"ownerUuid" validate:"required"`
+	WayUuid           string   `json:"wayUuid" validate:"required"`
+	JobTagUuids       []string `json:"jobTagUuids"`
+	CompanionLanguage string   `json:"companionLanguage" example:"en|ru|ua"`
+}
+
 type UpdateJobDone struct {
 	Description       *string `json:"description"`
 	Time              *int32  `json:"time"`

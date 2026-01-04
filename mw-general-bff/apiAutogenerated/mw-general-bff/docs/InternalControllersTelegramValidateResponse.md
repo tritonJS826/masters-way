@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Email** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
+**Token** | Pointer to **string** |  | [optional] 
 **UserUuid** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -76,6 +77,31 @@ SetName sets Name field to given value.
 `func (o *InternalControllersTelegramValidateResponse) HasName() bool`
 
 HasName returns a boolean if a field has been set.
+
+### GetToken
+
+`func (o *InternalControllersTelegramValidateResponse) GetToken() string`
+
+GetToken returns the Token field if non-nil, zero value otherwise.
+
+### GetTokenOk
+
+`func (o *InternalControllersTelegramValidateResponse) GetTokenOk() (*string, bool)`
+
+GetTokenOk returns a tuple with the Token field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetToken
+
+`func (o *InternalControllersTelegramValidateResponse) SetToken(v string)`
+
+SetToken sets Token field to given value.
+
+### HasToken
+
+`func (o *InternalControllersTelegramValidateResponse) HasToken() bool`
+
+HasToken returns a boolean if a field has been set.
 
 ### GetUserUuid
 

@@ -69,6 +69,51 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// CreateJobDoneForTelegram handler
+// @Summary Create a new jobDone for telegram
+// @Description Creates a job done, automatically finding or creating a day report for today
+// @Tags jobDone
+// @ID create-jobDone-telegram
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateJobDoneForTelegramPayload true "query params"
+// @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Router /jobDones/telegram [post]
+func (jc *JobDoneController) CreateJobDoneForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateJobDoneForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	responseRaw, err := jc.jobDoneFacade.CreateJobDoneForTelegram(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          responseRaw.Uuid,
+		CreatedAt:     responseRaw.CreatedAt,
+		UpdatedAt:     responseRaw.UpdatedAt,
+		Description:   responseRaw.Description,
+		Time:          responseRaw.Time,
+		OwnerUuid:     responseRaw.OwnerUuid,
+		OwnerName:     responseRaw.OwnerName,
+		DayReportUuid: responseRaw.DayReportUuid,
+		WayUUID:       responseRaw.WayUuid,
+		WayName:       responseRaw.WayName,
+		Tags: lo.Map(responseRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 // Update JobDone handler
 // @Summary Update jobDone by UUID
 // @Description

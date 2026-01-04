@@ -110,6 +110,10 @@ func (wf *WayFacade) GetAllWays(ctx context.Context, params *services.GetAllWays
 	return wf.generalService.GetAllWays(ctx, params)
 }
 
+func (wf *WayFacade) GetUserOwnWays(ctx context.Context, params *services.GetUserOwnWaysParams) ([]schemas.UserOwnWay, error) {
+	return wf.generalService.GetUserOwnWays(ctx, params)
+}
+
 func (wf *WayFacade) DeleteWayById(ctx *gin.Context, wayID string) error {
 	return wf.generalService.DeleteWayById(ctx, wayID)
 }

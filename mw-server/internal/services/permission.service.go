@@ -28,6 +28,10 @@ func NewPermissionService(permissionRepository IPermissionRepository) *Permissio
 }
 
 func (ps *PermissionService) CheckIsUserHavingPermissionsForDayReport(ctx context.Context, userID, dayReportID string) error {
+	if dayReportID == "" {
+		return nil
+	}
+
 	params := db.GetIsUserHavingPermissionsForDayReportParams{
 		UserUuid:      pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true},
 		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(dayReportID), Valid: true},

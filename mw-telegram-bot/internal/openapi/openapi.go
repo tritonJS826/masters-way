@@ -11,11 +11,16 @@ type authTransport struct {
 }
 
 func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Set("Authorization", "Bearer "+SecretSessionKey)
+	token := UserToken
+	if token == "" {
+		token = SecretSessionKey
+	}
+	req.Header.Set("Authorization", "Bearer "+token)
 	return t.rt.RoundTrip(req)
 }
 
 var SecretSessionKey string
+var UserToken string
 
 func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
 	generalAPIConfig := &openapiGeneral.Configuration{
@@ -32,4 +37,8 @@ func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
 		},
 	}
 	return openapiGeneral.NewAPIClient(generalAPIConfig)
+}
+
+func UpdateUserToken(token string) {
+	UserToken = token
 }

@@ -21,6 +21,7 @@ var _ MappedNullable = &InternalControllersGetLinkedUserResponse{}
 type InternalControllersGetLinkedUserResponse struct {
 	Email *string `json:"email,omitempty"`
 	Name *string `json:"name,omitempty"`
+	Token *string `json:"token,omitempty"`
 	UserUuid *string `json:"userUuid,omitempty"`
 }
 
@@ -105,6 +106,38 @@ func (o *InternalControllersGetLinkedUserResponse) SetName(v string) {
 	o.Name = &v
 }
 
+// GetToken returns the Token field value if set, zero value otherwise.
+func (o *InternalControllersGetLinkedUserResponse) GetToken() string {
+	if o == nil || IsNil(o.Token) {
+		var ret string
+		return ret
+	}
+	return *o.Token
+}
+
+// GetTokenOk returns a tuple with the Token field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InternalControllersGetLinkedUserResponse) GetTokenOk() (*string, bool) {
+	if o == nil || IsNil(o.Token) {
+		return nil, false
+	}
+	return o.Token, true
+}
+
+// HasToken returns a boolean if a field has been set.
+func (o *InternalControllersGetLinkedUserResponse) HasToken() bool {
+	if o != nil && !IsNil(o.Token) {
+		return true
+	}
+
+	return false
+}
+
+// SetToken gets a reference to the given string and assigns it to the Token field.
+func (o *InternalControllersGetLinkedUserResponse) SetToken(v string) {
+	o.Token = &v
+}
+
 // GetUserUuid returns the UserUuid field value if set, zero value otherwise.
 func (o *InternalControllersGetLinkedUserResponse) GetUserUuid() string {
 	if o == nil || IsNil(o.UserUuid) {
@@ -152,6 +185,9 @@ func (o InternalControllersGetLinkedUserResponse) ToMap() (map[string]interface{
 	}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.Token) {
+		toSerialize["token"] = o.Token
 	}
 	if !IsNil(o.UserUuid) {
 		toSerialize["userUuid"] = o.UserUuid
