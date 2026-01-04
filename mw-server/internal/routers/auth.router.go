@@ -32,6 +32,8 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 	router.DELETE("/telegram/unlink/:telegramId", ar.authController.UnlinkTelegram)
 	if ar.config.EnvType != "prod" {
 		router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
+		// for local linking telegram account with some email - just bc oAuth does not work locally. run after "/login" :
+		// curl "http://localhost:8000/general/auth/telegram/test-link?email=alice.johnson@example.com&authCode={{CODE_FROM_TELEGRAM}}"
 		router.GET("/telegram/test-link", ar.authController.TestTelegramLink)
 	}
 }

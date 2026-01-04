@@ -89,3 +89,11 @@ type LinkTelegramParams struct {
 func (as *AuthService) LinkTelegram(ctx context.Context, params LinkTelegramParams) error {
 	return nil
 }
+
+func (as *AuthService) UnlinkTelegram(ctx context.Context, telegramID int64) error {
+	_, response, err := as.generalAPI.AuthAPI.UnlinkTelegram(ctx, int32(telegramID)).Execute()
+	if err != nil {
+		return utils.ExtractErrorMessageFromResponse(response)
+	}
+	return nil
+}

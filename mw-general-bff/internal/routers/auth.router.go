@@ -29,5 +29,6 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 		router.POST("/telegram/initiate", ar.authController.InitiateTelegramLogin)
 		router.POST("/telegram/validate", ar.authController.ValidateTelegramLogin)
 		router.GET("/telegram/user/:telegramId", ar.authController.GetLinkedUserByTelegramId)
+		router.DELETE("/telegram/unlink/:telegramId", ar.authController.UnlinkTelegram)
 	}
 }

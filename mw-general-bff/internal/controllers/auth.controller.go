@@ -435,3 +435,26 @@ func (ac *AuthController) GetLinkedUserByTelegramId(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, response)
 }
+
+func (ac *AuthController) UnlinkTelegram(ctx *gin.Context) {
+	telegramID := ctx.Param("telegramId")
+	if telegramID == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "telegram ID is required"})
+		return
+	}
+
+	var tgID int64
+	_, err := fmt.Sscanf(telegramID, "%d", &tgID)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid telegram ID"})
+		return
+	}
+
+	err = ac.authFacade.UnlinkTelegram(ctx, tgID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "telegram account unlinked successfully"})
+}
