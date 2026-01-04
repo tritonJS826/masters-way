@@ -93,6 +93,126 @@ paths:
       tags:
       - auth
       x-codegen-request-body-name: request
+  /auth/telegram/initiate:
+    post:
+      description: Creates a pending Telegram linking record and returns Google Auth
+        URL with code
+      operationId: initiate-telegram-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/internal_controllers.InitiateTelegramLoginRequest"
+        description: Telegram login request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_controllers.InitiateTelegramLoginResponse"
+          description: OK
+      summary: Initiate Telegram login
+      tags:
+      - auth
+      x-codegen-request-body-name: request
+  /auth/telegram/link:
+    post:
+      description: Links a Telegram account to the user using an auth code
+      operationId: link-telegram
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/internal_controllers.LinkTelegramRequest"
+        description: Telegram linking request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: Success message
+      summary: Link Telegram account
+      tags:
+      - auth
+      x-codegen-request-body-name: request
+  /auth/telegram/test-link:
+    get:
+      description: Creates a user by email and links it to the Telegram user by auth
+        code
+      operationId: test-telegram-link
+      parameters:
+      - description: User email
+        in: query
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: Telegram auth code
+        in: query
+        name: authCode
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_controllers.TestTelegramLinkResponse"
+          description: OK
+      summary: Test Telegram link (local only)
+      tags:
+      - auth
+  /auth/telegram/unlink/{telegramId}:
+    delete:
+      description: Removes the Telegram account linking from the database
+      operationId: unlink-telegram
+      parameters:
+      - description: Telegram ID
+        in: path
+        name: telegramId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: Success message
+      summary: Unlink Telegram account
+      tags:
+      - auth
+  /auth/telegram/validate:
+    post:
+      description: Validates the Telegram linking code and returns user info
+      operationId: validate-telegram-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/internal_controllers.ValidateTelegramLoginRequest"
+        description: Telegram validation request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_controllers.ValidateTelegramLoginResponse"
+          description: OK
+      summary: Validate Telegram login
+      tags:
+      - auth
+      x-codegen-request-body-name: request
   /auth/{provider}:
     get:
       operationId: begin-auth
@@ -101,6 +221,11 @@ paths:
         in: path
         name: provider
         required: true
+        schema:
+          type: string
+      - description: telegram auth code for linking
+        in: query
+        name: telegramCode
         schema:
           type: string
       responses:
@@ -1981,6 +2106,77 @@ paths:
       - way
 components:
   schemas:
+    internal_controllers.InitiateTelegramLoginRequest:
+      properties:
+        telegramId:
+          type: integer
+        telegramName:
+          type: string
+      required:
+      - telegramId
+      type: object
+    internal_controllers.InitiateTelegramLoginResponse:
+      example:
+        authUrl: authUrl
+        code: code
+      properties:
+        authUrl:
+          type: string
+        code:
+          type: string
+      type: object
+    internal_controllers.LinkTelegramRequest:
+      properties:
+        authCode:
+          type: string
+        telegramId:
+          type: integer
+      required:
+      - authCode
+      - telegramId
+      type: object
+    internal_controllers.TestTelegramLinkResponse:
+      example:
+        name: name
+        userUuid: userUuid
+        accessToken: accessToken
+        email: email
+        refreshToken: refreshToken
+      properties:
+        accessToken:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        refreshToken:
+          type: string
+        userUuid:
+          type: string
+      type: object
+    internal_controllers.ValidateTelegramLoginRequest:
+      properties:
+        code:
+          type: string
+        telegramId:
+          type: integer
+      required:
+      - code
+      - telegramId
+      type: object
+    internal_controllers.ValidateTelegramLoginResponse:
+      example:
+        name: name
+        userUuid: userUuid
+        email: email
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        userUuid:
+          type: string
+      type: object
     mw-server_internal_customErrors.NoRightToChangeDayReportError:
       example:
         errorId: errorId

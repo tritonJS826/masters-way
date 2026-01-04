@@ -12,6 +12,7 @@ import (
 
 type Querier interface {
 	AddWayToCompositeWay(ctx context.Context, arg AddWayToCompositeWayParams) (CompositeWay, error)
+	CleanupExpiredTelegramCodes(ctx context.Context) error
 	CountUsers(ctx context.Context, arg CountUsersParams) (int64, error)
 	CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error)
 	CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error)
@@ -26,6 +27,7 @@ type Querier interface {
 	CreateJobTag(ctx context.Context, arg CreateJobTagParams) (JobTag, error)
 	CreateMentorUserWay(ctx context.Context, arg CreateMentorUserWayParams) (MentorUsersWay, error)
 	CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error)
+	CreatePendingTelegramUser(ctx context.Context, arg CreatePendingTelegramUserParams) (TelegramUser, error)
 	CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error)
 	CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error)
 	CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error)
@@ -54,6 +56,8 @@ type Querier interface {
 	DeletePlan(ctx context.Context, planUuid pgtype.UUID) error
 	DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJobTagByIdsParams) error
 	DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) error
+	DeleteTelegramUserByAuthCode(ctx context.Context, authCode string) error
+	DeleteTelegramUserByTelegramId(ctx context.Context, telegramID int64) error
 	DeleteToUserMentoringRequestByIds(ctx context.Context, arg DeleteToUserMentoringRequestByIdsParams) error
 	DeleteUser(ctx context.Context, userUuid pgtype.UUID) error
 	DeleteUserContact(ctx context.Context, arg DeleteUserContactParams) error
@@ -87,6 +91,7 @@ type Querier interface {
 	GetLabelsByIDs(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error)
 	GetLast14DayReportsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]DayReport, error)
 	GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (GetLastDayReportDateRow, error)
+	GetLinkedUserByTelegramId(ctx context.Context, telegramID int64) (GetLinkedUserByTelegramIdRow, error)
 	GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]Comment, error)
 	GetListDayReportsByWayUuid(ctx context.Context, arg GetListDayReportsByWayUuidParams) ([]DayReport, error)
 	GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]JobTag, error)
@@ -109,6 +114,7 @@ type Querier interface {
 	GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetOwnWaysByUserIdRow, error)
 	// TODO exclude ways from private projects for initiator user
 	GetOwnWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetPendingTelegramUserByAuthCode(ctx context.Context, authCode string) (TelegramUser, error)
 	GetPlainUserWithInfoByIDs(ctx context.Context, projectUuid pgtype.UUID) ([]GetPlainUserWithInfoByIDsRow, error)
 	GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetPlansByDayReportUuidsRow, error)
 	GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UUID) (PricingPlanType, error)
@@ -118,6 +124,8 @@ type Querier interface {
 	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (GetProjectByIDRow, error)
 	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]GetProjectsByUserIDRow, error)
 	GetTagsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetTelegramUserByAuthCode(ctx context.Context, authCode string) (TelegramUser, error)
+	GetTelegramUserByTelegramId(ctx context.Context, telegramID int64) (TelegramUser, error)
 	GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error)
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
 	GetUserByEmail(ctx context.Context, userEmail string) (User, error)
@@ -137,6 +145,8 @@ type Querier interface {
 	// TODO exclude ways from private projects for initiator user
 	GetWaysByCollectionId(ctx context.Context, wayCollectionUuid pgtype.UUID) ([]GetWaysByCollectionIdRow, error)
 	IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error)
+	LinkTelegramUser(ctx context.Context, arg LinkTelegramUserParams) error
+	LinkTelegramUserByAuthCode(ctx context.Context, arg LinkTelegramUserByAuthCodeParams) error
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error)
 	// TODO add filter by project (by project name with LIKE '%')
 	// TODO exclude ways from private for user projects

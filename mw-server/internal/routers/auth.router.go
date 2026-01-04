@@ -25,7 +25,13 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 	router.GET("/logout/:provider", auth.AuthMiddleware(ar.config), ar.authController.Logout)
 	router.GET("/google-token", auth.AuthMiddleware(ar.config), ar.authController.GetGoogleAccessToken)
 	router.POST("/refreshToken", ar.authController.RefreshAccessToken)
+	router.POST("/telegram/initiate", ar.authController.InitiateTelegramLogin)
+	router.POST("/telegram/validate", ar.authController.ValidateTelegramLogin)
+	router.GET("/telegram/user/:telegramId", ar.authController.GetLinkedUserByTelegramId)
+	router.POST("/telegram/link", ar.authController.LinkTelegram)
+	router.DELETE("/telegram/unlink/:telegramId", ar.authController.UnlinkTelegram)
 	if ar.config.EnvType != "prod" {
 		router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
+		router.GET("/telegram/test-link", ar.authController.TestTelegramLink)
 	}
 }

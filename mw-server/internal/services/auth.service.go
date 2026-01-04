@@ -62,6 +62,10 @@ func (as *AuthService) GetGoogleAuthURL() string {
 	return as.googleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
 }
 
+func (as *AuthService) BuildAuthURLWithState(baseURL, state string) string {
+	return as.googleOAuthConfig.AuthCodeURL(state, oauth2.AccessTypeOffline)
+}
+
 func (as *AuthService) RefreshGoogleAccessToken(ctx context.Context, userID string) (*oauth2.Token, error) {
 	token, err := as.googleTokenStore.GetGoogleToken(userID)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"mw-server/internal/config"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -22,9 +23,6 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 			"https://www.googleapis.com/auth/userinfo.profile",
-			// next scope temporarily removed because looks like people scared of sharing drive
-			// we should implement optional drive in settings later
-			// "https://www.googleapis.com/auth/drive.file",
 		},
 		Endpoint: google.Endpoint,
 	}
@@ -34,7 +32,8 @@ const (
 	AccessExpIn  = 10 * time.Hour
 	RefreshExpIn = 168 * time.Hour
 
-	OauthStateString = "auth-state-string"
+	OauthStateString   = "auth-state-string"
+	TelegramCodePrefix = "TGCODE:"
 
 	HeaderKeyAuthorization = "Authorization"
 
@@ -119,4 +118,15 @@ func (g *GoogleTokenMap) GetGoogleToken(userID string) (*oauth2.Token, error) {
 		return nil, fmt.Errorf("token not found for user ID: %s", userID)
 	}
 	return token, nil
+}
+
+func BuildTelegramState(authCode string) string {
+	return fmt.Sprintf("%s%s", TelegramCodePrefix, authCode)
+}
+
+func ExtractTelegramCodeFromState(state string) (string, bool) {
+	if !strings.HasPrefix(state, TelegramCodePrefix) {
+		return "", false
+	}
+	return strings.TrimPrefix(state, TelegramCodePrefix), true
 }

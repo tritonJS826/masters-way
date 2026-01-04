@@ -15,3 +15,4 @@ packages:
   - 'mw-training'
   - 'mw-training-bff'
   - 'mw-test-websocket'
+  - 'mw-telegram-bot'

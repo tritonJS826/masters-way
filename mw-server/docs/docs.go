@@ -158,6 +158,190 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/telegram/initiate": {
+            "post": {
+                "description": "Creates a pending Telegram linking record and returns Google Auth URL with code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Initiate Telegram login",
+                "operationId": "initiate-telegram-login",
+                "parameters": [
+                    {
+                        "description": "Telegram login request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.InitiateTelegramLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.InitiateTelegramLoginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/link": {
+            "post": {
+                "description": "Links a Telegram account to the user using an auth code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Link Telegram account",
+                "operationId": "link-telegram",
+                "parameters": [
+                    {
+                        "description": "Telegram linking request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.LinkTelegramRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/test-link": {
+            "get": {
+                "description": "Creates a user by email and links it to the Telegram user by auth code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Test Telegram link (local only)",
+                "operationId": "test-telegram-link",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Telegram auth code",
+                        "name": "authCode",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.TestTelegramLinkResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/unlink/{telegramId}": {
+            "delete": {
+                "description": "Removes the Telegram account linking from the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Unlink Telegram account",
+                "operationId": "unlink-telegram",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Telegram ID",
+                        "name": "telegramId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/validate": {
+            "post": {
+                "description": "Validates the Telegram linking code and returns user info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Validate Telegram login",
+                "operationId": "validate-telegram-login",
+                "parameters": [
+                    {
+                        "description": "Telegram validation request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.ValidateTelegramLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.ValidateTelegramLoginResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}": {
             "get": {
                 "consumes": [
@@ -178,6 +362,12 @@ const docTemplate = `{
                         "name": "provider",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "telegram auth code for linking",
+                        "name": "telegramCode",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3077,6 +3267,95 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "internal_controllers.InitiateTelegramLoginRequest": {
+            "type": "object",
+            "required": [
+                "telegramId"
+            ],
+            "properties": {
+                "telegramId": {
+                    "type": "integer"
+                },
+                "telegramName": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controllers.InitiateTelegramLoginResponse": {
+            "type": "object",
+            "properties": {
+                "authUrl": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controllers.LinkTelegramRequest": {
+            "type": "object",
+            "required": [
+                "authCode",
+                "telegramId"
+            ],
+            "properties": {
+                "authCode": {
+                    "type": "string"
+                },
+                "telegramId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "internal_controllers.TestTelegramLinkResponse": {
+            "type": "object",
+            "properties": {
+                "accessToken": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "refreshToken": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_controllers.ValidateTelegramLoginRequest": {
+            "type": "object",
+            "required": [
+                "code",
+                "telegramId"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "telegramId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "internal_controllers.ValidateTelegramLoginResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-server_internal_customErrors.NoRightToChangeDayReportError": {
             "type": "object",
             "required": [

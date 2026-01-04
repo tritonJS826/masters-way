@@ -125,8 +125,6 @@ services:
       dockerfile: ./mw-test-websocket/Dockerfile
     ports:
       - "7991:7991"
-    depends_on:
-      - mw-test-bff
     networks:
       - app-network
 
