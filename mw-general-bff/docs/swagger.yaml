@@ -1,5 +1,14 @@
 basePath: /general
 definitions:
+  internal_controllers.GetLinkedUserResponse:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      userUuid:
+        type: string
+    type: object
   internal_controllers.TelegramLoginRequest:
     properties:
       telegramId:
@@ -1928,26 +1937,6 @@ paths:
       summary: Retrieve Google Access Token
       tags:
       - auth
-  /auth/login/local/{userEmail}:
-    get:
-      consumes:
-      - application/json
-      description: Login locally by providing an email address.
-      operationId: get token locally
-      parameters:
-      - description: email
-        in: path
-        name: userEmail
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "304":
-          description: redirect
-      summary: login locally by email (with no oauth)
-      tags:
-      - auth
   /auth/logout/{provider}:
     get:
       consumes:
@@ -2010,6 +1999,52 @@ paths:
           schema:
             $ref: '#/definitions/internal_controllers.TelegramLoginResponse'
       summary: Initiate Telegram login
+      tags:
+      - auth
+  /auth/telegram/unlink/{telegramId}:
+    delete:
+      consumes:
+      - application/json
+      description: Unlink a telegram account from a user
+      operationId: unlink-telegram
+      parameters:
+      - description: Telegram ID
+        in: path
+        name: telegramId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Unlink Telegram account
+      tags:
+      - auth
+  /auth/telegram/user/{telegramId}:
+    get:
+      consumes:
+      - application/json
+      description: Get the user linked to a specific telegram ID
+      operationId: get-linked-user-by-telegram-id
+      parameters:
+      - description: Telegram ID
+        in: path
+        name: telegramId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controllers.GetLinkedUserResponse'
+      summary: Get linked user by telegram ID
       tags:
       - auth
   /auth/telegram/validate:

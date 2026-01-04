@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**BeginAuth**](docs/AuthAPI.md#beginauth) | **Get** /auth/{provider} | Begin oauth
 *AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
 *AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
+*AuthAPI* | [**GetLinkedUserByTelegramId**](docs/AuthAPI.md#getlinkeduserbytelegramid) | **Get** /auth/telegram/user/{telegramId} | Get linked user by telegram ID
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 *AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 *AuthAPI* | [**InitiateTelegramLogin**](docs/AuthAPI.md#initiatetelegramlogin) | **Post** /auth/telegram/initiate | Initiate Telegram login
@@ -174,6 +175,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [InternalControllersGetLinkedUserResponse](docs/InternalControllersGetLinkedUserResponse.md)
  - [InternalControllersInitiateTelegramLoginRequest](docs/InternalControllersInitiateTelegramLoginRequest.md)
  - [InternalControllersInitiateTelegramLoginResponse](docs/InternalControllersInitiateTelegramLoginResponse.md)
  - [InternalControllersLinkTelegramRequest](docs/InternalControllersLinkTelegramRequest.md)

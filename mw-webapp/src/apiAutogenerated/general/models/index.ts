@@ -1,5 +1,6 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './InternalControllersGetLinkedUserResponse';
 export * from './InternalControllersTelegramLoginRequest';
 export * from './InternalControllersTelegramLoginResponse';
 export * from './InternalControllersTelegramValidateRequest';

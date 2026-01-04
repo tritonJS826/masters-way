@@ -1,10 +1,11 @@
 package bot
 
 import (
+	"context"
 	"fmt"
 	"log"
-	"mw-telegram-bot/internal/client"
 	"mw-telegram-bot/internal/config"
+	"mw-telegram-bot/internal/services"
 	"net/http"
 	"strings"
 	"time"
@@ -13,14 +14,14 @@ import (
 )
 
 type TelegramBot struct {
-	config    *config.Config
-	client    *client.GeneralBFFClient
-	bot       *tgbotapi.BotAPI
-	stopChan  chan struct{}
-	isRunning bool
+	config      *config.Config
+	authService *services.AuthService
+	bot         *tgbotapi.BotAPI
+	stopChan    chan struct{}
+	isRunning   bool
 }
 
-func NewTelegramBot(cfg *config.Config, bffClient *client.GeneralBFFClient) (*TelegramBot, error) {
+func NewTelegramBot(cfg *config.Config, authService *services.AuthService) (*TelegramBot, error) {
 	bot, err := tgbotapi.NewBotAPI(cfg.TelegramBotToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create bot: %w", err)
@@ -29,10 +30,10 @@ func NewTelegramBot(cfg *config.Config, bffClient *client.GeneralBFFClient) (*Te
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	return &TelegramBot{
-		config:   cfg,
-		client:   bffClient,
-		bot:      bot,
-		stopChan: make(chan struct{}),
+		config:      cfg,
+		authService: authService,
+		bot:         bot,
+		stopChan:    make(chan struct{}),
 	}, nil
 }
 
@@ -185,7 +186,7 @@ Example:
 }
 
 func (b *TelegramBot) sendStatusMessage(chatID int64, user *tgbotapi.User) {
-	linkedUser, err := b.client.GetLinkedUser(int64(user.ID))
+	linkedUser, err := b.authService.GetLinkedUser(context.Background(), int64(user.ID))
 
 	var statusMsg string
 	if err != nil {
@@ -205,7 +206,7 @@ func (b *TelegramBot) handleLoginCommand(chatID int64, user *tgbotapi.User) {
 
 	tgName := user.UserName
 
-	authURL, code, err := b.client.InitiateTelegramLogin(int64(user.ID), tgName)
+	result, err := b.authService.InitiateTelegramLogin(context.Background(), int64(user.ID), tgName)
 	if err != nil {
 		log.Printf("Error in InitiateTelegramLogin: %v", err)
 		errorMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf("❌ Failed to initiate login: %v\n\nPlease try again.", err))
@@ -213,7 +214,7 @@ func (b *TelegramBot) handleLoginCommand(chatID int64, user *tgbotapi.User) {
 		return
 	}
 
-	log.Printf("Login initiated successfully. Code: %s, URL length: %d", code, len(authURL))
+	log.Printf("Login initiated successfully. Code: %s, URL length: %d", result.Code, len(result.AuthURL))
 
 	msg := tgbotapi.NewMessage(chatID, fmt.Sprintf(`🔐 To link your Google account:
 
@@ -223,7 +224,7 @@ func (b *TelegramBot) handleLoginCommand(chatID int64, user *tgbotapi.User) {
 2. After signing in, you'll receive a confirmation
 3. Enter this code in Telegram: /link %s
 
-Note: The code expires in 10 minutes.`, authURL, code))
+Note: The code expires in 10 minutes.`, result.AuthURL, result.Code))
 
 	b.sendMessage(msg)
 }
@@ -244,7 +245,7 @@ Use /login first to get an authentication link.`)
 
 	log.Printf("handleLinkCommand: validating code %s for user %d", code, user.ID)
 
-	result, err := b.client.ValidateTelegramCode(code, int64(user.ID), user.UserName)
+	result, err := b.authService.ValidateTelegramLogin(context.Background(), code, int64(user.ID), user.UserName)
 	if err != nil {
 		log.Printf("handleLinkCommand: validation failed: %v", err)
 		errorMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf("❌ Validation failed: %v\n\nPlease try /login again to get a new code.", err))
@@ -252,9 +253,9 @@ Use /login first to get an authentication link.`)
 		return
 	}
 
-	log.Printf("handleLinkCommand: validation succeeded for user %s (%s)", result.Name, result.Email)
+	log.Printf("handleLinkCommand: validation succeeded for user %s (%s)", *result.Name, *result.Email)
 
-	name := result.Name
+	name := *result.Name
 	if name == "" {
 		name = "User"
 	}
@@ -262,7 +263,7 @@ Use /login first to get an authentication link.`)
 	successMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf(`✅ Successfully linked!
 
 Welcome, %s!
-Your account (%s) is now connected. You can now use /jobdone to log your progress.`, name, result.Email))
+Your account (%s) is now connected. You can now use /jobdone to log your progress.`, name, *result.Email))
 
 	log.Printf("handleLinkCommand: sending success message")
 	b.sendMessage(successMsg)
@@ -270,7 +271,7 @@ Your account (%s) is now connected. You can now use /jobdone to log your progres
 }
 
 func (b *TelegramBot) handleLogoutCommand(chatID int64, user *tgbotapi.User) {
-	err := b.client.UnlinkUser(int64(user.ID))
+	err := b.authService.UnlinkTelegram(context.Background(), int64(user.ID))
 	if err != nil {
 		msg := tgbotapi.NewMessage(chatID, fmt.Sprintf("❌ Failed to unlink account: %v\n\nYou may not be linked yet.", err))
 		b.sendMessage(msg)
@@ -296,7 +297,7 @@ Example:
 		return
 	}
 
-	linkedUser, err := b.client.GetLinkedUser(int64(user.ID))
+	linkedUser, err := b.authService.GetLinkedUser(context.Background(), int64(user.ID))
 	if err != nil {
 		msg := tgbotapi.NewMessage(chatID, `❌ You need to link your account first!
 
@@ -311,7 +312,7 @@ Use /login to connect your Google account, then you can log your progress.`)
 
 	timeSpent := b.estimateTimeFromDescription(description)
 
-	result, err := b.client.CreateJobDone(int64(user.ID), description, timeSpent)
+	result, err := b.authService.CreateJobDone(context.Background(), linkedUser.UserUuid, description, timeSpent)
 	if err != nil {
 		errorMsg := tgbotapi.NewMessage(chatID, fmt.Sprintf("Failed to log your progress: %v\n\nPlease try again later.", err))
 		b.sendMessage(errorMsg)

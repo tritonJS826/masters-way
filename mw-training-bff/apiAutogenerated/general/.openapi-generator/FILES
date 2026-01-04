@@ -45,6 +45,7 @@ docs/FavoriteUserWayAPI.md
 docs/FromUserMentoringRequestAPI.md
 docs/GeminiAPI.md
 docs/HealthAPI.md
+docs/InternalControllersGetLinkedUserResponse.md
 docs/InternalControllersInitiateTelegramLoginRequest.md
 docs/InternalControllersInitiateTelegramLoginResponse.md
 docs/InternalControllersLinkTelegramRequest.md
@@ -182,6 +183,7 @@ docs/WayTagAPI.md
 git_push.sh
 go.mod
 go.sum
+model_internal_controllers_get_linked_user_response.go
 model_internal_controllers_initiate_telegram_login_request.go
 model_internal_controllers_initiate_telegram_login_response.go
 model_internal_controllers_link_telegram_request.go

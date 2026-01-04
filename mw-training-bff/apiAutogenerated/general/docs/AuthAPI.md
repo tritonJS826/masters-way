@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**BeginAuth**](AuthAPI.md#BeginAuth) | **Get** /auth/{provider} | Begin oauth
 [**GetCurrentAuthorizedUser**](AuthAPI.md#GetCurrentAuthorizedUser) | **Get** /auth/current | Get current authorized user
 [**GetGoogleToken**](AuthAPI.md#GetGoogleToken) | **Get** /auth/google-token | Retrieve Google Access Token
+[**GetLinkedUserByTelegramId**](AuthAPI.md#GetLinkedUserByTelegramId) | **Get** /auth/telegram/user/{telegramId} | Get linked user by telegram ID
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 [**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 [**InitiateTelegramLogin**](AuthAPI.md#InitiateTelegramLogin) | **Post** /auth/telegram/initiate | Initiate Telegram login
@@ -194,6 +195,76 @@ Other parameters are passed through a pointer to a apiGetGoogleTokenRequest stru
 ### Return type
 
 [**MwServerInternalSchemasGoogleToken**](MwServerInternalSchemasGoogleToken.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetLinkedUserByTelegramId
+
+> InternalControllersGetLinkedUserResponse GetLinkedUserByTelegramId(ctx, telegramId).Execute()
+
+Get linked user by telegram ID
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	telegramId := int32(56) // int32 | Telegram ID
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.GetLinkedUserByTelegramId(context.Background(), telegramId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetLinkedUserByTelegramId``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetLinkedUserByTelegramId`: InternalControllersGetLinkedUserResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetLinkedUserByTelegramId`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**telegramId** | **int32** | Telegram ID | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetLinkedUserByTelegramIdRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**InternalControllersGetLinkedUserResponse**](InternalControllersGetLinkedUserResponse.md)
 
 ### Authorization
 

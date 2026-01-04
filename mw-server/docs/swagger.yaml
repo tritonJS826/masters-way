@@ -1,5 +1,14 @@
 basePath: /general
 definitions:
+  internal_controllers.GetLinkedUserResponse:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      userUuid:
+        type: string
+    type: object
   internal_controllers.InitiateTelegramLoginRequest:
     properties:
       telegramId:
@@ -2118,6 +2127,26 @@ paths:
               type: string
             type: object
       summary: Unlink Telegram account
+      tags:
+      - auth
+  /auth/telegram/user/{telegramId}:
+    get:
+      description: Returns user info if the telegram account is linked
+      operationId: get-linked-user-by-telegram-id
+      parameters:
+      - description: Telegram ID
+        in: path
+        name: telegramId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controllers.GetLinkedUserResponse'
+      summary: Get linked user by telegram ID
       tags:
       - auth
   /auth/telegram/validate:

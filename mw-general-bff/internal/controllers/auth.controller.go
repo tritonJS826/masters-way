@@ -413,6 +413,16 @@ type GetLinkedUserResponse struct {
 	Name     string `json:"name"`
 }
 
+// GetLinkedUserByTelegramId returns linked user info for a telegram ID
+// @Summary Get linked user by telegram ID
+// @Description Get the user linked to a specific telegram ID
+// @Tags auth
+// @ID get-linked-user-by-telegram-id
+// @Accept json
+// @Produce json
+// @Param telegramId path int true "Telegram ID"
+// @Success 200 {object} GetLinkedUserResponse
+// @Router /auth/telegram/user/{telegramId} [get]
 func (ac *AuthController) GetLinkedUserByTelegramId(ctx *gin.Context) {
 	telegramID := ctx.Param("telegramId")
 	if telegramID == "" {
@@ -436,6 +446,16 @@ func (ac *AuthController) GetLinkedUserByTelegramId(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// UnlinkTelegram unlinks a telegram account
+// @Summary Unlink Telegram account
+// @Description Unlink a telegram account from a user
+// @Tags auth
+// @ID unlink-telegram
+// @Accept json
+// @Produce json
+// @Param telegramId path int true "Telegram ID"
+// @Success 200 {object} map[string]string
+// @Router /auth/telegram/unlink/{telegramId} [delete]
 func (ac *AuthController) UnlinkTelegram(ctx *gin.Context) {
 	telegramID := ctx.Param("telegramId")
 	if telegramID == "" {
@@ -457,4 +477,13 @@ func (ac *AuthController) UnlinkTelegram(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"message": "telegram account unlinked successfully"})
+}
+
+func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
+	userEmail := ctx.Param("userEmail")
+
+	authCallback, err := ac.authFacade.GetUserTokenByEmail(ctx, userEmail)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Redirect(http.StatusFound, authCallback.Url)
 }

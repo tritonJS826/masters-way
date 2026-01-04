@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  InternalControllersGetLinkedUserResponse,
   InternalControllersTelegramLoginRequest,
   InternalControllersTelegramLoginResponse,
   InternalControllersTelegramValidateRequest,
@@ -25,6 +26,8 @@ import type {
   MwGeneralBffInternalSchemasRefreshAccessTokenResponse,
 } from '../models/index';
 import {
+    InternalControllersGetLinkedUserResponseFromJSON,
+    InternalControllersGetLinkedUserResponseToJSON,
     InternalControllersTelegramLoginRequestFromJSON,
     InternalControllersTelegramLoginRequestToJSON,
     InternalControllersTelegramLoginResponseFromJSON,
@@ -47,8 +50,8 @@ export interface BeginAuthRequest {
     provider: string;
 }
 
-export interface GetTokenLocallyRequest {
-    userEmail: string;
+export interface GetLinkedUserByTelegramIdRequest {
+    telegramId: number;
 }
 
 export interface GoogleAuthLogInCallbackFunctionRequest {
@@ -70,6 +73,10 @@ export interface TelegramInitiateRequest {
 
 export interface TelegramValidateRequest {
     request: InternalControllersTelegramValidateRequest;
+}
+
+export interface UnlinkTelegramRequest {
+    telegramId: number;
 }
 
 /**
@@ -161,12 +168,12 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * Login locally by providing an email address.
-     * login locally by email (with no oauth)
+     * Get the user linked to a specific telegram ID
+     * Get linked user by telegram ID
      */
-    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.userEmail === null || requestParameters.userEmail === undefined) {
-            throw new runtime.RequiredError('userEmail','Required parameter requestParameters.userEmail was null or undefined when calling getTokenLocally.');
+    async getLinkedUserByTelegramIdRaw(requestParameters: GetLinkedUserByTelegramIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<InternalControllersGetLinkedUserResponse>> {
+        if (requestParameters.telegramId === null || requestParameters.telegramId === undefined) {
+            throw new runtime.RequiredError('telegramId','Required parameter requestParameters.telegramId was null or undefined when calling getLinkedUserByTelegramId.');
         }
 
         const queryParameters: any = {};
@@ -174,21 +181,22 @@ export class AuthApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/auth/login/local/{userEmail}`.replace(`{${"userEmail"}}`, encodeURIComponent(String(requestParameters.userEmail))),
+            path: `/auth/telegram/user/{telegramId}`.replace(`{${"telegramId"}}`, encodeURIComponent(String(requestParameters.telegramId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => InternalControllersGetLinkedUserResponseFromJSON(jsonValue));
     }
 
     /**
-     * Login locally by providing an email address.
-     * login locally by email (with no oauth)
+     * Get the user linked to a specific telegram ID
+     * Get linked user by telegram ID
      */
-    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getTokenLocallyRaw(requestParameters, initOverrides);
+    async getLinkedUserByTelegramId(requestParameters: GetLinkedUserByTelegramIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<InternalControllersGetLinkedUserResponse> {
+        const response = await this.getLinkedUserByTelegramIdRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -357,6 +365,38 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async telegramValidate(requestParameters: TelegramValidateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<InternalControllersTelegramValidateResponse> {
         const response = await this.telegramValidateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Unlink a telegram account from a user
+     * Unlink Telegram account
+     */
+    async unlinkTelegramRaw(requestParameters: UnlinkTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: string; }>> {
+        if (requestParameters.telegramId === null || requestParameters.telegramId === undefined) {
+            throw new runtime.RequiredError('telegramId','Required parameter requestParameters.telegramId was null or undefined when calling unlinkTelegram.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/auth/telegram/unlink/{telegramId}`.replace(`{${"telegramId"}}`, encodeURIComponent(String(requestParameters.telegramId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Unlink a telegram account from a user
+     * Unlink Telegram account
+     */
+    async unlinkTelegram(requestParameters: UnlinkTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: string; }> {
+        const response = await this.unlinkTelegramRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

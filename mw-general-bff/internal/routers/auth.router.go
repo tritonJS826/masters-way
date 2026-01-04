@@ -30,5 +30,8 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 		router.POST("/telegram/validate", ar.authController.ValidateTelegramLogin)
 		router.GET("/telegram/user/:telegramId", ar.authController.GetLinkedUserByTelegramId)
 		router.DELETE("/telegram/unlink/:telegramId", ar.authController.UnlinkTelegram)
+		if ar.config.EnvType != "prod" {
+			router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
+		}
 	}
 }

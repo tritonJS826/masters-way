@@ -191,6 +191,27 @@ paths:
       summary: Unlink Telegram account
       tags:
       - auth
+  /auth/telegram/user/{telegramId}:
+    get:
+      description: Returns user info if the telegram account is linked
+      operationId: get-linked-user-by-telegram-id
+      parameters:
+      - description: Telegram ID
+        in: path
+        name: telegramId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_controllers.GetLinkedUserResponse"
+          description: OK
+      summary: Get linked user by telegram ID
+      tags:
+      - auth
   /auth/telegram/validate:
     post:
       description: Validates the Telegram linking code and returns user info
@@ -2106,6 +2127,19 @@ paths:
       - way
 components:
   schemas:
+    internal_controllers.GetLinkedUserResponse:
+      example:
+        name: name
+        userUuid: userUuid
+        email: email
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        userUuid:
+          type: string
+      type: object
     internal_controllers.InitiateTelegramLoginRequest:
       properties:
         telegramId:

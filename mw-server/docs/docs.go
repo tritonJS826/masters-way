@@ -307,6 +307,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/telegram/user/{telegramId}": {
+            "get": {
+                "description": "Returns user info if the telegram account is linked",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get linked user by telegram ID",
+                "operationId": "get-linked-user-by-telegram-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Telegram ID",
+                        "name": "telegramId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.GetLinkedUserResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/telegram/validate": {
             "post": {
                 "description": "Validates the Telegram linking code and returns user info",
@@ -3267,6 +3297,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "internal_controllers.GetLinkedUserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_controllers.InitiateTelegramLoginRequest": {
             "type": "object",
             "required": [

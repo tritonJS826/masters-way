@@ -62,36 +62,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/login/local/{userEmail}": {
-            "get": {
-                "description": "Login locally by providing an email address.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "login locally by email (with no oauth)",
-                "operationId": "get token locally",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "email",
-                        "name": "userEmail",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "304": {
-                        "description": "redirect"
-                    }
-                }
-            }
-        },
         "/auth/logout/{provider}": {
             "get": {
                 "consumes": [
@@ -185,6 +155,75 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/internal_controllers.TelegramLoginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/unlink/{telegramId}": {
+            "delete": {
+                "description": "Unlink a telegram account from a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Unlink Telegram account",
+                "operationId": "unlink-telegram",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Telegram ID",
+                        "name": "telegramId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/telegram/user/{telegramId}": {
+            "get": {
+                "description": "Get the user linked to a specific telegram ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get linked user by telegram ID",
+                "operationId": "get-linked-user-by-telegram-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Telegram ID",
+                        "name": "telegramId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_controllers.GetLinkedUserResponse"
                         }
                     }
                 }
@@ -3127,6 +3166,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "internal_controllers.GetLinkedUserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_controllers.TelegramLoginRequest": {
             "type": "object",
             "required": [

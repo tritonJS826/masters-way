@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 	"mw-telegram-bot/internal/bot"
-	"mw-telegram-bot/internal/client"
 	"mw-telegram-bot/internal/config"
+	"mw-telegram-bot/internal/openapi"
+	"mw-telegram-bot/internal/services"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,12 +19,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	generalBFFClient, err := client.NewGeneralBFFClient(&newConfig)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to create client: %v\n", err)
-		os.Exit(1)
-	}
-	telegramBot, err := bot.NewTelegramBot(&newConfig, generalBFFClient)
+	openapi.SecretSessionKey = newConfig.SecretSessionKey
+	generalAPI := openapi.MakeGeneralAPIClient(&newConfig)
+	authService := services.NewAuthService(generalAPI)
+
+	telegramBot, err := bot.NewTelegramBot(&newConfig, authService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to create telegram bot: %v\n", err)
 		os.Exit(1)
