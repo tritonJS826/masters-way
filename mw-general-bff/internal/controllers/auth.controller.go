@@ -40,7 +40,11 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 
 	code := ctx.Query("code")
 	state := ctx.Query("state")
-	if state != auth.OauthStateString {
+
+	_, hasTelegramCode := auth.ExtractTelegramCodeFromState(state)
+	isTelegramFlow := hasTelegramCode && state != auth.OauthStateString
+
+	if !isTelegramFlow && state != auth.OauthStateString {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "invalid oauth state"})
 		return
 	}

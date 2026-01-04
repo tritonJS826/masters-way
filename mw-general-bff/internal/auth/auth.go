@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"fmt"
 	"mw-general-bff/internal/config"
 	"net/http"
 	"strings"
@@ -13,8 +14,9 @@ import (
 
 const (
 	// 30 days
-	MaxAge           = 24 * time.Hour * 30
-	OauthStateString = "auth-state-string"
+	MaxAge             = 24 * time.Hour * 30
+	OauthStateString   = "auth-state-string"
+	TelegramCodePrefix = "TGCODE:"
 
 	HeaderKeyAuthorization = "Authorization"
 
@@ -78,4 +80,15 @@ func HandleHeaders(cfg *config.Config) gin.HandlerFunc {
 		ctx.Set(ContextKeyAuthorization, authHeader)
 		ctx.Next()
 	}
+}
+
+func ExtractTelegramCodeFromState(state string) (string, bool) {
+	if !strings.HasPrefix(state, TelegramCodePrefix) {
+		return "", false
+	}
+	return strings.TrimPrefix(state, TelegramCodePrefix), true
+}
+
+func BuildTelegramState(authCode string) string {
+	return fmt.Sprintf("%s%s", TelegramCodePrefix, authCode)
 }
