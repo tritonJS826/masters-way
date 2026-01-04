@@ -271,8 +271,6 @@ services:
       context: .
       dockerfile: ./mw-telegram-bot/Dockerfile
     container_name: masters-way-mw-telegram-bot-1
-    depends_on:
-      - mw-general-bff
     networks:
       - app-network
 
