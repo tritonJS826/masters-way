@@ -1,0 +1,891 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "df7vsyixa9o1sf"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 'Users' AS step, COUNT(*) AS value FROM mw_schema.users\nUNION ALL\nSELECT 'Ways', COUNT(*) FROM mw_schema.ways\nUNION ALL\nSELECT 'Day reports', COUNT(*) FROM mw_schema.day_reports\nUNION ALL\nSELECT 'Plans', COUNT(*) FROM mw_schema.plans\nUNION ALL\nSELECT 'Job dones', COUNT(*) FROM mw_schema.job_dones;\n\n\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Первичная таблица",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH user_ways AS (\n    SELECT owner_uuid AS user_uuid\n    FROM mw_schema.ways\n    GROUP BY owner_uuid\n),\nuser_reports AS (\n    SELECT w.owner_uuid AS user_uuid\n    FROM mw_schema.day_reports dr\n    JOIN mw_schema.ways w ON w.uuid = dr.way_uuid\n    GROUP BY w.owner_uuid\n),\nuser_plans AS (\n    SELECT w.owner_uuid AS user_uuid\n    FROM mw_schema.plans p\n    JOIN mw_schema.day_reports dr ON dr.uuid = p.day_report_uuid\n    JOIN mw_schema.ways w ON w.uuid = dr.way_uuid\n    GROUP BY w.owner_uuid\n),\nuser_job_dones AS (\n    SELECT w.owner_uuid AS user_uuid\n    FROM mw_schema.job_dones jd\n    JOIN mw_schema.day_reports dr ON dr.uuid = jd.day_report_uuid\n    JOIN mw_schema.ways w ON w.uuid = dr.way_uuid\n    GROUP BY w.owner_uuid\n)\nSELECT 'Users registered' AS step, COUNT(*) AS value\nFROM mw_schema.users\n\nUNION ALL\nSELECT 'Users with ≥1 Way', COUNT(*) FROM user_ways\nUNION ALL\nSELECT 'Users with ≥1 Day Report', COUNT(*) FROM user_reports\nUNION ALL\nSELECT 'Users with ≥1 Plan', COUNT(*) FROM user_plans\nUNION ALL\nSELECT 'Users with ≥1 Job Done', COUNT(*) FROM user_job_dones;\n\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Активные пользователи",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH likes_given AS (\n    SELECT donor_user_uuid AS user_uuid\n    FROM mw_schema.favorite_users\n    GROUP BY donor_user_uuid\n),\nlikes_received AS (\n    SELECT acceptor_user_uuid AS user_uuid\n    FROM mw_schema.favorite_users\n    GROUP BY acceptor_user_uuid\n)\nSELECT 'Users registered' AS step, COUNT(*) AS value\nFROM mw_schema.users\n\nUNION ALL\nSELECT 'Users who gave ≥1 like', COUNT(*) FROM likes_given\nUNION ALL\nSELECT 'Users who received ≥1 like', COUNT(*) FROM likes_received;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Социальная вовлеченность",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH user_activity AS (\n    SELECT u.uuid AS user_uuid,\n           u.created_at::date AS signup_date,\n           MAX(CASE WHEN w.created_at::date <= u.created_at::date + interval '30 day' THEN 1 ELSE 0 END) AS active_30,\n           MAX(CASE WHEN w.created_at::date <= u.created_at::date + interval '180 day' THEN 1 ELSE 0 END) AS active_180,\n           MAX(CASE WHEN w.created_at::date <= u.created_at::date + interval '365 day' THEN 1 ELSE 0 END) AS active_365\n    FROM mw_schema.users u\n    LEFT JOIN mw_schema.ways w ON w.owner_uuid = u.uuid\n    LEFT JOIN mw_schema.day_reports dr ON dr.way_uuid = w.uuid\n    LEFT JOIN mw_schema.job_dones jd ON jd.day_report_uuid = dr.uuid\n    LEFT JOIN mw_schema.plans p ON p.owner_uuid = u.uuid\n    GROUP BY u.uuid, u.created_at\n)\nSELECT 'Registered' AS step, COUNT(*) AS value\nFROM mw_schema.users\n\nUNION ALL\nSELECT 'Active 30 Days', COUNT(*)\nFROM user_activity\nWHERE active_30 = 1\n\nUNION ALL\nSELECT 'Active 180 Days', COUNT(*)\nFROM user_activity\nWHERE active_180 = 1\n\nUNION ALL\nSELECT 'Active 365 Days', COUNT(*)\nFROM user_activity\nWHERE active_365 = 1;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Активность за год",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH user_paths AS (\n    -- Пользователи с путями\n    SELECT u.uuid AS user_uuid,\n           COUNT(DISTINCT w.uuid) AS paths_created\n    FROM mw_schema.users u\n    LEFT JOIN mw_schema.ways w ON w.owner_uuid = u.uuid\n    GROUP BY u.uuid\n),\nuser_mentors AS (\n    -- Пользователи, которые пригласили хотя бы одного ментора\n    SELECT up.user_uuid,\n           COUNT(DISTINCT muw.user_uuid) AS mentors_invited\n    FROM user_paths up\n    LEFT JOIN mw_schema.ways w ON w.owner_uuid = up.user_uuid\n    LEFT JOIN mw_schema.mentor_users_ways muw ON muw.way_uuid = w.uuid\n    GROUP BY up.user_uuid\n),\nuser_completed_paths AS (\n    -- Пользователи с завершёнными путями (Job Done)\n    SELECT up.user_uuid,\n           COUNT(DISTINCT jd.uuid) AS completed_jobs\n    FROM user_paths up\n    LEFT JOIN mw_schema.ways w ON w.owner_uuid = up.user_uuid\n    LEFT JOIN mw_schema.day_reports dr ON dr.way_uuid = w.uuid\n    LEFT JOIN mw_schema.job_dones jd ON jd.day_report_uuid = dr.uuid\n    GROUP BY up.user_uuid\n)\nSELECT 'Registered' AS step, COUNT(*) AS value\nFROM mw_schema.users\n\nUNION ALL\nSELECT 'Created a Way', COUNT(*) \nFROM user_paths\nWHERE paths_created > 0\n\nUNION ALL\nSELECT 'Invited Mentor', COUNT(*) \nFROM user_mentors\nWHERE mentors_invited > 0\n\nUNION ALL\nSELECT 'Way Completed', COUNT(*) \nFROM user_completed_paths\nWHERE completed_jobs > 0;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Путь клиента",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 2,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 'Ways created' AS step, COUNT(*) AS value\nFROM mw_schema.ways\n\nUNION ALL\n\nSELECT 'Ways with reports', COUNT(DISTINCT way_uuid)\nFROM mw_schema.day_reports\n\nUNION ALL\n\nSELECT 'Ways with plans', COUNT(DISTINCT d.way_uuid)\nFROM mw_schema.plans p\nJOIN mw_schema.day_reports d ON d.uuid = p.day_report_uuid\n\nUNION ALL\n\nSELECT 'Ways with job dones', COUNT(DISTINCT d.way_uuid)\nFROM mw_schema.job_dones jd\nJOIN mw_schema.day_reports d ON d.uuid = jd.day_report_uuid;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Живые пути",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH way_problems AS (\n    -- считаем, сколько проблем на каждом пути\n    SELECT w.uuid AS way_uuid,\n           COUNT(p.uuid) AS total_problems,\n           COUNT(CASE WHEN p.is_done THEN 1 END) AS solved_problems\n    FROM mw_schema.ways w\n    LEFT JOIN mw_schema.day_reports dr ON dr.way_uuid = w.uuid\n    LEFT JOIN mw_schema.problems p ON p.day_report_uuid = dr.uuid\n    GROUP BY w.uuid\n)\nSELECT 'Ways created' AS step, COUNT(*) AS value\nFROM mw_schema.ways\n\nUNION ALL\nSELECT 'Ways with problems', COUNT(*) \nFROM way_problems\nWHERE total_problems > 0\n\nUNION ALL\nSELECT 'Problems solved', SUM(solved_problems)\nFROM way_problems\n\nUNION ALL\nSELECT 'Problems unsolved', SUM(total_problems - solved_problems)\nFROM way_problems;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Работа с проблемами",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH way_mentors AS (\n    SELECT way_uuid\n    FROM mw_schema.mentor_users_ways\n    GROUP BY way_uuid\n),\nway_reports_by_mentors AS (\n    SELECT dr.way_uuid\n    FROM mw_schema.day_reports dr\n    JOIN mw_schema.mentor_users_ways muw ON muw.way_uuid = dr.way_uuid\n    GROUP BY dr.way_uuid\n),\nway_job_dones AS (\n    SELECT dr.way_uuid\n    FROM mw_schema.job_dones jd\n    JOIN mw_schema.day_reports dr ON dr.uuid = jd.day_report_uuid\n    GROUP BY dr.way_uuid\n)\nSELECT 'Ways created' AS step, COUNT(*) AS value\nFROM mw_schema.ways\n\nUNION ALL\nSELECT 'Ways with ≥1 mentor', COUNT(*) FROM way_mentors\nUNION ALL\nSELECT 'Ways with ≥1 report by mentor', COUNT(*) FROM way_reports_by_mentors\nUNION ALL\nSELECT 'Ways with ≥1 Job Done', COUNT(*) FROM way_job_dones;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Работа ментора",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH user_activity AS (\n    -- отмечаем активных пользователей: хотя бы один путь или job done\n    SELECT u.uuid AS user_uuid,\n           ps.pricing_plan,\n           CASE \n               WHEN w.uuid IS NOT NULL OR jd.uuid IS NOT NULL THEN 1\n               ELSE 0\n           END AS is_active\n    FROM mw_schema.users u\n    JOIN mw_schema.profile_settings ps ON ps.owner_uuid = u.uuid\n    LEFT JOIN mw_schema.ways w ON w.owner_uuid = u.uuid\n    LEFT JOIN mw_schema.day_reports dr ON dr.way_uuid = w.uuid\n    LEFT JOIN mw_schema.job_dones jd ON jd.day_report_uuid = dr.uuid\n    GROUP BY u.uuid, ps.pricing_plan, is_active\n)\nSELECT 'Free' AS step, COUNT(*) AS value\nFROM user_activity\nWHERE pricing_plan = 'free'\n\nUNION ALL\nSELECT 'Active Free', COUNT(*) \nFROM user_activity\nWHERE pricing_plan = 'free' AND is_active = 1\n\nUNION ALL\nSELECT 'Starter', COUNT(*) \nFROM user_activity\nWHERE pricing_plan = 'starter'\n\nUNION ALL\nSELECT 'Active Starter', COUNT(*) \nFROM user_activity\nWHERE pricing_plan = 'starter' AND is_active = 1\n\nUNION ALL\nSELECT 'Pro', COUNT(*) \nFROM user_activity\nWHERE pricing_plan = 'pro'\n\nUNION ALL\nSELECT 'Active Pro', COUNT(*) \nFROM user_activity\nWHERE pricing_plan = 'pro' AND is_active = 1;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Тариф и активность",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "df7vsyixa9o1sf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH active_users AS (\n    -- считаем только пользователей, которые сделали хотя бы 1 путь\n    SELECT ps.pricing_plan, COUNT(DISTINCT ps.owner_uuid) AS value\n    FROM mw_schema.profile_settings ps\n    JOIN mw_schema.ways w ON w.owner_uuid = ps.owner_uuid\n    GROUP BY ps.pricing_plan\n)\nSELECT 'Free' AS step, COALESCE((SELECT value FROM active_users WHERE pricing_plan = 'free'), 0) AS value\nUNION ALL\nSELECT 'AI Starter', COALESCE((SELECT value FROM active_users WHERE pricing_plan = 'ai-starter'), 0)\nUNION ALL\nSELECT 'Starter', COALESCE((SELECT value FROM active_users WHERE pricing_plan = 'starter'), 0)\nUNION ALL\nSELECT 'Pro', COALESCE((SELECT value FROM active_users WHERE pricing_plan = 'pro'), 0);\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Воронка по тарифам",
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Воронки",
+  "uid": "adxzvw9",
+  "version": 5
+}
