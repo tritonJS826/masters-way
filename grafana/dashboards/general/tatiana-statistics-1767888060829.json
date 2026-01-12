@@ -1,0 +1,3093 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Сколько уникальных пользовательских проектов участвуют в обучении",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  COUNT(DISTINCT (w.owner_uuid, w.project_uuid)) AS total_user_projects\r\nFROM mw_schema.ways w\r\nJOIN mw_schema.projects p\r\n  ON p.uuid = w.project_uuid\r\nWHERE p.is_deleted = false;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Total users projects",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Progress vs Completion - наличие монотонной связи между прогрессом пользователя и фактом полного завершения.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH base AS (\r\n  SELECT\r\n    (COUNT(*) FILTER (WHERE w.is_completed))::numeric / COUNT(*) AS progress_ratio,\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1\r\n      ELSE 0\r\n    END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY w.owner_uuid, w.project_uuid\r\n),\r\nranked AS (\r\n  SELECT\r\n    rank() OVER (ORDER BY progress_ratio) AS r_progress,\r\n    rank() OVER (ORDER BY is_completed)   AS r_completed\r\n  FROM base\r\n)\r\nSELECT corr(r_progress, r_completed) AS spearman_rho\r\nFROM ranked;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Spearman correlation",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Количество пользовательских проектов, в которых завершены все пути обучения.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 29,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH per_user_project AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_cnt,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_cnt\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  COUNT(*) AS completed_user_projects\r\nFROM per_user_project\r\nWHERE completed_cnt = total_cnt;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completed user projects",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "какой процент пользователей доходит до конца обучения",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 0
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  ROUND(\r\n    COUNT(DISTINCT CASE\r\n      WHEN completed_cnt = total_cnt THEN (owner_uuid, project_uuid)\r\n    END)::numeric\r\n    / COUNT(DISTINCT (owner_uuid, project_uuid)),\r\n    4\r\n  ) AS completion_rate\r\nFROM (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_cnt,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_cnt\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n) s;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion rate",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 0
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  COUNT(*) AS total_users\r\nFROM mw_schema.users;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Total users",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 0
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH up AS (\r\n  SELECT user_uuid, COUNT(DISTINCT project_uuid) AS projects_cnt\r\n  FROM mw_schema.users_projects\r\n  GROUP BY 1\r\n)\r\nSELECT\r\n  ROUND(AVG(projects_cnt)::numeric, 2) AS avg_projects_per_user\r\nFROM up;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "AVG project per users",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH up AS (\r\n  SELECT user_uuid, COUNT(DISTINCT project_uuid) AS projects_cnt\r\n  FROM mw_schema.users_projects\r\n  GROUP BY 1\r\n)\r\nSELECT\r\n  MAX(projects_cnt) AS max_projects_per_user\r\nFROM up;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Max project per users",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Показывает, сколько пользователей дошли до каждого уровня прогресса.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-blue",
+            "mode": "shades"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "users_reached_ge"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "id": 8,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.85,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "progress_ge",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid   AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed = true) AS completed_ways,\r\n    (COUNT(*) FILTER (WHERE w.is_completed = true))::numeric / NULLIF(COUNT(*), 0) AS progress_ratio,\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed = true) = COUNT(*)\r\n      THEN 1 ELSE 0\r\n    END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n),\r\nthresholds AS (\r\n  SELECT round(x::numeric, 2) AS t\r\n  FROM generate_series(0, 1, 0.1) AS x   -- 0.0, 0.1, ... 1.0\r\n)\r\nSELECT\r\n  (t.t * 100)::int || '%' AS progress_ge,\r\n  COUNT(*) FILTER (WHERE ds.progress_ratio >= t.t) AS users_reached_ge,\r\n  COUNT(*) FILTER (WHERE ds.progress_ratio >= t.t AND ds.is_completed = 1) AS users_completed_from_ge,\r\n  ROUND(\r\n    (COUNT(*) FILTER (WHERE ds.progress_ratio >= t.t AND ds.is_completed = 1))::numeric\r\n      / NULLIF(COUNT(*) FILTER (WHERE ds.progress_ratio >= t.t), 0),\r\n    4\r\n  ) AS p_complete_given_progress_ge\r\nFROM thresholds t\r\nCROSS JOIN ds\r\nGROUP BY t.t\r\nORDER BY t.t;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Learning funnel by progress (%)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "p_complete_given_progress_ge": true,
+              "users_completed_from_ge": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "progress_ge": "Progress",
+              "users_reached_ge": "Users reached"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "на каком этапе прогресса обучения находятся пользовательские проекты в текущий момент (позволяет выявить зоны застревания)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-blue",
+            "mode": "shades"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "id": 25,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.8,
+        "colorByField": "step",
+        "fullHighlight": true,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n),\r\nbinned AS (\r\n  SELECT\r\n    CASE\r\n      WHEN total_ways = 0 THEN '0%'\r\n      ELSE\r\n        CASE\r\n          WHEN completed_ways::numeric / total_ways < 0.1 THEN '0-10%'\r\n          WHEN completed_ways::numeric / total_ways < 0.2 THEN '10-20%'\r\n          WHEN completed_ways::numeric / total_ways < 0.3 THEN '20-30%'\r\n          WHEN completed_ways::numeric / total_ways < 0.4 THEN '30-40%'\r\n          WHEN completed_ways::numeric / total_ways < 0.5 THEN '40-50%'\r\n          WHEN completed_ways::numeric / total_ways < 0.6 THEN '50-60%'\r\n          WHEN completed_ways::numeric / total_ways < 0.7 THEN '60-70%'\r\n          WHEN completed_ways::numeric / total_ways < 0.8 THEN '70-80%'\r\n          WHEN completed_ways::numeric / total_ways < 0.9 THEN '80-90%'\r\n          ELSE '90-100%'\r\n        END\r\n    END AS step\r\n  FROM ds\r\n)\r\nSELECT\r\n  step,\r\n  COUNT(*) AS value\r\nFROM binned\r\nGROUP BY step\r\nORDER BY\r\n  CASE step\r\n    WHEN '0-10%' THEN 1\r\n    WHEN '10-20%' THEN 2\r\n    WHEN '20-30%' THEN 3\r\n    WHEN '30-40%' THEN 4\r\n    WHEN '40-50%' THEN 5\r\n    WHEN '50-60%' THEN 6\r\n    WHEN '60-70%' THEN 7\r\n    WHEN '70-80%' THEN 8\r\n    WHEN '80-90%' THEN 9\r\n    WHEN '90-100%' THEN 10\r\n  END;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Distribution of projects by progress stage",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Размер выборки (sample size): сколько пользовательских проектов (user×project) имеют конкретное количество выполненных задач (completed ways).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "super-light-yellow",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 50,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
+            "lineWidth": 3,
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 8
+            },
+            "pointStrokeWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points+lines"
+          },
+          "fieldMinMax": true,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "user_project_cnt"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            },
+            "x": {
+              "matcher": {
+                "id": "byName",
+                "options": "completed_ways"
+              }
+            },
+            "y": {
+              "matcher": {
+                "id": "byName",
+                "options": "sample_size"
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  completed_ways,\r\n  COUNT(*) AS sample_size\r\nFROM ds\r\nGROUP BY 1\r\nORDER BY 1;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Sample size",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "completed_ways": "Completed ways",
+              "sample_size": "Sample size"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "вероятность полного завершения проекта в зависимости от числа активных дней (дней с дневным отчётом) в рамках проекта",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 63,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_probability"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisColorMode",
+                "value": "series"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sample_size"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 45,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.8,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid   AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1\r\n      ELSE 0\r\n    END AS is_completed\r\n\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p\r\n    ON p.uuid = w.project_uuid\r\n   AND p.is_deleted = false\r\n  GROUP BY 1,2\r\n),\r\nactivity AS (\r\n  SELECT\r\n    w.owner_uuid   AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n    COUNT(DISTINCT dr.created_at::date) AS active_days\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p\r\n    ON p.uuid = w.project_uuid\r\n   AND p.is_deleted = false\r\n  LEFT JOIN mw_schema.day_reports dr\r\n    ON dr.way_uuid = w.uuid\r\n  GROUP BY 1,2\r\n),\r\nbase AS (\r\n  SELECT\r\n    ds.user_uuid,\r\n    ds.project_uuid,\r\n    COALESCE(a.active_days, 0) AS active_days,\r\n    ds.is_completed\r\n  FROM ds\r\n  LEFT JOIN activity a USING (user_uuid, project_uuid)\r\n),\r\nbinned AS (\r\n  SELECT\r\n    CASE\r\n      WHEN active_days = 0 THEN '0 days'\r\n      WHEN active_days BETWEEN 1 AND 2 THEN '1-2 days'\r\n      WHEN active_days BETWEEN 3 AND 5 THEN '3-5 days'\r\n      WHEN active_days BETWEEN 6 AND 10 THEN '6-10 days'\r\n      WHEN active_days BETWEEN 11 AND 20 THEN '11-20 days'\r\n      ELSE '21+ days'\r\n    END AS active_days_bin,\r\n    is_completed\r\n  FROM base\r\n)\r\nSELECT\r\n  active_days_bin,\r\n  COUNT(*) AS sample_size,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_probability\r\nFROM binned\r\nGROUP BY 1\r\nORDER BY\r\n  CASE active_days_bin\r\n    WHEN '0 days' THEN 0\r\n    WHEN '1-2 days' THEN 1\r\n    WHEN '3-5 days' THEN 2\r\n    WHEN '6-10 days' THEN 3\r\n    WHEN '11-20 days' THEN 4\r\n    ELSE 5\r\n  END;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion probability by active days",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "active_days_bin": "",
+              "completion_probability": "Completion probability",
+              "sample_size": "Sample size"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "P(complete | completed ways ≥ N)\nусловная вероятность завершения при достижении N путей.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 50,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 9
+            },
+            "pointStrokeWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points+lines"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 17
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_probability"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            },
+            "x": {
+              "matcher": {
+                "id": "byName",
+                "options": "completed_ways"
+              }
+            },
+            "y": {
+              "matcher": {
+                "id": "byName",
+                "options": "completion_probability"
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed = true) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed = true) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n),\r\nlevels AS (\r\n  SELECT DISTINCT completed_ways FROM ds\r\n)\r\nSELECT\r\n  l.completed_ways,\r\n  ROUND(\r\n    COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways AND ds.is_completed = 1)::numeric\r\n    / NULLIF(COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways), 0),\r\n    4\r\n  ) AS completion_probability\r\nFROM levels l\r\nCROSS JOIN ds\r\nGROUP BY l.completed_ways\r\nORDER BY l.completed_ways;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Activation / No-return point",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "completed_ways": "Completed ways",
+              "completion_probability": "Completion probability"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "P(complete | completed ways= N)\nэмпирическая вероятность завершения среди проектов с ровно N путей.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 24,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 6
+            },
+            "pointStrokeWidth": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points+lines"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_probability"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            },
+            "x": {
+              "matcher": {
+                "id": "byName",
+                "options": "completed_ways"
+              }
+            },
+            "y": {
+              "matcher": {
+                "id": "byName",
+                "options": "completion_probability"
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed = true) AS completed_ways,\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed = true) = COUNT(*)\r\n      THEN 1 ELSE 0\r\n    END AS is_completed\r\n  FROM mw_schema.ways w\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  completed_ways,\r\n  COUNT(*) AS user_project_cnt,\r\n  SUM(is_completed) AS completed_cnt,\r\n  ROUND(AVG(is_completed)::numeric * 100, 1) AS completion_probability\r\nFROM ds\r\nGROUP BY completed_ways\r\nORDER BY completed_ways;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion probability vs completed ways",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "completed_cnt": "Completed projects",
+              "completed_ways": "Completed ways",
+              "completion_probability": "Completion probability",
+              "user_project_cnt": "Projects in sample"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Среднее количество путей, которые пользователь завершает в рамках проекта",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": 0
+              },
+              {
+                "color": "light-blue",
+                "value": 5
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_rate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 43,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.75,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 300
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  p.name AS project_name,\r\n  COUNT(*) AS user_project_cnt,\r\n  ROUND(AVG(total_ways)::numeric, 2) AS avg_total_ways,\r\n  ROUND(AVG(completed_ways)::numeric, 2) AS avg_completed_ways,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_rate\r\nFROM ds\r\nJOIN mw_schema.projects p ON p.uuid = ds.project_uuid\r\nGROUP BY 1\r\nORDER BY user_project_cnt DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "AVG completed ways by project",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "avg_total_ways": true,
+              "completion_rate": true,
+              "user_project_cnt": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "avg_completed_ways": "AVG completed ways",
+              "avg_total_ways": "AVG ways",
+              "completion_rate": "Completion rate",
+              "project_name": "Project name",
+              "user_project_cnt": "User * Project"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "AVG completed ways"
+              }
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "сколько пользователей участвовало в каждом проекте",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": 0
+              },
+              {
+                "color": "light-blue",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_rate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 42,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.75,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 300
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  p.name AS project_name,\r\n  COUNT(*) AS user_project_cnt,\r\n  ROUND(AVG(total_ways)::numeric, 2) AS avg_total_ways,\r\n  ROUND(AVG(completed_ways)::numeric, 2) AS avg_completed_ways,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_rate\r\nFROM ds\r\nJOIN mw_schema.projects p ON p.uuid = ds.project_uuid\r\nGROUP BY 1\r\nORDER BY user_project_cnt DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Project popularity (number of users)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "avg_completed_ways": true,
+              "avg_total_ways": true,
+              "completion_rate": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "avg_completed_ways": "AVG completed ways(tasks)",
+              "avg_total_ways": "AVG ways (tasks)",
+              "completion_rate": "Completion rate",
+              "project_name": "Project name",
+              "user_project_cnt": "User * Project"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "Доля пользователей, которые полностью завершили проект",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "light-blue",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Completion rate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 38
+      },
+      "id": 40,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.75,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Project name",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 300
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  p.name AS project_name,\r\n  COUNT(*) AS user_project_cnt,\r\n  ROUND(AVG(total_ways)::numeric, 2) AS avg_total_ways,\r\n  ROUND(AVG(completed_ways)::numeric, 2) AS avg_completed_ways,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_rate\r\nFROM ds\r\nJOIN mw_schema.projects p ON p.uuid = ds.project_uuid\r\nGROUP BY 1\r\nORDER BY user_project_cnt DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion rate by project",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "avg_completed_ways": true,
+              "avg_total_ways": true,
+              "user_project_cnt": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "orderBy": [],
+            "orderByMode": "manual",
+            "renameByName": {
+              "avg_completed_ways": "AVG completed ways(tasks)",
+              "avg_total_ways": "AVG ways (tasks)",
+              "completion_rate": "Completion rate",
+              "project_name": "Project name",
+              "user_project_cnt": "User * Project"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Completion rate"
+              }
+            ]
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "сложность проекта (среднее количество путей) и вероятность его завершения",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 50,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 12
+            },
+            "pointStrokeWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-blue",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_rate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 38
+      },
+      "id": 41,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            },
+            "size": {
+              "matcher": {
+                "id": "byName",
+                "options": "user_project_cnt"
+              }
+            },
+            "x": {
+              "matcher": {
+                "id": "byName",
+                "options": "avg_total_ways"
+              }
+            },
+            "y": {
+              "matcher": {
+                "id": "byName",
+                "options": "completion_rate"
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  p.name AS project_name,\r\n  COUNT(*) AS user_project_cnt,\r\n  ROUND(AVG(total_ways)::numeric, 2) AS avg_total_ways,\r\n  ROUND(AVG(completed_ways)::numeric, 2) AS avg_completed_ways,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_rate\r\nFROM ds\r\nJOIN mw_schema.projects p ON p.uuid = ds.project_uuid\r\nGROUP BY 1\r\nORDER BY user_project_cnt DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion rate vs project complexity",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "avg_completed_ways": "AVG completed ways",
+              "avg_total_ways": "AVG ways",
+              "completion_rate": "Completion rate",
+              "project_name": "Project name",
+              "user_project_cnt": "User * Project"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "hideFrom": {
+              "viz": false
+            },
+            "inspect": false,
+            "wrapHeaderText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "completion_rate"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Project name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 317
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "User * Project"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 111
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AVG ways (tasks)"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 133
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AVG completed ways(tasks)"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 215
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Completion rate"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 121
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "User - Project"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AVG ways "
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 106
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AVG completed ways"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 163
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 47
+      },
+      "id": 17,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "frozenColumns": {},
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1 ELSE 0 END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  p.name AS project_name,\r\n  COUNT(*) AS user_project_cnt,\r\n  ROUND(AVG(total_ways)::numeric, 2) AS avg_total_ways,\r\n  ROUND(AVG(completed_ways)::numeric, 2) AS avg_completed_ways,\r\n  ROUND(AVG(is_completed)::numeric, 4) AS completion_rate\r\nFROM ds\r\nJOIN mw_schema.projects p ON p.uuid = ds.project_uuid\r\nGROUP BY 1\r\nORDER BY user_project_cnt DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Project performance summary",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "avg_completed_ways": "AVG completed ways",
+              "avg_total_ways": "AVG ways ",
+              "completion_rate": "Completion rate",
+              "project_name": "Project name",
+              "user_project_cnt": "User - Project"
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 47
+      },
+      "id": 49,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.77,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    p.name,\r\n    COUNT(w.uuid) AS ways_count\r\nFROM mw_schema.projects p\r\nJOIN mw_schema.ways w\r\n    ON w.project_uuid = p.uuid\r\nWHERE p.is_deleted = FALSE\r\nGROUP BY p.name;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Ways in projects",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1 project(s)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2 project(s)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "projects_label"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "0 projects"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#c4959b",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1 project"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#669261",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2 projects"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#bda73a",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "3 projects"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cd8640",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "users_cnt"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 55
+      },
+      "id": 46,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.8,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "projects_label",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH user_projects AS (\r\n  SELECT\r\n    u.uuid AS user_uuid,\r\n    COUNT(DISTINCT up.project_uuid) AS projects_cnt\r\n  FROM mw_schema.users u\r\n  LEFT JOIN mw_schema.users_projects up\r\n    ON up.user_uuid = u.uuid\r\n  GROUP BY u.uuid\r\n)\r\nSELECT\r\n  CASE\r\n    WHEN projects_cnt = 0 THEN '0 projects'\r\n    WHEN projects_cnt = 1 THEN '1 project'\r\n    ELSE projects_cnt::text || ' projects'\r\n  END AS projects_label,\r\n  COUNT(*) AS users_cnt\r\nFROM user_projects\r\nGROUP BY projects_cnt\r\nORDER BY projects_cnt;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Projects per user distribution",
+      "transparent": true,
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "description": "как меняется вероятность завершения проекта и размер выборки пользователей в зависимости от количества выполненных путей",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 44,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 6
+            },
+            "pointStrokeWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points+lines"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Users completed"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Completion probability"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 59
+      },
+      "id": 47,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            },
+            "x": {
+              "matcher": {
+                "id": "byName",
+                "options": "Completed ways"
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid   AS user_uuid,\r\n    w.project_uuid AS project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed = true) AS completed_ways,\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed = true) = COUNT(*) THEN 1 ELSE 0\r\n    END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n),\r\nlevels AS (\r\n  SELECT DISTINCT completed_ways FROM ds\r\n),\r\nprob AS (\r\n  SELECT\r\n    l.completed_ways,\r\n\r\n    COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways) AS users_reached_ge,\r\n    COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways AND ds.is_completed = 1) AS users_completed,\r\n\r\n    ROUND(\r\n      COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways AND ds.is_completed = 1)::numeric\r\n      / NULLIF(COUNT(*) FILTER (WHERE ds.completed_ways >= l.completed_ways), 0),\r\n      4\r\n    ) AS completion_probability\r\n\r\n  FROM levels l\r\n  CROSS JOIN ds\r\n  GROUP BY l.completed_ways\r\n)\r\nSELECT\r\n  completed_ways,\r\n  users_reached_ge,\r\n  users_completed,\r\n  completion_probability\r\nFROM prob\r\nORDER BY completed_ways;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+          "refId": "0.6",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Progress-based completion probability (cumulative)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "users_completed_from_ge": false
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "completed_ways": "Completed ways",
+              "completion_probability": "Completion probability",
+              "no_return_completed_ways_60": "Completed ways",
+              "p_complete_given_ge": "Completion probability",
+              "users_completed": "Users completed",
+              "users_completed_from_ge": "Users completed",
+              "users_reached_ge": "Sample size "
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 67
+      },
+      "id": 48,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "## Верхний график — кумулятивный (“дошли минимум до N”).\nПоказывает вероятность завершения проекта среди Всех пользователей, дошедших минимум до заданного уровня прогресса.\n\n- Sample size — количество user-project пар, которые выполнили как минимум N путей\n\n- Users completed — сколько из них в итоге завершили проект\n\n- Completion probability —вероятность завершения при условии, что пользователь дошёл минимум до N путей\n\n## Нижний график , точечный (“ровно N”)\nОтражает поведение пользователей на конкретном уровне прогресса и используется для оценки стабильности и надёжности метрик.\n\nДля каждого значения Completed ways = N:\n\n- Sample size — количество user-project пар c ровно N выполненными путями\n\n- Completion probability — доля завершивших проект именно из этой группы\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.3.0",
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "cf6h49d0gd62od"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 23,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
+            "lineWidth": 3,
+            "pointShape": "circle",
+            "pointSize": {
+              "fixed": 7
+            },
+            "pointStrokeWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "show": "points+lines"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Completion probability"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sample size"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 76
+      },
+      "id": 24,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "mapping": "auto",
+        "series": [
+          {
+            "frame": {
+              "matcher": {
+                "id": "byIndex",
+                "options": 0
+              }
+            }
+          }
+        ],
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "dataset": "mydb",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH ds AS (\r\n  SELECT\r\n    w.owner_uuid,\r\n    w.project_uuid,\r\n    COUNT(*) AS total_ways,\r\n    COUNT(*) FILTER (WHERE w.is_completed) AS completed_ways,\r\n    CASE\r\n      WHEN COUNT(*) FILTER (WHERE w.is_completed) = COUNT(*) THEN 1\r\n      ELSE 0\r\n    END AS is_completed\r\n  FROM mw_schema.ways w\r\n  JOIN mw_schema.projects p ON p.uuid = w.project_uuid\r\n  WHERE p.is_deleted = false\r\n  GROUP BY 1,2\r\n)\r\nSELECT\r\n  completed_ways,\r\n  COUNT(*) AS sample_size,\r\n  ROUND(AVG(is_completed)::numeric, 3) AS completion_probability\r\nFROM ds\r\nGROUP BY 1\r\nORDER BY 1;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Completion probability by exact progress (non-cumulative)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "completed_ways": "Completed ways",
+              "completion_probability": "Completion probability",
+              "sample_size": "Sample size"
+            }
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Completed ways"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Completion probability"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "xychart"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Statistics MW",
+  "uid": "adcmtrs",
+  "version": 5
+}
