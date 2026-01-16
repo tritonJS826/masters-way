@@ -101,6 +101,9 @@ func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -148,6 +151,9 @@ func (gs *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayl
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	return &schemas.AIChatResponse{Message: responseText}, nil
@@ -188,6 +194,9 @@ func (gs *GeminiService) GeneratePlansByMetric(ctx context.Context, payload *sch
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -235,6 +244,9 @@ func (gs *GeminiService) CommentIssue(ctx context.Context, payload *schemas.AICo
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	return &schemas.AICommentIssueResponse{Comment: responseText}, nil
@@ -275,6 +287,9 @@ func (gs *GeminiService) DecomposeIssue(ctx context.Context, payload *schemas.AI
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -322,6 +337,9 @@ func (gs *GeminiService) EstimateIssue(ctx context.Context, payload *schemas.AIE
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	return &schemas.AIEstimateIssueResponse{Estimation: responseText}, nil
@@ -372,6 +390,9 @@ func (gs *GeminiService) GenerateTrainingDescriptionByTestResults(ctx context.Co
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "{")
@@ -444,6 +465,9 @@ func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload 
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -494,6 +518,9 @@ func (gs *GeminiService) GenerateTheoryMaterialForTopic(ctx context.Context, pay
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "{")
@@ -558,6 +585,9 @@ func (gs *GeminiService) GeneratePracticeMaterialForTopic(ctx context.Context, p
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -619,6 +649,9 @@ func (gs *GeminiService) GenerateQuestionsForTest(ctx context.Context, payload *
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
@@ -669,6 +702,9 @@ func (gs *GeminiService) GenerateQuestionResult(ctx context.Context, payload *sc
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "{")
@@ -738,6 +774,9 @@ func (gs *GeminiService) GenerateCompanionFeedback(ctx context.Context, payload 
 		return nil, fmt.Errorf("failed to generate companion feedback: %w", err)
 	}
 
+	if len(response.Candidates) == 0 {
+		return nil, fmt.Errorf("no candidates in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "{")
