@@ -777,6 +777,9 @@ func (gs *GeminiService) GenerateCompanionFeedback(ctx context.Context, payload 
 	if len(response.Candidates) == 0 {
 		return nil, fmt.Errorf("no candidates in companion response")
 	}
+	if len(response.Candidates[0].Content.Parts) == 0 {
+		return nil, fmt.Errorf("no parts in companion response")
+	}
 	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "{")
