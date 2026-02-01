@@ -58,6 +58,9 @@ export const LandingsPage = observer(() => {
         <Link path={pages.landingLorem.getPath({})}>
           Landing page for lorem with AI
         </Link>
+        <Link path={pages.landingEmployment.getPath({})}>
+          Landing page for Masters Way employment
+        </Link>
       </VerticalContainer>
       <FooterLanding language={language} />
     </>

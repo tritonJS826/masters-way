@@ -279,6 +279,14 @@ const SmallBusinessLandingPage = () => (<>
   <SmallBusinessLandingPageLazy />
 </>);
 
+const EmploymentLandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/employmentLandingPage/EmploymentLandingPage"
+)
+  .then((module) => ({default: module.EmploymentLandingPage})));
+const EmploymentLandingPage = () => (<>
+  <EmploymentLandingPageLazy />
+</>);
+
 /**
  * Pages meta data
  */
@@ -440,6 +448,11 @@ export const pages = {
     getPageComponent: () => suspended(<SmallBusinessLandingPage />),
     urlParams: {},
   } as PageParams,
+  landingEmployment: {
+    getPath: () => "/land/employment",
+    getPageComponent: () => suspended(<EmploymentLandingPage />),
+    urlParams: {},
+  } as PageParams,
   errorPage: {
     getPath: () => "*",
     getPageComponent: () => suspended(<ErrorPage />),
@@ -456,6 +469,7 @@ export const INDEPENDENT_ROUTES = [
   pages.landingStudentsWithMentors.getPath({}),
   pages.landingStudentsWithAI.getPath({}),
   pages.landingBusiness.getPath({}),
+  pages.landingEmployment.getPath({}),
   pages.aboutProject.getPath({}),
   pages.home.getPath({}),
   pages.privacyPolicy.getPath({}),

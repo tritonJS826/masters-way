@@ -1,0 +1,172 @@
+@import "src/styles/variables";
+
+.container {
+  max-width: $maxWidthLandingContainer;
+  margin: 0 auto;
+}
+
+.titleBlock {
+  gap: $gapLarge;
+}
+
+.title {
+  display: inline;
+  font-size: $fontSizeTitleLarge;
+  text-align: center;
+  white-space: pre-wrap;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.mw {
+  color: var(--generalPrimaryColor);
+}
+
+.titleYouShouldBlock {
+  text-align: left;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.titleDescription {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.mainBlockImage {
+  width: 80%;
+  margin: 0 auto;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
+.pricingBlock,
+.questionsBlock,
+.triesBlock,
+.imageBlock {
+  display: flex;
+  max-width: $maxWidthLandingContainer;
+  flex-direction: column;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  border-radius: $containerBorderRadius;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
+  gap: $gapBig;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
+  }
+}
+
+.pricingBlock {
+  @include backgroundImage;
+  background-position: center;
+  background-size: 90% 90%;
+}
+
+.pricingContent {
+  max-width: $maxWidthBlock;
+  margin: 0 auto;
+  text-align: center;
+
+  & p {
+    margin-bottom: $gapMedium;
+
+    & strong {
+      font-weight: bold;
+    }
+  }
+}
+
+.pricingGrid {
+  display: grid;
+  gap: $gapLarge;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  text-align: left;
+
+  & h4 {
+    margin-bottom: $gapSmall;
+  }
+
+  & p {
+    margin-bottom: $gapMedium;
+  }
+
+  & ul {
+    margin-left: $paddingLarge;
+
+    & li {
+      margin-bottom: $gapExtraSmall;
+    }
+  }
+
+  & em {
+    font-style: italic;
+  }
+}
+
+.advantagesBlock,
+.problemsBlock,
+.reviewBlock,
+.pricingBlock,
+.questionsBlock,
+.videoBlock {
+  border-radius: $containerBorderRadius;
+  // Workaround for smooth anchor link earlier then block  for don't hide under header https://misha.agency/css/ssyilki-yakori.html
+  border-top: 55px solid transparent;
+  margin-top: -55px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.questionsBlock,
+.reviewBlock {
+  background-color: var(--primaryBgColor);
+}
+
+.reviewList {
+  width: 100%;
+  justify-content: center;
+}
+
+.problems {
+  width: 100%;
+  gap: $gapLarge;
+  white-space: pre-wrap;
+}
+
+.accordion {
+  width: 100%;
+  padding: 0 $paddingMedium;
+}
+
+.triesContainer {
+  padding: $paddingLarge;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--primaryBgColor);
+  gap: $gapLarge;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    flex-wrap: wrap;
+  }
+}
+
+.triesContentBlock {
+  gap: $gapBig;
+}
+
+.triesActionButton {
+  max-width: max-content;
+}
+
+.icon {
+  stroke: var(--secondaryStrokeColor);
+}

@@ -1,0 +1,495 @@
+{
+  "navigation": {
+    "problem": {
+      "ru": "Проблема",
+      "en": "Problem",
+      "ua": "Проблема"
+    },
+    "solution": {
+      "ru": "Решение", 
+      "en": "Solution",
+      "ua": "Рішення"
+    },
+    "advantages": {
+      "ru": "Преимущества",
+      "en": "Advantages",
+      "ua": "Переваги"
+    },
+    "pricing": {
+      "ru": "Оплата",
+      "en": "Pricing",
+      "ua": "Оплата"
+    },
+    "questions": {
+      "ru": "Вопросы",
+      "en": "Questions",
+      "ua": "Питання"
+    }
+  },
+  "callToActionButton": {
+    "ru": "Начать путь",
+    "en": "Start Path",
+    "ua": "Почати шлях"
+  },
+  "main": {
+    "title": {
+      "ru": "Masters Way - трудоустройство в IT",
+      "en": "Masters Way - IT Employment",
+      "ua": "Masters Way - працевлаштування в IT"
+    },
+    "grow": {
+      "ru": "Путь к твоей первой работе",
+      "en": "Path to your first job",
+      "ua": "Шлях до твоєї першої роботи"
+    },
+    "description": {
+      "ru": "Мы не продаём обучение. Мы создаём условия, при которых усердие + система = оффер.",
+      "en": "We don't sell education. We create conditions where diligence + system = job offer.",
+      "ua": "Ми не продаємо навчання. Ми створюємо умови, в яких старання + система = офер."
+    },
+    "backgroundImageAlt": {
+      "ru": "Masters Way - Employment Path",
+      "en": "Masters Way - Employment Path",
+      "ua": "Masters Way - Employment Path"
+    }
+  },
+  "problems": {
+    "title": {
+      "ru": "Проблема наших клиентов",
+      "en": "Our Clients' Problem",
+      "ua": "Проблема наших клієнтів"
+    },
+    "description": {
+      "ru": "",
+      "en": "",
+      "ua": ""
+    },
+    "problem1": {
+      "title": {
+        "ru": "Школы и курсы не трудоустраивают",
+        "en": "Schools and courses don't provide employment",
+        "ua": "Школи та курси не працевлаштовують"
+      },
+      "description": {
+        "ru": "После окончания курсов большинство выпускников сталкиваются с одной и той же реальностью: Курсы учат, но не трудоустраивают. Рынку важен не только сертификат — ему важны навыки и готовность к работе.",
+        "en": "After completing courses, most graduates face the same reality: Courses teach, but don't provide employment. The market doesn't just need certificates - it needs skills and readiness to work.",
+        "ua": "Після закінчення курсів більшість випускників стикаються з однією й тією ж реальністю: Курси вчать, але не працевлаштовують. Ринку важливий не лише сертифікат — йому важливі навички та готовність до роботи."
+      },
+      "callToActionButton": {
+        "ru": "Начать путь",
+        "en": "Start Path",
+        "ua": "Почати шлях"
+      }
+    },
+    "problem2": {
+      "title": {
+        "ru": "Masters Way — это не школа",
+        "en": "Masters Way is not a school",
+        "ua": "Masters Way - це не школа"
+      },
+      "description": {
+        "ru": "Мы не продаём обучение. Мы создаём условия, при которых усердие + система = оффер. Мы не обещаем работу «по кнопке». Мы даём чёткую, проверяемую и честную систему.",
+        "en": "We don't sell education. We create conditions where diligence + system = job offer. We don't promise employment at the click of a button. We provide a clear, verifiable, and honest system.",
+        "ua": "Ми не продаємо навчання. Ми створюємо умови, в яких старання + система = офер. Ми не обіцяємо роботу «по кнопці». Ми надаємо чітку, перевіряєму та чесну систему."
+      },
+      "callToActionButton": {
+        "ru": "Узнать больше",
+        "en": "Learn More",
+        "ua": "Дізнатися більше"
+      }
+    }
+  },
+  "solution": {
+    "title": {
+      "ru": "Путь решения",
+      "en": "Solution Path",
+      "ua": "Шлях рішення"
+    },
+    "description": {
+      "ru": "Masters Way — это не школа. Это путь к трудоустройству.",
+      "en": "Masters Way is not a school. This is the path to employment.",
+      "ua": "Masters Way - це не школа. Це шлях до працевлаштування."
+    },
+    "step1": {
+      "title": {
+        "ru": "1. Отбор и старт",
+        "en": "1. Selection and Start",
+        "ua": "1. Відбір і старт"
+      },
+      "description": {
+        "ru": "Проводим предварительное интервью со студентом, оцениваем его уровень, даем обратную связь, оцениваем время достижения цели.",
+        "en": "We conduct a preliminary interview with the student, assess their level, provide feedback, and estimate the time to achieve the goal.",
+        "ua": "Проводимо попереднє інтерв'ю зі студентом, оцінюємо його рівень, даємо зворотний зв'язок, оцінюємо час досягнення мети."
+      },
+      "callToActionButton": {
+        "ru": "Пройти отбор",
+        "en": "Pass Selection",
+        "ua": "Пройти відбір"
+      }
+    },
+    "step2": {
+      "title": {
+        "ru": "2. Индивидуальный roadmap",
+        "en": "2. Individual roadmap",
+        "ua": "2. Індивідуальний roadmap"
+      },
+      "description": {
+        "ru": "Выдаем студенту план и материалы что именно изучать дальше прямо сейчас. Фокус на том, что реально требуется рынку.",
+        "en": "We provide the student with a plan and materials on what exactly to study next. Focus on what the market really requires.",
+        "ua": "Надаємо студенту план та матеріали що саме вивчати далі прямо зараз. Фокус на тому, що реально вимагається ринком."
+      },
+      "callToActionButton": {
+        "ru": "Получить план",
+        "en": "Get Plan",
+        "ua": "Отримати план"
+      }
+    },
+    "step3": {
+      "title": {
+        "ru": "3. Обучение под контролем",
+        "en": "3. Learning under Control",
+        "ua": "3. Навчання під контролем"
+      },
+      "description": {
+        "ru": "Студент обучается под контролем нескольких менторов. Получает регулярную обратную связь (что можно пропустить, на чем сфокусировать).",
+        "en": "The student learns under the supervision of several mentors. Receives regular feedback (what can be skipped, what to focus on).",
+        "ua": "Студент навчається під контролем кількох менторів. Отримує регулярний зворотний зв'язок (що можна пропустити, на чому сфокусувати)."
+      },
+      "callToActionButton": {
+        "ru": "Начать обучение",
+        "en": "Start Learning",
+        "ua": "Почати навчання"
+      }
+    },
+    "step4": {
+      "title": {
+        "ru": "4. Проверка готовности",
+        "en": "4. Readiness Check",
+        "ua": "4. Перевірка готовності"
+      },
+      "description": {
+        "ru": "Контрольный тест и мок интервью. Оценка прогресса и текущего уровня, а не ощущений. Выдаем обратную связь. Вопросы и задания заранее известны, никаких подвохов",
+        "en": "Control test and mock interview. Assessment of progress and current level, not feelings. We provide feedback. Questions and assignments are known in advance, no tricks.",
+        "ua": "Контрольний тест та мок інтерв'ю. Оцінка прогресу та поточного рівня, а не відчуттів. Надаємо зворотний зв'язок. Запитання та завдання відомі заздалегідь, без жодних підвохів."
+      },
+      "callToActionButton": {
+        "ru": "Проверить уровень",
+        "en": "Check Level",
+        "ua": "Перевірити рівень"
+      }
+    },
+    "step5": {
+      "title": {
+        "ru": "5. Реферальный шаг",
+        "en": "5. Referral Step",
+        "ua": "5. Реферальний крок"
+      },
+      "description": {
+        "ru": "Подготавливаем студенту CV. Договариваемся с работодателем об интервью. Находим до 3 реферальных приглашения на собеседование.",
+        "en": "We prepare the student's CV. We arrange interviews with employers. We find up to 3 referral invitations for interviews.",
+        "ua": "Готуємо студенту CV. Договариваємося з роботодавцем про інтерв'ю. Знаходимо до 3 реферальних запрошень на співбесіду."
+      },
+      "callToActionButton": {
+        "ru": "Получить приглашения",
+        "en": "Get Invitations",
+        "ua": "Отримати запрошення"
+      }
+    }
+  },
+  "advantages": {
+    "title": {
+      "ru": "Результат",
+      "en": "Results",
+      "ua": "Результат"
+    },
+    "honestSystem": {
+      "title": {
+        "ru": "Честная система",
+        "en": "Honest System",
+        "ua": "Чесна система"
+      },
+      "description": {
+        "ru": "Мы зарабатываем только если есть результат. Основной платеж - только при заключении договора по нашей рекомендации",
+        "en": "We earn only if there are results. Main payment - only upon signing a contract through our recommendation",
+        "ua": "Ми заробляємо тільки якщо є результат. Основний платіж - тільки при укладенні договору за нашою рекомендацією"
+      }
+    },
+    "realSkills": {
+      "title": {
+        "ru": "Реальные навыки",
+        "en": "Real Skills",
+        "ua": "Реальні навички"
+      },
+      "description": {
+        "ru": "Фокус на том, что реально требуется рынку. Обучение под контролем нескольких менторов",
+        "en": "Focus on what the market really requires. Learning under the supervision of several mentors",
+        "ua": "Фокус на тому, що реально вимагається ринком. Навчання під контролем кількох менторів"
+      }
+    },
+    "individualPath": {
+      "title": {
+        "ru": "Индивидуальный путь",
+        "en": "Individual Path",
+        "ua": "Індивідуальний шлях"
+      },
+      "description": {
+        "ru": "Персональный roadmap и план развития. Регулярная обратная связь и контроль прогресса",
+        "en": "Personal roadmap and development plan. Regular feedback and progress monitoring",
+        "ua": "Персональний roadmap та план розвитку. Регулярний зворотний зв'язок та контроль прогресу"
+      }
+    },
+    "clearUnderstanding": {
+      "title": {
+        "ru": "Чёткое понимание уровня",
+        "en": "Clear Understanding of Level",
+        "ua": "Чітке розуміння рівня"
+      },
+      "description": {
+        "ru": "Знаешь свой текущий уровень и что именно нужно прокачать для выхода на рынок",
+        "en": "You know your current level and what exactly you need to improve to enter the market",
+        "ua": "Знаєш свій поточний рівень і що саме потрібно прокачати для виходу на ринок"
+      }
+    },
+    "referralInvitations": {
+      "title": {
+        "ru": "Приглашения через рекомендации",
+        "en": "Invitations through Recommendations",
+        "ua": "Запрошення через рекомендації"
+      },
+      "description": {
+        "ru": "Получение приглашения на интервью через рекомендацию, а не общий поток",
+        "en": "Getting interview invitations through recommendations, not the general flow",
+        "ua": "Отримання запрошення на інтерв'ю через рекомендацію, а не загальний потік"
+      }
+    },
+    "focusOnSkills": {
+      "title": {
+        "ru": "Фокус на навыках",
+        "en": "Focus on Skills",
+        "ua": "Фокус на навичках"
+      },
+      "description": {
+        "ru": "Студент не тратит время на поиск работы, фокус на практических навыках",
+        "en": "The student doesn't waste time searching for jobs, focus on practical skills",
+        "ua": "Студент не витрачає час на пошук роботи, фокус на практичних навичках"
+      }
+    }
+  },
+  "amountBlock": {
+    "employmentRate": {
+      "ru": "Целевой уровень трудоустройства",
+      "en": "Target employment level",
+      "ua": "Цільовий рівень працевлаштування"
+    },
+    "referralInvitations": {
+      "ru": "Реферальных приглашения на собеседование",
+      "en": "Referral Interview Invitations",
+      "ua": "Реферальних запрошень на співбесіду"
+    },
+    "mentors": {
+      "ru": "Формируем сообщество из 40+ менторов-практиков",
+      "en": "Building a community of 40+ practicing mentors",
+      "ua": "Формуємо спільноту з 40+ менторів-практиків"
+    }
+  },
+  "pricing": {
+    "title": {
+      "ru": "Модель оплаты — честно и прозрачно",
+      "en": "Payment Model - Honest and Transparent",
+      "ua": "Модель оплати — чесно і прозоро"
+    },
+    "mainStatement": {
+      "ru": "Мы зарабатываем только если есть результат.",
+      "en": "We earn only if there are results.",
+      "ua": "Ми заробляємо тільки якщо є результат."
+    },
+    "duringTraining": {
+      "title": {
+        "ru": "Во время обучения:",
+        "en": "During training:",
+        "ua": "Під час навчання:"
+      },
+      "description": {
+        "ru": "100 € в месяц, чтобы покрыть минимальные расходы:",
+        "en": "100 € per month to cover minimal expenses:",
+        "ua": "100 € на місяць, щоб покрити мінімальні витрати:"
+      },
+      "items": {
+        "mentoring": {
+          "ru": "индивидуальное сопровождение, менторинг",
+          "en": "individual support, mentoring",
+          "ua": "індивідуальний супровід, менторинг"
+        },
+        "materials": {
+          "ru": "материалы",
+          "en": "materials",
+          "ua": "матеріали"
+        },
+        "progress": {
+          "ru": "контроль прогресса",
+          "en": "progress monitoring",
+          "ua": "контроль прогресу"
+        },
+        "case": {
+          "ru": "работу с вашим кейсом",
+          "en": "work with your case",
+          "ua": "робота з вашим кейсом"
+        }
+      }
+    },
+    "mainPayment": {
+      "title": {
+        "ru": "Основной платеж:",
+        "en": "Main payment:",
+        "ua": "Основний платіж:"
+      },
+      "description": {
+        "ru": "50% от месячной зарплаты в договоре — только после трудоустройства по нашей рекомендации",
+        "en": "50% of monthly salary in contract — only after employment through our recommendation",
+        "ua": "50% від місячної зарплати в договорі — тільки після працевлаштування за нашою рекомендацією"
+      },
+      "disclaimer": {
+        "ru": "Если студент находит работу не по нашей рекомендации — мы не берем денег",
+        "en": "If a student finds a job not through our recommendation — we don't charge money",
+        "ua": "Якщо студент знаходить роботу не за нашою рекомендацією — ми не беремо грошей"
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Отзывы наших студентов",
+      "en": "Reviews from Our Students",
+      "ua": "Відгуки наших студентів"
+    },
+    "alexander": {
+      "review": {
+        "ru": "Благодаря Masters Way я прошел путь от выпускника курсов до junior разработчика. Система действительно работает!",
+        "en": "Thanks to Masters Way, I went from a course graduate to a junior developer. The system really works!",
+        "ua": "Завдяки Masters Way я пройшов шлях від випускника курсів до junior розробника. Система справді працює!"
+      },
+      "reviewerName": {
+        "ru": "Александр П.",
+        "en": "Alexander P.",
+        "ua": "Олександр П."
+      },
+      "reviewerProfession": {
+        "ru": "Frontend Developer",
+        "en": "Frontend Developer",
+        "ua": "Frontend Developer"
+      }
+    },
+    "maria": {
+      "review": {
+        "ru": "Главное - честность. Оплатил только после трудоустройства. Менторы помогли подготовиться к реальным собеседованиям.",
+        "en": "The main thing is honesty. Paid only after employment. Mentors helped prepare for real interviews.",
+        "ua": "Головне - чесність. Сплатив тільки після працевлаштування. Ментори допомогли підготуватися до реальних співбесід."
+      },
+      "reviewerName": {
+        "ru": "Мария К.",
+        "en": "Maria K.",
+        "ua": "Марія К."
+      },
+      "reviewerProfession": {
+        "ru": "QA Engineer",
+        "en": "QA Engineer",
+        "ua": "QA Engineer"
+      }
+    },
+    "dmitry": {
+      "review": {
+        "ru": "Индивидуальный подход и фокус на практических навыках. Получил 3 приглашения на интервью через 2 месяца.",
+        "en": "Individual approach and focus on practical skills. Got 3 interview invitations in 2 months.",
+        "ua": "Індивідуальний підхід та фокус на практичних навичках. Отримав 3 запрошення на інтерв'ю через 2 місяці."
+      },
+      "reviewerName": {
+        "ru": "Дмитрий С.",
+        "en": "Dmitry S.",
+        "ua": "Дмитро С."
+      },
+      "reviewerProfession": {
+        "ru": "Backend Developer",
+        "en": "Backend Developer",
+        "ua": "Backend Developer"
+      }
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Ответы на вопросы",
+      "en": "Answers to Questions",
+      "ua": "Відповіді на питання"
+    },
+    "accordion": [
+      {
+        "question": {
+          "ru": "Кому подходит эта программа?",
+          "en": "Who is this program suitable for?",
+          "ua": "Кому підходить ця програма?"
+        },
+        "answer": {
+          "ru": "Выпускникам IT-курсов, тем, кто устал учиться без конца и хочет реальный выход на рынок, тем кому не хочется тратить время на рассылку email-ов и бесконечное прохождение тестовых и предварительных интервью.",
+          "en": "IT course graduates, those who are tired of studying endlessly and want a real entry into the market, those who don't want to waste time sending emails and endless passing of tests and preliminary interviews.",
+          "ua": "Випускникам IT-курсів, тим, хто втомився вчитися без кінця і хоче реальний вихід на ринок, тим кому не хочеться витрачати час на розсилку email-ів і нескінченне проходження тестових і попередніх інтерв'ю."
+        }
+      },
+      {
+        "question": {
+          "ru": "Гарантируете ли вы трудоустройство?",
+          "en": "Do you guarantee employment?",
+          "ua": "Гарантуєте ви працевлаштування?"
+        },
+        "answer": {
+          "ru": "Мы не обещаем работу «по кнопке». Мы даём чёткую, проверяемую и честную систему, где результат зависит от усилий студента. Мы не трудоустроим студента, который еще не готов к реальной работе.",
+          "en": "We don't promise employment at the click of a button. We provide a clear, verifiable, and honest system where the result depends on the student's efforts. We won't employ a student who is not yet ready for real work.",
+          "ua": "Ми не обіцяємо роботу «по кнопці». Ми надаємо чітку, перевіряєму та чесну систему, де результат залежить від зусиль студента. Ми не працевлаштуємо студента, який ще не готовий до реальної роботи."
+        }
+      },
+      {
+        "question": {
+          "ru": "Что входит в ежемесячную плату 100€?",
+          "en": "What is included in the monthly fee of €100?",
+          "ua": "Що входить в щомісячну плату 100€?"
+        },
+        "answer": {
+          "ru": "- Индивидуальное сопровождение, менторинг\n- Материалы для обучения\n- Контроль прогресса\n- Работа с вашим кейсом",
+          "en": "- Individual support, mentoring\n- Learning materials\n- Progress monitoring\n- Work with your case",
+          "ua": "- Індивідуальний супровід, менторинг\n- Матеріали для навчання\n- Контроль прогресу\n- Робота з вашим кейсом"
+        }
+      },
+      {
+        "question": {
+          "ru": "Что если я найду работу сам?",
+          "en": "What if I find a job myself?",
+          "ua": "Що якщо я знайду роботу сам?"
+        },
+        "answer": {
+          "ru": "Если студент находит работу не по нашей рекомендации — мы не берем денег. Основной платеж - только при заключении договора по нашей рекомендации.",
+          "en": "If a student finds a job not through our recommendation - we don't charge money. Main payment - only upon signing a contract through our recommendation.",
+          "ua": "Якщо студент знаходить роботу не за нашою рекомендацією — ми не беремо грошей. Основний платіж - тільки при укладенні договору за нашою рекомендацією."
+        }
+      }
+    ]
+  },
+  "callToAction": {
+    "title": {
+      "ru": "Готов начать путь к трудоустройству?",
+      "en": "Ready to start the path to employment?",
+      "ua": "Готовий почати шлях до працевлаштування?"
+    },
+    "description1": {
+      "ru": "Masters Way - это путь к трудоустройству через проверяемую систему, где результат зависит от твоих усилий.",
+      "en": "Masters Way is the path to employment through a verifiable system where the result depends on your efforts.",
+      "ua": "Masters Way - це шлях до працевлаштування через перевіряєму систему, де результат залежить від твоїх зусиль."
+    },
+    "description2": {
+      "ru": "Мы создаём условия, при которых усердие + система = оффер.",
+      "en": "We create conditions where diligence + system = job offer.",
+      "ua": "Ми створюємо умови, в яких старання + система = офер."
+    },
+    "button": {
+      "ru": "Начать путь",
+      "en": "Start Path",
+      "ua": "Почати шлях"
+    }
+  }
+}

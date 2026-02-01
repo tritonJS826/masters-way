@@ -169,6 +169,11 @@ export const router = createBrowserRouter(
           element={<WithValidatedParams paramsSchema={pages.landingGame} />}
           errorElement={pages.errorPage.getPageComponent({})}
         />
+        <Route
+          path={pages.landingEmployment.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingEmployment} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
       </Route>
     </>,
   ),

@@ -269,9 +269,14 @@ BEGIN
         EXECUTE 'DROP SEQUENCE IF EXISTS ' || obj_name || ' CASCADE;';
     END LOOP;
 
-    -- Drop all views
+    -- Drop all views with error handling to skip extension-dependent views
     FOR obj_name IN (SELECT viewname FROM pg_views WHERE schemaname = 'public') LOOP
-        EXECUTE 'DROP VIEW IF EXISTS ' || obj_name || ' CASCADE;';
+        BEGIN
+            EXECUTE 'DROP VIEW IF EXISTS ' || obj_name || ' CASCADE;';
+        EXCEPTION
+            WHEN dependent_objects_still_exist THEN
+                RAISE NOTICE 'Skipping view % due to extension dependency', obj_name;
+        END;
     END LOOP;
 
     -- Drop all materialized views
@@ -279,14 +284,19 @@ BEGIN
         EXECUTE 'DROP MATERIALIZED VIEW IF EXISTS ' || obj_name || ' CASCADE;';
     END LOOP;
 
-   -- Drop all functions except 'uuid_nil'
+   -- Drop all functions except 'uuid_nil' and extension functions with error handling
     FOR obj_name, obj_type IN
         SELECT proname, 'FUNCTION'
         FROM pg_proc
         JOIN pg_namespace ON pg_proc.pronamespace = pg_namespace.oid
         WHERE nspname = 'public' AND proname NOT IN (SELECT unnest(exclude_functions))
     LOOP
-        EXECUTE 'DROP FUNCTION IF EXISTS ' || obj_name || ' CASCADE;';
+        BEGIN
+            EXECUTE 'DROP FUNCTION IF EXISTS ' || obj_name || ' CASCADE;';
+        EXCEPTION
+            WHEN dependent_objects_still_exist THEN
+                RAISE NOTICE 'Skipping function % due to extension dependency', obj_name;
+        END;
     END LOOP;
 
     -- Drop all types except 'schema_migrations' and 'schema_migrations[]'
