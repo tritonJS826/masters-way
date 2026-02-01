@@ -1,3 +1,4 @@
+
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
 import allTestsPageContent from "src/dictionary/AllTestsPageContent.json";
 import allTrainingsPageContent from "src/dictionary/AllTrainingsPageContent.json";
@@ -11,7 +12,6 @@ import businessLanding from "src/dictionary/landing/BusinessLandingContent.json"
 import employmentLanding from "src/dictionary/landing/EmploymentLandingContent.json";
 import gameLanding from "src/dictionary/landing/GameLandingContent.json";
 import loremLanding from "src/dictionary/landing/LoremLandingContent.json";
-import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import testWithAiLanding from "src/dictionary/landing/TestWithAILandingContent.json";
@@ -197,13 +197,6 @@ export class LanguageService {
    */
   public static get pricing() {
     return pricing;
-  }
-
-  /**
-   * Mentor's landing content
-   */
-  public static get mentorsLanding() {
-    return mentorsLanding;
   }
 
   /**
