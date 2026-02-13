@@ -8,6 +8,7 @@ import {Training} from "src/model/businessModel/Training";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {DateUtils} from "src/utils/DateUtils";
 import {LazyLoader} from "src/utils/DependencyLazyLoader/lazyLoader";
+import {parseMarkdownToPdf} from "src/utils/markdown/markdownToPdfParser";
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
@@ -63,10 +64,11 @@ const getOwner = (owner: string): ContentText => ({
 /**
  * Render description
  */
-const getDescription = (description: string): ContentText => ({
-  text: description,
-  margin: [0, MARGIN_MEDIUM],
-});
+const getDescription = (description: string): Content => {
+  const parsed = parseMarkdownToPdf(description);
+
+  return {text: parsed, margin: [0, MARGIN_MEDIUM]};
+};
 
 /**
  * Render topics
