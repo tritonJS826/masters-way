@@ -274,25 +274,25 @@ services:
     networks:
       - app-network
 
-  grafana:
-    image: viktarveratsennikau/masters-way-mw-grafana:latest
-    build:
-      context: .
-      dockerfile: ./grafana/Dockerfile
-    container_name: grafana
-    ports:
-      - "9876:3000"
-    env_file:
-      - ./grafana/.env
-    depends_on:
-      - postgres-general
-      - postgres-chat
-      - postgres-storage
-      - postgres-mail
-      - postgres-survey
-      - postgres-notification
-    networks:
-      - app-network
+  # grafana:
+  #   image: viktarveratsennikau/masters-way-mw-grafana:latest
+  #   build:
+  #     context: .
+  #     dockerfile: ./grafana/Dockerfile
+  #   container_name: grafana
+  #   ports:
+  #     - "9876:3000"
+  #   env_file:
+  #     - ./grafana/.env
+  #   depends_on:
+  #     - postgres-general
+  #     - postgres-chat
+  #     - postgres-storage
+  #     - postgres-mail
+  #     - postgres-survey
+  #     - postgres-notification
+  #   networks:
+  #     - app-network
 
   nginx:
     image: nginx:1.24.0-alpine
