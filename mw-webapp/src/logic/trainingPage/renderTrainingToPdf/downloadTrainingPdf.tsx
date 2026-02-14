@@ -115,7 +115,7 @@ const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
       };
 
       const theoryDescription: ContentText = {
-        text: material.description,
+        text: parseMarkdownToPdf(material.description),
         margin: [MARGIN_SMALL, 0, 0, MARGIN_SMALL],
       };
 
@@ -135,7 +135,7 @@ const getTopicMaterials = (topicMaterials: Topic[]): Content[] => {
         margin: [0, MARGIN_MEDIUM],
       };
 
-      const practiceDescription: ContentText = {text: material.taskDescription};
+      const practiceDescription: ContentText = {text: parseMarkdownToPdf(material.taskDescription)};
 
       return [practiceHeader, practiceDescription];
     });
