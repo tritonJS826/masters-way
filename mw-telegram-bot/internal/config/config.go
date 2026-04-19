@@ -37,7 +37,7 @@ var devRequiredVariables = [6]string{
 	"GENERAL_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",
 	"TELEGRAM_BOT_TOKEN",
-	"FRONTEND_BASE_URL"
+	"FRONTEND_BASE_URL",
 }
 
 func LoadConfig(path string) (config Config, err error) {
