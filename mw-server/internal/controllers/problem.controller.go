@@ -18,10 +18,11 @@ var _ = &customErrors.NoRightToChangeDayReportError{}
 type ProblemController struct {
 	permissionService *services.PermissionService
 	problemService    *services.ProblemService
+	dayReportService *services.DayReportService
 }
 
-func NewProblemController(permissionService *services.PermissionService, problemService *services.ProblemService) *ProblemController {
-	return &ProblemController{permissionService, problemService}
+func NewProblemController(permissionService *services.PermissionService, problemService *services.ProblemService, dayReportService *services.DayReportService) *ProblemController {
+	return &ProblemController{permissionService, problemService, dayReportService}
 }
 
 // Create Problem  handler
@@ -53,6 +54,53 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, problem)
+}
+
+// CreateProblemForTelegram handler
+// @Summary Create problem for telegram
+// @Description Creates a problem, automatically finding or creating a day report for today
+// @Tags problem
+// @ID create-problem-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateProblemForTelegramPayload true "query params"
+// @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Router /problems/telegram [post]
+func (pc *ProblemController) CreateProblemForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateProblemForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	dayReport, err := pc.dayReportService.GetOrCreateTodayDayReport(ctx, payload.WayUuid)
+	util.HandleErrorGin(ctx, err)
+
+	problemPayload := &schemas.CreateProblemPayload{
+		Description:   payload.Description,
+		IsDone:      payload.IsDone,
+		OwnerUuid:   payload.OwnerUuid,
+		DayReportUuid: dayReport.Uuid,
+	}
+
+	problem, err := pc.problemService.CreateProblem(ctx, problemPayload)
+	util.HandleErrorGin(ctx, err)
+
+	problemResponse := schemas.ProblemPopulatedResponse{
+		Uuid:          problem.Uuid,
+		CreatedAt:     problem.CreatedAt,
+		UpdatedAt:     problem.UpdatedAt,
+		Description:   problem.Description,
+		IsDone:        problem.IsDone,
+		OwnerUuid:     problem.OwnerUuid,
+		OwnerName:     problem.OwnerName,
+		DayReportUuid: problem.DayReportUuid,
+		WayUUID:       problem.WayUUID,
+		WayName:       problem.WayName,
+	}
+
+	ctx.JSON(http.StatusOK, problemResponse)
 }
 
 // Update Problem handler

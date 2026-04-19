@@ -7,6 +7,13 @@ type CreateProblemPayload struct {
 	DayReportUuid string `json:"dayReportUuid" validate:"required"`
 }
 
+type CreateProblemForTelegramPayload struct {
+	Description string `json:"description" validate:"required"`
+	IsDone      bool   `json:"isDone" validate:"required"`
+	OwnerUuid   string `json:"ownerUuid" validate:"required"`
+	WayUuid     string `json:"wayUuid" validate:"required"`
+}
+
 type UpdateProblemPayload struct {
 	Description *string `json:"description"`
 	IsDone      *bool   `json:"isDone"`

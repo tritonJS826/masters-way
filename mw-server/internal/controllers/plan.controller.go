@@ -19,14 +19,16 @@ type PlanController struct {
 	permissionService *services.PermissionService
 	planService       *services.PlanService
 	jobTagService     *services.JobTagService
+	dayReportService *services.DayReportService
 }
 
 func NewPlanController(
 	permissionService *services.PermissionService,
 	planService *services.PlanService,
 	jobTagService *services.JobTagService,
+	dayReportService *services.DayReportService,
 ) *PlanController {
-	return &PlanController{permissionService, planService, jobTagService}
+	return &PlanController{permissionService, planService, jobTagService, dayReportService}
 }
 
 // Create Plan handler
@@ -55,6 +57,59 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	plan, err := pc.planService.CreatePlan(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	tags, err := pc.jobTagService.GetLabelsByIDs(ctx, plan.TagIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.ID,
+		CreatedAt:     plan.CreatedAt,
+		UpdatedAt:     plan.UpdatedAt,
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid,
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportID,
+		WayUUID:       plan.WayUUID,
+		WayName:       plan.WayName,
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// CreatePlanForTelegram handler
+// @Summary Create plan for telegram
+// @Description Creates a plan, automatically finding or creating a day report for today
+// @Tags plan
+// @ID create-plan-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreatePlanForTelegramPayload true "query params"
+// @Success 200 {object} schemas.PlanPopulatedResponse
+// @Router /plans/telegram [post]
+func (pc *PlanController) CreatePlanForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreatePlanForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	dayReport, err := pc.dayReportService.GetOrCreateTodayDayReport(ctx, payload.WayUuid)
+	util.HandleErrorGin(ctx, err)
+
+	planPayload := &schemas.CreatePlanPayload{
+		Description:   payload.Description,
+		Time:        payload.Time,
+		IsDone:      payload.IsDone,
+		OwnerUuid:   payload.OwnerUuid,
+		DayReportUuid: dayReport.Uuid,
+	}
+
+	plan, err := pc.planService.CreatePlan(ctx, planPayload)
 	util.HandleErrorGin(ctx, err)
 
 	tags, err := pc.jobTagService.GetLabelsByIDs(ctx, plan.TagIDs)

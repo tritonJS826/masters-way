@@ -20,6 +20,7 @@ func newPlanRouter(planController *controllers.PlanController, config *config.Co
 func (pr *planRouter) setPlanRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("plans")
 	router.POST("", auth.AuthMiddleware(pr.config), pr.planController.CreatePlan)
+	router.POST("/telegram", pr.planController.CreatePlanForTelegram)
 	router.PATCH("/:planId", auth.AuthMiddleware(pr.config), pr.planController.UpdatePlan)
 	router.DELETE("/:planId", auth.AuthMiddleware(pr.config), pr.planController.DeletePlanById)
 }

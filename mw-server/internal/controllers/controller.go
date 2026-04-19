@@ -40,7 +40,7 @@ type Controller struct {
 func NewController(services *services.Service, config *config.Config) *Controller {
 	return &Controller{
 		AuthController:                     NewAuthController(services.AuthService, services.TelegramService, services.UserService, services.ProfileSettingService, config),
-		CommentController:                  NewCommentController(services.PermissionService, services.CommentService),
+		CommentController:                  NewCommentController(services.PermissionService, services.CommentService, services.DayReportService),
 		CompanionController:                NewCompanionController(services.CompanionFeedbackService),
 		CompositeWayController:             NewCompositeWayController(services.CompositeWayService),
 		DayReportController:                NewDayReportController(services.DayReportService, services.LimitService, services.WayService),
@@ -54,9 +54,9 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		JobTagController:                   NewJobTagController(services.JobTagService),
 		MentorUserWayController:            NewMentorUserWayController(services.LimitService, services.MentorUserWayService),
 		MetricController:                   NewMetricController(services.MetricService, services.WayService),
-		PlanController:                     NewPlanController(services.PermissionService, services.PlanService, services.JobTagService),
+		PlanController:                     NewPlanController(services.PermissionService, services.PlanService, services.JobTagService, services.DayReportService),
 		PlanJobTagController:               NewPlanJobTagController(services.PlanJobTagService),
-		ProblemController:                  NewProblemController(services.PermissionService, services.ProblemService),
+		ProblemController:                  NewProblemController(services.PermissionService, services.ProblemService, services.DayReportService),
 		ProjectController:                  NewProjectController(services.ProjectService, services.WayService, services.UserService),
 		WayController:                      NewWayController(services.WayService, services.WayStatisticsService, services.DayReportService, services.LimitService),
 		WayTagController:                   NewWayTagController(services.WayTagService),

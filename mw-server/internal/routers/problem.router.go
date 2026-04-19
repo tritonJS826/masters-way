@@ -20,6 +20,7 @@ func newProblemRouter(problemController *controllers.ProblemController, config *
 func (pr *problemRouter) setProblemRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("problems")
 	router.POST("", auth.AuthMiddleware(pr.config), pr.problemController.CreateProblem)
+	router.POST("/telegram", pr.problemController.CreateProblemForTelegram)
 	router.PATCH("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.UpdateProblem)
 	router.DELETE("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.DeleteProblemById)
 }

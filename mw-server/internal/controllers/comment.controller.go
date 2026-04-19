@@ -18,10 +18,11 @@ var _ = &customErrors.NoRightToChangeDayReportError{}
 type CommentController struct {
 	permissionService *services.PermissionService
 	commentService    *services.CommentService
+	dayReportService *services.DayReportService
 }
 
-func NewCommentController(permissionService *services.PermissionService, commentService *services.CommentService) *CommentController {
-	return &CommentController{permissionService, commentService}
+func NewCommentController(permissionService *services.PermissionService, commentService *services.CommentService, dayReportService *services.DayReportService) *CommentController {
+	return &CommentController{permissionService, commentService, dayReportService}
 }
 
 // Create Comment  handler
@@ -51,6 +52,51 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 
 	response, err := cc.commentService.CreateComment(ctx, payload)
 	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// CreateCommentForTelegram handler
+// @Summary Create comment for telegram
+// @Description Creates a comment, automatically finding or creating a day report for today
+// @Tags comment
+// @ID create-comment-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateCommentForTelegramPayload true "query params"
+// @Success 200 {object} schemas.CommentPopulatedResponse
+// @Router /comments/telegram [post]
+func (cc *CommentController) CreateCommentForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateCommentForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	dayReport, err := cc.dayReportService.GetOrCreateTodayDayReport(ctx, payload.WayUuid)
+	util.HandleErrorGin(ctx, err)
+
+	commentPayload := &schemas.CreateCommentPayload{
+		Description:   payload.Description,
+		DayReportUuid: dayReport.Uuid,
+		OwnerUuid:   payload.OwnerUuid,
+	}
+
+	comment, err := cc.commentService.CreateComment(ctx, commentPayload)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.CommentPopulatedResponse{
+		Uuid:          comment.Uuid,
+		Description:   comment.Description,
+		OwnerUuid:     comment.OwnerUuid,
+		OwnerName:     comment.OwnerName,
+		CreatedAt:     comment.CreatedAt,
+		UpdatedAt:     comment.UpdatedAt,
+		DayReportUuid: comment.DayReportUuid,
+		WayUUID:       comment.WayUUID,
+		WayName:       comment.WayName,
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
