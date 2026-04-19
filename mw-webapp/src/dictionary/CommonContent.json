@@ -72,6 +72,11 @@
       "en": "Master's Way Telegram page",
       "ua": "Сторінка Master's Way в Telegram"
     },
+    "telegramBot": {
+      "ru": "Бот Master's Way в Telegram",
+      "en": "Master's Way bot in Telegram",
+      "ua": "Бот Master's Way в Telegram"
+    },
     "discord": {
       "ru": "Страница Master's Way в Discord",
       "en": "Master's Way Discord page",
