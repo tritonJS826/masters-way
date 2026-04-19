@@ -16,6 +16,7 @@ type Config struct {
 	TelegramBotToken   string `mapstructure:"TELEGRAM_BOT_TOKEN"`
 	TelegramBotWebhook string `mapstructure:"TELEGRAM_BOT_WEBHOOK_URL"`
 	TelegramBotMode    string `mapstructure:"TELEGRAM_BOT_MODE"`
+	FrontendBaseURL   string `mapstructure:"FRONTEND_BASE_URL"`
 }
 
 var prodRequiredVariables = [7]string{

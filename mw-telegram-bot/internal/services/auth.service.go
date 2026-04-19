@@ -162,3 +162,131 @@ func (as *AuthService) CreateJobDone(ctx context.Context, ownerUuid, description
 		WayName:       resp.WayName,
 	}, nil
 }
+
+type PlanResult struct {
+	Uuid        string
+	Description string
+	Time        int32
+	WayUuid     string
+	WayName     string
+}
+
+func (as *AuthService) CreatePlan(ctx context.Context, ownerUuid, description, wayUuid string, timeEst int32) (*PlanResult, error) {
+	createdResp, _, err := as.generalAPI.DayReportAPI.GetDayReports(ctx, wayUuid).Limit(1).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get day reports: %w", err)
+	}
+
+	dayReportUuid := ""
+	if len(createdResp.DayReports) > 0 {
+		dayReportUuid = createdResp.DayReports[0].Uuid
+	}
+
+	if dayReportUuid == "" {
+		return nil, fmt.Errorf("no day report found for way")
+	}
+
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreatePlanPayload{
+		Description:   description,
+		Time:          timeEst,
+		OwnerUuid:     ownerUuid,
+		DayReportUuid: dayReportUuid,
+		IsDone:        false,
+	}
+
+	resp, _, err := as.generalAPI.PlanAPI.CreatePlan(ctx).Request(payload).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create plan: %w", err)
+	}
+
+	return &PlanResult{
+		Uuid:        resp.Uuid,
+		Description: resp.Description,
+		Time:        resp.Time,
+		WayUuid:     resp.WayUuid,
+		WayName:     resp.WayName,
+	}, nil
+}
+
+type ProblemResult struct {
+	Uuid          string
+	Description string
+	WayUuid      string
+	WayName      string
+}
+
+func (as *AuthService) CreateProblem(ctx context.Context, ownerUuid, description, wayUuid string) (*ProblemResult, error) {
+	resp, _, err := as.generalAPI.DayReportAPI.GetDayReports(ctx, wayUuid).Limit(1).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get day reports: %w", err)
+	}
+
+	dayReportUuid := ""
+	if len(resp.DayReports) > 0 {
+		dayReportUuid = resp.DayReports[0].Uuid
+	}
+
+	if dayReportUuid == "" {
+		return nil, fmt.Errorf("no day report found for way")
+	}
+
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateProblemPayload{
+		Description:   description,
+		OwnerUuid:     ownerUuid,
+		DayReportUuid: dayReportUuid,
+		IsDone:        false,
+	}
+
+	createResp, _, err := as.generalAPI.ProblemAPI.CreateProblem(ctx).Request(payload).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create problem: %w", err)
+	}
+
+	return &ProblemResult{
+		Uuid:         createResp.Uuid,
+		Description:  createResp.Description,
+		WayUuid:      wayUuid,
+		WayName:      createResp.WayName,
+	}, nil
+}
+
+type CommentResult struct {
+	Uuid          string
+	Description string
+	WayUuid     string
+	WayName     string
+}
+
+func (as *AuthService) CreateComment(ctx context.Context, ownerUuid, description, wayUuid string) (*CommentResult, error) {
+	resp, _, err := as.generalAPI.DayReportAPI.GetDayReports(ctx, wayUuid).Limit(1).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get day reports: %w", err)
+	}
+
+	dayReportUuid := ""
+	if len(resp.DayReports) > 0 {
+		dayReportUuid = resp.DayReports[0].Uuid
+	}
+
+	if dayReportUuid == "" {
+		return nil, fmt.Errorf("no day report found for way")
+	}
+
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateCommentPayload{
+		Description:   description,
+		OwnerUuid:     ownerUuid,
+		DayReportUuid: dayReportUuid,
+	}
+
+	createResp, _, err := as.generalAPI.CommentAPI.CreateComment(ctx).Request(payload).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create comment: %w", err)
+	}
+
+	return &CommentResult{
+		Uuid:          createResp.Uuid,
+		Description:   createResp.Description,
+		WayUuid:       wayUuid,
+		WayName:       createResp.WayName,
+	}, nil
+}

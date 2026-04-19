@@ -37,11 +37,16 @@ func main() {
 
 	log.Println("Telegram bot started successfully")
 
+	go func() {
+		telegramBot.StartCronScheduler()
+	}()
+
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
 	log.Println("Shutting down telegram bot...")
+	telegramBot.StopCronScheduler()
 	telegramBot.Stop()
 	log.Println("Bot shutdown complete")
 }
