@@ -89,6 +89,7 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**TelegramValidate**](docs/AuthAPI.md#telegramvalidate) | **Post** /auth/telegram/validate | Validate Telegram login code
 *AuthAPI* | [**UnlinkTelegram**](docs/AuthAPI.md#unlinktelegram) | **Delete** /auth/telegram/unlink/{telegramId} | Unlink Telegram account
 *CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
+*CommentAPI* | [**CreateCommentTelegram**](docs/CommentAPI.md#createcommenttelegram) | **Post** /comments/telegram | Create comment for telegram
 *CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
 *CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID
 *CompanionAPI* | [**GetCompanionFeedback**](docs/CompanionAPI.md#getcompanionfeedback) | **Get** /companion/{wayId} | Get AI companion feedback for a way
@@ -131,11 +132,13 @@ Class | Method | HTTP request | Description
 *MetricAPI* | [**DeleteMetric**](docs/MetricAPI.md#deletemetric) | **Delete** /metrics/{metricId} | Delete metric by UUID
 *MetricAPI* | [**UpdateMetric**](docs/MetricAPI.md#updatemetric) | **Patch** /metrics/{metricId} | Update metric by UUID
 *PlanAPI* | [**CreatePlan**](docs/PlanAPI.md#createplan) | **Post** /plans | Create a new plan
+*PlanAPI* | [**CreatePlanTelegram**](docs/PlanAPI.md#createplantelegram) | **Post** /plans/telegram | Create plan for telegram
 *PlanAPI* | [**DeletePlan**](docs/PlanAPI.md#deleteplan) | **Delete** /plans/{planId} | Delete plan by UUID
 *PlanAPI* | [**UpdatePlan**](docs/PlanAPI.md#updateplan) | **Patch** /plans/{planId} | Update plan by UUID
 *PlanJobTagAPI* | [**CreatePlanJobTag**](docs/PlanJobTagAPI.md#createplanjobtag) | **Post** /planJobTags | Create a new planJobTag
 *PlanJobTagAPI* | [**DeletePlanJobTag**](docs/PlanJobTagAPI.md#deleteplanjobtag) | **Delete** /planJobTags/{jobTagId}/{planId} | Delete planJobTag by UUID
 *ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
+*ProblemAPI* | [**CreateProblemTelegram**](docs/ProblemAPI.md#createproblemtelegram) | **Post** /problems/telegram | Create problem for telegram
 *ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
 *ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
@@ -208,6 +211,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasCompanionFeedbackResponse](docs/MwGeneralBffInternalSchemasCompanionFeedbackResponse.md)
  - [MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse](docs/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasCompositeWayRelation](docs/MwGeneralBffInternalSchemasCompositeWayRelation.md)
+ - [MwGeneralBffInternalSchemasCreateCommentForTelegramPayload](docs/MwGeneralBffInternalSchemasCreateCommentForTelegramPayload.md)
  - [MwGeneralBffInternalSchemasCreateCommentPayload](docs/MwGeneralBffInternalSchemasCreateCommentPayload.md)
  - [MwGeneralBffInternalSchemasCreateDayReportPayload](docs/MwGeneralBffInternalSchemasCreateDayReportPayload.md)
  - [MwGeneralBffInternalSchemasCreateFavoriteUserPayload](docs/MwGeneralBffInternalSchemasCreateFavoriteUserPayload.md)
@@ -219,8 +223,10 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasCreateJobTagPayload](docs/MwGeneralBffInternalSchemasCreateJobTagPayload.md)
  - [MwGeneralBffInternalSchemasCreateMentorUserWayPayload](docs/MwGeneralBffInternalSchemasCreateMentorUserWayPayload.md)
  - [MwGeneralBffInternalSchemasCreateMetricPayload](docs/MwGeneralBffInternalSchemasCreateMetricPayload.md)
+ - [MwGeneralBffInternalSchemasCreatePlanForTelegramPayload](docs/MwGeneralBffInternalSchemasCreatePlanForTelegramPayload.md)
  - [MwGeneralBffInternalSchemasCreatePlanJobTagPayload](docs/MwGeneralBffInternalSchemasCreatePlanJobTagPayload.md)
  - [MwGeneralBffInternalSchemasCreatePlanPayload](docs/MwGeneralBffInternalSchemasCreatePlanPayload.md)
+ - [MwGeneralBffInternalSchemasCreateProblemForTelegramPayload](docs/MwGeneralBffInternalSchemasCreateProblemForTelegramPayload.md)
  - [MwGeneralBffInternalSchemasCreateProblemPayload](docs/MwGeneralBffInternalSchemasCreateProblemPayload.md)
  - [MwGeneralBffInternalSchemasCreateProjectPayload](docs/MwGeneralBffInternalSchemasCreateProjectPayload.md)
  - [MwGeneralBffInternalSchemasCreateQuestionResultRequest](docs/MwGeneralBffInternalSchemasCreateQuestionResultRequest.md)

@@ -49,6 +49,30 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// CreateCommentForTelegram handler
+// @Summary Create comment for telegram
+// @Description Creates a comment, automatically finding or creating a day report for today
+// @Tags comment
+// @ID create-comment-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateCommentForTelegramPayload true "query params"
+// @Success 200 {object} schemas.CommentPopulatedResponse
+// @Router /comments/telegram [post]
+func (cc *CommentController) CreateCommentForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateCommentForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	response, err := cc.commentFacade.CreateCommentForTelegram(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 // Update comment handler
 // @Summary Update comment by UUID
 // @Description

@@ -71,6 +71,52 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
+// CreatePlanForTelegram handler
+// @Summary Create plan for telegram
+// @Description Creates a plan, automatically finding or creating a day report for today
+// @Tags plan
+// @ID create-plan-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreatePlanForTelegramPayload true "query params"
+// @Success 200 {object} schemas.PlanPopulatedResponse
+// @Router /plans/telegram [post]
+func (pc *PlanController) CreatePlanForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreatePlanForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	responseRaw, err := pc.planFacade.CreatePlanForTelegram(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          responseRaw.Uuid,
+		CreatedAt:     responseRaw.CreatedAt,
+		UpdatedAt:     responseRaw.UpdatedAt,
+		Description:   responseRaw.Description,
+		Time:          responseRaw.Time,
+		OwnerUuid:     responseRaw.OwnerUuid,
+		OwnerName:     responseRaw.OwnerName,
+		IsDone:        responseRaw.IsDone,
+		DayReportUuid: responseRaw.DayReportUuid,
+		WayUUID:       responseRaw.WayUuid,
+		WayName:       responseRaw.WayName,
+		Tags: lo.Map(responseRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
 // Update Plan handler
 // @Summary Update plan by UUID
 // @Description

@@ -8,6 +8,14 @@ type CreatePlanPayload struct {
 	DayReportUuid string `json:"dayReportUuid" validate:"required"`
 }
 
+type CreatePlanForTelegramPayload struct {
+	Description string `json:"description" validate:"required"`
+	Time        int32  `json:"time" validate:"required"`
+	IsDone      bool   `json:"isDone" validate:"required"`
+	OwnerUuid   string `json:"ownerUuid" validate:"required"`
+	WayUuid     string `json:"wayUuid" validate:"required"`
+}
+
 type UpdatePlanPayload struct {
 	Description *string `json:"description"`
 	Time        *int32  `json:"time"`

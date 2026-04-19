@@ -21,6 +21,7 @@ func (pr *planRouter) setPlanRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("plans", auth.HandleHeaders(pr.config))
 	{
 		router.POST("", pr.planController.CreatePlan)
+		router.POST("/telegram", pr.planController.CreatePlanForTelegram)
 		router.PATCH("/:planId", pr.planController.UpdatePlan)
 		router.DELETE("/:planId", pr.planController.DeletePlanById)
 	}

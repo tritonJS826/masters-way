@@ -172,20 +172,15 @@ type PlanResult struct {
 }
 
 func (as *AuthService) CreatePlan(ctx context.Context, ownerUuid, description, wayUuid string, timeEst int32) (*PlanResult, error) {
-	dayReportUuid, err := as.getOrCreateTodayDayReport(ctx, wayUuid)
-	if err != nil {
-		return nil, err
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreatePlanForTelegramPayload{
+		Description: description,
+		Time:        timeEst,
+		OwnerUuid:   ownerUuid,
+		WayUuid:     wayUuid,
+		IsDone:      false,
 	}
 
-	payload := openapiGeneral.MwGeneralBffInternalSchemasCreatePlanPayload{
-		Description:   description,
-		Time:          timeEst,
-		OwnerUuid:     ownerUuid,
-		DayReportUuid: dayReportUuid,
-		IsDone:        false,
-	}
-
-	resp, _, err := as.generalAPI.PlanAPI.CreatePlan(ctx).Request(payload).Execute()
+	resp, _, err := as.generalAPI.PlanAPI.CreatePlanTelegram(ctx).Request(payload).Execute()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create plan: %w", err)
 	}
@@ -207,19 +202,14 @@ type ProblemResult struct {
 }
 
 func (as *AuthService) CreateProblem(ctx context.Context, ownerUuid, description, wayUuid string) (*ProblemResult, error) {
-	dayReportUuid, err := as.getOrCreateTodayDayReport(ctx, wayUuid)
-	if err != nil {
-		return nil, err
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateProblemForTelegramPayload{
+		Description: description,
+		OwnerUuid:   ownerUuid,
+		WayUuid:     wayUuid,
+		IsDone:      false,
 	}
 
-	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateProblemPayload{
-		Description:   description,
-		OwnerUuid:     ownerUuid,
-		DayReportUuid: dayReportUuid,
-		IsDone:        false,
-	}
-
-	createResp, _, err := as.generalAPI.ProblemAPI.CreateProblem(ctx).Request(payload).Execute()
+	createResp, _, err := as.generalAPI.ProblemAPI.CreateProblemTelegram(ctx).Request(payload).Execute()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create problem: %w", err)
 	}
@@ -240,18 +230,13 @@ type CommentResult struct {
 }
 
 func (as *AuthService) CreateComment(ctx context.Context, ownerUuid, description, wayUuid string) (*CommentResult, error) {
-	dayReportUuid, err := as.getOrCreateTodayDayReport(ctx, wayUuid)
-	if err != nil {
-		return nil, err
+	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateCommentForTelegramPayload{
+		Description: description,
+		OwnerUuid:   ownerUuid,
+		WayUuid:     wayUuid,
 	}
 
-	payload := openapiGeneral.MwGeneralBffInternalSchemasCreateCommentPayload{
-		Description:   description,
-		OwnerUuid:     ownerUuid,
-		DayReportUuid: dayReportUuid,
-	}
-
-	createResp, _, err := as.generalAPI.CommentAPI.CreateComment(ctx).Request(payload).Execute()
+	createResp, _, err := as.generalAPI.CommentAPI.CreateCommentTelegram(ctx).Request(payload).Execute()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create comment: %w", err)
 	}

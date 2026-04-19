@@ -280,6 +280,7 @@
                 "parameters": [
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Telegram ID",
                         "name": "telegramId",
                         "in": "path",
@@ -313,6 +314,7 @@
                 "parameters": [
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Telegram ID",
                         "name": "telegramId",
                         "in": "path",
@@ -5212,7 +5214,8 @@
             "type": "object",
             "properties": {
                 "coins": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "expirationDate": {
                     "type": "string"

@@ -443,6 +443,19 @@ definitions:
     - childWayUuid
     - parentWayUuid
     type: object
+  mw-general-bff_internal_schemas.CreateCommentForTelegramPayload:
+    properties:
+      description:
+        type: string
+      ownerUuid:
+        type: string
+      wayUuid:
+        type: string
+    required:
+    - description
+    - ownerUuid
+    - wayUuid
+    type: object
   mw-general-bff_internal_schemas.CreateCommentPayload:
     properties:
       dayReportUuid:
@@ -600,6 +613,25 @@ definitions:
     - parentUuid
     - wayUuid
     type: object
+  mw-general-bff_internal_schemas.CreatePlanForTelegramPayload:
+    properties:
+      description:
+        type: string
+      isDone:
+        type: boolean
+      ownerUuid:
+        type: string
+      time:
+        type: integer
+      wayUuid:
+        type: string
+    required:
+    - description
+    - isDone
+    - ownerUuid
+    - time
+    - wayUuid
+    type: object
   mw-general-bff_internal_schemas.CreatePlanJobTagPayload:
     properties:
       jobTagUuid:
@@ -628,6 +660,22 @@ definitions:
     - isDone
     - ownerUuid
     - time
+    type: object
+  mw-general-bff_internal_schemas.CreateProblemForTelegramPayload:
+    properties:
+      description:
+        type: string
+      isDone:
+        type: boolean
+      ownerUuid:
+        type: string
+      wayUuid:
+        type: string
+    required:
+    - description
+    - isDone
+    - ownerUuid
+    - wayUuid
     type: object
   mw-general-bff_internal_schemas.CreateProblemPayload:
     properties:
@@ -2177,6 +2225,30 @@ paths:
       summary: Update comment by UUID
       tags:
       - comment
+  /comments/telegram:
+    post:
+      consumes:
+      - application/json
+      description: Creates a comment, automatically finding or creating a day report
+        for today
+      operationId: create-comment-telegram
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.CreateCommentForTelegramPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.CommentPopulatedResponse'
+      summary: Create comment for telegram
+      tags:
+      - comment
   /companion/{wayId}:
     get:
       consumes:
@@ -3185,6 +3257,30 @@ paths:
       summary: Update plan by UUID
       tags:
       - plan
+  /plans/telegram:
+    post:
+      consumes:
+      - application/json
+      description: Creates a plan, automatically finding or creating a day report
+        for today
+      operationId: create-plan-telegram
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.CreatePlanForTelegramPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.PlanPopulatedResponse'
+      summary: Create plan for telegram
+      tags:
+      - plan
   /problems:
     post:
       consumes:
@@ -3262,6 +3358,30 @@ paths:
           schema:
             $ref: '#/definitions/mw-general-bff_internal_schemas.NoRightToChangeDayReportError'
       summary: Update problem by UUID
+      tags:
+      - problem
+  /problems/telegram:
+    post:
+      consumes:
+      - application/json
+      description: Creates a problem, automatically finding or creating a day report
+        for today
+      operationId: create-problem-telegram
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.CreateProblemForTelegramPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.ProblemPopulatedResponse'
+      summary: Create problem for telegram
       tags:
       - problem
   /projects:

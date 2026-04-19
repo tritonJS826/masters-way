@@ -21,6 +21,7 @@ func (cr *commentRouter) setCommentRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("comments", auth.HandleHeaders(cr.config))
 	{
 		router.POST("", cr.commentController.CreateComment)
+		router.POST("/telegram", cr.commentController.CreateCommentForTelegram)
 		router.PATCH("/:commentId", cr.commentController.UpdateComment)
 		router.DELETE("/:commentId", cr.commentController.DeleteCommentById)
 	}

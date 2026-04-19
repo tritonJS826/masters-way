@@ -31,6 +31,10 @@ func (pf *PlanFacade) CreatePlan(ctx context.Context, payload *schemas.CreatePla
 	return pf.generalService.CreatePlan(ctx, payload)
 }
 
+func (pf *PlanFacade) CreatePlanForTelegram(ctx context.Context, payload *schemas.CreatePlanForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
+	return pf.generalService.CreatePlanForTelegram(ctx, payload)
+}
+
 func (pf *PlanFacade) UpdatePlan(ctx context.Context, params *services.UpdatePlanParams) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
 	plan, err := pf.generalService.UpdatePlan(ctx, params)
 

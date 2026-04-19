@@ -6,6 +6,12 @@ type CreateCommentPayload struct {
 	OwnerUuid     string `json:"ownerUuid" validate:"required"`
 }
 
+type CreateCommentForTelegramPayload struct {
+	Description string `json:"description" validate:"required"`
+	WayUuid     string `json:"wayUuid" validate:"required"`
+	OwnerUuid   string `json:"ownerUuid" validate:"required"`
+}
+
 type UpdateCommentPayload struct {
 	Description *string `json:"description"`
 }

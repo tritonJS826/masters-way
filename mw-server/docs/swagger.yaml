@@ -1282,6 +1282,7 @@ definitions:
   mw-server_internal_schemas.ProfileSetting:
     properties:
       coins:
+        format: int32
         type: integer
       expirationDate:
         type: string
@@ -2153,6 +2154,7 @@ paths:
       operationId: unlink-telegram
       parameters:
       - description: Telegram ID
+        format: int64
         in: path
         name: telegramId
         required: true
@@ -2175,6 +2177,7 @@ paths:
       operationId: get-linked-user-by-telegram-id
       parameters:
       - description: Telegram ID
+        format: int64
         in: path
         name: telegramId
         required: true

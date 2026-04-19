@@ -61,6 +61,43 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, problem)
 }
 
+// CreateProblemForTelegram handler
+// @Summary Create problem for telegram
+// @Description Creates a problem, automatically finding or creating a day report for today
+// @Tags problem
+// @ID create-problem-telegram
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateProblemForTelegramPayload true "query params"
+// @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Router /problems/telegram [post]
+func (pc *ProblemController) CreateProblemForTelegram(ctx *gin.Context) {
+	var payload *schemas.CreateProblemForTelegramPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	problemRaw, err := pc.problemFacade.CreateProblemForTelegram(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
+
+	problem := schemas.ProblemPopulatedResponse{
+		Uuid:          problemRaw.Uuid,
+		CreatedAt:     problemRaw.CreatedAt,
+		UpdatedAt:     problemRaw.UpdatedAt,
+		Description:   problemRaw.Description,
+		IsDone:        problemRaw.IsDone,
+		OwnerUuid:     problemRaw.OwnerUuid,
+		OwnerName:     problemRaw.OwnerName,
+		DayReportUuid: problemRaw.DayReportUuid,
+		WayUUID:       problemRaw.WayUuid,
+		WayName:       problemRaw.WayName,
+	}
+
+	ctx.JSON(http.StatusOK, problem)
+}
+
 // Update Problem handler
 // @Summary Update problem by UUID
 // @Description

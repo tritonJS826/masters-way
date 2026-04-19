@@ -288,6 +288,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Telegram ID",
                         "name": "telegramId",
                         "in": "path",
@@ -321,6 +322,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Telegram ID",
                         "name": "telegramId",
                         "in": "path",
@@ -5220,7 +5222,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "coins": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "expirationDate": {
                     "type": "string"

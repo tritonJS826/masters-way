@@ -30,6 +30,10 @@ func (cs *CommentFacade) CreateComment(ctx context.Context, payload *schemas.Cre
 	return cs.generalService.CreateComment(ctx, payload)
 }
 
+func (cs *CommentFacade) CreateCommentForTelegram(ctx context.Context, payload *schemas.CreateCommentForTelegramPayload) (*schemas.CommentPopulatedResponse, error) {
+	return cs.generalService.CreateCommentForTelegram(ctx, payload)
+}
+
 func (cs *CommentFacade) UpdateComment(ctx context.Context, params *services.UpdateCommentParams) (*schemas.CommentPopulatedResponse, error) {
 	comment, err := cs.generalService.UpdateComment(ctx, params)
 

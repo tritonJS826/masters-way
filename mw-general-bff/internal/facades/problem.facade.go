@@ -31,6 +31,10 @@ func (pf *ProblemFacade) CreateProblem(ctx context.Context, payload *schemas.Cre
 	return pf.generalService.CreateProblem(ctx, payload)
 }
 
+func (pf *ProblemFacade) CreateProblemForTelegram(ctx context.Context, payload *schemas.CreateProblemForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
+	return pf.generalService.CreateProblemForTelegram(ctx, payload)
+}
+
 func (pf *ProblemFacade) UpdateProblem(ctx context.Context, params *services.UpdateProblemParams) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
 	problem, err := pf.generalService.UpdateProblem(ctx, params)
 
