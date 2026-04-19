@@ -275,7 +275,7 @@ func (as *AuthService) getOrCreateTodayDayReport(ctx context.Context, wayUuid st
 	}
 
 	dayReportResp, _, err := as.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
-		openapiGeneral.MwServerInternalSchemasCreateDayReportPayload{
+		openapiGeneral.MwGeneralBffInternalSchemasCreateDayReportPayload{
 			WayId: wayUuid,
 		},
 	).Execute()
