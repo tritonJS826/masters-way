@@ -27,6 +27,7 @@ var prodRequiredVariables = [7]string{
 	"SECRET_SESSION_KEY",
 	"TELEGRAM_BOT_TOKEN",
 	"TELEGRAM_BOT_WEBHOOK_URL",
+	"FRONTEND_BASE_URL",
 }
 
 var devRequiredVariables = [6]string{
@@ -36,6 +37,7 @@ var devRequiredVariables = [6]string{
 	"GENERAL_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",
 	"TELEGRAM_BOT_TOKEN",
+	"FRONTEND_BASE_URL"
 }
 
 func LoadConfig(path string) (config Config, err error) {
