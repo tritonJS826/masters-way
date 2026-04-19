@@ -19,7 +19,7 @@ type Config struct {
 	FrontendBaseURL   string `mapstructure:"FRONTEND_BASE_URL"`
 }
 
-var prodRequiredVariables = [7]string{
+var prodRequiredVariables = [8]string{
 	"TELEGRAM_BOT_PORT",
 	"ENV_TYPE",
 	"GENERAL_BFF_API_HOST",
@@ -30,7 +30,7 @@ var prodRequiredVariables = [7]string{
 	"FRONTEND_BASE_URL",
 }
 
-var devRequiredVariables = [6]string{
+var devRequiredVariables = [7]string{
 	"TELEGRAM_BOT_PORT",
 	"ENV_TYPE",
 	"GENERAL_BFF_API_HOST",
