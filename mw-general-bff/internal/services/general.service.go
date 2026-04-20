@@ -50,13 +50,10 @@ func (gs *GeneralService) CreateComment(ctx context.Context, payload *schemas.Cr
 }
 
 func (gs *GeneralService) CreateCommentForTelegram(ctx context.Context, payload *schemas.CreateCommentForTelegramPayload) (*schemas.CommentPopulatedResponse, error) {
-	dayReportResp, dayReportHttpResp, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(dayReportHttpResp)
-	}
+	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
 
 	var dayReportUuid string
-	if len(dayReportResp.DayReports) > 0 {
+	if err == nil && len(dayReportResp.DayReports) > 0 {
 		dayReportUuid = dayReportResp.DayReports[0].Uuid
 	} else {
 		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
@@ -832,13 +829,10 @@ func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.Creat
 }
 
 func (gs *GeneralService) CreatePlanForTelegram(ctx context.Context, payload *schemas.CreatePlanForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
-	dayReportResp, dayReportHttpResp, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(dayReportHttpResp)
-	}
+	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
 
 	var dayReportUuid string
-	if len(dayReportResp.DayReports) > 0 {
+	if err == nil && len(dayReportResp.DayReports) > 0 {
 		dayReportUuid = dayReportResp.DayReports[0].Uuid
 	} else {
 		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
@@ -939,13 +933,10 @@ func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.Cr
 }
 
 func (gs *GeneralService) CreateProblemForTelegram(ctx context.Context, payload *schemas.CreateProblemForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
-	dayReportResp, dayReportHttpResp, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(dayReportHttpResp)
-	}
+	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
 
 	var dayReportUuid string
-	if len(dayReportResp.DayReports) > 0 {
+	if err == nil && len(dayReportResp.DayReports) > 0 {
 		dayReportUuid = dayReportResp.DayReports[0].Uuid
 	} else {
 		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
