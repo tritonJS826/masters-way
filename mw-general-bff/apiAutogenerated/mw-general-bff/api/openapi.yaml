@@ -224,6 +224,29 @@ paths:
       tags:
       - comment
       x-codegen-request-body-name: request
+  /comments/telegram:
+    post:
+      description: "Creates a comment, automatically finding or creating a day report\
+        \ for today"
+      operationId: create-comment-telegram
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.CreateCommentForTelegramPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.CommentPopulatedResponse'
+          description: OK
+      summary: Create comment for telegram
+      tags:
+      - comment
+      x-codegen-request-body-name: request
   /comments/{commentId}:
     delete:
       operationId: delete-comment
@@ -1182,6 +1205,29 @@ paths:
       tags:
       - plan
       x-codegen-request-body-name: request
+  /plans/telegram:
+    post:
+      description: "Creates a plan, automatically finding or creating a day report\
+        \ for today"
+      operationId: create-plan-telegram
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.CreatePlanForTelegramPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.PlanPopulatedResponse'
+          description: OK
+      summary: Create plan for telegram
+      tags:
+      - plan
+      x-codegen-request-body-name: request
   /plans/{planId}:
     delete:
       operationId: delete-plan
@@ -1262,6 +1308,29 @@ paths:
                 $ref: '#/components/schemas/mw-general-bff_internal_schemas.NoRightToChangeDayReportError'
           description: User doesn't have rights to create problem.
       summary: Create a new problem
+      tags:
+      - problem
+      x-codegen-request-body-name: request
+  /problems/telegram:
+    post:
+      description: "Creates a problem, automatically finding or creating a day report\
+        \ for today"
+      operationId: create-problem-telegram
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.CreateProblemForTelegramPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.ProblemPopulatedResponse'
+          description: OK
+      summary: Create problem for telegram
       tags:
       - problem
       x-codegen-request-body-name: request
@@ -2758,6 +2827,19 @@ components:
       - childWayUuid
       - parentWayUuid
       type: object
+    mw-general-bff_internal_schemas.CreateCommentForTelegramPayload:
+      properties:
+        description:
+          type: string
+        ownerUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - description
+      - ownerUuid
+      - wayUuid
+      type: object
     mw-general-bff_internal_schemas.CreateCommentPayload:
       properties:
         dayReportUuid:
@@ -2915,6 +2997,25 @@ components:
       - parentUuid
       - wayUuid
       type: object
+    mw-general-bff_internal_schemas.CreatePlanForTelegramPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+        wayUuid:
+          type: string
+      required:
+      - description
+      - isDone
+      - ownerUuid
+      - time
+      - wayUuid
+      type: object
     mw-general-bff_internal_schemas.CreatePlanJobTagPayload:
       properties:
         jobTagUuid:
@@ -2943,6 +3044,22 @@ components:
       - isDone
       - ownerUuid
       - time
+      type: object
+    mw-general-bff_internal_schemas.CreateProblemForTelegramPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - description
+      - isDone
+      - ownerUuid
+      - wayUuid
       type: object
     mw-general-bff_internal_schemas.CreateProblemPayload:
       properties:

@@ -5,6 +5,7 @@ All URIs are relative to */general*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreatePlan**](PlanAPI.md#CreatePlan) | **Post** /plans | Create a new plan
+[**CreatePlanTelegram**](PlanAPI.md#CreatePlanTelegram) | **Post** /plans/telegram | Create plan for telegram
 [**DeletePlan**](PlanAPI.md#DeletePlan) | **Delete** /plans/{planId} | Delete plan by UUID
 [**UpdatePlan**](PlanAPI.md#UpdatePlan) | **Patch** /plans/{planId} | Update plan by UUID
 
@@ -55,6 +56,72 @@ Other parameters are passed through a pointer to a apiCreatePlanRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request** | [**MwServerInternalSchemasCreatePlanPayload**](MwServerInternalSchemasCreatePlanPayload.md) | query params | 
+
+### Return type
+
+[**MwServerInternalSchemasPlanPopulatedResponse**](MwServerInternalSchemasPlanPopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreatePlanTelegram
+
+> MwServerInternalSchemasPlanPopulatedResponse CreatePlanTelegram(ctx).Request(request).Execute()
+
+Create plan for telegram
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasCreatePlanForTelegramPayload("Description_example", false, "OwnerUuid_example", int32(123), "WayUuid_example") // MwServerInternalSchemasCreatePlanForTelegramPayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PlanAPI.CreatePlanTelegram(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PlanAPI.CreatePlanTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreatePlanTelegram`: MwServerInternalSchemasPlanPopulatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `PlanAPI.CreatePlanTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreatePlanTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasCreatePlanForTelegramPayload**](MwServerInternalSchemasCreatePlanForTelegramPayload.md) | query params | 
 
 ### Return type
 

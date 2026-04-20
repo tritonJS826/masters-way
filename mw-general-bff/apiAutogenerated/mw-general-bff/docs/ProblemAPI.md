@@ -5,6 +5,7 @@ All URIs are relative to */general*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateProblem**](ProblemAPI.md#CreateProblem) | **Post** /problems | Create a new problem
+[**CreateProblemTelegram**](ProblemAPI.md#CreateProblemTelegram) | **Post** /problems/telegram | Create problem for telegram
 [**DeleteProblem**](ProblemAPI.md#DeleteProblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 [**UpdateProblem**](ProblemAPI.md#UpdateProblem) | **Patch** /problems/{problemId} | Update problem by UUID
 
@@ -55,6 +56,72 @@ Other parameters are passed through a pointer to a apiCreateProblemRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request** | [**MwGeneralBffInternalSchemasCreateProblemPayload**](MwGeneralBffInternalSchemasCreateProblemPayload.md) | query params | 
+
+### Return type
+
+[**MwGeneralBffInternalSchemasProblemPopulatedResponse**](MwGeneralBffInternalSchemasProblemPopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateProblemTelegram
+
+> MwGeneralBffInternalSchemasProblemPopulatedResponse CreateProblemTelegram(ctx).Request(request).Execute()
+
+Create problem for telegram
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwGeneralBffInternalSchemasCreateProblemForTelegramPayload("Description_example", false, "OwnerUuid_example", "WayUuid_example") // MwGeneralBffInternalSchemasCreateProblemForTelegramPayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProblemAPI.CreateProblemTelegram(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProblemAPI.CreateProblemTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateProblemTelegram`: MwGeneralBffInternalSchemasProblemPopulatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `ProblemAPI.CreateProblemTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateProblemTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwGeneralBffInternalSchemasCreateProblemForTelegramPayload**](MwGeneralBffInternalSchemasCreateProblemForTelegramPayload.md) | query params | 
 
 ### Return type
 

@@ -50,27 +50,10 @@ func (gs *GeneralService) CreateComment(ctx context.Context, payload *schemas.Cr
 }
 
 func (gs *GeneralService) CreateCommentForTelegram(ctx context.Context, payload *schemas.CreateCommentForTelegramPayload) (*schemas.CommentPopulatedResponse, error) {
-	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-
-	var dayReportUuid string
-	if err == nil && len(dayReportResp.DayReports) > 0 {
-		dayReportUuid = dayReportResp.DayReports[0].Uuid
-	} else {
-		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
-			openapiGeneral.MwServerInternalSchemasCreateDayReportPayload{
-				WayId: payload.WayUuid,
-			},
-		).Execute()
-		if err != nil {
-			return nil, utils.ExtractErrorMessageFromResponse(newDayReportHttpResp)
-		}
-		dayReportUuid = newDayReport.Uuid
-	}
-
-	commentRaw, response, err := gs.generalAPI.CommentAPI.CreateComment(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateCommentPayload{
-		DayReportUuid: dayReportUuid,
-		Description:   payload.Description,
-		OwnerUuid:     payload.OwnerUuid,
+	commentRaw, response, err := gs.generalAPI.CommentAPI.CreateCommentTelegram(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateCommentForTelegramPayload{
+		Description: payload.Description,
+		OwnerUuid:   payload.OwnerUuid,
+		WayUuid:     payload.WayUuid,
 	}).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -829,29 +812,12 @@ func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.Creat
 }
 
 func (gs *GeneralService) CreatePlanForTelegram(ctx context.Context, payload *schemas.CreatePlanForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
-	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-
-	var dayReportUuid string
-	if err == nil && len(dayReportResp.DayReports) > 0 {
-		dayReportUuid = dayReportResp.DayReports[0].Uuid
-	} else {
-		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
-			openapiGeneral.MwServerInternalSchemasCreateDayReportPayload{
-				WayId: payload.WayUuid,
-			},
-		).Execute()
-		if err != nil {
-			return nil, utils.ExtractErrorMessageFromResponse(newDayReportHttpResp)
-		}
-		dayReportUuid = newDayReport.Uuid
-	}
-
-	plan, response, err := gs.generalAPI.PlanAPI.CreatePlan(ctx).Request(openapiGeneral.MwServerInternalSchemasCreatePlanPayload{
-		DayReportUuid: dayReportUuid,
-		Description:   payload.Description,
-		IsDone:        payload.IsDone,
-		OwnerUuid:     payload.OwnerUuid,
-		Time:          payload.Time,
+	plan, response, err := gs.generalAPI.PlanAPI.CreatePlanTelegram(ctx).Request(openapiGeneral.MwServerInternalSchemasCreatePlanForTelegramPayload{
+		Description: payload.Description,
+		Time:        payload.Time,
+		IsDone:      payload.IsDone,
+		OwnerUuid:   payload.OwnerUuid,
+		WayUuid:     payload.WayUuid,
 	}).Execute()
 
 	if err != nil {
@@ -933,28 +899,11 @@ func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.Cr
 }
 
 func (gs *GeneralService) CreateProblemForTelegram(ctx context.Context, payload *schemas.CreateProblemForTelegramPayload) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
-	dayReportResp, _, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, payload.WayUuid).Limit(1).Execute()
-
-	var dayReportUuid string
-	if err == nil && len(dayReportResp.DayReports) > 0 {
-		dayReportUuid = dayReportResp.DayReports[0].Uuid
-	} else {
-		newDayReport, newDayReportHttpResp, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(
-			openapiGeneral.MwServerInternalSchemasCreateDayReportPayload{
-				WayId: payload.WayUuid,
-			},
-		).Execute()
-		if err != nil {
-			return nil, utils.ExtractErrorMessageFromResponse(newDayReportHttpResp)
-		}
-		dayReportUuid = newDayReport.Uuid
-	}
-
-	problem, response, err := gs.generalAPI.ProblemAPI.CreateProblem(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateProblemPayload{
-		DayReportUuid: dayReportUuid,
-		Description:   payload.Description,
-		IsDone:        payload.IsDone,
-		OwnerUuid:     payload.OwnerUuid,
+	problem, response, err := gs.generalAPI.ProblemAPI.CreateProblemTelegram(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateProblemForTelegramPayload{
+		Description: payload.Description,
+		IsDone:      payload.IsDone,
+		OwnerUuid:   payload.OwnerUuid,
+		WayUuid:     payload.WayUuid,
 	}).Execute()
 
 	if err != nil {

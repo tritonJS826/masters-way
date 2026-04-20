@@ -91,7 +91,7 @@ func (as *AuthService) LinkTelegram(ctx context.Context, params LinkTelegramPara
 }
 
 func (as *AuthService) UnlinkTelegram(ctx context.Context, telegramID int64) error {
-	_, response, err := as.generalAPI.AuthAPI.UnlinkTelegram(ctx, int32(telegramID)).Execute()
+	_, response, err := as.generalAPI.AuthAPI.UnlinkTelegram(ctx, telegramID).Execute()
 	if err != nil {
 		return utils.ExtractErrorMessageFromResponse(response)
 	}

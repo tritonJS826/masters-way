@@ -498,6 +498,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/comments/telegram": {
+            "post": {
+                "description": "Creates a comment, automatically finding or creating a day report for today",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Create comment for telegram",
+                "operationId": "create-comment-telegram",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateCommentForTelegramPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/comments/{commentId}": {
             "delete": {
                 "consumes": [
@@ -2010,6 +2045,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/plans/telegram": {
+            "post": {
+                "description": "Creates a plan, automatically finding or creating a day report for today",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "plan"
+                ],
+                "summary": "Create plan for telegram",
+                "operationId": "create-plan-telegram",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreatePlanForTelegramPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.PlanPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/plans/{planId}": {
             "delete": {
                 "consumes": [
@@ -2125,6 +2195,41 @@ const docTemplate = `{
                         "description": "User doesn't have rights to create problem.",
                         "schema": {
                             "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            }
+        },
+        "/problems/telegram": {
+            "post": {
+                "description": "Creates a problem, automatically finding or creating a day report for today",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "problem"
+                ],
+                "summary": "Create problem for telegram",
+                "operationId": "create-problem-telegram",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateProblemForTelegramPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse"
                         }
                     }
                 }
@@ -4124,6 +4229,25 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-server_internal_schemas.CreateCommentForTelegramPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "ownerUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-server_internal_schemas.CreateCommentPayload": {
             "type": "object",
             "required": [
@@ -4352,6 +4476,33 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-server_internal_schemas.CreatePlanForTelegramPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "isDone",
+                "ownerUuid",
+                "time",
+                "wayUuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-server_internal_schemas.CreatePlanJobTagPayload": {
             "type": "object",
             "required": [
@@ -4391,6 +4542,29 @@ const docTemplate = `{
                 },
                 "time": {
                     "type": "integer"
+                }
+            }
+        },
+        "mw-server_internal_schemas.CreateProblemForTelegramPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "isDone",
+                "ownerUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },

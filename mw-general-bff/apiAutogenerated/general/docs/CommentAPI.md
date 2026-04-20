@@ -5,6 +5,7 @@ All URIs are relative to */general*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateComment**](CommentAPI.md#CreateComment) | **Post** /comments | Create a new comment
+[**CreateCommentTelegram**](CommentAPI.md#CreateCommentTelegram) | **Post** /comments/telegram | Create comment for telegram
 [**DeleteComment**](CommentAPI.md#DeleteComment) | **Delete** /comments/{commentId} | Delete comment by UUID
 [**UpdateComment**](CommentAPI.md#UpdateComment) | **Patch** /comments/{commentId} | Update comment by UUID
 
@@ -55,6 +56,72 @@ Other parameters are passed through a pointer to a apiCreateCommentRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request** | [**MwServerInternalSchemasCreateCommentPayload**](MwServerInternalSchemasCreateCommentPayload.md) | query params | 
+
+### Return type
+
+[**MwServerInternalSchemasCommentPopulatedResponse**](MwServerInternalSchemasCommentPopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateCommentTelegram
+
+> MwServerInternalSchemasCommentPopulatedResponse CreateCommentTelegram(ctx).Request(request).Execute()
+
+Create comment for telegram
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwServerInternalSchemasCreateCommentForTelegramPayload("Description_example", "OwnerUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateCommentForTelegramPayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.CommentAPI.CreateCommentTelegram(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `CommentAPI.CreateCommentTelegram``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateCommentTelegram`: MwServerInternalSchemasCommentPopulatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `CommentAPI.CreateCommentTelegram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateCommentTelegramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasCreateCommentForTelegramPayload**](MwServerInternalSchemasCreateCommentForTelegramPayload.md) | query params | 
 
 ### Return type
 
