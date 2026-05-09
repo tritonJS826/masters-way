@@ -44,10 +44,24 @@ func (ts *TelegramService) GetPendingTelegramUserByAuthCode(ctx context.Context,
 }
 
 func (ts *TelegramService) LinkTelegramUserByAuthCode(ctx context.Context, authCode string, userUuid uuid.UUID) error {
-	return ts.queries.LinkTelegramUserByAuthCode(ctx, db.LinkTelegramUserByAuthCodeParams{
+	err := ts.queries.LinkTelegramUserByAuthCode(ctx, db.LinkTelegramUserByAuthCodeParams{
 		UserUuid: pgtype.UUID{Bytes: userUuid, Valid: true},
 		AuthCode: authCode,
 	})
+	if err != nil {
+		return err
+	}
+
+	telegramUser, err := ts.queries.GetPendingTelegramUserByAuthCode(ctx, authCode)
+	if err != nil {
+		return err
+	}
+
+	_, err = ts.queries.UpdateUser(ctx, db.UpdateUserParams{
+		Uuid:           pgtype.UUID{Bytes: userUuid, Valid: true},
+		TelegramChatID: pgtype.Int8{Int64: telegramUser.TelegramID, Valid: true},
+	})
+	return err
 }
 
 func (ts *TelegramService) GetLinkedUserByTelegramId(ctx context.Context, telegramID int64) (db.GetLinkedUserByTelegramIdRow, error) {
@@ -68,12 +82,25 @@ func (ts *TelegramService) LinkTelegramUser(ctx context.Context, telegramID int6
 		userUuidPg = pgtype.UUID{Bytes: uidBytes, Valid: true}
 	}
 
-	return ts.queries.LinkTelegramUser(ctx, db.LinkTelegramUserParams{
+	err := ts.queries.LinkTelegramUser(ctx, db.LinkTelegramUserParams{
 		TelegramID:   telegramID,
 		UserUuid:     userUuidPg,
 		TelegramName: pgtype.Text{Valid: false},
 		AuthCode:     authCode,
 	})
+	if err != nil {
+		return err
+	}
+
+	if userUuid != "" {
+		_, err = ts.queries.UpdateUser(ctx, db.UpdateUserParams{
+			Uuid:           userUuidPg,
+			TelegramChatID: pgtype.Int8{Int64: telegramID, Valid: true},
+		})
+		return err
+	}
+
+	return nil
 }
 
 func (ts *TelegramService) CleanupExpiredCodes(ctx context.Context) error {
@@ -81,5 +108,20 @@ func (ts *TelegramService) CleanupExpiredCodes(ctx context.Context) error {
 }
 
 func (ts *TelegramService) UnlinkTelegramUser(ctx context.Context, telegramID int64) error {
+	telegramUser, err := ts.queries.GetTelegramUserByTelegramId(ctx, telegramID)
+	if err != nil {
+		return err
+	}
+
+	if telegramUser.UserUuid.Valid {
+		_, err = ts.queries.UpdateUser(ctx, db.UpdateUserParams{
+			Uuid:           telegramUser.UserUuid,
+			TelegramChatID: pgtype.Int8{Valid: false},
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	return ts.queries.DeleteTelegramUserByTelegramId(ctx, telegramID)
 }
