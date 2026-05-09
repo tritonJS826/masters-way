@@ -1,5 +1,5 @@
 # Stage 1: build
-FROM golang:1.23-alpine AS build
+FROM golang:1.25-alpine AS build
 RUN apk add --no-cache make
 WORKDIR /app
 COPY go-common ./go-common
