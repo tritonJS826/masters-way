@@ -15,12 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwGeneralBffInternalSchemasCreateProblemForTelegramPayload,
   MwGeneralBffInternalSchemasCreateProblemPayload,
   MwGeneralBffInternalSchemasNoRightToChangeDayReportError,
   MwGeneralBffInternalSchemasProblemPopulatedResponse,
   MwGeneralBffInternalSchemasUpdateProblemPayload,
 } from '../models/index';
 import {
+    MwGeneralBffInternalSchemasCreateProblemForTelegramPayloadFromJSON,
+    MwGeneralBffInternalSchemasCreateProblemForTelegramPayloadToJSON,
     MwGeneralBffInternalSchemasCreateProblemPayloadFromJSON,
     MwGeneralBffInternalSchemasCreateProblemPayloadToJSON,
     MwGeneralBffInternalSchemasNoRightToChangeDayReportErrorFromJSON,
@@ -33,6 +36,10 @@ import {
 
 export interface CreateProblemRequest {
     request: MwGeneralBffInternalSchemasCreateProblemPayload;
+}
+
+export interface CreateProblemTelegramRequest {
+    request: MwGeneralBffInternalSchemasCreateProblemForTelegramPayload;
 }
 
 export interface DeleteProblemRequest {
@@ -79,6 +86,41 @@ export class ProblemApi extends runtime.BaseAPI {
      */
     async createProblem(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasProblemPopulatedResponse> {
         const response = await this.createProblemRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates a problem, automatically finding or creating a day report for today
+     * Create problem for telegram
+     */
+    async createProblemTelegramRaw(requestParameters: CreateProblemTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasProblemPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createProblemTelegram.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/problems/telegram`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasCreateProblemForTelegramPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasProblemPopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Creates a problem, automatically finding or creating a day report for today
+     * Create problem for telegram
+     */
+    async createProblemTelegram(requestParameters: CreateProblemTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasProblemPopulatedResponse> {
+        const response = await this.createProblemTelegramRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

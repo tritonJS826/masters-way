@@ -231,7 +231,7 @@ import (
 )
 
 func main() {
-	telegramId := int32(56) // int32 | Telegram ID
+	telegramId := int64(789) // int64 | Telegram ID
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -251,7 +251,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**telegramId** | **int32** | Telegram ID | 
+**telegramId** | **int64** | Telegram ID | 
 
 ### Other Parameters
 
@@ -773,7 +773,7 @@ import (
 )
 
 func main() {
-	telegramId := int32(56) // int32 | Telegram ID
+	telegramId := int64(789) // int64 | Telegram ID
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -793,7 +793,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**telegramId** | **int32** | Telegram ID | 
+**telegramId** | **int64** | Telegram ID | 
 
 ### Other Parameters
 

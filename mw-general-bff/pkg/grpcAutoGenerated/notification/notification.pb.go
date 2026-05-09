@@ -83,8 +83,9 @@ func (Nature) EnumDescriptor() ([]byte, []int) {
 type Channel int32
 
 const (
-	Channel_mail   Channel = 0
-	Channel_webapp Channel = 1
+	Channel_mail     Channel = 0
+	Channel_webapp   Channel = 1
+	Channel_telegram Channel = 2
 )
 
 // Enum value maps for Channel.
@@ -92,10 +93,12 @@ var (
 	Channel_name = map[int32]string{
 		0: "mail",
 		1: "webapp",
+		2: "telegram",
 	}
 	Channel_value = map[string]int32{
-		"mail":   0,
-		"webapp": 1,
+		"mail":     0,
+		"webapp":   1,
+		"telegram": 2,
 	}
 )
 
@@ -307,9 +310,10 @@ func (x *CreateNotificationRequest) GetNature() Nature {
 }
 
 type Receivers struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	UserUuid string                 `protobuf:"bytes,1,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
-	Email    string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserUuid       string                 `protobuf:"bytes,1,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
+	Email          string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	TelegramChatId int64                  `protobuf:"varint,5,opt,name=telegram_chat_id,json=telegramChatId,proto3" json:"telegram_chat_id,omitempty"`
 	// Types that are valid to be assigned to DataForReceivers:
 	//
 	//	*Receivers_OwnWayData
@@ -361,6 +365,13 @@ func (x *Receivers) GetEmail() string {
 		return x.Email
 	}
 	return ""
+}
+
+func (x *Receivers) GetTelegramChatId() int64 {
+	if x != nil {
+		return x.TelegramChatId
+	}
+	return 0
 }
 
 func (x *Receivers) GetDataForReceivers() isReceivers_DataForReceivers {
@@ -1042,10 +1053,11 @@ const file_notification_proto_rawDesc = "" +
 	"\rnotifications\x18\x03 \x03(\v2\x1a.notification.NotificationR\rnotifications\"\x80\x01\n" +
 	"\x19CreateNotificationRequest\x125\n" +
 	"\treceivers\x18\x01 \x03(\v2\x17.notification.ReceiversR\treceivers\x12,\n" +
-	"\x06nature\x18\x02 \x01(\x0e2\x14.notification.NatureR\x06nature\"\xf6\x01\n" +
+	"\x06nature\x18\x02 \x01(\x0e2\x14.notification.NatureR\x06nature\"\xa0\x02\n" +
 	"\tReceivers\x12\x1b\n" +
 	"\tuser_uuid\x18\x01 \x01(\tR\buserUuid\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12G\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12(\n" +
+	"\x10telegram_chat_id\x18\x05 \x01(\x03R\x0etelegramChatId\x12G\n" +
 	"\fown_way_data\x18\x03 \x01(\v2#.notification.DataForOwnWayReceiverH\x00R\n" +
 	"ownWayData\x12Y\n" +
 	"\x12mentoring_way_data\x18\x04 \x01(\v2).notification.DataForMentoringWayReceiverH\x00R\x10mentoringWayDataB\x12\n" +
@@ -1099,11 +1111,12 @@ const file_notification_proto_rawDesc = "" +
 	"\aown_way\x10\x02\x12\x11\n" +
 	"\rmentoring_way\x10\x03\x12\x15\n" +
 	"\x11mentoring_request\x10\x04\x12\x10\n" +
-	"\ffavorite_way\x10\x05*\x1f\n" +
+	"\ffavorite_way\x10\x05*-\n" +
 	"\aChannel\x12\b\n" +
 	"\x04mail\x10\x00\x12\n" +
 	"\n" +
-	"\x06webapp\x10\x012\xc7\x02\n" +
+	"\x06webapp\x10\x01\x12\f\n" +
+	"\btelegram\x10\x022\xc7\x02\n" +
 	"\x13NotificationService\x12i\n" +
 	"\x13CreateNotifications\x12'.notification.CreateNotificationRequest\x1a).notification.CreateNotificationsResponse\x12j\n" +
 	"\x13GetNotificationList\x12(.notification.GetNotificationListRequest\x1a).notification.GetNotificationListResponse\x12Y\n" +

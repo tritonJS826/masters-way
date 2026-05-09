@@ -1318,6 +1318,154 @@ const docTemplate = `{
                 }
             }
         },
+        "/general/notificationSettings": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Get notificationSetting list by user id",
+                "operationId": "get-notificationSetting-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.GetNotificationSettingListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/general/notificationSettings/{notificationSettingId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Update notificationSetting by id",
+                "operationId": "update-notificationSetting",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UpdateNotificationSettingPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification id",
+                        "name": "notificationSettingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.NotificationSettingResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/general/notifications": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Get notification list by user id",
+                "operationId": "get-notification-list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination - 1 by default",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page - 50 by default",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Get only new notifications - false by default",
+                        "name": "isOnlyNew",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.GetNotificationListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/general/notifications/{notificationId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Update notification by id",
+                "operationId": "update-notification",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UpdateNotificationPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification id",
+                        "name": "notificationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.NotificationResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/healthcheck": {
             "get": {
                 "description": "Get the health status of the API",
@@ -4899,6 +5047,38 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-general-bff_internal_schemas.GetNotificationListResponse": {
+            "type": "object",
+            "required": [
+                "notifications",
+                "size"
+            ],
+            "properties": {
+                "notifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.NotificationResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.GetNotificationSettingListResponse": {
+            "type": "object",
+            "required": [
+                "NotificationSettings"
+            ],
+            "properties": {
+                "NotificationSettings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.NotificationSettingResponse"
+                    }
+                }
+            }
+        },
         "mw-general-bff_internal_schemas.JobDonePopulatedResponse": {
             "type": "object",
             "required": [
@@ -5113,6 +5293,68 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.NotificationResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "isRead",
+                "nature",
+                "url",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isRead": {
+                    "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.NotificationSettingResponse": {
+            "type": "object",
+            "required": [
+                "channel",
+                "isEnabled",
+                "nature",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "channel": {
+                    "type": "string"
+                },
+                "isEnabled": {
+                    "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 }
             }
@@ -5474,6 +5716,28 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "isDone": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.UpdateNotificationPayload": {
+            "type": "object",
+            "required": [
+                "isRead"
+            ],
+            "properties": {
+                "isRead": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.UpdateNotificationSettingPayload": {
+            "type": "object",
+            "required": [
+                "isEnabled"
+            ],
+            "properties": {
+                "isEnabled": {
                     "type": "boolean"
                 }
             }

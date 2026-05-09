@@ -20,6 +20,7 @@ type Controller struct {
 	JobTagController                   *JobTagController
 	MentorUserWayController            *MentorUserWayController
 	MetricController                   *MetricController
+	NotificationController             *NotificationController
 	PlanController                     *PlanController
 	PlanJobTagController               *PlanJobTagController
 	ProblemController                  *ProblemController
@@ -54,6 +55,7 @@ func NewController(facade *facades.Facade) *Controller {
 		JobTagController:                   NewJobTagController(facade.JobTagFacade),
 		MentorUserWayController:            NewMentorUserWayController(facade.MentorUserWayFacade),
 		MetricController:                   NewMetricController(facade.MetricFacade),
+		NotificationController:             NewNotificationController(facade.NotificationFacade),
 		PlanController:                     NewPlanController(facade.PlanFacade),
 		PlanJobTagController:               NewPlanJobTagController(facade.PlanJobTagFacade),
 		ProblemController:                  NewProblemController(facade.ProblemFacade),

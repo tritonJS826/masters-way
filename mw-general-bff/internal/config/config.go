@@ -30,6 +30,7 @@ type Config struct {
 	TestGeneralBffAPIHost    string `mapstructure:"TEST_GENERAL_BFF_API_HOST"`
 	TestGeneralBffAPIBaseUrl string `mapstructure:"TEST_GENERAL_BFF_BASE_URL"`
 	SecretSessionKey         string `mapstructure:"SECRET_SESSION_KEY"`
+	TelegramAPIHost          string `mapstructure:"TELEGRAM_BOT_API_HOST"`
 }
 
 var prodRequiredVariables = [18]string{

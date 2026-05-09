@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Projects** | [**[]MwServerInternalSchemasProjectPlainResponse**](MwServerInternalSchemasProjectPlainResponse.md) |  | 
 **Tags** | [**[]MwServerInternalSchemasUserTagResponse**](MwServerInternalSchemasUserTagResponse.md) |  | 
+**TelegramChatId** | **int32** |  | 
 **UserContacts** | [**[]MwServerInternalSchemasUserContact**](MwServerInternalSchemasUserContact.md) |  | 
 **Uuid** | **string** |  | 
 **WayRequests** | [**[]MwServerInternalSchemasWayPlainResponse**](MwServerInternalSchemasWayPlainResponse.md) |  | 
@@ -24,7 +25,7 @@ Name | Type | Description | Notes
 
 ### NewMwServerInternalSchemasUserPopulatedResponse
 
-`func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse, ) *MwServerInternalSchemasUserPopulatedResponse`
+`func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, telegramChatId int32, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse, ) *MwServerInternalSchemasUserPopulatedResponse`
 
 NewMwServerInternalSchemasUserPopulatedResponse instantiates a new MwServerInternalSchemasUserPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -277,6 +278,26 @@ and a boolean to check if the value has been set.
 `func (o *MwServerInternalSchemasUserPopulatedResponse) SetTags(v []MwServerInternalSchemasUserTagResponse)`
 
 SetTags sets Tags field to given value.
+
+
+### GetTelegramChatId
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetTelegramChatId() int32`
+
+GetTelegramChatId returns the TelegramChatId field if non-nil, zero value otherwise.
+
+### GetTelegramChatIdOk
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetTelegramChatIdOk() (*int32, bool)`
+
+GetTelegramChatIdOk returns a tuple with the TelegramChatId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTelegramChatId
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetTelegramChatId(v int32)`
+
+SetTelegramChatId sets TelegramChatId field to given value.
 
 
 ### GetUserContacts

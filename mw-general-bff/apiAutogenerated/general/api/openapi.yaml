@@ -6085,6 +6085,7 @@ components:
           uuid: uuid
           email: email
         description: description
+        telegramChatId: 0
         uuid: uuid
         tags:
         - name: name
@@ -6427,6 +6428,8 @@ components:
           items:
             $ref: '#/components/schemas/mw-server_internal_schemas.UserTagResponse'
           type: array
+        telegramChatId:
+          type: integer
         userContacts:
           items:
             $ref: '#/components/schemas/mw-server_internal_schemas.UserContact'
@@ -6450,6 +6453,7 @@ components:
       - name
       - projects
       - tags
+      - telegramChatId
       - userContacts
       - uuid
       - wayRequests

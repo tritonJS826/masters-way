@@ -33,6 +33,7 @@ type MwServerInternalSchemasUserPopulatedResponse struct {
 	Name string `json:"name"`
 	Projects []MwServerInternalSchemasProjectPlainResponse `json:"projects"`
 	Tags []MwServerInternalSchemasUserTagResponse `json:"tags"`
+	TelegramChatId int32 `json:"telegramChatId"`
 	UserContacts []MwServerInternalSchemasUserContact `json:"userContacts"`
 	Uuid string `json:"uuid"`
 	WayRequests []MwServerInternalSchemasWayPlainResponse `json:"wayRequests"`
@@ -44,7 +45,7 @@ type _MwServerInternalSchemasUserPopulatedResponse MwServerInternalSchemasUserPo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse) *MwServerInternalSchemasUserPopulatedResponse {
+func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, telegramChatId int32, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse) *MwServerInternalSchemasUserPopulatedResponse {
 	this := MwServerInternalSchemasUserPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.CustomWayCollections = customWayCollections
@@ -58,6 +59,7 @@ func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWay
 	this.Name = name
 	this.Projects = projects
 	this.Tags = tags
+	this.TelegramChatId = telegramChatId
 	this.UserContacts = userContacts
 	this.Uuid = uuid
 	this.WayRequests = wayRequests
@@ -360,6 +362,30 @@ func (o *MwServerInternalSchemasUserPopulatedResponse) SetTags(v []MwServerInter
 	o.Tags = v
 }
 
+// GetTelegramChatId returns the TelegramChatId field value
+func (o *MwServerInternalSchemasUserPopulatedResponse) GetTelegramChatId() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.TelegramChatId
+}
+
+// GetTelegramChatIdOk returns a tuple with the TelegramChatId field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasUserPopulatedResponse) GetTelegramChatIdOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TelegramChatId, true
+}
+
+// SetTelegramChatId sets field value
+func (o *MwServerInternalSchemasUserPopulatedResponse) SetTelegramChatId(v int32) {
+	o.TelegramChatId = v
+}
+
 // GetUserContacts returns the UserContacts field value
 func (o *MwServerInternalSchemasUserPopulatedResponse) GetUserContacts() []MwServerInternalSchemasUserContact {
 	if o == nil {
@@ -454,6 +480,7 @@ func (o MwServerInternalSchemasUserPopulatedResponse) ToMap() (map[string]interf
 	toSerialize["name"] = o.Name
 	toSerialize["projects"] = o.Projects
 	toSerialize["tags"] = o.Tags
+	toSerialize["telegramChatId"] = o.TelegramChatId
 	toSerialize["userContacts"] = o.UserContacts
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayRequests"] = o.WayRequests
@@ -477,6 +504,7 @@ func (o *MwServerInternalSchemasUserPopulatedResponse) UnmarshalJSON(data []byte
 		"name",
 		"projects",
 		"tags",
+		"telegramChatId",
 		"userContacts",
 		"uuid",
 		"wayRequests",

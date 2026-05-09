@@ -5860,6 +5860,7 @@
                 "name",
                 "projects",
                 "tags",
+                "telegramChatId",
                 "userContacts",
                 "uuid",
                 "wayRequests"
@@ -5915,6 +5916,9 @@
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
                     }
+                },
+                "telegramChatId": {
+                    "type": "integer"
                 },
                 "userContacts": {
                     "type": "array",

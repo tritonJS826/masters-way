@@ -21,6 +21,7 @@ type Facade struct {
 	JobTagFacade                   *JobTagFacade
 	MentorUserWayFacade            *MentorUserWayFacade
 	MetricFacade                   *MetricFacade
+	NotificationFacade             *NotificationFacade
 	PlanFacade                     *PlanFacade
 	PlanJobTagFacade               *PlanJobTagFacade
 	ProblemFacade                  *ProblemFacade
@@ -55,6 +56,7 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		JobTagFacade:                   newJobTagFacade(service.GeneralService),
 		MentorUserWayFacade:            newMentorUserWayFacade(service.GeneralService),
 		MetricFacade:                   newMetricFacade(service.GeneralService),
+		NotificationFacade:             newNotificationFacade(service.NotificationService),
 		PlanFacade:                     newPlanFacade(service.GeneralService, service.NotificationService, service.MailService, config),
 		PlanJobTagFacade:               newPlanJobTagFacade(service.GeneralService),
 		ProblemFacade:                  newProblemFacade(service.GeneralService, service.NotificationService, service.MailService, config),

@@ -8,6 +8,7 @@ CREATE TABLE users(
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_url" VARCHAR(300) NOT NULL,
     "is_mentor" BOOLEAN NOT NULL,
+    "telegram_chat_id" BIGINT,
     CONSTRAINT "users_pkey" PRIMARY KEY("uuid")
 );
 

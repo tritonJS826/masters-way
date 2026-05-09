@@ -49,3 +49,32 @@ func (ns *NotificationService) CreateNotificationSettings(ctx context.Context, u
 
 	return nil
 }
+
+func (ns *NotificationService) GetNotificationList(ctx context.Context, userUUID string, page, limit int32, isOnlyNew bool) (*pb.GetNotificationListResponse, error) {
+	return ns.notificationGRPC.GetNotificationList(ctx, &pb.GetNotificationListRequest{
+		UserUuid:  userUUID,
+		Page:      page,
+		Limit:     limit,
+		IsOnlyNew: isOnlyNew,
+	})
+}
+
+func (ns *NotificationService) UpdateNotification(ctx context.Context, notificationUUID string, isRead bool) (*pb.Notification, error) {
+	return ns.notificationGRPC.UpdateNotification(ctx, &pb.UpdateNotificationRequest{
+		NotificationUuid: notificationUUID,
+		IsRead:          isRead,
+	})
+}
+
+func (ns *NotificationService) GetNotificationSettingList(ctx context.Context, userUUID string) (*pb.GetNotificationSettingListResponse, error) {
+	return ns.notificationSettingGRPC.GetNotificationSettingList(ctx, &pb.GetNotificationSettingListRequest{
+		UserUuid: userUUID,
+	})
+}
+
+func (ns *NotificationService) UpdateNotificationSetting(ctx context.Context, notificationSettingUUID string, isEnabled bool) (*pb.NotificationSettingResponse, error) {
+	return ns.notificationSettingGRPC.UpdateNotificationSetting(ctx, &pb.UpdateNotificationSettingRequest{
+		NotificationSettingUuid: notificationSettingUUID,
+		IsEnabled:               isEnabled,
+	})
+}

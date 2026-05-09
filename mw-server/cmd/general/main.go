@@ -79,7 +79,7 @@ func main() {
 
 	// Schedule the automatic coin refilling job
 	_, err = scheduler.NewJob(
-		gocron.DurationJob(1*time.Hour),
+		gocron.DurationJob(12*time.Hour),
 		gocron.NewTask(
 			func(logString string) {
 				log.Println(logString)

@@ -1676,6 +1676,8 @@ definitions:
         items:
           $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
         type: array
+      telegramChatId:
+        type: integer
       userContacts:
         items:
           $ref: '#/definitions/mw-server_internal_schemas.UserContact'
@@ -1699,6 +1701,7 @@ definitions:
     - name
     - projects
     - tags
+    - telegramChatId
     - userContacts
     - uuid
     - wayRequests

@@ -48,6 +48,7 @@ type UserPopulatedResponse struct {
 	CreatedAt          string                           `json:"createdAt" validate:"required"`
 	ImageUrl           string                           `json:"imageUrl" validate:"required"`
 	IsMentor           bool                             `json:"isMentor" validate:"required"`
+	TelegramChatId     *int64                           `json:"telegramChatId" validate:"required"`
 	WayCollections     []WayCollectionPopulatedResponse `json:"customWayCollections" validate:"required"`
 	DefaultCollections DefaultWayCollections            `json:"defaultWayCollections" validate:"required"`
 	FavoriteForUsers   []string                         `json:"favoriteForUsers" validate:"required"`

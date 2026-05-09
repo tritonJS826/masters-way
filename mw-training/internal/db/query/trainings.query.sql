@@ -132,8 +132,7 @@ SELECT
     (SELECT COUNT(*) FROM trainings WHERE trainings.owner_uuid = @user_uuid) AS owner,
     (SELECT COUNT(*) FROM trainings_mentors WHERE trainings_mentors.mentor_uuid = @user_uuid) AS mentor,
     (SELECT COUNT(*) FROM trainings_students WHERE trainings_students.student_uuid = @user_uuid) AS student,
-    (SELECT COUNT(*) FROM favorite_users_trainings WHERE favorite_users_trainings.user_uuid = @user_uuid) AS favorite
-FROM trainings;
+    (SELECT COUNT(*) FROM favorite_users_trainings WHERE favorite_users_trainings.user_uuid = @user_uuid) AS favorite;
     
 -- name: GetMentoringTrainingList :many
 SELECT

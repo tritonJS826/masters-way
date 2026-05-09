@@ -131,6 +131,10 @@ Class | Method | HTTP request | Description
 *MetricAPI* | [**CreateMetric**](docs/MetricAPI.md#createmetric) | **Post** /metrics | Create a new metric
 *MetricAPI* | [**DeleteMetric**](docs/MetricAPI.md#deletemetric) | **Delete** /metrics/{metricId} | Delete metric by UUID
 *MetricAPI* | [**UpdateMetric**](docs/MetricAPI.md#updatemetric) | **Patch** /metrics/{metricId} | Update metric by UUID
+*NotificationAPI* | [**GetNotificationList**](docs/NotificationAPI.md#getnotificationlist) | **Get** /general/notifications | Get notification list by user id
+*NotificationAPI* | [**GetNotificationSettingList**](docs/NotificationAPI.md#getnotificationsettinglist) | **Get** /general/notificationSettings | Get notificationSetting list by user id
+*NotificationAPI* | [**UpdateNotification**](docs/NotificationAPI.md#updatenotification) | **Patch** /general/notifications/{notificationId} | Update notification by id
+*NotificationAPI* | [**UpdateNotificationSetting**](docs/NotificationAPI.md#updatenotificationsetting) | **Patch** /general/notificationSettings/{notificationSettingId} | Update notificationSetting by id
 *PlanAPI* | [**CreatePlan**](docs/PlanAPI.md#createplan) | **Post** /plans | Create a new plan
 *PlanAPI* | [**CreatePlanTelegram**](docs/PlanAPI.md#createplantelegram) | **Post** /plans/telegram | Create plan for telegram
 *PlanAPI* | [**DeletePlan**](docs/PlanAPI.md#deleteplan) | **Delete** /plans/{planId} | Delete plan by UUID
@@ -251,6 +255,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasGeneratedTopicPreview](docs/MwGeneralBffInternalSchemasGeneratedTopicPreview.md)
  - [MwGeneralBffInternalSchemasGetAllUsersResponse](docs/MwGeneralBffInternalSchemasGetAllUsersResponse.md)
  - [MwGeneralBffInternalSchemasGetAllWaysResponse](docs/MwGeneralBffInternalSchemasGetAllWaysResponse.md)
+ - [MwGeneralBffInternalSchemasGetNotificationListResponse](docs/MwGeneralBffInternalSchemasGetNotificationListResponse.md)
+ - [MwGeneralBffInternalSchemasGetNotificationSettingListResponse](docs/MwGeneralBffInternalSchemasGetNotificationSettingListResponse.md)
  - [MwGeneralBffInternalSchemasJobDonePopulatedResponse](docs/MwGeneralBffInternalSchemasJobDonePopulatedResponse.md)
  - [MwGeneralBffInternalSchemasJobTagResponse](docs/MwGeneralBffInternalSchemasJobTagResponse.md)
  - [MwGeneralBffInternalSchemasLabel](docs/MwGeneralBffInternalSchemasLabel.md)
@@ -260,6 +266,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasMetricResponse](docs/MwGeneralBffInternalSchemasMetricResponse.md)
  - [MwGeneralBffInternalSchemasMetricTreeNode](docs/MwGeneralBffInternalSchemasMetricTreeNode.md)
  - [MwGeneralBffInternalSchemasNoRightToChangeDayReportError](docs/MwGeneralBffInternalSchemasNoRightToChangeDayReportError.md)
+ - [MwGeneralBffInternalSchemasNotificationResponse](docs/MwGeneralBffInternalSchemasNotificationResponse.md)
+ - [MwGeneralBffInternalSchemasNotificationSettingResponse](docs/MwGeneralBffInternalSchemasNotificationSettingResponse.md)
  - [MwGeneralBffInternalSchemasOverallInformation](docs/MwGeneralBffInternalSchemasOverallInformation.md)
  - [MwGeneralBffInternalSchemasPlanPopulatedResponse](docs/MwGeneralBffInternalSchemasPlanPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasProblemPopulatedResponse](docs/MwGeneralBffInternalSchemasProblemPopulatedResponse.md)
@@ -274,6 +282,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasUpdateJobDone](docs/MwGeneralBffInternalSchemasUpdateJobDone.md)
  - [MwGeneralBffInternalSchemasUpdateJobTagPayload](docs/MwGeneralBffInternalSchemasUpdateJobTagPayload.md)
  - [MwGeneralBffInternalSchemasUpdateMetricPayload](docs/MwGeneralBffInternalSchemasUpdateMetricPayload.md)
+ - [MwGeneralBffInternalSchemasUpdateNotificationPayload](docs/MwGeneralBffInternalSchemasUpdateNotificationPayload.md)
+ - [MwGeneralBffInternalSchemasUpdateNotificationSettingPayload](docs/MwGeneralBffInternalSchemasUpdateNotificationSettingPayload.md)
  - [MwGeneralBffInternalSchemasUpdatePlanPayload](docs/MwGeneralBffInternalSchemasUpdatePlanPayload.md)
  - [MwGeneralBffInternalSchemasUpdateProblemPayload](docs/MwGeneralBffInternalSchemasUpdateProblemPayload.md)
  - [MwGeneralBffInternalSchemasUpdateProjectPayload](docs/MwGeneralBffInternalSchemasUpdateProjectPayload.md)

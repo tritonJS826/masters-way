@@ -81,6 +81,8 @@ type APIClient struct {
 
 	MetricAPI *MetricAPIService
 
+	NotificationAPI *NotificationAPIService
+
 	PlanAPI *PlanAPIService
 
 	PlanJobTagAPI *PlanJobTagAPIService
@@ -144,6 +146,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.JobTagAPI = (*JobTagAPIService)(&c.common)
 	c.MentorUserWayAPI = (*MentorUserWayAPIService)(&c.common)
 	c.MetricAPI = (*MetricAPIService)(&c.common)
+	c.NotificationAPI = (*NotificationAPIService)(&c.common)
 	c.PlanAPI = (*PlanAPIService)(&c.common)
 	c.PlanJobTagAPI = (*PlanJobTagAPIService)(&c.common)
 	c.ProblemAPI = (*ProblemAPIService)(&c.common)

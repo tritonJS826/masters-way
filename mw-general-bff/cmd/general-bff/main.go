@@ -108,7 +108,14 @@ func main() {
 	}
 	defer trainingConfig.Close()
 
-	newService := services.NewService(&newConfig, notificationConfig, trainingConfig)
+	telegramConfig, err := grpc.NewClient(newConfig.TelegramAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection: %v", err)
+		os.Exit(1)
+	}
+	defer telegramConfig.Close()
+
+	newService := services.NewService(&newConfig, notificationConfig, trainingConfig, telegramConfig)
 	newFacade := facades.NewFacade(newService, &newConfig)
 	newController := controllers.NewController(newFacade)
 

@@ -1561,3 +1561,13 @@ func (gs *GeneralService) GetCompanionFeedback(ctx context.Context, wayID string
 
 	return feedback, nil
 }
+
+func (gs *GeneralService) GetUserTelegramChatID(ctx context.Context, userUuid string) (int64, error) {
+	user, response, err := gs.generalAPI.UserAPI.GetUserByUuid(ctx, userUuid).Execute()
+	if err != nil {
+		return 0, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	telegramChatID := user.GetTelegramChatId()
+	return int64(telegramChatID), nil
+}

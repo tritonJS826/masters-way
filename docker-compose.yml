@@ -229,18 +229,6 @@ services:
     networks:
       - app-network
 
-  mw-notification-bff:
-    image: viktarveratsennikau/masters-way-mw-notification-bff:latest
-    build:
-      context: .
-      dockerfile: ./mw-notification-bff/Dockerfile
-    ports:
-      - "7993:7993"
-    depends_on:
-      - mw-notification
-    networks:
-      - app-network
-
   mw-notification:
     image: viktarveratsennikau/masters-way-mw-notification:latest
     build:
@@ -261,7 +249,8 @@ services:
     ports:
       - "7996:7996"
     depends_on:
-      - mw-notification-bff
+      - mw-general-bff
+      - mw-notification
     networks:
       - app-network
 
@@ -309,7 +298,6 @@ services:
       - mw-chat-bff
       - mw-chat-websocket
       - mw-notification
-      - mw-notification-bff
       - mw-notification-websocket
       - mw-survey
       - mw-storage

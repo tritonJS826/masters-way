@@ -5868,6 +5868,7 @@ const docTemplate = `{
                 "name",
                 "projects",
                 "tags",
+                "telegramChatId",
                 "userContacts",
                 "uuid",
                 "wayRequests"
@@ -5923,6 +5924,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
                     }
+                },
+                "telegramChatId": {
+                    "type": "integer"
                 },
                 "userContacts": {
                     "type": "array",

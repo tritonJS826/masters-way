@@ -1228,3 +1228,21 @@ func (b *TelegramBot) sendMessageToUser(user *services.LinkedUser, message strin
 	msg := tgbotapi.NewMessage(telegramID, message)
 	b.sendMessage(msg)
 }
+
+func (b *TelegramBot) GetUserTelegramID(ctx context.Context, userUuid string) (int64, error) {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+
+	for telegramID, user := range b.linkedUsers {
+		if user.UserUuid == userUuid {
+			return telegramID, nil
+		}
+	}
+	return 0, fmt.Errorf("user %s not found in linked users", userUuid)
+}
+
+func (b *TelegramBot) SendMessage(telegramID int64, message string) error {
+	msg := tgbotapi.NewMessage(telegramID, message)
+	_, err := b.bot.Send(msg)
+	return err
+}

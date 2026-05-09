@@ -147,8 +147,8 @@ export const SettingsPage = observer(() => {
             <VerticalContainer>
               {settingsPageStore.notificationSettingList
                 .filter(n =>
-                  (n.channel === "mail" && n.nature === NotificationNature.mentoring_way) ||
-                (n.channel === "mail" && n.nature === NotificationNature.own_way),
+                  ((n.channel === "mail" || n.channel === "telegram") && n.nature === NotificationNature.mentoring_way) ||
+                ((n.channel === "mail" || n.channel === "telegram") && n.nature === NotificationNature.own_way),
                 ).map(notificationSetting => (
 
                   // Let's show only currently available settings
@@ -158,11 +158,11 @@ export const SettingsPage = observer(() => {
                   >
                     <span>
                       {notificationSetting.channel}
-                    </span>
-                    {" "}
-                    <span>
+                      :&nbsp;
                       {notificationSetting.nature}
                     </span>
+                    {" "}
+                    <span />
                     <Toggle
                       onChange={() => {
                         NotificationSettingsDAL.updateNotificationSetting(

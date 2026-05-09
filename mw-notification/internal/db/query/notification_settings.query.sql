@@ -16,7 +16,13 @@ INSERT INTO notification_settings (
     (@user_uuid, 'own_way', 'webapp', TRUE),
     (@user_uuid, 'mentoring_way', 'webapp', TRUE),
     (@user_uuid, 'mentoring_request', 'webapp', TRUE),
-    (@user_uuid, 'favorite_way', 'webapp', TRUE);
+    (@user_uuid, 'favorite_way', 'webapp', TRUE),
+    (@user_uuid, 'private_chat', 'telegram', TRUE),
+    (@user_uuid, 'group_chat', 'telegram', TRUE),
+    (@user_uuid, 'own_way', 'telegram', TRUE),
+    (@user_uuid, 'mentoring_way', 'telegram', TRUE),
+    (@user_uuid, 'mentoring_request', 'telegram', TRUE),
+    (@user_uuid, 'favorite_way', 'telegram', TRUE);
 
 -- name: GetNotificationSettingListByUserID :many
 SELECT *

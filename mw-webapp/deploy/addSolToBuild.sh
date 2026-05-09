@@ -31,8 +31,24 @@ install_packages() {
                 brew install "$pkg"
             fi
         done
+    elif command_exists pacman; then
+        pacman_sync_needed=false
+        for pkg in "$@"; do
+            if ! command_exists "$pkg"; then
+                pacman_sync_needed=true
+                break
+            fi
+        done
+        if [ "$pacman_sync_needed" = true ]; then
+            pacman -Sy --noconfirm
+            for pkg in "$@"; do
+                if ! command_exists "$pkg"; then
+                    pacman -S --noconfirm "$pkg"
+                fi
+            done
+        fi
     else
-        echo "Error: Neither apt-get nor apk found. Please install packages manually."
+        echo "Error: No supported package manager found. Please install packages manually."
         exit 1
     fi
 }

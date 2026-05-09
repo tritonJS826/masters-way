@@ -16,12 +16,15 @@
 import * as runtime from '../runtime';
 import type {
   MwGeneralBffInternalSchemasCommentPopulatedResponse,
+  MwGeneralBffInternalSchemasCreateCommentForTelegramPayload,
   MwGeneralBffInternalSchemasCreateCommentPayload,
   MwGeneralBffInternalSchemasUpdateCommentPayload,
 } from '../models/index';
 import {
     MwGeneralBffInternalSchemasCommentPopulatedResponseFromJSON,
     MwGeneralBffInternalSchemasCommentPopulatedResponseToJSON,
+    MwGeneralBffInternalSchemasCreateCommentForTelegramPayloadFromJSON,
+    MwGeneralBffInternalSchemasCreateCommentForTelegramPayloadToJSON,
     MwGeneralBffInternalSchemasCreateCommentPayloadFromJSON,
     MwGeneralBffInternalSchemasCreateCommentPayloadToJSON,
     MwGeneralBffInternalSchemasUpdateCommentPayloadFromJSON,
@@ -30,6 +33,10 @@ import {
 
 export interface CreateCommentRequest {
     request: MwGeneralBffInternalSchemasCreateCommentPayload;
+}
+
+export interface CreateCommentTelegramRequest {
+    request: MwGeneralBffInternalSchemasCreateCommentForTelegramPayload;
 }
 
 export interface DeleteCommentRequest {
@@ -76,6 +83,41 @@ export class CommentApi extends runtime.BaseAPI {
      */
     async createComment(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasCommentPopulatedResponse> {
         const response = await this.createCommentRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates a comment, automatically finding or creating a day report for today
+     * Create comment for telegram
+     */
+    async createCommentTelegramRaw(requestParameters: CreateCommentTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasCommentPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createCommentTelegram.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/comments/telegram`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasCreateCommentForTelegramPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasCommentPopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Creates a comment, automatically finding or creating a day report for today
+     * Create comment for telegram
+     */
+    async createCommentTelegram(requestParameters: CreateCommentTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasCommentPopulatedResponse> {
+        const response = await this.createCommentTelegramRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

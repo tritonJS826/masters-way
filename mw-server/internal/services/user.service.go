@@ -29,7 +29,7 @@ type IUserRepository interface {
 	GetListUserTagsByUserId(ctx context.Context, userUuid pgtype.UUID) ([]db.UserTag, error)
 	GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]db.GetFromUserMentoringRequestWaysByUserIdRow, error)
 	GetFavoriteUserUuidsByAcceptorUserId(ctx context.Context, acceptorUserUuid pgtype.UUID) ([]pgtype.UUID, error)
-	GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid pgtype.UUID) ([]db.User, error)
+	GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid pgtype.UUID) ([]db.GetFavoriteUserByDonorUserIdRow, error)
 	CountUsers(ctx context.Context, arg db.CountUsersParams) (int64, error)
 	ListUsers(ctx context.Context, arg db.ListUsersParams) ([]db.ListUsersRow, error)
 	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]db.User, error)
@@ -414,7 +414,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 	})
 
 	favoriteUsersRaw, _ := us.IUserRepository.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
-	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.GetFavoriteUserByDonorUserIdRow, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
 			Name:        dbUser.Name,
@@ -440,6 +440,12 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 		})
 	}
 
+	telegramChatID := user.TelegramChatID.Int64
+	var telegramChatIdPtr *int64
+	if user.TelegramChatID.Valid {
+		telegramChatIdPtr = &telegramChatID
+	}
+
 	return &schemas.UserPopulatedResponse{
 		Uuid:               util.ConvertPgUUIDToUUID(user.Uuid).String(),
 		Name:               user.Name,
@@ -448,6 +454,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 		CreatedAt:          user.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:           user.ImageUrl,
 		IsMentor:           user.IsMentor,
+		TelegramChatId:     telegramChatIdPtr,
 		WayCollections:     wayCollections,
 		DefaultCollections: defaultCollections,
 		FavoriteForUsers:   favoriteForUsersUuid,

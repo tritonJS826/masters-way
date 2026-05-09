@@ -16,6 +16,7 @@ export * from './JobDoneJobTagApi';
 export * from './JobTagApi';
 export * from './MentorUserWayApi';
 export * from './MetricApi';
+export * from './NotificationApi';
 export * from './PlanApi';
 export * from './PlanJobTagApi';
 export * from './ProblemApi';

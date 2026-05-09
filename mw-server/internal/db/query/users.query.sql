@@ -123,9 +123,13 @@ SET
 name = coalesce(sqlc.narg('name'), name),
 description = coalesce(sqlc.narg('description'), description),
 image_url = coalesce(sqlc.narg('image_url'), image_url),
-is_mentor = coalesce(sqlc.narg('is_mentor'), is_mentor)
+is_mentor = coalesce(sqlc.narg('is_mentor'), is_mentor),
+telegram_chat_id = coalesce(sqlc.narg('telegram_chat_id'), telegram_chat_id)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
+
+-- name: GetUserTelegramChatID :one
+SELECT telegram_chat_id FROM users WHERE uuid = @user_uuid;
 
 -- name: DeleteUser :exec
 DELETE FROM users

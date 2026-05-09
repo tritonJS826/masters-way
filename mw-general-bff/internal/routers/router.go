@@ -34,6 +34,7 @@ type Router struct {
 	jobTagRouter                   *jobTagRouter
 	mentorUserWayRouter            *mentorUserWayRouter
 	metricRouter                   *metricRouter
+	notificationRouter             *notificationRouter
 	planRouter                     *planRouter
 	planJobTagRouter               *planJobTagRouter
 	problemRouter                  *problemRouter
@@ -84,6 +85,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		jobTagRouter:                   newJobTagRouter(controller.JobTagController, config),
 		mentorUserWayRouter:            newMentorUserWayRouter(controller.MentorUserWayController, config),
 		metricRouter:                   newMetricRouter(controller.MetricController, config),
+		notificationRouter:             newNotificationRouter(controller.NotificationController, config),
 		planRouter:                     newPlanRouter(controller.PlanController, config),
 		planJobTagRouter:               newPlanJobTagRouter(controller.PlanJobTagController, config),
 		problemRouter:                  newProblemRouter(controller.ProblemController, config),
@@ -122,6 +124,7 @@ func (r *Router) SetRoutes(cfg *config.Config) {
 	r.jobTagRouter.setJobTagRoutes(general)
 	r.mentorUserWayRouter.setMentorUserWayRoutes(general)
 	r.metricRouter.setMetricRouter(general)
+	r.notificationRouter.setNotificationRoutes(general)
 	r.planRouter.setPlanRoutes(general)
 	r.planJobTagRouter.setPlanJobTagRoutes(general)
 	r.problemRouter.setProblemRoutes(general)

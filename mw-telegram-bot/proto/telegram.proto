@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "pkg/telegram";
+
+package telegram;
+
+import "google/protobuf/empty.proto";
+
+service TelegramService {
+    rpc SendTelegramNotification(SendTelegramNotificationRequest) returns (google.protobuf.Empty);
+    rpc GetUserTelegramChatId(GetUserTelegramChatIdRequest) returns (GetUserTelegramChatIdResponse);
+}
+
+message SendTelegramNotificationRequest {
+    string user_uuid = 1;
+    string message = 2;
+}
+
+message GetUserTelegramChatIdRequest {
+    string user_uuid = 1;
+}
+
+message GetUserTelegramChatIdResponse {
+    int64 telegram_chat_id = 1;
+}

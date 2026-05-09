@@ -15,12 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwGeneralBffInternalSchemasCreatePlanForTelegramPayload,
   MwGeneralBffInternalSchemasCreatePlanPayload,
   MwGeneralBffInternalSchemasNoRightToChangeDayReportError,
   MwGeneralBffInternalSchemasPlanPopulatedResponse,
   MwGeneralBffInternalSchemasUpdatePlanPayload,
 } from '../models/index';
 import {
+    MwGeneralBffInternalSchemasCreatePlanForTelegramPayloadFromJSON,
+    MwGeneralBffInternalSchemasCreatePlanForTelegramPayloadToJSON,
     MwGeneralBffInternalSchemasCreatePlanPayloadFromJSON,
     MwGeneralBffInternalSchemasCreatePlanPayloadToJSON,
     MwGeneralBffInternalSchemasNoRightToChangeDayReportErrorFromJSON,
@@ -33,6 +36,10 @@ import {
 
 export interface CreatePlanRequest {
     request: MwGeneralBffInternalSchemasCreatePlanPayload;
+}
+
+export interface CreatePlanTelegramRequest {
+    request: MwGeneralBffInternalSchemasCreatePlanForTelegramPayload;
 }
 
 export interface DeletePlanRequest {
@@ -79,6 +86,41 @@ export class PlanApi extends runtime.BaseAPI {
      */
     async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasPlanPopulatedResponse> {
         const response = await this.createPlanRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates a plan, automatically finding or creating a day report for today
+     * Create plan for telegram
+     */
+    async createPlanTelegramRaw(requestParameters: CreatePlanTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasPlanPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createPlanTelegram.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/plans/telegram`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasCreatePlanForTelegramPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasPlanPopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Creates a plan, automatically finding or creating a day report for today
+     * Create plan for telegram
+     */
+    async createPlanTelegram(requestParameters: CreatePlanTelegramRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasPlanPopulatedResponse> {
+        const response = await this.createPlanTelegramRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

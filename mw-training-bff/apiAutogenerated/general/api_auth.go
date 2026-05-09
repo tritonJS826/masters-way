@@ -586,7 +586,7 @@ func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest,
 type ApiGetLinkedUserByTelegramIdRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
-	telegramId int32
+	telegramId int64
 }
 
 func (r ApiGetLinkedUserByTelegramIdRequest) Execute() (*InternalControllersGetLinkedUserResponse, *http.Response, error) {
@@ -602,7 +602,7 @@ Returns user info if the telegram account is linked
  @param telegramId Telegram ID
  @return ApiGetLinkedUserByTelegramIdRequest
 */
-func (a *AuthAPIService) GetLinkedUserByTelegramId(ctx context.Context, telegramId int32) ApiGetLinkedUserByTelegramIdRequest {
+func (a *AuthAPIService) GetLinkedUserByTelegramId(ctx context.Context, telegramId int64) ApiGetLinkedUserByTelegramIdRequest {
 	return ApiGetLinkedUserByTelegramIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2121,7 +2121,7 @@ func (a *AuthAPIService) TestTelegramLinkStreamExecute(r ApiTestTelegramLinkRequ
 type ApiUnlinkTelegramRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
-	telegramId int32
+	telegramId int64
 }
 
 func (r ApiUnlinkTelegramRequest) Execute() (map[string]string, *http.Response, error) {
@@ -2137,7 +2137,7 @@ Removes the Telegram account linking from the database
  @param telegramId Telegram ID
  @return ApiUnlinkTelegramRequest
 */
-func (a *AuthAPIService) UnlinkTelegram(ctx context.Context, telegramId int32) ApiUnlinkTelegramRequest {
+func (a *AuthAPIService) UnlinkTelegram(ctx context.Context, telegramId int64) ApiUnlinkTelegramRequest {
 	return ApiUnlinkTelegramRequest{
 		ApiService: a,
 		ctx: ctx,

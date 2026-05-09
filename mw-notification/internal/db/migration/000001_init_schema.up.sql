@@ -11,7 +11,8 @@ CREATE TYPE notification_nature AS ENUM (
 
 CREATE TYPE notification_channel AS ENUM (
     'mail',
-    'webapp'
+    'webapp',
+    'telegram'
 );
 
 CREATE TABLE notifications (
@@ -36,6 +37,12 @@ CREATE TABLE notification_settings (
     "is_enabled" BOOLEAN NOT NULL,
     CONSTRAINT "notification_settings_pkey" PRIMARY KEY (uuid),
     CONSTRAINT "unique_user_notification" UNIQUE (user_uuid, nature, channel)
+);
+
+CREATE TABLE telegram_users (
+    "user_uuid" UUID NOT NULL,
+    "telegram_chat_id" BIGINT NOT NULL,
+    CONSTRAINT "telegram_users_pkey" PRIMARY KEY (user_uuid)
 );
 
 CREATE OR REPLACE FUNCTION remove_old_notifications()
