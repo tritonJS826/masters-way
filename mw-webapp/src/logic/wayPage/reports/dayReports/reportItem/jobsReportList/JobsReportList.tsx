@@ -2,6 +2,7 @@ import {useState} from "react";
 import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -13,11 +14,14 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneLabelDAL} from "src/dataAccessLogic/JobDoneLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
+import {CriticAiModal} from "src/logic/wayPage/reports/aiModal/criticAiModal/CriticAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorStore";
 import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -206,6 +210,8 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
     props.setWayStatisticsTriple(updatedStatistics);
   };
 
+  const hasEnoughCoins = userStore.user && userStore.user.profileSetting.coins > 0;
+
   return (
     <>
       <ol className={styles.numberedList}>
@@ -246,6 +252,46 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                       />
                     </Tooltip>
                   </Link>
+                }
+                {props.user && props.isEditable &&
+                  <Modal
+                    trigger={
+                      <Tooltip
+                        position={PositionTooltip.TOP}
+                        content={hasEnoughCoins
+                          ? LanguageService.way.reportsTable.criticizeByAI[language]
+                          : LanguageService.common.coins.notEnoughCoins[language]
+                        }
+                      >
+                        <Button
+                          onClick={() => { }}
+                          buttonType={ButtonType.ICON_BUTTON}
+                          value="CR"
+                          className={styles.aiButton}
+                          isDisabled={!hasEnoughCoins}
+                        />
+                      </Tooltip>
+                    }
+                    content={
+                      <CriticAiModal
+                        goalDescription={props.waysMap.getValue(jobDone.wayUuid)?.goalDescription}
+                        message={jobDone.description}
+                        addComment={async (commentRaw: string) => {
+                          if (props.user) {
+                            const dayReportUuid = props.dayReport.compositionParticipants
+                              .find((participant) => participant.wayId === jobDone.wayUuid)?.dayReportId
+                              ?? props.dayReport.uuid;
+                            const comment = await CommentDAL.createComment({
+                              dayReportUuid,
+                              ownerUuid: props.user.uuid,
+                              description: `***AI:*** ${commentRaw}`,
+                            });
+                            props.dayReport.addComment(comment);
+                          }
+                        }}
+                      />
+                    }
+                  />
                 }
 
                 <Tooltip

@@ -15,12 +15,14 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanLabelDAL} from "src/dataAccessLogic/PlanLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
+import {CriticAiModal} from "src/logic/wayPage/reports/aiModal/criticAiModal/CriticAiModal";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reports/aiModal/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from "src/logic/wayPage/reports/aiModal/estimateIssueAiModal/EstimateIssueAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorStore";
@@ -318,6 +320,41 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                         <EstimateIssueAiModal
                           goalDescription={props.way.goalDescription}
                           issueDescription={plan.description}
+                        />
+                      }
+                    />
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={hasEnoughCoins
+                            ? LanguageService.way.reportsTable.criticizeByAI[language]
+                            : LanguageService.common.coins.notEnoughCoins[language]
+                          }
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="CR"
+                            className={styles.aiButton}
+                            isDisabled={!hasEnoughCoins}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <CriticAiModal
+                          goalDescription={props.way.goalDescription}
+                          message={plan.description}
+                          addComment={async (commentRaw: string) => {
+                            if (props.user) {
+                              const comment = await CommentDAL.createComment({
+                                dayReportUuid: plan.dayReportUuid,
+                                ownerUuid: props.user.uuid,
+                                description: `***AI:*** ${commentRaw}`,
+                              });
+                              props.dayReport.addComment(comment);
+                            }
+                          }}
                         />
                       }
                     />

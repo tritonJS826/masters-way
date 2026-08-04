@@ -17,6 +17,7 @@ import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatAiModal} from "src/logic/wayPage/reports/aiModal/chatAiModal/ChatAiModal";
+import {CriticAiModal} from "src/logic/wayPage/reports/aiModal/criticAiModal/CriticAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorStore";
 import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection";
 import {getListNumberByIndex} from "src/logic/wayPage/reports/dayReports/reportsTable/reportsColumns/ReportsColumns";
@@ -160,41 +161,79 @@ export const CommentReportList = observer((props: CommentReportListProps) => {
                     </Tooltip>
                   </Link>
                 }
-                {props.user && props.isEditable &&
-                  <Modal
-                    trigger={
-                      <Tooltip
-                        position={PositionTooltip.TOP}
-                        content={hasEnoughCoins
-                          ? LanguageService.way.reportsTable.addRecommendationsByAI[language]
-                          : LanguageService.common.coins.notEnoughCoins[language]
-                        }
-                      >
-                        <Button
-                          onClick={() => { }}
-                          buttonType={ButtonType.ICON_BUTTON}
-                          value="RE"
-                          className={styles.aiButton}
-                          isDisabled={!hasEnoughCoins}
-                        />
-                      </Tooltip>
-                    }
-                    content={
-                      <ChatAiModal
-                        message={comment.description}
-                        addComment={async (commentRaw: string) => {
-                          if (props.user) {
-                            const generatedComment = await CommentDAL.createComment({
-                              dayReportUuid: comment.dayReportUuid,
-                              ownerUuid: props.user.uuid,
-                              description: `***AI:*** ${commentRaw}`,
-                            });
-                            props.dayReport.addComment(generatedComment);
+                {props.user && props.isEditable && (
+                  <>
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={hasEnoughCoins
+                            ? LanguageService.way.reportsTable.addRecommendationsByAI[language]
+                            : LanguageService.common.coins.notEnoughCoins[language]
                           }
-                        }}
-                      />
-                    }
-                  />
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="RE"
+                            className={styles.aiButton}
+                            isDisabled={!hasEnoughCoins}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <ChatAiModal
+                          message={comment.description}
+                          addComment={async (commentRaw: string) => {
+                            if (props.user) {
+                              const generatedComment = await CommentDAL.createComment({
+                                dayReportUuid: comment.dayReportUuid,
+                                ownerUuid: props.user.uuid,
+                                description: `***AI:*** ${commentRaw}`,
+                              });
+                              props.dayReport.addComment(generatedComment);
+                            }
+                          }}
+                        />
+                      }
+                    />
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={hasEnoughCoins
+                            ? LanguageService.way.reportsTable.criticizeByAI[language]
+                            : LanguageService.common.coins.notEnoughCoins[language]
+                          }
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="CR"
+                            className={styles.aiButton}
+                            isDisabled={!hasEnoughCoins}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <CriticAiModal
+                          goalDescription={props.way.goalDescription}
+                          message={comment.description}
+                          addComment={async (commentRaw: string) => {
+                            if (props.user) {
+                              const generatedComment = await CommentDAL.createComment({
+                                dayReportUuid: comment.dayReportUuid,
+                                ownerUuid: props.user.uuid,
+                                description: `***AI:*** ${commentRaw}`,
+                              });
+                              props.dayReport.addComment(generatedComment);
+                            }
+                          }}
+                        />
+                      }
+                    />
+                  </>
+                )
                 }
                 {comment.ownerUuid === props.user?.uuid ?
                   <Trash

@@ -542,6 +542,21 @@
       "en": "Add recommendations by AI",
       "ua": "Додати рекомендації за допомогою ІІ"
     },
+    "criticizeByAI": {
+      "ru": "Покритиковать с помощью ИИ",
+      "en": "Criticize using AI",
+      "ua": "Покритикувати за допомогою ІІ"
+    },
+    "criticPromptWithGoalTemplate": {
+      "ru": "Действуй как строгий и конструктивный критик. Вот моя цель: {goal}. Вот пункт, который нужно раскритиковать: {message}. Найди его слабые места, пробелы, риски и недостатки и предложи конкретные улучшения.",
+      "en": "Act like a strict and constructive critic. Here is my goal: {goal}. Here is the item I want you to critique: {message}. Find its weaknesses, gaps, risks and flaws, and suggest concrete improvements.",
+      "ua": "Дій як суворий і конструктивний критик. Ось моя мета: {goal}. Ось пункт, який потрібно розкритикувати: {message}. Знайди його слабкі місця, прогалини, ризики та недоліки і запропонуй конкретні покращення."
+    },
+    "criticPromptWithoutGoalTemplate": {
+      "ru": "Действуй как строгий и конструктивный критик. Вот пункт, который нужно раскритиковать: {message}. Найди его слабые места, пробелы, риски и недостатки и предложи конкретные улучшения.",
+      "en": "Act like a strict and constructive critic. Here is the item I want you to critique: {message}. Find its weaknesses, gaps, risks and flaws, and suggest concrete improvements.",
+      "ua": "Дій як суворий і конструктивний критик. Ось пункт, який потрібно розкритикувати: {message}. Знайди його слабкі місця, прогалини, ризики та недоліки і запропонуй конкретні покращення."
+    },
     "addGeneratedPlansToPlans": {
       "ru": "Добавить в планы",
       "en": "Add to plans",

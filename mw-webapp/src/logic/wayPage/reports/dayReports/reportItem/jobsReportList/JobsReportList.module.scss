@@ -73,3 +73,9 @@
 .trashReservation {
   width: 16px;
 }
+
+.aiButton {
+  border-color: var(--generalPrimaryColor);
+  background-color: var(--tertiaryBgColor);
+  font-weight: $fontWeightRegular;
+}
