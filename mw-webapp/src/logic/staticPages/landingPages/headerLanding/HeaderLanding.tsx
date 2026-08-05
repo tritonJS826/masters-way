@@ -130,7 +130,7 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
 
         <Button
           buttonType={ButtonType.PRIMARY}
-          value={LanguageService.mentorsLanding.callToActionButton[props.language]}
+          value={LanguageService.header.callToActionButton[props.language]}
           onClick={() => getStarted(navigate, props.userUuid)}
           className={styles.tryHeaderButton}
         />
