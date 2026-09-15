@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"fmt"
+	"mw-server/internal/auth"
 	"net/http"
+	"strconv"
 
 	"mw-server/internal/schemas"
 	"mw-server/internal/services"
@@ -112,13 +114,14 @@ func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
 }
 
 func (nc *NotificationController) GetNotificationList(ctx *gin.Context) {
-	var req schemas.GetNotificationListRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
-		util.HandleErrorGin(ctx, err)
-		return
-	}
+	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := userUUIDRaw.(string)
 
-	getNotificationResponseRaw, err := nc.notificationService.GetNotificationList(ctx, req.UserUUID, req.Limit, req.Offset, req.IsOnlyNew)
+	limit, _ := strconv.Atoi(ctx.DefaultQuery("limit", "10"))
+	offset, _ := strconv.Atoi(ctx.DefaultQuery("offset", "0"))
+	isOnlyNew, _ := strconv.ParseBool(ctx.DefaultQuery("isOnlyNew", "false"))
+
+	getNotificationResponseRaw, err := nc.notificationService.GetNotificationList(ctx, userUUID, int32(limit), int32(offset), isOnlyNew)
 	if err != nil {
 		util.HandleErrorGin(ctx, err)
 		return
