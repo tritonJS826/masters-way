@@ -7,7 +7,7 @@ import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 export const chatPreviewDTOToChatPreview = (chatPreviewDTO: MwChatBffInternalSchemasRoomPreviewResponse): ChatPreview => {
   return new ChatPreview({
     roomId: chatPreviewDTO.roomId,
-    name: chatPreviewDTO.name ?? "",
+    name: chatPreviewDTO.name,
     imageUrl: chatPreviewDTO.imageUrl ?? null,
     isBlocked: chatPreviewDTO.isBlocked,
     unreadMessagesAmount: chatPreviewDTO.unreadMessagesAmount,

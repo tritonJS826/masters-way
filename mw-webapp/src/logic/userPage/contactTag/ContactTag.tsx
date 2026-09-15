@@ -73,7 +73,7 @@ interface TagProps {
 export const ContactTag = (props: TagProps) => {
   const {language} = languageStore;
 
-  const processedContactLink = props.contact.contactLink.replace(/^(https?:\/\/)?/, "").split("/")[0];
+  const processedContactLink = (props.contact.contactLink ?? "").replace(/^(https?:\/\/)?/, "").split("/")[0];
 
   const [isUpdateContactOpen, setIsUpdateContactOpen] = useState<boolean>(false);
   const [isDeleteContactOpen, setIsDeleteContactOpen] = useState<boolean>(false);

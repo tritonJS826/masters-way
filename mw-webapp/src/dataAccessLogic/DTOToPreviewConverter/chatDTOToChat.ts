@@ -9,7 +9,7 @@ import {Room} from "src/model/businessModel/Chat";
 export const chatDTOToChat = (chatDTO: MwChatBffInternalSchemasRoomPopulatedResponse): Room => {
   return new Room({
     roomId: chatDTO.roomId,
-    name: chatDTO.name ?? "",
+    name: chatDTO.name,
     imageUrl: chatDTO.imageUrl ?? "",
     isBlocked: chatDTO.isBlocked,
     roomType: chatDTO.roomType,

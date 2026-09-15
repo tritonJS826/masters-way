@@ -28,6 +28,7 @@ type RoomsRepository interface {
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, params db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
+	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]db.User, error)
 	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) (db.AddUserToRoomRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
@@ -56,8 +57,9 @@ func (roomsService *RoomsService) GetChatPreview(ctx context.Context, userUUID u
 }
 
 func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UUID, roomType string) (*schemas.GetRoomsResponse, error) {
+	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
 	params := db.GetRoomsByUserUUIDParams{
-		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+		UserUuid: userPgUUID,
 		RoomType: db.RoomType(roomType),
 	}
 
@@ -73,9 +75,24 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 				Role:   dbRoom.UserRoles[i],
 			}
 		})
+
+		name := util.MarshalPgText(dbRoom.Name)
+
+		// For private rooms without a name, use the other user's name
+		if roomType == "private" && name == nil && len(dbRoom.UserUuids) == 2 {
+			otherUserUUID := dbRoom.UserUuids[0]
+			if util.ConvertPgUUIDToUUID(otherUserUUID) == userUUID {
+				otherUserUUID = dbRoom.UserUuids[1]
+			}
+			otherUsers, err := roomsService.roomsRepository.GetUsersByIDs(ctx, []pgtype.UUID{otherUserUUID})
+			if err == nil && len(otherUsers) == 1 {
+				name = &otherUsers[0].Name
+			}
+		}
+
 		return schemas.RoomPreviewResponse{
 			RoomID:               util.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
-			Name:                 util.MarshalPgText(dbRoom.Name),
+			Name:                 name,
 			RoomType:             string(dbRoom.Type),
 			IsBlocked:            dbRoom.IsRoomBlocked,
 			Users:                users,
@@ -137,10 +154,24 @@ func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, params GetR
 	// 1 element should be oldest message, -1 element should be newest message
 	lom.Reverse(messages)
 
+	roomName := util.MarshalPgText(room.Name)
+
+	// For private rooms without a name, use the other user's name
+	if roomName == nil && len(room.UserUuids) == 2 {
+		otherUserUUID := room.UserUuids[0]
+		if util.ConvertPgUUIDToUUID(otherUserUUID) == params.UserUUID {
+			otherUserUUID = room.UserUuids[1]
+		}
+		otherUsers, err := roomsService.roomsRepository.GetUsersByIDs(ctx, []pgtype.UUID{otherUserUUID})
+		if err == nil && len(otherUsers) == 1 {
+			roomName = &otherUsers[0].Name
+		}
+	}
+
 	return &schemas.RoomPopulatedResponse{
 		RoomID:               util.ConvertPgUUIDToUUID(room.Uuid).String(),
 		Users:                users,
-		Name:                 util.MarshalPgText(room.Name),
+		Name:                 roomName,
 		Messages:             messages,
 		IsBlocked:            room.IsRoomBlocked,
 		RoomType:             string(room.Type),
