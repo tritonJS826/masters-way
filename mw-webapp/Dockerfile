@@ -1,5 +1,5 @@
 #1 Stage 1: build
-FROM node:22.5.1-alpine AS build
+FROM node:26.8.2-alpine AS build
 WORKDIR /app
 RUN apk add --no-cache bash
 COPY mw-webapp/package.json .
@@ -11,7 +11,7 @@ RUN chmod +x deploy/addSolToBuild.sh
 RUN pnpm run build
 
 # Stage 2: production
-FROM node:22.5.1-alpine AS production
+FROM node:26.8.2-alpine AS production
 WORKDIR /app
 
 COPY --from=build /app/build ./build

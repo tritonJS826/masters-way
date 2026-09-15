@@ -30,7 +30,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 - make 4.3 (GNU make)
 - golang 1.25.0 (we recommend to use [gvm](https://github.com/moovweb/gvm), exist in snap)
-- node 22.5.1 (we recommend to use "nvm" or "n" package for installation)
+- node 26.8.2 (we recommend to use "nvm" or "n" package for installation)
 - pnpm 8.15.2 (https://pnpm.io)
 - sqlc v1.28.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
 - swag v1.16.4 ([golang package](https://github.com/swaggo/swag))
