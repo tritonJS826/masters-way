@@ -43,6 +43,30 @@ type Service struct {
 	UserProjectService              *UserProjectService
 	WayCollectionService            *WayCollectionService
 	WayCollectionWayService         *WayCollectionWayService
+	SmtpService                     *SmtpService
+	MailService                     *MailService
+	NotificationService             *NotificationService
+	NotificationSettingService      *NotificationSettingService
+	GoogleDriveService              *GoogleDriveService
+	FileService                     *FileService
+	SurveyService                   *SurveyService
+	RoomsService                    *RoomsService
+	MessagesService                 *MessagesService
+	TrainingService                 *TrainingService
+	TopicService                    *TopicService
+	TheoryMaterialService           *TheoryMaterialService
+	PracticeMaterialService         *PracticeMaterialService
+	TestService                     *TestService
+	QuestionService                 *QuestionService
+	QuestionResultService           *QuestionResultService
+	SessionService                  *SessionService
+	TestSessionResultService        *TestSessionResultService
+	TrainingMentorService           *TrainingMentorService
+	TrainingStudentService          *TrainingStudentService
+	TrainingTagService              *TrainingTrainingTagService
+	TrainingTestService             *TrainingTestService
+	FavoriteUserTrainingService     *FavoriteTrainingUserService
+	TrainingMessageToAiService      *TrainingMessageToAiService
 }
 
 func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.Config) *Service {
@@ -83,5 +107,29 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.C
 		UserTagService:                  NewUserTagService(queries),
 		WayCollectionService:            NewWayCollectionService(queries),
 		WayCollectionWayService:         NewWayCollectionWayService(queries),
+		SmtpService:                     NewSmtpService(config),
+		MailService:                     NewMailService(queries),
+		NotificationService:             NewNotificationService(queries),
+		NotificationSettingService:      NewNotificationSettingService(queries),
+		GoogleDriveService:              NewGoogleDriveService(),
+		FileService:                     NewFileService(queries),
+		SurveyService:                   NewSurveyService(queries),
+		RoomsService:                    NewRoomsService(pool, queries),
+		MessagesService:                 NewMessagesService(pool, queries),
+		TrainingService:                 NewTrainingService(pool, queries),
+		TopicService:                    NewTopicService(pool, queries),
+		TheoryMaterialService:           NewTheoryMaterialService(pool, queries),
+		PracticeMaterialService:         NewPracticeMaterialService(pool, queries),
+		TestService:                     NewTestService(pool, queries, queries),
+		QuestionService:                 NewQuestionService(pool, queries),
+		QuestionResultService:           NewQuestionResultService(pool, queries),
+		SessionService:                  NewSessionService(pool, queries),
+		TestSessionResultService:        NewTestSessionResultService(pool, queries),
+		TrainingMentorService:           NewTrainingMentorService(pool, queries),
+		TrainingStudentService:          NewTrainingStudentService(pool, queries),
+		TrainingTagService:              NewTrainingTrainingTagService(pool, queries),
+		TrainingTestService:             NewTrainingTestService(pool, queries),
+		FavoriteUserTrainingService:     NewFavoriteTrainingUserService(pool, queries),
+		TrainingMessageToAiService:      NewTrainingMessageToAiService(pool, queries),
 	}
 }

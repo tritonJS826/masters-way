@@ -35,6 +35,13 @@ type Controller struct {
 	WayCollectionController            *WayCollectionController
 	WayCollectionWayController         *WayCollectionWayController
 	HealthCheckController              *HealthCheckController
+	MailController                     *MailController
+	NotificationController             *NotificationController
+	NotificationSettingController      *NotificationSettingController
+	FileController                     *FileController
+	SurveyController                   *SurveyController
+	RoomController                     *RoomController
+	MessageController                  *MessageController
 }
 
 func NewController(services *services.Service, config *config.Config) *Controller {
@@ -68,5 +75,12 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		WayCollectionController:            NewWayCollectionController(services.LimitService, services.WayCollectionService),
 		WayCollectionWayController:         NewWayCollectionWayController(services.WayCollectionWayService),
 		HealthCheckController:              NewHealthCheckController(),
+		MailController:                     NewMailController(services.MailService, services.SmtpService),
+		NotificationController:             NewNotificationController(services.NotificationService, services.NotificationSettingService),
+		NotificationSettingController:      NewNotificationSettingController(services.NotificationSettingService),
+		FileController:                     NewFileController(services.FileService, services.GoogleDriveService),
+		SurveyController:                   NewSurveyController(services.SurveyService),
+		RoomController:                     NewRoomsController(services.RoomsService, services.MessagesService),
+		MessageController:                  NewMessagesController(services.MessagesService),
 	}
 }

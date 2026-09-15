@@ -11,30 +11,63 @@ import (
 )
 
 type Querier interface {
+	AddQuestionToTest(ctx context.Context, arg AddQuestionToTestParams) (TestsQuestion, error)
+	AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) (AddUserToRoomRow, error)
 	AddWayToCompositeWay(ctx context.Context, arg AddWayToCompositeWayParams) (CompositeWay, error)
+	CheckQuestionInTest(ctx context.Context, arg CheckQuestionInTestParams) (bool, error)
 	CleanupExpiredTelegramCodes(ctx context.Context) error
+	CountPublicTests(ctx context.Context, testName string) (int64, error)
+	CountQuestionsByTestId(ctx context.Context, arg CountQuestionsByTestIdParams) (int64, error)
+	CountQuestionsInTest(ctx context.Context, testUuid pgtype.UUID) (int64, error)
+	CountTestAttempts(ctx context.Context, testUuid pgtype.UUID) (CountTestAttemptsRow, error)
+	CountTestsWithQuestion(ctx context.Context, questionUuid pgtype.UUID) (int64, error)
+	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	CountUsers(ctx context.Context, arg CountUsersParams) (int64, error)
 	CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error)
 	CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error)
 	CreateCompanionFeedback(ctx context.Context, arg CreateCompanionFeedbackParams) (pgtype.UUID, error)
 	CreateDayReport(ctx context.Context, arg CreateDayReportParams) (DayReport, error)
+	CreateFavoriteTrainingForUser(ctx context.Context, arg CreateFavoriteTrainingForUserParams) (FavoriteUsersTraining, error)
 	CreateFavoriteUser(ctx context.Context, arg CreateFavoriteUserParams) (FavoriteUser, error)
 	CreateFavoriteUserWay(ctx context.Context, arg CreateFavoriteUserWayParams) (FavoriteUsersWay, error)
+	CreateFile(ctx context.Context, arg CreateFileParams) (CreateFileRow, error)
 	CreateFormerMentorsWay(ctx context.Context, arg CreateFormerMentorsWayParams) (FormerMentorsWay, error)
 	CreateFromUserMentoringRequest(ctx context.Context, arg CreateFromUserMentoringRequestParams) (FromUserMentoringRequest, error)
 	CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (CreateJobDoneRow, error)
 	CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJobTagParams) (JobDonesJobTag, error)
 	CreateJobTag(ctx context.Context, arg CreateJobTagParams) (JobTag, error)
+	CreateLookingForMentorSurvey(ctx context.Context, arg CreateLookingForMentorSurveyParams) (LookingForMentor, error)
+	CreateMail(ctx context.Context, arg CreateMailParams) (CreateMailRow, error)
 	CreateMentorUserWay(ctx context.Context, arg CreateMentorUserWayParams) (MentorUsersWay, error)
+	CreateMessage(ctx context.Context, arg CreateMessageParams) (CreateMessageRow, error)
+	CreateMessageStatus(ctx context.Context, arg CreateMessageStatusParams) error
 	CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error)
+	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
+	CreateNotificationSettings(ctx context.Context, userUuid pgtype.UUID) error
 	CreatePendingTelegramUser(ctx context.Context, arg CreatePendingTelegramUserParams) (TelegramUser, error)
 	CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error)
 	CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error)
+	CreatePracticeMaterialInTopic(ctx context.Context, arg CreatePracticeMaterialInTopicParams) (PracticeMaterial, error)
 	CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error)
 	CreateProject(ctx context.Context, arg CreateProjectParams) (CreateProjectRow, error)
+	CreateQuestion(ctx context.Context, arg CreateQuestionParams) (Question, error)
+	CreateQuestionResult(ctx context.Context, arg CreateQuestionResultParams) (QuestionResult, error)
+	CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateRoomRow, error)
+	CreateTest(ctx context.Context, arg CreateTestParams) (Test, error)
+	CreateTestSession(ctx context.Context) (pgtype.UUID, error)
+	CreateTestSessionResult(ctx context.Context, arg CreateTestSessionResultParams) (TestSessionResult, error)
+	CreateTheoryMaterialInTopic(ctx context.Context, arg CreateTheoryMaterialInTopicParams) (TheoryMaterial, error)
 	CreateToUserMentoringRequest(ctx context.Context, arg CreateToUserMentoringRequestParams) (ToUserMentoringRequest, error)
+	CreateTopicInTraining(ctx context.Context, arg CreateTopicInTrainingParams) (Topic, error)
+	CreateTraining(ctx context.Context, arg CreateTrainingParams) (Training, error)
+	CreateTrainingMentor(ctx context.Context, arg CreateTrainingMentorParams) (TrainingsMentor, error)
+	CreateTrainingStudent(ctx context.Context, arg CreateTrainingStudentParams) (TrainingsStudent, error)
+	CreateTrainingTag(ctx context.Context, name string) (TrainingTag, error)
+	CreateTrainingTrainingTag(ctx context.Context, arg CreateTrainingTrainingTagParams) (TrainingsTrainingTag, error)
+	CreateTrainingsTests(ctx context.Context, arg CreateTrainingsTestsParams) (TrainingsTest, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateUserContact(ctx context.Context, arg CreateUserContactParams) (UserContact, error)
+	CreateUserIntroSurvey(ctx context.Context, arg CreateUserIntroSurveyParams) (UserIntro, error)
 	CreateUserTag(ctx context.Context, tagName string) (UserTag, error)
 	CreateUsersProjects(ctx context.Context, arg CreateUsersProjectsParams) (UsersProject, error)
 	CreateUsersUserTag(ctx context.Context, arg CreateUsersUserTagParams) (UsersUserTag, error)
@@ -43,7 +76,9 @@ type Querier interface {
 	CreateWayCollectionsWays(ctx context.Context, arg CreateWayCollectionsWaysParams) (WayCollectionsWay, error)
 	CreateWayTag(ctx context.Context, name string) (WayTag, error)
 	CreateWaysWayTag(ctx context.Context, arg CreateWaysWayTagParams) (WaysWayTag, error)
+	DeactivateQuestion(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
 	DeleteComment(ctx context.Context, commentUuid pgtype.UUID) error
+	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg DeleteFavoriteTrainingUserByIdsParams) error
 	DeleteFavoriteUserByIds(ctx context.Context, arg DeleteFavoriteUserByIdsParams) error
 	DeleteFavoriteUserWayByIds(ctx context.Context, arg DeleteFavoriteUserWayByIdsParams) error
 	DeleteFormerMentorWayIfExist(ctx context.Context, arg DeleteFormerMentorWayIfExistParams) error
@@ -52,13 +87,28 @@ type Querier interface {
 	DeleteJobDonesJobTagByJobDoneId(ctx context.Context, arg DeleteJobDonesJobTagByJobDoneIdParams) error
 	DeleteJobTagById(ctx context.Context, jobTagUuid pgtype.UUID) error
 	DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentorUserWayByIdsParams) error
+	DeleteMessageToAI(ctx context.Context, messageToGenerateWithAiUuid pgtype.UUID) error
 	DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (Metric, error)
 	DeletePlan(ctx context.Context, planUuid pgtype.UUID) error
 	DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJobTagByIdsParams) error
+	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
 	DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) error
+	DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) error
+	DeleteQuestionResult(ctx context.Context, resultUuid pgtype.UUID) error
 	DeleteTelegramUserByAuthCode(ctx context.Context, authCode string) error
 	DeleteTelegramUserByTelegramId(ctx context.Context, telegramID int64) error
+	DeleteTest(ctx context.Context, testUuid pgtype.UUID) error
+	DeleteTestResult(ctx context.Context, resultUuid pgtype.UUID) error
+	DeleteTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) error
+	DeleteTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) error
+	DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error)
 	DeleteToUserMentoringRequestByIds(ctx context.Context, arg DeleteToUserMentoringRequestByIdsParams) error
+	DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (Topic, error)
+	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
+	DeleteTrainingMentorByIds(ctx context.Context, arg DeleteTrainingMentorByIdsParams) error
+	DeleteTrainingStudentByIds(ctx context.Context, arg DeleteTrainingStudentByIdsParams) error
+	DeleteTrainingsTests(ctx context.Context, arg DeleteTrainingsTestsParams) error
+	DeleteTrainingsTrainingTag(ctx context.Context, arg DeleteTrainingsTrainingTagParams) error
 	DeleteUser(ctx context.Context, userUuid pgtype.UUID) error
 	DeleteUserContact(ctx context.Context, arg DeleteUserContactParams) error
 	DeleteUserTagFromUser(ctx context.Context, arg DeleteUserTagFromUserParams) error
@@ -68,11 +118,17 @@ type Querier interface {
 	DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error
 	DeleteWayFromCompositeWay(ctx context.Context, arg DeleteWayFromCompositeWayParams) error
 	DeleteWayTagFromWay(ctx context.Context, arg DeleteWayTagFromWayParams) error
+	GetActiveQuestionsByTestId(ctx context.Context, arg GetActiveQuestionsByTestIdParams) ([]GetActiveQuestionsByTestIdRow, error)
+	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (GetAmountOfUnreadNotificationsByUserIDRow, error)
+	GetChatPreview(ctx context.Context, receiverUuid pgtype.UUID) (int64, error)
 	GetCoinsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int32, error)
 	GetCompanionFeedbackByWayId(ctx context.Context, wayUuid pgtype.UUID) (CompanionFeedback, error)
 	GetDayReportsByRankRange(ctx context.Context, arg GetDayReportsByRankRangeParams) ([]GetDayReportsByRankRangeRow, error)
 	GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)
+	GetEnabledNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)
+	// lets add likes to response
+	GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteTrainingListRow, error)
 	GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid pgtype.UUID) ([]GetFavoriteUserByDonorUserIdRow, error)
 	GetFavoriteUserUuidsByAcceptorUserId(ctx context.Context, acceptorUserUuid pgtype.UUID) ([]pgtype.UUID, error)
 	GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteWaysByUserIdRow, error)
@@ -91,6 +147,7 @@ type Querier interface {
 	GetLabelsByIDs(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error)
 	GetLast14DayReportsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]DayReport, error)
 	GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (GetLastDayReportDateRow, error)
+	GetLastNotification(ctx context.Context, arg GetLastNotificationParams) (Notification, error)
 	GetLinkedUserByTelegramId(ctx context.Context, telegramID int64) (GetLinkedUserByTelegramIdRow, error)
 	GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]Comment, error)
 	GetListDayReportsByWayUuid(ctx context.Context, arg GetListDayReportsByWayUuidParams) ([]DayReport, error)
@@ -100,16 +157,26 @@ type Querier interface {
 	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]Metric, error)
 	GetListPlansByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Plan, error)
 	GetListProblemsByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Problem, error)
+	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]TrainingTag, error)
+	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)
 	GetListUserTagsByUserId(ctx context.Context, userUuid pgtype.UUID) ([]UserTag, error)
 	GetListWayCollectionsByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]WayCollection, error)
 	GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]WayTag, error)
 	GetListWayTagsByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetListWayTagsByWayIdsRow, error)
 	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]User, error)
 	GetMentorUsersByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetMentorUsersByWayIdsRow, error)
+	// lets add likes to response
+	GetMentoringTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringTrainingListRow, error)
 	// TODO exclude ways from private projects for initiator user
 	GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringWaysByMentorIdRow, error)
 	GetMentoringWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetMessageToAIById(ctx context.Context, messageToGenerateWithAiUuid pgtype.UUID) (MessagesToGenerateWithAi, error)
+	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error)
+	GetNextMessageToAI(ctx context.Context) (MessagesToGenerateWithAi, error)
+	GetNotificationListByUserID(ctx context.Context, arg GetNotificationListByUserIDParams) ([]Notification, error)
+	GetNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error)
+	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetOwnTrainingListRow, error)
 	// TODO exclude ways from private projects for initiator user
 	GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetOwnWaysByUserIdRow, error)
 	// TODO exclude ways from private projects for initiator user
@@ -117,24 +184,60 @@ type Querier interface {
 	GetPendingTelegramUserByAuthCode(ctx context.Context, authCode string) (TelegramUser, error)
 	GetPlainUserWithInfoByIDs(ctx context.Context, projectUuid pgtype.UUID) ([]GetPlainUserWithInfoByIDsRow, error)
 	GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetPlansByDayReportUuidsRow, error)
+	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UUID) (PricingPlanType, error)
+	GetPrivateRoomByUserUUIDs(ctx context.Context, arg GetPrivateRoomByUserUUIDsParams) (pgtype.UUID, error)
 	GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []pgtype.UUID) ([]Problem, error)
 	GetProfileSettingUserId(ctx context.Context, userUuid pgtype.UUID) (GetProfileSettingUserIdRow, error)
 	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (GetProjectByIDRow, error)
 	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]GetProjectsByUserIDRow, error)
+	GetPublicTests(ctx context.Context, arg GetPublicTestsParams) ([]GetPublicTestsRow, error)
+	GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
+	GetQuestionResultById(ctx context.Context, resultUuid pgtype.UUID) (GetQuestionResultByIdRow, error)
+	GetQuestionResultsBySessionUuid(ctx context.Context, testSessionUuid pgtype.UUID) ([]GetQuestionResultsBySessionUuidRow, error)
+	GetQuestionTestRelations(ctx context.Context, questionUuid pgtype.UUID) ([]TestsQuestion, error)
+	GetQuestionsByTestId(ctx context.Context, arg GetQuestionsByTestIdParams) ([]Question, error)
+	GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error)
+	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)
+	// lets add likes to response
+	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetStudentTrainingListRow, error)
 	GetTagsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetTelegramUserByAuthCode(ctx context.Context, authCode string) (TelegramUser, error)
 	GetTelegramUserByTelegramId(ctx context.Context, telegramID int64) (TelegramUser, error)
+	GetTestAverageScore(ctx context.Context, testUuid pgtype.UUID) (pgtype.Numeric, error)
+	GetTestById(ctx context.Context, testUuid pgtype.UUID) (GetTestByIdRow, error)
+	GetTestLeaderboard(ctx context.Context, arg GetTestLeaderboardParams) ([]GetTestLeaderboardRow, error)
+	GetTestQuestionStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestQuestionStatsRow, error)
+	GetTestQuestionsByTestUuid(ctx context.Context, testUuid pgtype.UUID) ([]TestsQuestion, error)
+	GetTestResultBySessionId(ctx context.Context, sessionUuid pgtype.UUID) (GetTestResultBySessionIdRow, error)
+	GetTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsByTestRow, error)
+	GetTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) ([]GetTestResultsByUserRow, error)
+	GetTestResultsWithStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsWithStatsRow, error)
+	GetTestsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTestsAmountByUserIdRow, error)
+	GetTestsByOwnerId(ctx context.Context, arg GetTestsByOwnerIdParams) ([]GetTestsByOwnerIdRow, error)
+	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error)
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
 	GetTodayDayReportByWayUuid(ctx context.Context, wayUuid pgtype.UUID) (DayReport, error)
+	GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (GetTopicByUuidRow, error)
+	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTopicsByTrainingIdRow, error)
+	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (GetTrainingByIdRow, error)
+	// lets add likes to response
+	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
+	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
+	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTrainingsAmountByUserIdRow, error)
+	GetTrainingsTestsByTestId(ctx context.Context, testUuid pgtype.UUID) ([]GetTrainingsTestsByTestIdRow, error)
+	GetTrainingsTestsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTrainingsTestsByTrainingIdRow, error)
 	GetUserByEmail(ctx context.Context, userEmail string) (User, error)
 	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (User, error)
 	GetUserContactsByUserUuid(ctx context.Context, userUuid pgtype.UUID) ([]UserContact, error)
 	GetUserTagByName(ctx context.Context, tagName string) (UserTag, error)
 	GetUserTelegramChatID(ctx context.Context, userUuid pgtype.UUID) (pgtype.Int8, error)
+	GetUserTestResult(ctx context.Context, arg GetUserTestResultParams) (GetUserTestResultRow, error)
+	GetUserTestResultsWithStats(ctx context.Context, userUuid pgtype.UUID) ([]GetUserTestResultsWithStatsRow, error)
 	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]User, error)
+	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	// TODO exclude ways from private projects for initiator user
 	GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayByIdRow, error)
 	GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
@@ -156,17 +259,32 @@ type Querier interface {
 	ReduceCoinsByUserId(ctx context.Context, arg ReduceCoinsByUserIdParams) (ReduceCoinsByUserIdRow, error)
 	RefillCoinsForAll(ctx context.Context) ([]RefillCoinsForAllRow, error)
 	RegenerateDbData(ctx context.Context) error
+	RemoveAllQuestionsFromTest(ctx context.Context, testUuid pgtype.UUID) error
 	RemoveEverything(ctx context.Context) error
+	RemoveQuestionFromAllTests(ctx context.Context, questionUuid pgtype.UUID) error
+	RemoveQuestionFromTest(ctx context.Context, arg RemoveQuestionFromTestParams) error
+	ReorderQuestions(ctx context.Context, arg ReorderQuestionsParams) error
+	SetAllRoomMessagesAsRead(ctx context.Context, arg SetAllRoomMessagesAsReadParams) error
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
 	UpdateCompanionFeedback(ctx context.Context, arg UpdateCompanionFeedbackParams) (pgtype.UUID, error)
 	UpdateContactByID(ctx context.Context, arg UpdateContactByIDParams) (UserContact, error)
 	UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error)
 	UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error)
+	UpdateMessageStatus(ctx context.Context, arg UpdateMessageStatusParams) error
 	UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Metric, error)
+	UpdateNotification(ctx context.Context, arg UpdateNotificationParams) (Notification, error)
+	UpdateNotificationSetting(ctx context.Context, arg UpdateNotificationSettingParams) (NotificationSetting, error)
 	UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error)
+	UpdatePracticeMaterial(ctx context.Context, arg UpdatePracticeMaterialParams) (PracticeMaterial, error)
 	UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error)
 	UpdateProfileSettingByUserId(ctx context.Context, arg UpdateProfileSettingByUserIdParams) (UpdateProfileSettingByUserIdRow, error)
 	UpdateProject(ctx context.Context, arg UpdateProjectParams) (UpdateProjectRow, error)
+	UpdateQuestion(ctx context.Context, arg UpdateQuestionParams) (Question, error)
+	UpdateTest(ctx context.Context, arg UpdateTestParams) (Test, error)
+	UpdateTestResult(ctx context.Context, arg UpdateTestResultParams) (TestSessionResult, error)
+	UpdateTheoryMaterial(ctx context.Context, arg UpdateTheoryMaterialParams) (TheoryMaterial, error)
+	UpdateTopic(ctx context.Context, arg UpdateTopicParams) (Topic, error)
+	UpdateTraining(ctx context.Context, arg UpdateTrainingParams) (Training, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 	UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error)
 	UpdateWayCollection(ctx context.Context, arg UpdateWayCollectionParams) (WayCollection, error)

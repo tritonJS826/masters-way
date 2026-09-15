@@ -46,6 +46,12 @@ type Router struct {
 	wayCollectionRouter            *wayCollectionRouter
 	wayCollectionWayRouter         *wayCollectionWayRouter
 	healthCheckRouter              *healthCheckRouter
+	mailRouter                     *mailRouter
+	chatRouter                     *chatRouter
+	notificationRouter             *notificationRouter
+	notificationSettingRouter      *notificationSettingRouter
+	fileRouter                     *fileRouter
+	surveyRouter                   *surveyRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -96,6 +102,12 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),
 		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
 		healthCheckRouter:              newHealthCheckRouter(controller.HealthCheckController),
+		mailRouter:                     newMailRouter(controller.MailController, config),
+		chatRouter:                     newChatRouter(controller.RoomController, controller.MessageController, config),
+		notificationRouter:             newNotificationRouter(controller.NotificationController, config),
+		notificationSettingRouter:      newNotificationSettingRouter(controller.NotificationSettingController, config),
+		fileRouter:                     newFileRouter(controller.FileController, config),
+		surveyRouter:                   newSurveyRouter(controller.SurveyController, config),
 	}
 }
 
@@ -130,6 +142,12 @@ func (r *Router) SetRoutes() {
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(general)
 	r.wayTagRouter.setWayTagRoutes(general)
 	r.healthCheckRouter.setHealthCheckRoutes(general)
+	r.mailRouter.setMailRoutes(general)
+	r.chatRouter.setChatRoutes(general)
+	r.notificationRouter.setNotificationRoutes(general)
+	r.notificationSettingRouter.setNotificationSettingRoutes(general)
+	r.fileRouter.setFileRoutes(general)
+	r.surveyRouter.setSurveyRoutes(general)
 
 	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(general)

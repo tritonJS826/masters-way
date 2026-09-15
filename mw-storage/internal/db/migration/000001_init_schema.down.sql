@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS files;
-DROP TYPE IF EXISTS storage_type;

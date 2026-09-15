@@ -11,6 +11,178 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type GeneratedItemType string
+
+const (
+	GeneratedItemTypeTheoryMaterial        GeneratedItemType = "theory_material"
+	GeneratedItemTypePracticeMaterialtopic GeneratedItemType = "practice_material, topic"
+)
+
+func (e *GeneratedItemType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = GeneratedItemType(s)
+	case string:
+		*e = GeneratedItemType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for GeneratedItemType: %T", src)
+	}
+	return nil
+}
+
+type NullGeneratedItemType struct {
+	GeneratedItemType GeneratedItemType `json:"generated_item_type"`
+	Valid             bool              `json:"valid"` // Valid is true if GeneratedItemType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullGeneratedItemType) Scan(value interface{}) error {
+	if value == nil {
+		ns.GeneratedItemType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.GeneratedItemType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullGeneratedItemType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.GeneratedItemType), nil
+}
+
+type NotificationChannel string
+
+const (
+	NotificationChannelMail     NotificationChannel = "mail"
+	NotificationChannelWebapp   NotificationChannel = "webapp"
+	NotificationChannelTelegram NotificationChannel = "telegram"
+)
+
+func (e *NotificationChannel) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = NotificationChannel(s)
+	case string:
+		*e = NotificationChannel(s)
+	default:
+		return fmt.Errorf("unsupported scan type for NotificationChannel: %T", src)
+	}
+	return nil
+}
+
+type NullNotificationChannel struct {
+	NotificationChannel NotificationChannel `json:"notification_channel"`
+	Valid               bool                `json:"valid"` // Valid is true if NotificationChannel is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullNotificationChannel) Scan(value interface{}) error {
+	if value == nil {
+		ns.NotificationChannel, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.NotificationChannel.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullNotificationChannel) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.NotificationChannel), nil
+}
+
+type NotificationNature string
+
+const (
+	NotificationNaturePrivateChat      NotificationNature = "private_chat"
+	NotificationNatureGroupChat        NotificationNature = "group_chat"
+	NotificationNatureOwnWay           NotificationNature = "own_way"
+	NotificationNatureMentoringWay     NotificationNature = "mentoring_way"
+	NotificationNatureMentoringRequest NotificationNature = "mentoring_request"
+	NotificationNatureFavoriteWay      NotificationNature = "favorite_way"
+)
+
+func (e *NotificationNature) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = NotificationNature(s)
+	case string:
+		*e = NotificationNature(s)
+	default:
+		return fmt.Errorf("unsupported scan type for NotificationNature: %T", src)
+	}
+	return nil
+}
+
+type NullNotificationNature struct {
+	NotificationNature NotificationNature `json:"notification_nature"`
+	Valid              bool               `json:"valid"` // Valid is true if NotificationNature is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullNotificationNature) Scan(value interface{}) error {
+	if value == nil {
+		ns.NotificationNature, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.NotificationNature.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullNotificationNature) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.NotificationNature), nil
+}
+
+type PracticeType string
+
+const (
+	PracticeTypeInputWord PracticeType = "input_word"
+)
+
+func (e *PracticeType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = PracticeType(s)
+	case string:
+		*e = PracticeType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for PracticeType: %T", src)
+	}
+	return nil
+}
+
+type NullPracticeType struct {
+	PracticeType PracticeType `json:"practice_type"`
+	Valid        bool         `json:"valid"` // Valid is true if PracticeType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullPracticeType) Scan(value interface{}) error {
+	if value == nil {
+		ns.PracticeType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.PracticeType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullPracticeType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.PracticeType), nil
+}
+
 type PricingPlanType string
 
 const (
@@ -55,6 +227,131 @@ func (ns NullPricingPlanType) Value() (driver.Value, error) {
 	return string(ns.PricingPlanType), nil
 }
 
+type RoomType string
+
+const (
+	RoomTypePrivate RoomType = "private"
+	RoomTypeGroup   RoomType = "group"
+)
+
+func (e *RoomType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = RoomType(s)
+	case string:
+		*e = RoomType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for RoomType: %T", src)
+	}
+	return nil
+}
+
+type NullRoomType struct {
+	RoomType RoomType `json:"room_type"`
+	Valid    bool     `json:"valid"` // Valid is true if RoomType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullRoomType) Scan(value interface{}) error {
+	if value == nil {
+		ns.RoomType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.RoomType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullRoomType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.RoomType), nil
+}
+
+type StorageType string
+
+const (
+	StorageTypeGoogleDrive StorageType = "google_drive"
+)
+
+func (e *StorageType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = StorageType(s)
+	case string:
+		*e = StorageType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for StorageType: %T", src)
+	}
+	return nil
+}
+
+type NullStorageType struct {
+	StorageType StorageType `json:"storage_type"`
+	Valid       bool        `json:"valid"` // Valid is true if StorageType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullStorageType) Scan(value interface{}) error {
+	if value == nil {
+		ns.StorageType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.StorageType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullStorageType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.StorageType), nil
+}
+
+type UserRoleType string
+
+const (
+	UserRoleTypeAdmin   UserRoleType = "admin"
+	UserRoleTypeRegular UserRoleType = "regular"
+)
+
+func (e *UserRoleType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = UserRoleType(s)
+	case string:
+		*e = UserRoleType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for UserRoleType: %T", src)
+	}
+	return nil
+}
+
+type NullUserRoleType struct {
+	UserRoleType UserRoleType `json:"user_role_type"`
+	Valid        bool         `json:"valid"` // Valid is true if UserRoleType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullUserRoleType) Scan(value interface{}) error {
+	if value == nil {
+		ns.UserRoleType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.UserRoleType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullUserRoleType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.UserRoleType), nil
+}
+
 type Comment struct {
 	Uuid          pgtype.UUID      `json:"uuid"`
 	CreatedAt     pgtype.Timestamp `json:"created_at"`
@@ -91,9 +388,27 @@ type FavoriteUser struct {
 	AcceptorUserUuid pgtype.UUID `json:"acceptor_user_uuid"`
 }
 
+type FavoriteUsersTraining struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	UserUuid     pgtype.UUID      `json:"user_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
 type FavoriteUsersWay struct {
 	UserUuid pgtype.UUID `json:"user_uuid"`
 	WayUuid  pgtype.UUID `json:"way_uuid"`
+}
+
+type File struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          string           `json:"name"`
+	SrcUrl        string           `json:"src_url"`
+	PreviewUrl    pgtype.Text      `json:"preview_url"`
+	StorageType   StorageType      `json:"storage_type"`
+	GoogleDriveID pgtype.Text      `json:"google_drive_id"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	Size          int64            `json:"size"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
 }
 
 type FormerMentorsWay struct {
@@ -129,9 +444,58 @@ type JobTag struct {
 	WayUuid     pgtype.UUID `json:"way_uuid"`
 }
 
+type LookingForMentor struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	UserEmail         string           `json:"user_email"`
+	SkillsToLearn     string           `json:"skills_to_learn"`
+	CurrentExperience string           `json:"current_experience"`
+	MentorDescription string           `json:"mentor_description"`
+	HandledDate       pgtype.Timestamp `json:"handled_date"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
+type MailLog struct {
+	Uuid       pgtype.UUID      `json:"uuid"`
+	SenderMail string           `json:"sender_mail"`
+	SenderName pgtype.Text      `json:"sender_name"`
+	Recipients []string         `json:"recipients"`
+	Cc         []string         `json:"cc"`
+	Bcc        []string         `json:"bcc"`
+	ReplyTo    []string         `json:"reply_to"`
+	Subject    string           `json:"subject"`
+	Message    string           `json:"message"`
+	Log        pgtype.Text      `json:"log"`
+	CreatedAt  pgtype.Timestamp `json:"created_at"`
+}
+
 type MentorUsersWay struct {
 	UserUuid pgtype.UUID `json:"user_uuid"`
 	WayUuid  pgtype.UUID `json:"way_uuid"`
+}
+
+type Message struct {
+	Uuid      pgtype.UUID      `json:"uuid"`
+	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
+	RoomUuid  pgtype.UUID      `json:"room_uuid"`
+	Text      string           `json:"text"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+}
+
+type MessageStatus struct {
+	MessageUuid  pgtype.UUID      `json:"message_uuid"`
+	ReceiverUuid pgtype.UUID      `json:"receiver_uuid"`
+	IsRead       bool             `json:"is_read"`
+	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
+}
+
+type MessagesToGenerateWithAi struct {
+	Uuid                     pgtype.UUID       `json:"uuid"`
+	Message                  string            `json:"message"`
+	DataToUseAfterGeneration []byte            `json:"dataToUseAfterGeneration"`
+	ItemType                 GeneratedItemType `json:"item_type"`
+	CreatedAt                pgtype.Timestamp  `json:"created_at"`
 }
 
 type Metric struct {
@@ -144,6 +508,24 @@ type Metric struct {
 	MetricEstimation int32            `json:"metric_estimation"`
 	WayUuid          pgtype.UUID      `json:"way_uuid"`
 	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
+}
+
+type Notification struct {
+	Uuid        pgtype.UUID        `json:"uuid"`
+	UserUuid    pgtype.UUID        `json:"user_uuid"`
+	IsRead      bool               `json:"is_read"`
+	Description pgtype.Text        `json:"description"`
+	Url         pgtype.Text        `json:"url"`
+	Nature      NotificationNature `json:"nature"`
+	CreatedAt   pgtype.Timestamp   `json:"created_at"`
+}
+
+type NotificationSetting struct {
+	Uuid      pgtype.UUID         `json:"uuid"`
+	UserUuid  pgtype.UUID         `json:"user_uuid"`
+	Nature    NotificationNature  `json:"nature"`
+	Channel   NotificationChannel `json:"channel"`
+	IsEnabled bool                `json:"is_enabled"`
 }
 
 type Plan struct {
@@ -160,6 +542,19 @@ type Plan struct {
 type PlansJobTag struct {
 	PlanUuid   pgtype.UUID `json:"plan_uuid"`
 	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
+}
+
+type PracticeMaterial struct {
+	Uuid                  pgtype.UUID      `json:"uuid"`
+	TopicUuid             pgtype.UUID      `json:"topic_uuid"`
+	Name                  pgtype.Text      `json:"name"`
+	PracticeMaterialOrder int32            `json:"practice_material_order"`
+	TaskDescription       pgtype.Text      `json:"task_description"`
+	Answer                pgtype.Text      `json:"answer"`
+	PracticeType          PracticeType     `json:"practice_type"`
+	TimeToAnswer          int32            `json:"time_to_answer"`
+	CreatedAt             pgtype.Timestamp `json:"created_at"`
+	UpdatedAt             pgtype.Timestamp `json:"updated_at"`
 }
 
 type Problem struct {
@@ -190,6 +585,40 @@ type Project struct {
 	IsDeleted bool        `json:"is_deleted"`
 }
 
+type Question struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          pgtype.Text      `json:"name"`
+	PracticeType  PracticeType     `json:"practice_type"`
+	TestUuid      pgtype.UUID      `json:"test_uuid"`
+	QuestionText  string           `json:"question_text"`
+	QuestionOrder int32            `json:"question_order"`
+	TimeToAnswer  int32            `json:"time_to_answer"`
+	Answer        string           `json:"answer"`
+	IsActive      bool             `json:"is_active"`
+	IsPrivate     bool             `json:"is_private"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+}
+
+type QuestionResult struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	TestUuid          pgtype.UUID      `json:"test_uuid"`
+	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
+	IsOk              bool             `json:"is_ok"`
+	UserAnswer        string           `json:"user_answer"`
+	ResultDescription string           `json:"result_description"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
+type Room struct {
+	Uuid      pgtype.UUID      `json:"uuid"`
+	Name      pgtype.Text      `json:"name"`
+	Type      RoomType         `json:"type"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
 type TelegramUser struct {
 	TelegramID        int64            `json:"telegram_id"`
 	UserUuid          pgtype.UUID      `json:"user_uuid"`
@@ -201,9 +630,95 @@ type TelegramUser struct {
 	UpdatedAt         pgtype.Timestamp `json:"updated_at"`
 }
 
+type Test struct {
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	IsPrivate   bool             `json:"is_private"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+}
+
+type TestSession struct {
+	Uuid pgtype.UUID `json:"uuid"`
+}
+
+type TestSessionResult struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	TestUuid          pgtype.UUID      `json:"test_uuid"`
+	SessionUuid       pgtype.UUID      `json:"session_uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	ResultDescription string           `json:"result_description"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
+type TestsQuestion struct {
+	TestUuid     pgtype.UUID      `json:"test_uuid"`
+	QuestionUuid pgtype.UUID      `json:"question_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TheoryMaterial struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	TopicUuid           pgtype.UUID      `json:"topic_uuid"`
+	Name                pgtype.Text      `json:"name"`
+	TheoryMaterialOrder int32            `json:"theory_material_order"`
+	Description         pgtype.Text      `json:"description"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+}
+
 type ToUserMentoringRequest struct {
 	UserUuid pgtype.UUID `json:"user_uuid"`
 	WayUuid  pgtype.UUID `json:"way_uuid"`
+}
+
+type Topic struct {
+	Uuid         pgtype.UUID      `json:"uuid"`
+	Name         pgtype.Text      `json:"name"`
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	TopicOrder   int32            `json:"topic_order"`
+	Parent       pgtype.UUID      `json:"parent"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type Training struct {
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	IsPrivate   bool             `json:"is_private"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+}
+
+type TrainingTag struct {
+	Uuid pgtype.UUID `json:"uuid"`
+	Name string      `json:"name"`
+}
+
+type TrainingsMentor struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	MentorUuid   pgtype.UUID      `json:"mentor_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TrainingsStudent struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	StudentUuid  pgtype.UUID      `json:"student_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TrainingsTest struct {
+	TrainingUuid pgtype.UUID `json:"training_uuid"`
+	TestUuid     pgtype.UUID `json:"test_uuid"`
+}
+
+type TrainingsTrainingTag struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	TagUuid      pgtype.UUID      `json:"tag_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
 }
 
 type User struct {
@@ -224,6 +739,20 @@ type UserContact struct {
 	Description string      `json:"description"`
 }
 
+type UserIntro struct {
+	Uuid                       pgtype.UUID      `json:"uuid"`
+	UserUuid                   pgtype.UUID      `json:"user_uuid"`
+	DeviceUuid                 pgtype.UUID      `json:"device_uuid"`
+	Role                       string           `json:"role"`
+	PreferredInterfaceLanguage string           `json:"preferred_interface_language"`
+	StudentGoals               string           `json:"student_goals"`
+	StudentExperience          string           `json:"student_experience"`
+	WhyRegistered              string           `json:"why_registered"`
+	Source                     string           `json:"source"`
+	PromoCode                  string           `json:"promo_code"`
+	CreatedAt                  pgtype.Timestamp `json:"created_at"`
+}
+
 type UserTag struct {
 	Uuid pgtype.UUID `json:"uuid"`
 	Name string      `json:"name"`
@@ -233,6 +762,15 @@ type UsersProject struct {
 	UserUuid    pgtype.UUID      `json:"user_uuid"`
 	ProjectUuid pgtype.UUID      `json:"project_uuid"`
 	CreatedAt   pgtype.Timestamp `json:"created_at"`
+}
+
+type UsersRoom struct {
+	UserUuid      pgtype.UUID      `json:"user_uuid"`
+	RoomUuid      pgtype.UUID      `json:"room_uuid"`
+	UserRole      UserRoleType     `json:"user_role"`
+	IsRoomBlocked bool             `json:"is_room_blocked"`
+	JoinedAt      pgtype.Timestamp `json:"joined_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
 }
 
 type UsersUserTag struct {

@@ -13,108 +13,6 @@ services:
     networks:
       - app-network
 
-  postgres-chat:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-chat.Dockerfile
-    container_name: postgres-chat
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres-chat:/var/lib/postgresql/data
-    env_file:
-      - ./mw-chat/.env
-    networks:
-      - app-network
-
-  postgres-training:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-training.Dockerfile
-    container_name: postgres-training
-    ports:
-      - "5440:5432"
-    volumes:
-      - postgres-training:/var/lib/postgresql/data
-    env_file:
-      - ./mw-training/.env
-    networks:
-      - app-network
-
-  postgres-storage:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-storage.Dockerfile
-    container_name: postgres-storage
-    ports:
-      - "5435:5432"
-    volumes:
-      - postgres-storage:/var/lib/postgresql/data
-    env_file:
-      - ./mw-storage/.env
-    networks:
-      - app-network
-
-  postgres-mail:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-mail.Dockerfile
-    container_name: postgres-mail
-    ports:
-      - "5438:5432"
-    volumes:
-      - postgres-mail:/var/lib/postgresql/data
-    env_file:
-      - ./mw-mail/.env
-    networks:
-      - app-network
-
-  postgres-survey:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-survey.Dockerfile
-    container_name: postgres-survey
-    ports:
-      - "5436:5432"
-    volumes:
-      - postgres-survey:/var/lib/postgresql/data
-    env_file:
-      - ./mw-survey/.env
-    networks:
-      - app-network
-
-  postgres-notification:
-    build:
-      context: .
-      dockerfile: ./postgres/postgres-notification.Dockerfile
-    container_name: postgres-notification
-    ports:
-      - "5434:5432"
-    volumes:
-      - postgres-notification:/var/lib/postgresql/data
-    env_file:
-      - ./mw-notification/.env
-    networks:
-      - app-network
-
-  grafana:
-    build:
-      context: .
-      dockerfile: ./grafana/Dockerfile
-    container_name: grafana
-    ports:
-      - "9876:3000"
-    env_file:
-      - ./grafana/.env
-    depends_on:
-      - postgres-general
-      - postgres-chat
-      - postgres-storage
-      - postgres-mail
-      - postgres-survey
-    networks:
-      - app-network
-
   nginx:
     image: nginx:1.24.0-alpine
     container_name: nginx
@@ -129,13 +27,6 @@ services:
 
 volumes:
   postgres-general:
-  postgres-chat:
-  postgres-storage:
-  postgres-survey:
-  postgres-notification:
-  postgres-mail:
-  postgres-training:
-
 
 networks:
   app-network:

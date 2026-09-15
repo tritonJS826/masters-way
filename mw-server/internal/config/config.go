@@ -20,9 +20,14 @@ type Config struct {
 	GeminiModel        string `mapstructure:"GEMINI_MODEL"`
 	TestGeneralAPIHost string `mapstructure:"TEST_GENERAL_API_HOST"`
 	TestGeneralBaseURL string `mapstructure:"TEST_GENERAL_BASE_URL"`
+	SenderEmail        string `mapstructure:"SENDER_EMAIL"`
+	SenderName         string `mapstructure:"SENDER_NAME"`
+	SenderPassword     string `mapstructure:"SENDER_PASSWORD"`
+	SmtpAuthAddress    string `mapstructure:"SMTP_AUTH_ADDRESS"`
+	SmtpServerAddress  string `mapstructure:"SMTP_SERVER_ADDRESS"`
 }
 
-var prodRequiredVariables = [12]string{
+var prodRequiredVariables = [17]string{
 	"DB_SOURCE",
 	"SERVER_PORT",
 	"ENV_TYPE",
@@ -35,6 +40,11 @@ var prodRequiredVariables = [12]string{
 	"GEMINI_MODEL",
 	"TEST_GENERAL_API_HOST",
 	"TEST_GENERAL_BASE_URL",
+	"SENDER_EMAIL",
+	"SENDER_NAME",
+	"SENDER_PASSWORD",
+	"SMTP_AUTH_ADDRESS",
+	"SMTP_SERVER_ADDRESS",
 }
 
 var devRequiredVariables = [12]string{
