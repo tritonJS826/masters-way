@@ -8,27 +8,28 @@ import (
 )
 
 type Config struct {
-	ServerPort        string `mapstructure:"SERVER_PORT"`
-	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
-	TrainingBffDomain string `mapstructure:"TRAINING_BFF_DOMAIN"`
-	GeneralAPIHost    string `mapstructure:"GENERAL_API_HOST"`
-	GeneralBaseUrl    string `mapstructure:"GENERAL_BASE_URL"`
-	EnvType           string `mapstructure:"ENV_TYPE"`
-	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
+	ServerPort       string `mapstructure:"SERVER_PORT"`
+	WebappBaseUrl    string `mapstructure:"WEBAPP_BASE_URL"`
+	GeneralAPIHost   string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseUrl   string `mapstructure:"GENERAL_BASE_URL"`
+	EnvType          string `mapstructure:"ENV_TYPE"`
+	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [5]string{
+var prodRequiredVariables = [6]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
-	"TRAINING_BFF_DOMAIN",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [5]string{
+var devRequiredVariables = [6]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
-	"TRAINING_BFF_DOMAIN",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }

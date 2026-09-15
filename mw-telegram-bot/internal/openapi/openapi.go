@@ -24,12 +24,12 @@ var UserToken string
 
 func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
 	generalAPIConfig := &openapiGeneral.Configuration{
-		Host:   cfg.GeneralBFFAPIHost,
+		Host:   cfg.GeneralAPIHost,
 		Scheme: "http",
 		Servers: openapiGeneral.ServerConfigurations{
 			{
-				URL:         cfg.GeneralBFFBaseURL,
-				Description: "mw-general-bff",
+				URL:         cfg.GeneralBaseURL,
+				Description: "mw-server",
 			},
 		},
 		HTTPClient: &http.Client{

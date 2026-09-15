@@ -10,8 +10,8 @@ import (
 type Config struct {
 	ServerPort         string `mapstructure:"TELEGRAM_BOT_PORT"`
 	EnvType            string `mapstructure:"ENV_TYPE"`
-	GeneralBFFAPIHost  string `mapstructure:"GENERAL_BFF_API_HOST"`
-	GeneralBFFBaseURL  string `mapstructure:"GENERAL_BFF_BASE_URL"`
+	GeneralAPIHost     string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseURL     string `mapstructure:"GENERAL_BASE_URL"`
 	SecretSessionKey   string `mapstructure:"SECRET_SESSION_KEY"`
 	TelegramBotToken   string `mapstructure:"TELEGRAM_BOT_TOKEN"`
 	TelegramBotWebhook string `mapstructure:"TELEGRAM_BOT_WEBHOOK_URL"`
@@ -22,8 +22,8 @@ type Config struct {
 var prodRequiredVariables = [8]string{
 	"TELEGRAM_BOT_PORT",
 	"ENV_TYPE",
-	"GENERAL_BFF_API_HOST",
-	"GENERAL_BFF_BASE_URL",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
 	"SECRET_SESSION_KEY",
 	"TELEGRAM_BOT_TOKEN",
 	"TELEGRAM_BOT_WEBHOOK_URL",
@@ -33,8 +33,8 @@ var prodRequiredVariables = [8]string{
 var devRequiredVariables = [7]string{
 	"TELEGRAM_BOT_PORT",
 	"ENV_TYPE",
-	"GENERAL_BFF_API_HOST",
-	"GENERAL_BFF_BASE_URL",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
 	"SECRET_SESSION_KEY",
 	"TELEGRAM_BOT_TOKEN",
 	"FRONTEND_BASE_URL",

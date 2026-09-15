@@ -10,23 +10,20 @@ import (
 type Config struct {
 	ServerPort       string `mapstructure:"SERVER_PORT"`
 	WebappBaseUrl    string `mapstructure:"WEBAPP_BASE_URL"`
-	ChatBffDomain    string `mapstructure:"CHAT_BFF_DOMAIN"`
 	EnvType          string `mapstructure:"ENV_TYPE"`
 	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [5]string{
+var prodRequiredVariables = [4]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
-	"CHAT_BFF_DOMAIN",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [5]string{
+var devRequiredVariables = [4]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
-	"CHAT_BFF_DOMAIN",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }
