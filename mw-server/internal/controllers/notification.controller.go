@@ -90,13 +90,15 @@ func (nc *NotificationController) CreateNotifications(ctx *gin.Context) {
 }
 
 func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
+	notificationUUID := ctx.Param("notificationId")
+
 	var req schemas.UpdateNotificationRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		util.HandleErrorGin(ctx, err)
 		return
 	}
 
-	notification, err := nc.notificationService.UpdateNotification(ctx, req.NotificationUUID, req.IsRead)
+	notification, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, req.IsRead)
 	if err != nil {
 		util.HandleErrorGin(ctx, err)
 		return

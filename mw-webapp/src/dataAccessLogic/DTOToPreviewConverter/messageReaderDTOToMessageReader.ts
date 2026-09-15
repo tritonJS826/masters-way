@@ -6,7 +6,9 @@ import {MessageReader} from "src/model/businessModel/Message";
  */
 export const messageReaderDTOToMessageReader = (messageReaderDTO: MwChatBffInternalSchemasMessageReader): MessageReader => {
   return new MessageReader({
-    ...messageReaderDTO,
+    userId: messageReaderDTO.userId,
+    ownerImageUrl: messageReaderDTO.ownerImageUrl ?? "",
+    ownerName: messageReaderDTO.ownerName ?? "",
     readDate: new Date(messageReaderDTO.readDate),
   });
 };

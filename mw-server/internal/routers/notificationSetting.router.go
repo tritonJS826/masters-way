@@ -18,7 +18,7 @@ func newNotificationSettingRouter(notificationSettingController *controllers.Not
 }
 
 func (nsr *notificationSettingRouter) setNotificationSettingRoutes(rg *gin.RouterGroup) {
-	r := rg.Group("/notification/notification-settings", auth.AuthMiddleware(nsr.config))
+	r := rg.Group("/notification/notificationSettings", auth.AuthMiddleware(nsr.config))
 	r.POST("", nsr.notificationSettingController.CreateNotificationSettings)
 	r.GET("", nsr.notificationSettingController.GetNotificationSettingList)
 	r.PATCH("/:notificationSettingId", nsr.notificationSettingController.UpdateNotificationSetting)

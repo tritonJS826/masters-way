@@ -8,7 +8,11 @@ import {Room} from "src/model/businessModel/Chat";
  */
 export const chatDTOToChat = (chatDTO: MwChatBffInternalSchemasRoomPopulatedResponse): Room => {
   return new Room({
-    ...chatDTO,
+    roomId: chatDTO.roomId,
+    name: chatDTO.name ?? "",
+    imageUrl: chatDTO.imageUrl ?? "",
+    isBlocked: chatDTO.isBlocked,
+    roomType: chatDTO.roomType,
     users: chatDTO.users.map(chatUserDTOToChatUser),
     messages: chatDTO.messages.map(messageDTOToMessage),
   });

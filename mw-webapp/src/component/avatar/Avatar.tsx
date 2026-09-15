@@ -25,7 +25,7 @@ interface AvatarProps {
   /**
    * Avatar alt text. Name could consist of 2 words. Initials will be visible if there is no image
    */
-  alt: string;
+  alt: string | null;
 
   /**
    * Additional custom class name for the component
@@ -47,7 +47,10 @@ interface AvatarProps {
  * Get initials by phrase
  * @returns string 2 capitalized letters
  */
-const getInitials = (name: string): string => {
+const getInitials = (name: string | null | undefined): string => {
+  if (!name) {
+    return "??";
+  }
   const words = name.split(" ");
   const SECOND_WORD_INDEX = 1;
   const THIRD_WORD_INDEX = 2;

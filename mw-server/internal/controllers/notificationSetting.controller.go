@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-server/internal/auth"
 	"net/http"
 
 	"mw-server/internal/schemas"
@@ -19,13 +20,10 @@ func NewNotificationSettingController(notificationSettingService *services.Notif
 }
 
 func (ec *NotificationSettingController) CreateNotificationSettings(ctx *gin.Context) {
-	var req schemas.CreateNotificationSettingsRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
-		util.HandleErrorGin(ctx, err)
-		return
-	}
+	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := userUUIDRaw.(string)
 
-	err := ec.notificationSettingService.CreateNotificationSettings(ctx, req.UserUUID)
+	err := ec.notificationSettingService.CreateNotificationSettings(ctx, userUUID)
 	if err != nil {
 		util.HandleErrorGin(ctx, err)
 		return
@@ -35,13 +33,15 @@ func (ec *NotificationSettingController) CreateNotificationSettings(ctx *gin.Con
 }
 
 func (ec *NotificationSettingController) UpdateNotificationSetting(ctx *gin.Context) {
+	notificationSettingUUID := ctx.Param("notificationSettingId")
+
 	var req schemas.UpdateNotificationSettingRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		util.HandleErrorGin(ctx, err)
 		return
 	}
 
-	notificationSetting, err := ec.notificationSettingService.UpdateNotificationSetting(ctx, req.NotificationSettingUUID, req.IsEnabled)
+	notificationSetting, err := ec.notificationSettingService.UpdateNotificationSetting(ctx, notificationSettingUUID, req.IsEnabled)
 	if err != nil {
 		util.HandleErrorGin(ctx, err)
 		return
@@ -57,13 +57,10 @@ func (ec *NotificationSettingController) UpdateNotificationSetting(ctx *gin.Cont
 }
 
 func (ec *NotificationSettingController) GetNotificationSettingList(ctx *gin.Context) {
-	var req schemas.GetNotificationSettingListRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
-		util.HandleErrorGin(ctx, err)
-		return
-	}
+	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := userUUIDRaw.(string)
 
-	getNotificationSettingListRaw, err := ec.notificationSettingService.GetNotificationSettingList(ctx, req.UserUUID)
+	getNotificationSettingListRaw, err := ec.notificationSettingService.GetNotificationSettingList(ctx, userUUID)
 	if err != nil {
 		util.HandleErrorGin(ctx, err)
 		return

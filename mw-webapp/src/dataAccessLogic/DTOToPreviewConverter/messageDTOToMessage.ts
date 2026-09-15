@@ -7,8 +7,11 @@ import {Message} from "src/model/businessModel/Message";
  */
 export const messageDTOToMessage = (messageDTO: MwChatBffInternalSchemasMessageResponse): Message => {
   return new Message({
-    ...messageDTO,
-    messageReaders: messageDTO.messageReaders.map(messageReaderDTOToMessageReader),
     uuid: messageDTO.messageId,
+    message: messageDTO.message,
+    ownerId: messageDTO.ownerId,
+    ownerImageUrl: messageDTO.ownerImageUrl ?? "",
+    ownerName: messageDTO.ownerName ?? "",
+    messageReaders: messageDTO.messageReaders.map(messageReaderDTOToMessageReader),
   });
 };

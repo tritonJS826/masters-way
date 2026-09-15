@@ -6,7 +6,11 @@ import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
  */
 export const chatPreviewDTOToChatPreview = (chatPreviewDTO: MwChatBffInternalSchemasRoomPreviewResponse): ChatPreview => {
   return new ChatPreview({
-    ...chatPreviewDTO,
+    roomId: chatPreviewDTO.roomId,
+    name: chatPreviewDTO.name ?? "",
+    imageUrl: chatPreviewDTO.imageUrl ?? null,
+    isBlocked: chatPreviewDTO.isBlocked,
+    unreadMessagesAmount: chatPreviewDTO.unreadMessagesAmount,
     participantIds: chatPreviewDTO.users.map((user) => user.userId),
   });
 };
