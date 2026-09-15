@@ -36,8 +36,6 @@
     "test:integration": "pnpm cypress:e2e:run"
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "2.10.0",
-    "@amplitude/plugin-session-replay-browser": "1.6.18",
     "@emoji-mart/data": "1.2.1",
     "@emoji-mart/react": "1.1.1",
     "@radix-ui/react-accordion": "1.1.2",

@@ -2,6 +2,7 @@ package routers
 
 import (
 	"fmt"
+	"mw-server/internal/auth"
 	"mw-server/internal/config"
 	"mw-server/internal/controllers"
 	"net/http"
@@ -103,7 +104,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
 		healthCheckRouter:              newHealthCheckRouter(controller.HealthCheckController),
 		mailRouter:                     newMailRouter(controller.MailController, config),
-		chatRouter:                     newChatRouter(controller.RoomController, controller.MessageController, config),
+		chatRouter:                     newChatRouter(controller.RoomController, controller.MessageController),
 		notificationRouter:             newNotificationRouter(controller.NotificationController, config),
 		notificationSettingRouter:      newNotificationSettingRouter(controller.NotificationSettingController, config),
 		fileRouter:                     newFileRouter(controller.FileController, config),
@@ -143,11 +144,14 @@ func (r *Router) SetRoutes() {
 	r.wayTagRouter.setWayTagRoutes(general)
 	r.healthCheckRouter.setHealthCheckRoutes(general)
 	r.mailRouter.setMailRoutes(general)
-	r.chatRouter.setChatRoutes(general)
+	r.chatRouter.setChatRoutes(general.Group("/chat"), auth.AuthMiddleware(r.config))
 	r.notificationRouter.setNotificationRoutes(general)
 	r.notificationSettingRouter.setNotificationSettingRoutes(general)
 	r.fileRouter.setFileRoutes(general)
 	r.surveyRouter.setSurveyRoutes(general)
+
+	// Backward-compatible /chat routes (frontend still uses /chat/...)
+	r.chatRouter.setChatRoutes(r.Gin.Group("/chat"), auth.AuthMiddleware(r.config))
 
 	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(general)

@@ -90,13 +90,6 @@ services:
 
 volumes:
   postgres-general:
-  # Старые volume (удалить после миграции)
-  postgres-mail:
-  postgres-notification:
-  postgres-storage:
-  postgres-survey:
-  postgres-training:
-  postgres-chat:
 
 networks:
   app-network:

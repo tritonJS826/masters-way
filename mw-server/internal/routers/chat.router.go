@@ -1,9 +1,7 @@
 package routers
 
 import (
-	"mw-server/internal/config"
 	"mw-server/internal/controllers"
-	"mw-server/internal/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,15 +9,14 @@ import (
 type chatRouter struct {
 	roomController    *controllers.RoomController
 	messageController *controllers.MessageController
-	config            *config.Config
 }
 
-func newChatRouter(roomController *controllers.RoomController, messageController *controllers.MessageController, config *config.Config) *chatRouter {
-	return &chatRouter{roomController, messageController, config}
+func newChatRouter(roomController *controllers.RoomController, messageController *controllers.MessageController) *chatRouter {
+	return &chatRouter{roomController, messageController}
 }
 
-func (cr *chatRouter) setChatRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("/chat", auth.AuthMiddleware(cr.config))
+func (cr *chatRouter) setChatRoutes(rg *gin.RouterGroup, authMiddleware gin.HandlerFunc) {
+	router := rg.Group("", authMiddleware)
 	router.GET("/rooms/preview", cr.roomController.GetChatPreview)
 	router.POST("/rooms", cr.roomController.FindOrCreateRoom)
 	router.GET("/rooms/list/:roomType", cr.roomController.GetRooms)
