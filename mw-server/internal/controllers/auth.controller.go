@@ -83,12 +83,7 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	refreshToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey, auth.RefreshExpIn)
 	util.HandleErrorGin(ctx, err)
 
-	response := schemas.GetAuthCallbackFunctionResponse{
-		IsAlreadyCreated: findOrCreateUserByEmailResponse.IsAlreadyCreated,
-		Url:              ac.config.WebappBaseUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken,
-	}
-
-	ctx.JSON(http.StatusOK, response)
+	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?accessToken="+accessToken+"&refreshToken="+refreshToken)
 }
 
 // Begin auth handler
@@ -100,7 +95,7 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Produce  json
 // @Param provider path string true "google"
 // @Param telegramCode query string false "telegram auth code for linking"
-// @Success 200 {object} schemas.BeginAuthResponse
+// @Success 307
 // @Router /auth/{provider} [get]
 func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 	telegramCode := ctx.Query("telegramCode")
@@ -112,10 +107,7 @@ func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 		url = ac.authService.BuildAuthURLWithState(url, auth.BuildTelegramState(telegramCode))
 	}
 
-	response := schemas.BeginAuthResponse{
-		Url: url,
-	}
-	ctx.JSON(http.StatusOK, response)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 // @Summary Get current authorized user
