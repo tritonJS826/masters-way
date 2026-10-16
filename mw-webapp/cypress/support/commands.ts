@@ -1,6 +1,7 @@
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+import {addMatchImageSnapshotCommand} from '@simonsmith/cypress-image-snapshot/command';
 
 const apiDevGeneralResetDb = Cypress.env('API_DEV_GENERAL_RESET_DB');
 
@@ -101,5 +102,7 @@ Cypress.Commands.add("getFirstLetters", (str: any) => {
       return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
   }
 });
+
+addMatchImageSnapshotCommand();
 
 export {};
